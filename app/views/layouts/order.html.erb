@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>订单中心 |  trade-V 跨境贸易直通车</title>
+  <%= stylesheet_link_tag "bootstrap" %>
+  <%= stylesheet_link_tag "store/orders" %>
+
+  <%=javascript_include_tag "store/orders"%>
+ 
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= render "store/shared/new_header" %>
+
+<div id="main" class="container">
+	<%= yield %>
+</div>
+
+
+<%= render "store/shared/footer" %>
+
+
+<%= javascript_include_tag "google-analytics" %>
+</body>
+</html>

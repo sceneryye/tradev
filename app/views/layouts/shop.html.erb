@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+
+  <title>
+    <% if @shop%>
+        <%=@shop.name%>的自媒体商城<%else%>贸威自媒体商城<%end%></title>
+  <meta content="keywords" name="keywords">
+  <meta content="description" name="description">
+
+ <%= stylesheet_link_tag    "amaze/amazeui.min.css" %>
+
+  <%= stylesheet_link_tag    "amaze/amazeui.widgets.min.css" %>
+  <%= stylesheet_link_tag    "shop.css" %>
+
+  <%= javascript_include_tag "amaze/zepto.min.js"%>
+
+  <%= javascript_include_tag "amaze/amazeui.widgets.helper.min.js"%>
+
+  <%= javascript_include_tag "amaze/amazeui.widgets.min.js"%>
+
+
+  <%= javascript_include_tag "amaze/amazeui.min.js" %>
+
+  <%= javascript_include_tag "amaze/handlebars.min.js"%>
+
+  <style type="text/css">
+      .am-icon-user{
+          color: #ffffff;
+          height: 20px;
+      }
+
+      .am-navbar-nav a .am-navbar-label{line-height: 20px}
+  </style>
+
+</head>
+<body style="margin: 0 auto; min-width: 320px; max-width: 640px; ">
+
+
+
+<header data-am-widget="header" class="am-header am-header-default am-no-layout">
+  <div class="am-header-left am-header-nav">
+    <a href="javascript:history.go(-1)" class="">
+      <img class="am-header-icon-custom" src="data:image/svg+xml;charset=utf-8,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 12 20&quot;&gt;&lt;path d=&quot;M10,0l2,2l-8,8l8,8l-2,2L0,10L10,0z&quot; fill=&quot;%23fff&quot;/&gt;&lt;/svg&gt;" alt=""></a></div>
+  <h1 class="am-header-title"><%= @shop_title? @shop_title : '贸威微信互助O2O直销平台' %></h1>
+
+
+</header>
+
+<%= yield %>
+       <br><br >
+<div class="bottomdivsclearfix">
+
+  <div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default am-no-layout" id="">
+    <ul class="am-navbar-nav am-cf am-avg-sm-3">
+      <% if @shop%>
+          <%if  @user %>
+              <%if @user.member_id == @shop.member_id%>
+                  <%if @shop.status==1%>
+      <li>
+        <a href="/shop/shopinfos/myshop?shop_id=<%=@shop.shop_id%>"  >
+          <span class="am-icon-home"></span>
+          <span class="am-navbar-label">店铺首页</span>
+        </a>
+      </li>
+      <li>
+        <a href="/shop/shopusers" >
+          <span class="am-icon-cog"></span>
+          <span class="am-navbar-label">店铺管理</span>
+        </a>
+      </li>
+
+  <li> <a href="/shop/shopinfos/myorder"><span class=" am-icon-file-text-o"></span><span class="am-navbar-label">我的订单</span>  </a> </li>
+
+    <%end%>
+       <%else%>
+           <%if  @shop.member_id%>
+             <li> <a href="/shop/shopinfos/new?parent_id=<%=@shop.shop_id%>"><span class=" am-icon-columns"> </span> <span class="am-navbar-label">我要开店</span> </a> </li>
+                  <%end%>
+                  <li> <a href="/shop/shopusers?shop_id=<%=@shop.shop_id%>"><span class=" am-icon-user"> </span> <span class="am-navbar-label">用户中心</span> </a> </li>
+              <%end%>
+          <%else%>
+              <li> <a href="/shop/shopinfos/new?parent_id=<%=@shop.shop_id%>"><span class=" am-icon-columns"> </span> <span class="am-navbar-label">我要开店</span> </a> </li>
+          <%end%>
+      <%end%>
+
+
+              </ul>
+  </div>
+
+</div>
+
+
+<div class="footer clearfix">
+  <p class="copyright" style="display: none">Copyright © 2013-2015 www.trade-v.com <br/>版权所有 贸威 All rights reserved. <br/>沪ICP备13045311号-1 </p>
+  <p style="display:none">&from=<%=session[:wechat_user]%>|recommend=<%=session[:recommend_user]%></p>
+</div>
+
+<script type="text/javascript">
+    function wechatShare(data) {
+        // If no data is defined, just fallback to wechat's default behaviour.
+        if (!data) {
+            return;
+        }
+        var title = data.title ;
+        var desc =  "分享";
+        var url = "/aaa"
+
+        function getDefaultImage() {
+            var images = document.getElementsByTagName("img");
+            if (images && images.length > 0) {
+                for (var i = 0; i < images.length; i++) {
+                    var image = images[i];
+                    if (image.width > 140 && image.height > 130 && $(image).is(":visible")) {
+                        return image.src;
+                    }
+                }
+            }
+            return null;
+        }
+        function shareFriend() {
+            // Delay image loading to the time when DOM is ready.
+            var img = data.img || getDefaultImage();
+            WeixinJSBridge.invoke("sendAppMessage", {
+                "img_url": img,
+                "link": url,
+                "desc": desc,
+                "title": title
+            }, function(res) {
+            });
+        }
+        function shareTimeline() {
+            var img = data.img || getDefaultImage();
+            WeixinJSBridge.invoke("shareTimeline", {
+                "img_url": img,
+                "link": url,
+                "desc": desc,
+                "title": title
+            }, function(res) {
+            });
+        }
+        function shareWeibo() {
+            var img = data.img || getDefaultImage();
+            WeixinJSBridge.invoke("shareWeibo", {
+                "img_url": img,
+                "content": title,
+                "url": url,
+                "desc": desc,
+                "title": title
+            }, function(res) {
+            });
+        }
+
+        document.addEventListener("WeixinJSBridgeReady", function onBridgeReady() {
+
+            WeixinJSBridge.on("menu:share:appmessage", function(argv) {
+                shareFriend();
+                <%if @user==nil%>
+                alert('您还没有登录，只有登录后，分享给朋友！');
+                <%end%>
+            });
+            WeixinJSBridge.on("menu:share:timeline", function(argv) {
+                shareTimeline();
+                <%if @user==nil%>
+                alert('您还没有登录，只有登录后，分享给朋友！');
+                <%end%>
+            });
+            WeixinJSBridge.on("menu:share:weibo", function(argv) {
+                shareWeibo();
+                <%if @user==nil%>
+                alert('您还没有登录，只有登录后，分享给朋友！');
+                <%end%>
+            });
+        }, false);
+    }
+    
+    <%if @user%>
+     <%useraccount=@user.account.login_name if @user.account%>
+    <%end%>
+
+   var current_url =null;
+   var imgs=null;
+
+    var desc = '<%=@share_desc %>';
+    if (desc.length===0){
+      desc = "极致生活，品质共享 连接你我的极致小店~";
+    }
+        
+
+//    //去除上一个推荐者的链接
+//    var num_index_of = current_url.indexOf("from=weixin&wechatuser=");
+//    if (num_index_of >0){
+//        current_url = current_url.substr(0,num_index_of-1);
+//    }
+//    var connector ='?'
+//    if (current_url.indexOf("?")>0){
+//         connector  ='&'
+//    }
+//    current_url += connector + "from=weixin&wechatuser=<%=useraccount%>";
+//    // alert(current_url);
+    <%if @shop%>
+
+    var host=window.location.host;
+    current_url="http://"+host+"/shop/?shop_id="+<%=@shop.shop_id%>;
+
+    <%end%>
+
+
+    var data = {"img":imgs,"url":current_url,"title":"<%=@shop_title%>","desc":desc};
+    wechatShare(data);
+</script>
+
+<script type="text/javascript">
+    var _smq = _smq || [];
+    _smq.push(['_setAccount', '63e2363', new Date()]);
+    _smq.push(['_setDirectoryIndex', '/m/']);
+    _smq.push(['_setHeatmapEnabled', 'no']);
+    _smq.push(['pageview']);
+</script>
+<script type="text/javascript">
+    $(function(){
+        var $clickBox = $('#channel_img')
+        $clickBox.off('click.push.count','a.itemList').on('click.push.count','a.itemList', function(){
+            var t = $(this),
+                    dom = {
+                        index: $clickBox.find('a.itemList').index(t) + 1,
+                    };
+            (dom.index > 0 && dom.index < 31) && _smq.push(['pageview','/brandlist', dom.index.toString()]);
+        })
+    })
+</script>
+
+</body>
+</html>
+
+
+

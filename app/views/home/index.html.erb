@@ -1,0 +1,89 @@
+<%=render "shared/metable", :resource => @home%>
+<%=content_for :head do %>
+  <%=stylesheet_link_tag "home"%>
+    <%=stylesheet_link_tag "homebase"%>
+    <%=stylesheet_link_tag "homepage"%>
+
+    <script src="/assets/unslider.js"></script>
+<%end%>
+<%#if signed_in?%>
+    <%=content_for :notice do %>
+        <%=render "shared/notice"%>
+    <%end%>
+    <div class="menu_nav" style="float:left">
+    <div class="nav" id="topchannel">
+    <ul>
+    <li class="lichannel liindex"><a href="/">首页 HOME</a></li>
+    <li class="lichannel"><a href="/tuan">限时特价 ON SALE</a></li>
+    <li class="lichannel firstli"><a href="/galleries/129">商品馆 GALLERIES</a></li>
+    <li class="lichannel"><a href="/brands">品牌专区 BRANDS</a><span class="ch_sp_tag new1"></span></li>
+    <li class="lichannel"><a href="/gallery/561?type=1">商品分类 CATEGORIES</a></li>
+    <li class="lichannel"><a href="/distributions">供配频道 SUPPLY-DISTRIBUTION</a></li>
+    <li class="lichannel"><a href="/events/foodie?supplier_id=78">活动吧 EVENTS</a></li>
+
+
+    </ul>
+
+    </div>
+    </div>
+
+    <%#=render "keywords" if @home.keywords%>
+
+    <% #render "suit_products"%>
+
+          <%=render "slider" if @home.sliders%>
+
+    <div class="other clearfix">
+        <%#render "new_hots"%>
+        <%#=@home.body.html_safe if @home.body.present?%>
+        <div class="main clearfix" id="categoryProList">
+
+        <% @galleries.each do |gallery|%>
+          <div class="main_list">
+            <div class="tit ptitle-lihe">
+            <div class="i_floor"><a href="#" style="font-size:16pt;color:#FF5809" target="_blank"><%=@i%>F&nbsp;<%=gallery.tag_name%></a></div>
+              <div class="i_floor p_cat" style="width:800px;">
+              <dl>
+                    <%categories = Ecstore::Category.where("cat_id in (#{gallery.tag_ext.categories})").order("p_order")%>
+                    <%categories.each do |category|%>
+                    <%@more = category.cat_id%>
+                    <dd>
+                      <a href="/gallery/<%=category.cat_id%>?type=1" target="_blank"><%=category.cat_name%></a>
+                    </dd>
+                    <%end%>
+                  </dl>
+                </div>
+              <div class="li_more" style="background-color:#999933">
+                <!-- <a href="/galleries/<%=gallery.tag_id%>" target="_blank"><b>更多</b> </a> -->
+                <a href="/gallery/<%=@more%>?type=1" target="_blank"><b>更多</b> </a> 
+              </div>
+            </div>
+            <div class="p_list">
+              <div class="mian_cont">
+                <ul>
+                  <%goods=Ecstore::Good.where("marketable ='true' and cat_id in (#{gallery.tag_ext.categories})").order("goods_id DESC").limit(6)%>
+                  <%goods.each do |good|%>
+                  <li _plink="/products/<%=good.bn%>" class="pro_item first">
+                    <div class="t_img">
+                      <a href="/products/<%=good.bn%>" target="_blank"><img alt="<%=good.name%>" src="<%=good.medium_pic%>" style="width:150px;" /> </a></div>
+                    <div class="t_tit">
+                      <a href="/products/<%=good.bn%>" target="_blank" title="<%=good.name%>"><%=good.name%></a></div>
+                    <div class="t_price">
+                      <span class="b_span">￥<%=good.price%></span><span class="gry_span">￥<%=good.mktprice%></span></div>
+                  </li>
+                  <%end%>
+                </ul>
+              </div>
+              
+            </div>
+          </div>
+        <%@i +=1%>
+        <%end%>
+      </div>
+    </div>
+<%#else%>
+<!--   <input id="poplogin" type="hidden" value="1000000">-->
+
+<%#end%>
+
+<%=javascript_include_tag "bootstrap-transition","bootstrap-carousel"%>

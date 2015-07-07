@@ -1,0 +1,124 @@
+<style type="text/css">
+    .am-panel-default{
+        position:relative;
+    }
+    .icon-arr {
+        position: absolute;
+        top: 13px;
+        right: 10px;
+        width: 10px;
+        height: 15px;
+        background: url(/assets/icon_order.png) 0 0 no-repeat;
+        background-size: 100px 100px;
+    }
+       .am-panel-hd{
+       background-color: #f0dddd;
+           color: #5E3232;
+    }
+
+</style>
+<div class="am-g" style="background: #f0dddd;" >
+  <div class="am-col col-sm-3 "><%=image_tag @shop.shop_logo,:id=>"weixin",:class => "am-radius",:style => " width:60px ;height:60px;margin: 8px;"  %>
+  </div>
+  <div class="am-col col-sm-8 ">
+    <span>会员ID: &nbsp;<%=@shop.member_id%></span><br>
+    <span>店主昵称: &nbsp;<%=@shop.user.weixin_nickname%></span> <br>
+    <span>创建时间:&nbsp;<%=@shop.created_at.strftime("%Y-%m-%d")%></span>
+  </div>
+</div>
+<div class="am-g" style="background: #007074">
+  <div class="am-col col-sm-4 ">
+    <span class="white_font">营业额: <%if @share%><%= format('%.2f',@share.final_amount)%><%else%>0<%end%>&nbsp;&nbsp;&nbsp;</span>
+
+
+    </div>
+  <div class="am-col col-sm-4 ">
+     <span class="white_font">销售佣金:<%= format('%.2f',@share_for_sale)if @share_for_sale %>&nbsp;</span>
+ </div>  <%if @shop.parent.nil?%>
+  <div class="am-col col-sm-4 ">
+   <span class="white_font"> 分店佣金:<% if @share_for_shop==[]%>0<%else%><%= format('%.2f',@share_for_shop.share_shop)  %> <%end%></span>
+  </div>
+      <%end%>
+</div>
+
+<div class="main">
+
+
+
+<%if @user.member_id.to_s==@shop.member_id.to_s%>
+    <div class="am-panel am-panel-default">
+      <a href="/shop/shopusers/share">
+        <div class="am-panel-hd">我的佣金</div>
+        <span class="icon-arr"></span> </a>
+    </div>
+    <div class="am-panel am-panel-default" style="display:none">
+      <a href="">
+        <div class="am-panel-hd">账户信息</div>
+        <span class="icon-arr"></span> </a>
+    </div>
+    <div class="am-panel am-panel-default">
+      <a href="/shop/shopinfos/myorder">
+        <div class="am-panel-hd">订单管理</div>
+        <span class="icon-arr"></span> </a>
+    </div>
+    <div class="am-panel am-panel-default">
+      <a href="/shop/shopusers/clients?shop_id=<%=@shop.shop_id%>">
+        <div class="am-panel-hd">我的顾客</div>
+        <span class="icon-arr"></span> </a>
+    </div>
+    <div class="am-panel am-panel-default">
+      <a href="/shop/shopinfos/my_goods">
+        <div class="am-panel-hd">我的商品</div>
+        <span class="icon-arr"></span> </a>
+    </div>
+    <div class="am-panel am-panel-default">
+      <a href="/shop/shopinfos/myshop?shop_id=<%=@shop.shop_id%>">
+        <div class="am-panel-hd">我的店铺</div>
+        <span class="icon-arr"></span> </a>
+    </div>
+    <div class="am-panel am-panel-default">
+      <a href="/shop/shopusers/branch?shop_id=<%=@shop.shop_id%>">
+        <div class="am-panel-hd">我的盟友</div>
+        <span class="icon-arr"></span> </a>
+    </div>
+
+    <%if @shop.parent.nil?%>
+        <%if @shop.permission_branch=="1"%>
+        <div class="am-panel am-panel-default">
+          <a href="/shop/shopusers/branch?shop_id=<%=@shop.shop_id%>">
+            <div class="am-panel-hd">分店管理</div>
+            <span class="icon-arr"></span> </a>
+        </div>
+            <%end%>
+    <%end%>
+<%else%>
+    <div class="am-panel am-panel-default">
+      <a href="/shop/visitors/my_shopping_cart?shop_id=<%=@shop.shop_id%>">
+        <div class="am-panel-hd">我的购物车</div>
+        <span class="icon-arr"></span> </a>
+    </div>
+    <div class="am-panel am-panel-default">
+      <a href="/shop/shopinfos/myorder?shop_id=<%=@shop.shop_id%>">
+        <div class="am-panel-hd">我的订单</div>
+        <span class="icon-arr"></span> </a>
+    </div>
+      <div class="am-panel am-panel-default">
+        <a href="/shop/shopinfos/myshop?shop_id=<%=@shop.shop_id%>">
+          <div class="am-panel-hd"><%=@shop.user.weixin_nickname%>的店铺</div>
+          <span class="icon-arr"></span> </a>
+      </div>
+     <div class="am-panel am-panel-default">
+      <a href="/shop/shopusers/share?shop_id=<%=@shop.shop_id%>">
+        <div class="am-panel-hd">我的收益</div>
+        <span class="icon-arr"></span> </a>
+    </div>
+      <%end%>
+  <!--<a href="/logout?platform=/vshop" class="account_meta" target="_self">退出</a>-->
+
+  <div class="am-panel am-panel-default">
+  <a href="/shop/shopusers/user?shop_id=<%=@shop.shop_id%>&member_id=<%=@user.member_id%>">
+    <div class="am-panel-hd">个人信息</div>
+    <span class="icon-arr"></span> </a>
+</div>
+
+   </div>
