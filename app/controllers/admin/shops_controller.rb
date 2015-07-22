@@ -11,12 +11,12 @@ module Admin
 
     def edit
      @shop = Ecstore::Shop.find(params[:id])
-     @shop_desc = Ecstore::ShopLog.find(params[:id]).shop_desc
+     @shop_desc = Ecstore::ShopLog.find_by_shop_id(params[:id]).shop_desc
     end
 
     def update
       shop_desc=params[:shop_desc]
-      Ecstore::ShopLog.find(params[:id]).update_attributes(:shop_desc=>shop_desc)
+      Ecstore::ShopLog.find_by_shop_id(params[:id]).update_attributes(:shop_desc=>shop_desc)
       @shop = Ecstore::Shop.find(params[:id])
       if @shop.update_attributes(params[:shop])
         redirect_to  admin_shops_url

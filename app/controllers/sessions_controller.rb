@@ -168,6 +168,8 @@ class SessionsController < ApplicationController
 
       elsif params[:platform]=="vshop"
            redirect_to "/vshop"
+      elsif params[:platform]=="mobile_admin"
+        redirect_to "/mobile/admin"
       else
 
         redirect_to "/"

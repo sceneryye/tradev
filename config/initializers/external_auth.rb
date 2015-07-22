@@ -1,5 +1,20 @@
 require 'active_api'
 if Rails.env == 'development'
+	ActiveApi.register :email139 do
+ #   config.site = "http://ssointerface.mail.10086.cn:8080/ssointerface/GetUserByKey"
+	config.site = "http://121.15.167.240:19090/SSOInterface/GetUserByKey"
+
+    config.api_site = config.site
+    config.client_id = "test"
+    config.client_secret =  "123456"
+    config.redirect_uri = "http://vshop.trade-v.com/auth/email139/callback"
+    config.ssl = { :ca_path=>"/usr/lib/ssl/certs" }
+    config.authorize_uri = config.site
+    config.access_token_uri = config.site
+    config.path_prefix = '2/'
+    config.uid = config.client_id
+  end
+
   ActiveApi.register :weixin do
     config.site = "https://open.weixin.qq.com/"
     config.api_site = "https://open.weixin.qq.com/"
@@ -39,6 +54,22 @@ if Rails.env == 'development'
 	end
 end
 if Rails.env == 'production'
+
+	ActiveApi.register :email139 do
+ #   config.site = "http://ssointerface.mail.10086.cn:8080/ssointerface/GetUserByKey"
+	config.site = "http://121.15.167.240:19090/SSOInterface/GetUserByKey"
+
+    config.api_site = config.site
+    config.client_id = "test"
+    config.client_secret =  "123456"
+    config.redirect_uri = "http://vshop.trade-v.com/auth/email139/callback"
+    config.ssl = { :ca_path=>"/usr/lib/ssl/certs" }
+    config.authorize_uri = config.site
+    config.access_token_uri = config.site
+    config.path_prefix = '2/'
+    config.uid = config.client_id
+  end
+
   ActiveApi.register :weixin do
     config.site = "https://open.weixin.qq.com/"
     config.api_site = "https://open.weixin.qq.com/"

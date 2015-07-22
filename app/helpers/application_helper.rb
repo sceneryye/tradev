@@ -77,7 +77,7 @@ module ApplicationHelper
       end
 
       def meta_keywords
-        (content_for :keywords).present? ? (content_for :keywords) : '时尚服饰,设计师服装,时尚女性服饰,女装,配饰'
+        (content_for :keywords).present? ? (content_for :keywords) : '水果生鲜,进口食品'
       end
 
       def meta_description

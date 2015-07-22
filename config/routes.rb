@@ -2,6 +2,17 @@
 require 'httpclient'
 Modengke::Application.routes.draw do
 
+  resources :mobile do
+  	collection do
+  		get :shop
+  		get :gallery
+      get :admin
+      get :admin_visitors
+      get :admin_orders
+      get :user_center
+  	end
+  end
+
 
   resources :distributions do
 
@@ -68,53 +79,6 @@ Modengke::Application.routes.draw do
     end
   end
 
-  scope :module => "cheuksgroup" do
-    resource :cheuks do
-      collection do
-        get 'index'
-        get 'serach'
-        get 'news'
-        get 'new_detail'
-        get 'cheuks_goods'
-        get 'content'
-        get 'map'
-        get 'industry_trends'
-        get 'industry_detail'
-      end
-    end
-
-    resource :technicals  do
-      collection do
-        get 'index'
-        get 'product_standards'
-        get 'product_detail'
-        get 'failure_analysis'
-        get 'failure_detail'
-        get 'use_experience'
-        get 'use_detail'
-
-      end
-    end
-
-    resource :rongdas do
-      collection do
-        get 'index'
-        get 'rongda'
-        get 'rongda_goods'
-        get 'goods_detail'
-        get 'order_rongda'
-      end
-    end
-
-    resource :services  do
-      collection do
-        get 'index'
-        get 'services_center'
-        get 'services_detail'
-
-      end
-    end
-  end
 
   resources :commissions do
     collection do
@@ -206,6 +170,11 @@ Modengke::Application.routes.draw do
 
   namespace :auth do
     resources :accounts
+
+    resources :email139 do
+      get 'callback',:on=>:member
+    end
+
     resources :weixin do
       get 'callback',:on=>:member
     end

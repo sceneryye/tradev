@@ -1,0 +1,267 @@
+
+    <script type="text/javascript">
+        var speedTimePoint = [[(new Date()), 1470, 117, 1,1470,117,4,1470,117,5,1495,1,1,1495,1,2,1495,1,3]];
+        speedTimePoint.rptTime = 4000;
+        speedTimePoint.diffNetwork=true;
+    </script>
+    <meta name="author" content="qinuoli">
+    <title>个人中心</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="stylesheet" href="/new_mobile/css/my.s.min.css?t=1433926768">
+
+    <style>
+.msgbox{position:fixed;display:none;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.4);color:#333;z-index:4}.msgbox .box{position:absolute;min-width:220px;max-width:400px;width:70%;height:auto;left:50%;top:50%;background-color:#FBF7F2;border-radius:4px;-webkit-transform:translate3d(-50%,-50%,0);-moz-transform:translate3d(-50%,-50%,0);-o-transform:translate3d(-50%,-50%,0);-ms-transform:translate3d(-50%,-50%,0);transform:translate3d(-50%,-50%,0)}.msgbox .gift_wrp{position:relative;margin:5% auto;text-align:center}.msgbox .box h2{font-size:14px;margin:0;padding:0;text-align:center}.msgbox .box h5{font-size:12px;margin:5px 0;text-align:center;font-weight:normal;color:#666;line-height:20px}.msgbox .box a.btn,.msgbox .box a.btn:active,.msgbox .box a.btn:visited{display:block;width:80%;height:30px;line-height:30px;text-align:center;text-decoration:none;font-size:12px;margin:15px auto 20px;background-color:#F53F3F;border-radius:3px;text-align:center;color:#fff}.msgbox a.rule{display:block;width:70px;margin:auto}.popup_con{position:absolute;top:0;left:0;right:0;bottom:0;padding:10px;z-index:100;max-width:640px;margin:0 auto;margin-top:10px}.popup_con .inner{position:relative;padding:10px;background:#fff}.popup_con .close{display:block;width:40px;height:40px;position:absolute;right:0;top:0;background:transparent url(images/popClose.png) no-repeat center center;background-size:20px 20px}.popup_con .title em{font-size:12px;color:#fff;background:#ff5c36;padding:2px 10px}.popup_con ol.text{list-style-type:decimal;margin-left:20px}.popup_con .text{font-size:12px;margin:5px 0}.popup_con ol.text li{margin-bottom:5px}.red{color:#e4393c;}
+    </style>
+    <script type="text/javascript">
+        speedTimePoint[1]=new Date();
+    </script><style type="text/css"></style>
+<script charset="utf-8" async="" src="./个人中心_files/wg.my2.201507021339.js"></script></head>
+<body>
+ 
+
+<script>
+window.closeSearchEntrance = false;  //控制smartbox是否展示(容灾用)
+window.smartboxGrayStrategy = 99;  //smartbox灰度百份比(灰度到直出版,99全量)
+window._useStaticItemLink = false;  //true切换商详静态版
+window._loadCoupon = true;  //false不加载优惠券  -- 商祥用
+window._loadYanbao = true;  //false不加载延保  -- 商祥用
+window._searchWhiteList = '357661421|93219600|88528398|44668570|497195833|1066176|404139319|394757186|263096207|1507902953|15608209';  //搜索用灰度白名单
+function getItemLink(str, ptag){
+	var link = str;
+	if(parseInt(str) == str){ //传入sku,链接生成
+		var linkpre = 'http://wq.jd.com/item/view?sku=';
+		if(window._useStaticItemLink){  //容灾开关(切换到wqs版本)
+			linkpre = 'http://wqs.jd.com/item/jd.shtml?sku=';
+		}
+		link = linkpre + str;
+	}else{ //传入链接,容灾转换
+		if(window._useStaticItemLink){
+			link = link.replace("http://wq.jd.com/item/view","http://wqs.jd.com/item/jd.shtml");
+		}
+	}
+	return ptag ? (link + '&ptag=' + ptag) : link;
+}
+</script>
+
+
+ <style type="text/css">
+.qq_menu_layer{position:fixed;top:0;left:0;bottom:0;right:0;background-color:rgba(0,0,0,0.5);z-index:950}.qq_menu{position:fixed;top:0;left:0;right:0;background-color:#FFF}.qq_menu:after{content:"\020";height:1px;width:100%;display:block;background-color:#B2B2B2;position:absolute;bottom:0;left:0}.qq_menu ul{margin:0;list-style:none;-webkit-box-sizing:border-box;box-sizing:border-box;padding:0 4px 0 0}.qq_menu ul:after{clear:both;content:'\20';display:block}.qq_menu ul li{margin:0;padding:0;width:20%;height:63px;float:left;border-right:solid 1px #ddd;border-bottom:solid 1px #ddd;text-align:center;background-color:white}.qq_menu ul li:nth-child(5n){margin-right:-5px}.qq_menu ul li a{display:block;padding-top:1px;text-decoration:none;color:#333}.qq_menu ul li i{margin:10px auto 0}.qq_menu ul li span{display:block;height:20px;line-height:20px;font-size:12px;color:#000}.qq_menu .icon_qq,.qq_menu .icon_qzone,.qq_menu .icon_copy,.qq_menu .icon_close,.qq_menu .icon_home,.qq_menu .icon_search,.qq_menu .icon_profile,.qq_menu .icon_star,.qq_menu .icon_history,.qq_menu .icon_cart,.qq_menu .icon_vip,.qq_menu .qq_menu_v2 .icon_share,.qq_menu_v2 .qq_menu .icon_share{width:30px;height:30px;display:block;background:transparent url(/new_mobile/img/index_qq_menu_icons_v3.png) no-repeat center center;background-size:150px 90px}.qq_menu .icon_qq{background-position:0 0}.qq_menu .icon_qzone{background-position:-30px 0}.qq_menu .icon_copy{background-position:-60px 0}.qq_menu .icon_close{background-position:-90px 0}.qq_menu .icon_home{background-position:0 -31px}.qq_menu .icon_search{background-position:-30px -31px}.qq_menu .icon_profile{background-position:-60px -31px}.qq_menu .icon_star{background-position:-90px -31px}.qq_menu .icon_history{background-position:-120px -31px}.qq_menu .icon_cart{background-position:-120px 0px}.qq_menu .icon_vip{background-position:0 -60px}.qq_menu_layer_v2{position:fixed;top:0;left:0;bottom:0;right:0;background-color:transparent;z-index:950;font-family:Helvetica,STHeiti STXihei, Microsoft JhengHei, Microsoft YaHei, Arial}.qq_menu_v2{position:fixed;top:0;right:0;width:140px;background-color:#FFF;-moz-box-shadow:0px 2px 8px rgba(0,0,0,0.25);-webkit-box-shadow:0px 2px 8px rgba(0,0,0,0.25);box-shadow:0px 2px 8px rgba(0,0,0,0.25)}.qq_menu_v2 ul{margin:0;padding:0;width:100%;list-style:none;-webkit-box-sizing:border-box;box-sizing:border-box}.qq_menu_v2 ul:after{clear:both;content:'\20';display:block}.qq_menu_v2 ul li{margin:0;padding:0;height:44px;line-height:44px;border-bottom:solid 1px #dedfe0;text-align:left;background-color:white;position:relative}.qq_menu_v2 ul li:last-child{border-bottom:0 none}.qq_menu_v2 ul li:active{background-color:#dedfe0}.qq_menu_v2 ul li a{text-decoration:none}.qq_menu_v2 ul li span{display:block;color:#000;padding-left:56px}.qq_menu_v2 ul li i{position:absolute;left:15px;top:9px}.qq_menu_v2 ul li span{font-size:15px}.qq_menu_v2 .qq_menu .icon_qq,.qq_menu .qq_menu_v2 .icon_qq,.qq_menu_v2 .qq_menu .icon_qzone,.qq_menu .qq_menu_v2 .icon_qzone,.qq_menu_v2 .qq_menu .icon_copy,.qq_menu .qq_menu_v2 .icon_copy,.qq_menu_v2 .qq_menu .icon_close,.qq_menu .qq_menu_v2 .icon_close,.qq_menu_v2 .qq_menu .icon_vip,.qq_menu .qq_menu_v2 .icon_vip,.qq_menu_v2 .icon_star,.qq_menu_v2 .icon_share,.qq_menu_v2 .icon_profile,.qq_menu_v2 .icon_cart,.qq_menu_v2 .icon_home,.qq_menu_v2 .icon_search,.qq_menu_v2 .icon_history{width:23px;height:23px;display:inline-block;background:transparent url(/new_mobile/img/qq_menu_icons_v4.png?t=1415698733907) no-repeat center center;background-size:150px 50px}.qq_menu_v2 .icon_star{background-position:0 1px}.qq_menu_v2 .icon_share{background-position:-23px 0}.qq_menu_v2 .icon_profile{background-position:-46px 1px}.qq_menu_v2 .icon_cart{background-position:-69px 0}.qq_menu_v2 .icon_home{background-position:-92px 0}.qq_menu_v2 .icon_search{background-position:-115px 0}.qq_menu_v2 .icon_history{background-position:0 -24px}.qq_footer{margin:45px 0}.qq_footer .jd_logo{height:15px;width:86px;margin:15px auto 0 auto;background:url(/new_mobile/img/jd_logo_min.png);background-size:cover;-webkit-background-size:cover}.qq_footer .qq_info{font-size:12px;text-align:center;color:#666}
+</style>
+<div class="qq_menu_layer_v2" style="display:none" id="__mqqmenu">
+    <div class="qq_menu_v2" id="_divqqmenu">
+        <ul id="__ulqqmenu">
+             <li>
+                <a href="javascript:;" ptag="37128.1.2" id="__homepage">
+                    <i class="icon_home"></i>
+                    <span>购物</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://wqs.jd.com/portal/sq/category_q.shtml?_wv=1&ptag=37128.1.3">
+                <i class="icon_search"></i>
+                <span>商品搜索</span></a>
+            </li>
+            <li><a data-href="http://wqs.jd.com/my/index.shtml?_wv=1&amp;ptag=37128.1.4" needlogin="1">
+                <i class="icon_profile"></i>
+             
+                <span>个人中心</span></a>
+            </li>
+            <li><a data-href="http://wqs.jd.com/my/cart/jdshopcart.shtml?_wv=1&amp;37128.1.11" needlogin="1">
+                <i class="icon_cart"></i>
+                <span>购物车</span></a>
+            </li>
+            <li><a data-href="http://wqs.jd.com/my/fav/goods_fav.shtml?_wv=1&amp;ptag=37128.1.5" needlogin="1">
+                <i class="icon_star"></i>
+                <span>我的收藏</span></a>
+            </li>
+            <li><a href="http://wqs.jd.com/my/recently.shtml?_wv=1&ptag=37128.1.6">
+                <i class="icon_history"></i>
+                <span>最近浏览</span></a>
+            </li>
+            <li><a href="javascript:;" ptag="37128.1.7" id="__shareqq">
+                <i class="icon_qq"></i>
+                <span>QQ分享</span></a>
+            </li>
+            <li><a href="javascript:;" ptag="37128.1.8" id="__shareqzone">
+                <i class="icon_qzone"></i>
+                <span>空间分享</span></a>
+            </li>
+            <li><a ptag="7020.1.3" data-href="http://wqs.jd.com/my/membership/membership_edu.html?PTAG=7020.1.3">
+                <i class="icon_vip"></i>
+                <span>京东会员</span></a>
+            </li>
+            <li><a href="javascript:;" ptag="37128.1.10" id="__returnToQQ">
+                <i class="icon_close"></i>
+                <span>关闭页面</span></a>
+            </li>
+        </ul>
+        <ul id="__ulqqmenu2">
+            <li>
+                <a href="javascript:;" ptag="37128.1.2" id="__homepage2">
+                    <i class="icon_home"></i>
+                    <span>购物</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://wqs.jd.com/portal/sq/category_q.shtml?_wv=1&ptag=37128.1.3">
+                    <i class="icon_search"></i>
+                    <span>商品搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" data-href="http://wqs.jd.com/my/cart/jdshopcart.shtml?_wv=1&amp;37128.1.11" needlogin="1">
+                    <i class="icon_cart"></i>
+                    <span>购物车</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" data-href="http://wqs.jd.com/my/index.shtml?_wv=1&amp;ptag=37128.1.4" needlogin="1">
+                    <i class="icon_profile"></i>
+                    <span>个人中心</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" data-href="http://wqs.jd.com/my/fav/goods_fav.shtml?_wv=1&amp;ptag=37128.1.5" needlogin="1">
+                    <i class="icon_star"></i>
+                    <span>我的收藏</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://wqs.jd.com/my/recently.shtml?_wv=1&ptag=37128.1.6">
+                    <i class="icon_history"></i>
+                    <span>最近浏览</span>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:;" ptag="37128.1.7" id="__sharemsg">
+                    <i class="icon_share"></i>
+                    <span>分享</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+    <div class="wx_wrap">
+        <div class="my_head">
+            <!-- S 账户信息 -->
+            <div class="my_user" id="jdtip" style="display:none">
+                <div class="image">
+                    <img id="jdimg" src="./个人中心_files/init.png" width="50" height="50">
+                </div>
+                <p class="name"><span class="tag">账号</span><span id="jdnickname" class="text"></span></p>
+                <p class="des"><span id="jddesc">加载中</span></p>
+            </div>
+            <a href="http://wqs.jd.com/my/index.shtml?PTAG=37128.9.4&shownav=1#" class="my_user" id="wxtip4com" style="display:none">
+                <div class="image">
+                    <img id="qqimg4com" src="./个人中心_files/init.png" width="50" height="50">
+                </div>
+                <p class="name"><span class="tag" id="qqtag4com"></span><span id="qqnickname4com" class="text"></span></p>
+                <p class="des" id="qqdesc4com"></p>
+            </a>
+            <a class="my_user" id="wxtip4notbin">
+                <div class="image">
+                    <img id="qqimg4notbin" src="./个人中心_files/40" width="50" height="50">
+                </div>
+                <p class="name"><span class="tag" id="qqtag4notbin"></span><span id="qqnickname4notbin" class="text" wptag="37068.1.6" qptag="37068.2.9" ptag="37068.1.6"><%=@user.name%></span></p>
+                <p class="des" id="qqdesc4notbin">请关注贸威优品商城，获得更多优惠</p>
+            </a>
+            <!-- E 账户信息 -->
+        </div>
+        <!-- S 信息导航 -->
+        <div class="my_nav" style="display:none">
+            <ul>
+                <li class="tiao" id="jdhbarea" data-url="http://wqs.jd.com/my/coupon/index.shtml"><a href="javascript:;"><span id="couponNum">0</span>优惠券</a></li>
+                <li id="jingDou"><a href="javascript:;"><span id="jingDouNum">0</span>积分</a></li>
+            </ul>
+        </div>
+        <!-- E 信息导航 -->
+
+        <!-- S 入口菜单 -->
+        <div class="my_menu">
+            <ul>
+                <li class="tiao" data-url="#">
+                    <a href="javascript:;" class="menu_1">全部订单</a>
+                </li>
+                <li class="tiao" data-url="#">
+                    <a href="javascript:;" class="menu_2"><span id="payDeaLNum" style="display: none;"></span>待付款</a>
+                </li>
+                <li class="tiao" data-url="#">
+                    <a href="javascript:;" class="menu_3"><span id="receiveDeaLNum" style="display: none;"></span>待收货</a>
+                </li>
+                <li class="tiao" data-url="#">
+                    <a href="javascript:;" class="menu_4">退换货</a>
+                </li>
+            </ul>
+        </div>
+        <!-- E 入口菜单 -->
+
+        <!-- S 入口列表 -->
+        <ul class="my_list"> 
+            <li class="tiao" data-url="#" id="goodCart"><a href="javascript:;">我的购物车<em id="cartNum"></em><span></span></a></li>
+            <li class="tiao" data-url="#" id="goodFav"><a href="javascript:;">我的收藏<span id="favText"></span></a></li>
+            <li style="display:none"><a href="javascript:;">我关注的品牌</a></li>
+            <li class="tiao" data-url="#"><a href="javascript:;">我的浏览记录</a></li>
+            <li id="mybaitiao" style="display:none"><a href="javascript:;">我的京东白条</a></li>
+            <li class="tiao" data-url="#"><a href="javascript:;" id="mypreorder">我的预约商品</a></li>
+            <li class="tiao" data-url="#"><a href="javascript:;">我的拼购商品</a></li>
+            <li class="tiao" data-url="#" id="chouKuan" style="display:none"><a href="javascript:;">我的筹款商品</a></li>
+            <li class="tiao" id="shouqMsg" data-url="#" style="display:none"><a href="javascript:;">我的消息</a></li>
+            <li class="tiao" data-url="#"><a href="javascript:;">我的抽奖活动</a></li>
+            <li id="toCommentLi" data-url="#" class="highlight"><a href="javascript:;">我的评价晒单<span style="display:none;">送京豆</span></a></li>
+            <li class="hr"></li>
+            <li class="tiao" data-url="#"><a href="javascript:;">收货地址管理</a></li>
+            <li id="weidianItem" data-url="#" wptag="37068.1.10" qptag="37068.2.11" style="display: none;" data-state="2" data-defaultflag="1"><a href="javascript:;">轻微店</a></li>
+            <li class="tiao" data-url="#" id="vipItem" wptag="37068.1.12" qptag="37068.2.12" ptag="37068.1.12"><a href="javascript:;">会员特权</a></li>
+            <li class="tiao" data-url="#" id="passwordItem" style="display: none" wptag="37068.1.9" qptag="37068.2.10" ptag="37068.1.9"><a href="javascript:;">支付密码<span></span></a></li>
+           <!--  <li class="tiao" data-url="http://mm.wanggou.com/service/myOrder.shtml"><a href="javascript:;">返修/退换货</a></li> -->
+            <li class="tiao" id="msgListItem" data-url="#"><a href="javascript:;">消息中心</a></li>
+            <li class="tiao" id="helpCenter" data-url="#"><a href="javascript:;">帮助中心</a></li>
+        </ul>
+        <!-- E 入口列表 -->
+        <div class="my_links">
+           
+            <a href="#" class="link_online">在线客服</a>
+        </div>
+    </div><!-- wx_wrap -->
+    
+    <!-- 中奖弹出框 -->
+    <div id="retDialog" class="msgbox">
+        <div class="box">
+            <div class="gift_wrp">
+              <img src="./个人中心_files/gift.jpg" height="105">
+            </div>
+            <h2>恭喜您，获得了10元京东券！</h2>
+            <a href="javascript:;" class="red rule">活动规则</a>
+            <h5>京东券发放可能会有几分钟的延迟<br>稍后可以在个人中心&gt;京东券中查看</h5>
+            <a href="javascript:;" class="btn">知道啦</a>
+        </div>
+    </div>
+    <!-- 规则弹出框 -->
+    <div id="ruleDialog" class="msgbox">
+        <div class="popup_con">
+            <div class="inner">
+                <span class="close"></span>
+                <p class="title"><em>活动规则：</em></p>
+                <ol class="text">
+                    <li>活动时间： 2015年6月9日9点，长期活动，结束时间待定。</li>
+                    <li>本活动仅限于符合条件的未绑定京东帐号的新用户参与，每个帐号绑定后仅有一次领取的机会。</li>
+                    <li>绑定成功的用户可领取5~10元全品类京券(绑定完成后券会自动发放到您的账户中可在个人中心&gt;京东券中查看)，使用规则详见——京东优惠券规则。</li>
+                    <li>券领取成功后，直接发放到【我的京东-个人中心-京东券】</li>
+                    <li>券有效期：自领取之日起算，具体日期以券面有效期为准。</li>
+                    <li>在获取和使用优惠券过程中，如果出现违规行为（如作弊领取、恶意套取、刷信誉等），京东平台将根据自身合理判断取消用户的获得优惠券的资格，并有权撤销违规交易，收回优惠券（含已使用的优惠券及未使用的优惠券）。</li>
+                    <li>活动申述受理时间：参加活动之日起7天以内，逾期不做申述受理</li>
+                    <li>本活动解释权在法律规定的范围内归京东所有。</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+        speedTimePoint[2]=new Date();
+        window._navfoot={index:6};
+</script>    
+
+

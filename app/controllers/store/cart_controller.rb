@@ -19,14 +19,14 @@ class Store::CartController < ApplicationController
 
   def mobile
     supplier_id=params[:supplier_id]
+     if supplier_id.empty?
+        supplier_id=78
+     end
 
     @goods_supplier = 0
     @bg_color = ["#cde6f3","#e5fdff"]
     @i = 0
-    if  @user
-         if supplier_id == nil
-            supplier_id=78
-         end
+    if  @user        
         @supplier = Ecstore::Supplier.find(supplier_id)
          render :layout=>@supplier.layout
     else
@@ -142,7 +142,7 @@ class Store::CartController < ApplicationController
       session[:xiehuo] =params[:xiehuo]
     end
 
-    if params[:platform]=="mobile"
+    if params[:platform]=="mobile" ||  params[:platform]=="new_mobile"
 
       redirect_to "/cart/mobile?supplier_id=#{supplier_id}"
 

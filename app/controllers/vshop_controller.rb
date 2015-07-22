@@ -218,7 +218,7 @@ class VshopController < ApplicationController
     @good=Ecstore::Good.where(:supplier_id=>@supplier_id)
 
 
-    render :layout=>@supplier.layout
+    render :layout=>"new_mobile"
   end
 
   #get /vhsop/id/category?cat=
