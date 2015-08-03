@@ -87,6 +87,10 @@ class MobileController < ApplicationController
     #end
   end
 
+  def categories
+     @cats = Ecstore::Category.where(:parent_id=>0)
+  end
+
 
   def show
     @no_need_login = 1
@@ -104,7 +108,7 @@ class MobileController < ApplicationController
       @recommend_goods =  @cat.goods.where("goods_id <> ?", @goods.goods_id).order("goods_id desc").limit(4)
     else
       @recommend_goods += @cat.goods.where("goods_id <> ?", @goods.goods_id).limit(4).to_a
-      @recommend_goods += @cat.parent_cat.all_goods.select{|good| good.goods_id != @good.goods_id }[0,4-@recommend_goods.size] if @cat.parent_cat && @recommend_goods.size < 4
+      @recommend_goods += @cat.parent_cat.all_goods.select{|good| good.goods_id != @goods.goods_id }[0,4-@recommend_goods.size] if @cat.parent_cat && @recommend_goods.size < 4
       @recommend_goods.compact!
       if @cat.parent_cat.parent_cat && @recommend_goods.size < 4
         count = @recommend_goods.size

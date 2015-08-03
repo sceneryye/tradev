@@ -4,13 +4,17 @@ Modengke::Application.routes.draw do
 
   resources :mobile do
   	collection do
-  		get :shop
   		get :gallery
       get :admin
       get :admin_visitors
       get :admin_orders
       get :user_center
+      get :categories
   	end
+
+    member do 
+      get :shop
+    end
   end
 
 

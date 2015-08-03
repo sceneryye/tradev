@@ -263,22 +263,53 @@ showTopBack(false);
     </div>
     
     <div class="detail_gap"  style="display:none"></div>
-    
-    <div class="detail_cmd" id="guessArea" style="display:none">
+     <%if @recommend_goods.size > 0%>
+    <div class="detail_cmd" id="guessArea">
         <div class="hd"><h3 class="tit">猜你喜欢</h3></div>
         <!-- hd -->
         <div class="bd">
-            <div class="inner" id="guessItem"></div>
+        
+            <div class="inner" id="guessItem">
+                
+                 <%@recommend_goods.each do |good|%>
+                <ul class="bar" id="guessItemTab">
+                   
+         
+          <li>
+                <%=link_to good_path(good.bn,:tag=>@tag&&@tag.tag_name) do %>
+                    <%=image_tag good.rec_image,:alt=>good.name%>
+                <%end%>
+           
+          </li>
+
+                </ul>
+                
+          <%end%>
+            </div>
             <!-- inner -->
             <div class="bar_wrap">
-                <ul class="bar" id="guessItemTab"></ul>
+             <%@recommend_goods.each do |good|%>
+                <ul class="bar" id="guessItemTab">
+                   
+         
+          <li>
+                <%=link_to good_path(good.bn,:tag=>@tag&&@tag.tag_name) do %>
+                    <%=image_tag good.rec_image,:alt=>good.name%>
+                <%end%>
+           
+          </li>
+
+                </ul>
+
+          <%end%>
             </div>
+
         </div>
         <!-- bd -->
     </div>
     <div id="appdlCon"></div>
 </div>
-
+<%end%>
 <div id="detailBaseLine" class="mod_tab_gap"></div>
 
 <div class="mod_fix_wrap">
