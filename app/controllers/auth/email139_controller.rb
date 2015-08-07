@@ -21,6 +21,7 @@ class Auth::Email139Controller < ApplicationController
 		end
 
 		sid = params[:sid] 
+		#return :text=>sid
 
 		timestamp = Time.now.to_i - Time.parse('2000-01-01').to_i + 10
 
@@ -80,8 +81,8 @@ class Auth::Email139Controller < ApplicationController
 			else # '999'  
 				message +='未知错误'			
 			end
+			
 			return render :text=>message
-	    	#user_number= '00'+ res_data_hash['ResponseData']['TimeStamp']
 	    end	   
  
 

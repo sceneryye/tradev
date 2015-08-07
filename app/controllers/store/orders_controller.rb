@@ -344,6 +344,12 @@ class Store::OrdersController < ApplicationController
 
     if @order.save
 
+      #139用户
+      if @user.email.include? '@139.com'
+        @order.update_attributes(:shop_id=>48)
+
+      end
+
       @line_items.delete_all
 
       Ecstore::OrderLog.new do |order_log|

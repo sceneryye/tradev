@@ -84,7 +84,7 @@
            <div class="new-header">
              <a href="javascript:pageBack();" class="new-a-back" id="backUrl"><span>返回</span></a>
              <h2>商品分类</h2>
-             <a href="javascript:void(0)" id="btnJdkey" class="new-a-jd"><span>京东键</span></a>
+             <a href="javascript:void(0)" id="btnJdkeyd" class="new-a-jd"><span>下拉键</span></a>
          </div>
          <div class="new-jd-tab" style="display:none" id="jdkey">
              <div class="new-tbl-type">
@@ -132,7 +132,7 @@
                       <li class="new-category2-li" >
                     <%end%>
                       <%@count = @count + 1%>
-                       <a href='/mobile/cats/<%=child_cat.cat_id%>' class="new-category2-a"><span class="new-bar"></span><%=child_cat.cat_name%></a>
+                       <a href='/mobile/<%=child_cat.cat_id%>/category_goods' class="new-category2-a"><span class="new-bar"></span><%=child_cat.cat_name%></a>
                        <%if @childrens.count == (index+1) && @count%3 != 0%>
                         <%@append = 3 - (@count%3)%>
                         <%1.upto(@append) do |num|%>
@@ -167,14 +167,6 @@ $(function(){
 });
 </script>
 
-<div class="login-area" id="footer">
- <div class="login">
-  <a href="../user/login.action@sid=e0d0f025d6d3e8e8d7be5428c43ef911">登录</a><span class="lg-bar">|</span><a href="../user/mobileRegister.action@sid=e0d0f025d6d3e8e8d7be5428c43ef911">注册</a>
-  <span  class="new-fr"><a href="../showvote.html@sid=e0d0f025d6d3e8e8d7be5428c43ef911">反馈</a><span class="lg-bar">|</span><a href="#top">回到顶部</a></span>
-</div>
-<div class="version"><a href="../index.html@v=w&sid=e0d0f025d6d3e8e8d7be5428c43ef911">标准版</a><a href="javascript:void(0)" class="on">触屏版</a><a href="../index/pcsite.action" id="toPcHome">电脑版</a></div>
-<div class="copyright">&copy; m.jd.com </div>
-</div>
 <script type="text/javascript">
 $("#unsupport").hide();
 if(!testLocalStorage()){ //not support html5

@@ -10,10 +10,12 @@ Modengke::Application.routes.draw do
       get :admin_orders
       get :user_center
       get :categories
+      get :orderlist
   	end
 
     member do 
       get :shop
+      get :category_goods
     end
   end
 
@@ -214,6 +216,7 @@ Modengke::Application.routes.draw do
       post "black_good_destory"
       post "destory"
       get "notice"
+      get "clients"
     end
     member do
       get :user

@@ -61,7 +61,7 @@
             <div class="p_list">
               <div class="mian_cont">
                 <ul>
-                  <%goods=Ecstore::Good.where("marketable ='true' and cat_id in (#{gallery.tag_ext.categories})").order("goods_id DESC").limit(6)%>
+                  <%goods=Ecstore::Good.where("marketable ='true' and cat_id in (#{gallery.tag_ext.categories})").order("p_order ASC, goods_id DESC").limit(6)%>
                   <%goods.each do |good|%>
                   <li _plink="/products/<%=good.bn%>" class="pro_item first">
                     <div class="t_img">

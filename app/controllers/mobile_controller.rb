@@ -91,6 +91,64 @@ class MobileController < ApplicationController
      @cats = Ecstore::Category.where(:parent_id=>0)
   end
 
+  def category_goods
+     @cat = Ecstore::Category.find_by_cat_id(params[:id])
+      case params[:gtype]
+        when "2"
+          @all_goods = @cat.all_goods(:future=>"true")
+        when "3"
+          @all_goods = @cat.all_goods(:agent=>"true")
+        else
+          @all_goods = @cat.all_goods(:sell=>"true")
+      end
+      order = params[:order]
+
+      if order.present?
+        col, sorter = order.split("-")
+      else
+        col, sorter =  %w{goods_id desc}
+      end
+          
+         page  =  (params[:page] || 1).to_i
+         per_page = 18
+
+         if params[:brand].to_i > 0
+              @all_goods.select! {|g| g.brand_id == params[:brand].to_i }
+         end
+
+         if params[:color].to_i > 0
+              @all_goods.select! { |g| g.color_specs('id').include? params[:color].to_i }
+         end
+
+        
+         if col&&sorter == 'asc'
+              @goods = @all_goods.sort{ |x,y| x.attributes[col] <=> y.attributes[col] }.paginate(page,per_page)
+         elsif col&&sorter == 'desc'
+              @goods = @all_goods.sort{ |x,y| y.attributes[col] <=> x.attributes[col] }.paginate(page,per_page)
+         else
+             # @goods = @all_goods.sort{ |x,y| y.uptime <=> x.uptime }.paginate(page,per_page)
+           @goods = @all_goods.paginate(page,per_page)
+         end
+
+  end
+
+  def orderlist
+    @supplier_id = params[:supplier_id]
+    if  @user
+      if @supplier_id == nil
+        @supplier_id=78
+      end
+      
+      @orders =  @user.orders.order("createtime desc")
+
+      # if params["platform"]=="mobile"
+      #   render :layout=>@supplier.layout
+      # end
+    else
+      return_url={:return_url => "/mobile"}.to_query
+      redirect_to "/auto_login?#{return_url}&id=#{supplier_id}"
+    end
+  end
 
   def show
     @no_need_login = 1

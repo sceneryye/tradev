@@ -80,12 +80,20 @@ class Ecstore::Order < Ecstore::Base
     end
     #Weiss
     freight127 =0
-    items_amount_supplier = self.order_items.select{ |order_item| order_item.good.supplier_id == 127}.collect{ |order_item|  order_item.amount }.inject(:+)
+    items_amount_supplier = self.order_items.select{ |order_item| order_item.good.supplier_id == 127 &&  order_item.amount!=0}.collect{ |order_item|  order_item.amount }.inject(:+)
     if items_amount_supplier
       if items_amount_supplier <200
         freight127 = 30
       end
     end
+
+    #Weiss免费试吃
+    freight127_1 =0
+    items_nums_supplier = self.order_items.select{ |order_item| order_item.good.supplier_id == 127 &&  order_item.amount==0}.collect{ |order_item|  order_item.nums }.inject(:+)
+    if items_nums_supplier
+        freight127_1 = 8
+    end
+
     #诺狮
     freight97 = 0
     items_amount_supplier = self.order_items.select{ |order_item| order_item.good.supplier_id == 97}.collect{ |order_item|  order_item.amount }.inject(:+)
@@ -111,7 +119,7 @@ class Ecstore::Order < Ecstore::Base
            freight += 0
          end
 =end
-    self.cost_freight =  freight77 + freight97 + freight127
+    self.cost_freight =  freight77 + freight97 + freight127 + freight127_1
     # items_amount = self.order_items.select{ |order_item| order_item.item_type == 'product' }.collect{ |order_item|  order_item.amount }.inject(:+).to_f
 
     if  items_amount&&pmts_amount

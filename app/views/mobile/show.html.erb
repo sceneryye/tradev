@@ -322,11 +322,11 @@ showTopBack(false);
     </div>
 </div>
 
-<div class="detail_info_wrap" id="detail">
-    <div class="detail_list" id="detailCont">
+<div class="detail_info_wrap1" id="detail1">
+    <div class="detail_list1" id="detailCont1">
         <!-- 商品介绍 -->
-        <div class="detail_item p_desc" id="detail1" style="position:relative;">
-            <div id="commDesc" class="detail_pc" style="height:1000px;">
+        <div class="detail_item1 p_desc1" id="detail11" style="position:relative;">
+            <div id="commDesc1" class="detail_pc1" style="height:1000px;">
             	  <%=raw @goods.intro.gsub(/width/,'widthh').gsub(/height/,'heightt/') if @goods.intro%>
             </div>
             <div id="pcItemLink" style="display: none" ptag="7001.1.17">
@@ -378,7 +378,7 @@ showTopBack(false);
         <a class="btn btn_buy add_to_cart" href="javascript:;" id="buyBtn2" manualclick="xxx" pppptag="7001.1.8">立即购买</a>
     </div>
 
-    <a class="cart_wrap" href="/my/cart/jdshopcart.shtml">
+    <a class="cart_wrap" href="/cart/mobile?supplier_id=">
         <i class="i_cart" id="cartNum"></i>
         <span class="cart"></span>
         <span class="add_num" id="popone">+1</span>

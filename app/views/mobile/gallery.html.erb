@@ -777,7 +777,7 @@ window._navfoot = {};
 
              <%@categories.each  do |category|%>
     <div class="wei_shop_list jsfilter99<%=category.cat_id%>"> 
-          <%@goods=Ecstore::Good.where(:cat_id=>category.cat_id,:marketable=>"true").order("goods_id DESC")%>
+          <%@goods=Ecstore::Good.where(:cat_id=>category.cat_id,:marketable=>"true").order("p_order ASC , goods_id DESC")%>
             <% @goods.each do |good|%>
             <div class="item" dpos="1|0" ptag="37790.1.165">         
 	            <a href="/mobile/<%=good.goods_id%>" class="url">                          

@@ -47,7 +47,13 @@ class VshopController < ApplicationController
 
     if @user
 
-      @orders_nw =Ecstore::Order.where(:supplier_id=> @user.account.supplier_id).order("order_id desc")
+      # @orders_nw =Ecstore::Order.where(:supplier_id=> @user.account.supplier_id).order("order_id desc")
+      sql= "supplier_id=0"
+      if @user.account.login_name =='shop139_1'
+        sql = "shop_id=48"
+      end
+
+      @orders_nw =Ecstore::Order.where("#{sql}").order("order_id desc")
 
       if params[:status].nil?
         @orders_nw = @orders_nw
@@ -89,10 +95,26 @@ class VshopController < ApplicationController
         respond_to do |format|
           format.html # index.html.erb
           format.json { render json: @members }
-        end
+        end    
       else
         redirect_to '/vshop/apply'
       end
+    else
+      redirect_to '/vshop/login'
+    end
+  end
+
+   #get /vshop/members
+  def clients
+
+       shop_id = 48
+
+    if @user     
+       @shop_title="客户管理"
+       @total_clients = Ecstore::ShopClient.where(:shop_id=>shop_id).count()
+
+       @clients=Ecstore::ShopClient.where(:shop_id=>shop_id).paginate(:page => params[:page], :per_page => 20).order("created_at desc")
+    
     else
       redirect_to '/vshop/login'
     end
@@ -116,8 +138,24 @@ class VshopController < ApplicationController
       @goods = Ecstore::Good.includes(:cat).includes(:brand)
       @supplier =Ecstore::Supplier.find_by_member_id(@user.id)
       if @user.id!= 2495 #贸威
-        @supplier =Ecstore::Supplier.find_by_member_id(@user.id)
-        @goods = @goods.where(:supplier_id=>@supplier.id)
+        if @user.id ==4403 #shop139_1
+          sql = "select goods_id FROM mdk.shops_goods where shop_id=48"
+          results = ActiveRecord::Base.connection.execute(sql)
+          goods_ids = []
+          results.each(:as => :hash) do |row|
+            goods_ids = row["goods_id"]
+          end
+
+          sql = " goods_id in (#{goods_ids})"
+
+        #  return render :text=>sql
+
+          @goods =  @goods.where(sql) #Ecstore::ShopsGood.where(:shop_id=>48)
+        else
+          @supplier =Ecstore::Supplier.find_by_member_id(@user.id)
+          @goods = @goods.where(:supplier_id=>@supplier.id)
+        end
+      
       end
       if @supplier.id ==Ecstore::Supplier.find_by_name("万家物流").id
         if params[:name]=="货源"
