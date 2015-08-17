@@ -35,7 +35,7 @@
     <th>订单号</th>
     <th>查看</th>
         <%@colnums=13%>
-        <th class="dropdown">
+        <th class="dropdown" style="display:none">
           <%=link_to "#",:class=>"dropdown-toggle",:data=>{:toggle=>"dropdown"} do%>
               订单操作 <b class="caret"></b>
           <%end%>
@@ -57,7 +57,7 @@
     <th>付款状态</th>
     <th>发货状态</th>
     <th>订单金额</th>
-    <th>佣金</th>
+    <!-- <th>佣金</th> -->
     <th>收货人</th>
     <th>收货地址</th>
     <th>收货人手机</th>
@@ -74,7 +74,7 @@
     <td><%=order.order_id%></td>
 
     <td><%=link_to "详细",detail_admin_order_path(order),:target=>"_blank"%></td>
-        <td class="dropdown">
+        <td class="dropdown" style="display:none">
           <%if order.status == "active"%>
               <%=link_to "#",:class=>"dropdown-toggle",:data=>{:toggle=>"dropdown"} do%>
                   订单操作 <b class="caret"></b>
@@ -130,7 +130,7 @@
     <td><%=order.pay_status_text%></td>
     <td><%=order.ship_status_text%></td>
     <td><%=number_to_currency order.final_amount,:unit=>"&yen;",:precision=>2%></td>
-    <td><%=number_to_currency order.commission,:unit=>"&yen;",:precision=>2 if order.desktop_user_id || order.recommend_user%></td>
+    <!-- <td><%=number_to_currency order.commission,:unit=>"&yen;",:precision=>2 if order.desktop_user_id || order.recommend_user%></td> -->
     <td><%=order.ship_name%></td>
     <td><%=order.ship_addr%></td>
     <td><%=order.ship_mobile%></td>
@@ -140,7 +140,7 @@
 
   <%end%>
   <td colspan="<%=@colnums%>"></td>
-  <td><%=number_to_currency @total,:unit=>"&yen;",:precision=>2%></td>
+  <!-- <td><%=number_to_currency @total,:unit=>"&yen;",:precision=>2%></td> -->
   </tbody>
 </table>
 <div class="paginations">

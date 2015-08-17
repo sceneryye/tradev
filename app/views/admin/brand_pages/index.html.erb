@@ -18,6 +18,7 @@
 
 <table class="table table-bordered table-hover">
   <tr>
+    <th>ID</th>
     <th>品牌</th>
     <th>品牌状态</th>
     <th>品牌推荐</th>
@@ -29,6 +30,7 @@
 
 <% @brands.each do |brand| %>
   <tr class="<%='success' if brand.reco%> <%='error' if brand.disabled=='true'%>">
+  <td><%=brand.brand_id%></td>
     <td><%= link_to brand.brand_name,brand_path(brand),:target=>"_blank" if brand %></td>
     <td><%= brand_statuses[brand.status.to_sym]%></td>
      <td><%= brand.reco ? "是" : "否"%></td>

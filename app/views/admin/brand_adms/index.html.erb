@@ -7,6 +7,7 @@
 <table class="table table-bordered table-striped table-hover">
 	<thead>
 		<tr>
+			<th>ID</th>
 			<th>品牌名</th>
 			<th>访问地址</th>
 			<th>操作</th>
@@ -15,6 +16,7 @@
 	<tbody>
 		<%@brands.each do |brand|%>
 			<tr>
+				<td><%=brand.brand_id%></td>
 				<td><%=brand.brand_name%></td>
 				<td><%=brand_path(brand)%></td>
 				<td>
