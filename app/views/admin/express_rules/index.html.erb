@@ -1,5 +1,5 @@
 <div>
-    <%=link_to "新建物流规则",create_admin_express_rules_path %>
+    <%=link_to "新建物流规则",new_admin_express_rule_path %>
 </div>
 <table class="table table-bordered table-striped table-hover">
 	<thead>
@@ -32,5 +32,5 @@
 	</tbody>
 </table>
 <div class="pagination">
-	<%=will_paginate @top_expresss,:container=>false%>
+	<%=will_paginate @express_rules,:container=>false%>
 </div>

@@ -7,7 +7,7 @@ class Admin::ExpressRulesController < Admin::BaseController
   end
 
   def index
-     @express_rules = Ecstore::ExpressRule.paginate(:page => params[:page], :per_page => 20).order("time DESC")
+     @express_rules = Ecstore::ExpressRule.paginate(:page => params[:page], :per_page => 20).order("id DESC")
 
   end
 
