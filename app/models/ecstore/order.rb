@@ -8,6 +8,7 @@ class Ecstore::Order < Ecstore::Base
   has_many :order_pmts, :foreign_key=>"order_id"
   has_many :order_logs,:foreign_key=>"rel_id"
   has_many :deliveries, :foreign_key=>"order_id"
+  has_many :order_attachments, :foreign_key=>"order_id"
 
   belongs_to :shop,:foreign_key=>"order_id"
   belongs_to :manager,:foreign_key=>"desktop_user_id"
@@ -91,7 +92,7 @@ class Ecstore::Order < Ecstore::Base
     freight127_1 =0
     items_nums_supplier = self.order_items.select{ |order_item| order_item.good.supplier_id == 127 &&  order_item.amount==0}.collect{ |order_item|  order_item.nums }.inject(:+)
     if items_nums_supplier
-        freight127_1 = 8
+        freight127_1 = 8*items_nums_supplier
     end
 
     #诺狮

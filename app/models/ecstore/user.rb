@@ -36,6 +36,8 @@ class Ecstore::User < Ecstore::Base
 
   has_many :inventory_log, :foreign_key=>"member_id"
 
+  has_many :order_attachments, :foreign_key=>"member_id"
+
   has_many :favorites, :foreign_key=>"member_id", :conditions=> { :type=>"fav" }
 
   belongs_to :member_lv,:foreign_key=>"member_lv_id"

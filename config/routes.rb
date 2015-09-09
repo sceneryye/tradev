@@ -404,6 +404,8 @@ Modengke::Application.routes.draw do
 
     resources :sessions
     resources :coupons
+    resources :express_rules
+    
     resources :goods_cats do
       get :create_top,:on=>:collection
       get :toggle_future,:on=>:member
@@ -636,6 +638,8 @@ Modengke::Application.routes.draw do
     post 'cart/manco_add'=>"cart#manco_add" ,:as=>:add_to_cart
     post 'cart/tairyoall_add'=>"cart#tairyoall_add" ,:as=>:add_to_cart
 
+    resources :order_attachments
+
     resources :cart do
       get 'manco_express'  ,:on=>:collection
       get 'distribution_manco',:on=>:collection
@@ -792,7 +796,6 @@ Modengke::Application.routes.draw do
         get 'inventorys'
         get 'inventorylog'
         post 'export_inventory'
-
       end
     end
 

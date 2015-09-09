@@ -19,7 +19,11 @@ class Store::CartController < ApplicationController
 
   def mobile
     supplier_id=params[:supplier_id]
-     if supplier_id.empty?
+     if supplier_id.nil?
+        supplier_id=78
+     end
+
+    if supplier_id.empty?
         supplier_id=78
      end
 
@@ -136,7 +140,11 @@ class Store::CartController < ApplicationController
    
 		find_cart!
 
-   
+    #定制低头神器
+    # if @cart.obj_ident.split('_')[1]=='26351'
+    #  return redirect_to "/order_attachments/new?obj_ident=#{@cart.obj_ident}"
+    # end
+    
     if params[:zhuanghuo] ||params[:xiehuo]
       session[:zhuanghuo] =params[:zhuanghuo]
       session[:xiehuo] =params[:xiehuo]
@@ -144,7 +152,7 @@ class Store::CartController < ApplicationController
 
     if params[:platform]=="mobile" ||  params[:platform]=="new_mobile"
 
-      redirect_to "/cart/mobile?supplier_id=#{supplier_id}"
+       redirect_to "/cart/mobile?supplier_id=#{supplier_id}"
 
       #render "mobile", :layout=>@supplier.layout
 

@@ -107,11 +107,11 @@
          </div>
      </div>
  </header>
- <form action="/ware/search.action" id="searchForm">
+ <form action="mobile_search" id="searchForm">
     <input name="sid" value="e0d0f025d6d3e8e8d7be5428c43ef911" type="hidden" />
     <div class="new-cate-srch">
        <div class="new-srch-box">
-         <input name="keyword" id="newkeyword" type="text" required class="new-srch-input" value="trade-v.com"><a href="javascript:void(0);" target="_self" onClick="cancelHotWord()" class="new-s-close"></a><a href="javascript:void(0)" target="_self" onClick="$('#searchForm').submit();" class="new-s-srch"><span></span></a>
+         <input  id="newkeyword" type="text" required class="new-srch-input" name="q" value="<%= controller_name=="mobile_search" ? params[:q] : Ecstore::Config.get(:search_key)%>"><a href="javascript:void(0);" target="_self" onClick="cancelHotWord()" class="new-s-close"></a><a href="javascript:void(0)" target="_self" onClick="$('#searchForm').submit();" class="new-s-srch"><span></span></a>
      </div>
      <div class="new-srch-lst" id="shelper" style="display:none">
      </div>

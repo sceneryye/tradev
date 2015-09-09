@@ -3,11 +3,13 @@ class Ecstore::Cart < Ecstore::Base
 	self.table_name = 'sdb_b2c_cart_objects'
 
 	belongs_to :user,:foreign_key=>"member_id"
-  belongs_to :supplier,:foreign_key=>"supplier_id"
-   belongs_to :ecstore_goods_promotion_ref, :class_name => 'Ecstore::GoodsPromotionRef' ,   :foreign_key=>"ref_id"
+  	belongs_to :supplier,:foreign_key=>"supplier_id"
+   	belongs_to :ecstore_goods_promotion_ref, :class_name => 'Ecstore::GoodsPromotionRef' ,   :foreign_key=>"ref_id"
 	default_scope where(:obj_type=>"goods")
 
 	attr_accessible :obj_ident,:member_ident,:member_id,:obj_type,:params,:quantity,:time
+
+	has_many :order_attachments, :foreign_key=>"cart_obj_ident"
 
 	before_save :generate_params
 	def generate_params
