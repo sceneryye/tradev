@@ -1,4 +1,5 @@
-# //= require area_seletor
+#= require jquery
+#= require area_seletor
 
 # $ ->
 #   $("form").on "ajax:success", (e,res) ->

@@ -5,7 +5,7 @@ class HomeController < ApplicationController
 	layout 'standard'
 
 	def index
-		#redirect_to "http://vshop.trade-v.com/vshop/78"
+		
 		@title = "trade-V 跨境贸易直通车"
 	  	@galleries = Ecstore::Teg.where(:tag_type=>"gallery")	
 	  	@i = 1  	
@@ -14,13 +14,7 @@ class HomeController < ApplicationController
 		    redirect_to params[:return_url] if params[:return_url].present?
 		end
 
-		supplier_id = 78
-		if  @user
-	    else
-	       redirect_to  "/auto_login?id=#{supplier_id}&platform=mobile&return_url=/mobile/home/"
-	       return
-	    end
-
+		
 		respond_to do  |format|
 	        format.mobile { render :layout=> 'msite'}
 	    end

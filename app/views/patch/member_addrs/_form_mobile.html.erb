@@ -13,7 +13,7 @@
 
 
 </style>
-<div style="display:none">
+
   <div class="am-input-group">
     <span class="importstart">* </span>
     <span > <%=I18n.t "importstart"%></span>
@@ -123,7 +123,6 @@
 
     <%end%>
   </div>
-</div>
 
 
 
@@ -131,119 +130,34 @@
 
 
 
-<hr/>
-<%=form_for :addr, :url=>@method == :put ? @action_url : member_addrs_path, :remote=>true,:method=>@method||:post,:html=>{ :class=> " form-horizontal" } do |f|%>
-<fieldset>
-  <input type="hidden" name="platform" value="<%=params[:platform]%>">
-  <div class="new-addr <%='hide' unless display==true%>" id="addr_form">
-    <div class="control-group">
-      <label class="control-label">收货人姓名</label>
-      <div class="controls">
-        <%=f.text_field :name,  :placeholder=>"收货人姓名"%>
-      </div></div>
+<script>
+ $(".am-btn-block").click(function(){
+   var mobile=$("#addr_mobile").val()
 
-      <div class="control-group">
-        <label class="control-label">手机</label>
-        <div class="controls">
-          <%=f.text_field :mobile,  :placeholder=>"手机"%>
-        </div>  </div>
+   if(mobile.length==0)
+   {
+     alert('请输入手机号码！');
 
-        <div class="control-group">
+     return false;
+   }
+   else if(mobile.length!=11)
+   {
+     alert('请输入有效的手机号码！');
 
-          <label class="control-label">固定电话</label>
-          <div class="controls">
-            <%=f.text_field :tel,  :placeholder=>"固定电话"%>
-          </div>  </div>
+     return false;
+   }
 
-          <div class="control-group">
-           <label class="control-label">邮编</label>
-           <div class="controls">
-            <%=f.text_field :zip  ,:placeholder=>"邮编"%>
+   else{
+     $(".form-horizontal").submit();
+   }
 
-          </div>  </div>
-
-          <div class="control-group">
-            <label class="control-label">收货地址</label>
-            <div class="controls">
-              <%=f.text_field :addr,:class=>"span5", :id=>"addr"%>
-              <span class="help-inline error"></span>
-            </div></div>
-
-            <div class="control-group">
-              <label class="control-label" for="addr_area">收货地区</label>
-              <%#=f.label :area, "收货地区：".html_safe%>
-              <div class="controls">
-                <%=f.select :province,Ecstore::Region.provinces.collect{|p| [p.local_name,p.region_id] },{:include_blank=>"请选择省" },{ :onchange=>"selectProvince(this,'#city','#district');",:id=>"province" }%>
-                <%if @addr&&@addr.city%>
-                <%=f.select :city,Ecstore::Region.cities_of(@addr.province).collect{|p| [p.local_name,p.region_id] },{:include_blank=>"请选择市"},{ :onchange=>"selectCity(this,'#district');",:id=>"city" }%>
-                <%else%>
-                <%=f.select :city, {}, { :include_blank=>"请选择市" }, { :onchange=>"selectCity(this,'#district');",:id=>"city" }%>
-                <%end%>
-
-                <%unless @addr&&@addr.new_record?%>
-                <%=f.select :district,Ecstore::Region.districts_of(@addr&&@addr.city).collect{|p| [p.local_name,p.region_id] },{:include_blank=>"请选择区/县" },{ :onchange=>"selectDistrict(this);",:id=>"district",:style=>"#{'display:none;' if @addr.district.blank? }" } %>
-                <%else%>
-                <%=f.select :district, {}, { :include_blank=>"请选择区/县" }, { :onchange=>"selectDistrict(this);",:id=>"district" }%>
-                <%end%>
-                <span class="help-inline error"></span>
-              </div>
-            </div>
-
-            <div class="control-group">
-              <label class="control-label" for="addr_def_addr">设置默认:</label>
-              <%#=f.label :def_addr, "设置默认："%>
-              <div class="controls">
-                <%=f.check_box :def_addr, {}, 1, 0 %><span><%=I18n.t "default"%></span>
-                <span class="help-inline error"></span>
-              </div>     </div>
-
-              <div class="control-group">
-                <div class="controls">
-                  <%if @method == :put%>
-                  <input type="submit" class="btn btn-inverse" value="<%=I18n.t "modify"%>">
-                  <%#=f.submit "修 改",:class=>"am-btn am-btn-warning am-btn-block" %>
-                  <%else%>
-                  <input type="submit" class="btn btn-inverse " value="<%=I18n.t "confirm"%>">
-                  <%#=f.submit "确认收货地址",:class=>"am-btn am-btn-warning am-btn-block" %>
-                  <%end%>
-                </div>
-              </div>
-
-            </div>
-          </fieldset>
-          <%end%>
-
-
-
-          
-          <script>
-           $(".am-btn-block").click(function(){
-             var mobile=$("#addr_mobile").val()
-
-             if(mobile.length==0)
-             {
-               alert('请输入手机号码！');
-
-               return false;
-             }
-             else if(mobile.length!=11)
-             {
-               alert('请输入有效的手机号码！');
-
-               return false;
-             }
-
-             else{
-               $(".form-horizontal").submit();
-             }
-
-           })
+ })
 
 
 
 
-           function validatemobile(mobile)
-           {
+ function validatemobile(mobile)
+ {
 
-           }
-         </script>
+ }
+</script>
