@@ -1,5 +1,5 @@
 GEM
-  remote: http://rubygems.org/
+  remote: http://ruby.taobao.org/
   specs:
     actionmailer (3.2.11)
       actionpack (= 3.2.11)
@@ -225,3 +225,6 @@ DEPENDENCIES
   wicked
   will_paginate (~> 3.0)
   ya2yaml
+
+BUNDLED WITH
+   1.10.5
