@@ -1,4 +1,4 @@
-<%= form_for @express_rule,:url => admin_express_rule_path(@express_rule), :html => {:class => "form-horizontal"} do |f| %>
+<%= form_for :express_rule,:url =>@action_url, :method=>@method, :html => {:class => "form-horizontal"} do |f| %>
   <fieldset>
     <div class="control-group">
       <%= f.label :title, "规则名称", :class => "control-label" %>
@@ -6,18 +6,46 @@
         <%= f.text_field :title%>
       </div>
     </div>
-    <div class="control-group">
-      <%= f.label :areas, "地区选择", :class => "control-label" %>
+     <div class="control-group">
+      <%= f.label :default_first_price, "默认首重价格", :class => "control-label" %>
       <div class="controls">
-        <%=f.text_feild :areas%>
-        <%#=f.select :cat_id,options_from_collection_for_select(Ecstore::Category.all,:cat_id,:full_path_name,params[:id].to_i),{:include_blank=>"请选择"},{:class=>"span3"} %>
+        <%= f.text_field :default_first_price%>/1公斤
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :default_each_add_price, "默认续重价格", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :default_each_add_price%>/1公斤
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :areas, "其他地区选择", :class => "control-label" %>
+      <div class="controls">       
+        <ul>
+        <%Ecstore::Region.provinces.all.each do |province|%>
+            <li class="controller" style="float:left;width:100px">
+              <%checkd=""
+                if @express_rule.areas
+                    if @express_rule.areas.include?(province.local_name)
+                      checked="checked"
+                    end
+                end%>
+                <input type="checkbox" name="express_rule[areas][]" value="<%=province.local_name%>" <%=checked%>>
+                    <%=province.local_name%>
+                   
+                  </li>
+        <%end%>
+      </ul>
+
+
       </div>
     </div>
 
     <div class="control-group">
       <%= f.label :first_price, "首重价格", :class => "control-label" %>
       <div class="controls">
-        <%= f.text_field :first_price%>/<%= f.text_field :first_weight%>公斤
+        <%= f.text_field :first_price%>/1公斤
       </div>
     </div>
 

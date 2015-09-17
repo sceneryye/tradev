@@ -21,6 +21,12 @@
           <%= f.number_field :status%>
         </div>
       </div>
+       <div class="control-group">
+      <%= f.label :express_rule_id, "运费规则", :class => "control-label" %>
+      <div class="controls">
+        <%= f.select :express_rule_id, Ecstore::ExpressRule.all.collect {|r| [ r.title, r.id ] }, {:prompt => '请选择运费规则'}, :class => "span2" %>
+      </div>
+    </div>
       <div class="control-group">
         <%= f.label :commission_platform, "平台佣金", :class => "control-label" %>
         <div class="controls">

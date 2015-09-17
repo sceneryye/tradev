@@ -7,11 +7,12 @@
 <table class="table table-bordered table-hover">
   <tr>
     <!--<th>修改权限(shopadmin->member)</th>-->
+    <th>ID</th>
     <th>名字</th>
     <th>logo</th>
+    <th>物流规则</th>
+    <th>商品数量</th>
     <th>UserID</th>
-    <th>Token</th>
-    <th>Secret</th>
     <th>电话</th>
     <th>url</th>
 
@@ -22,12 +23,12 @@
 <% @suppliers.each do |supplier| %>
   <tr>
     <!--<td > <%#= link_to '修改', "/admin/suppliers/update_state?supplier_id=#{supplier.id}&user_id=#{supplier.member_id}"%></td>-->
-
+    <td><%=supplier.id%></td>
     <td><%=supplier.name%></td>
-    <td><img src="<%=supplier.logo%>" style="width:200px"></td>
+    <td><img src="<%=supplier.logo%>" style="width:50px"></td>
+    <td><%=supplier.express_rule.title if supplier.express_rule_id%></td>
+    <td><%=Ecstore::Good.count(:conditions=>{:supplier_id=>"#{supplier.id}"})%></td>
     <td><%=supplier.member_id%></td>
-    <td><%=supplier.weixin_token%></td>
-    <td><%=supplier.weixin_secret_key%></td>
     <td><%=supplier.tel%></td>
     <td><%=supplier.url%></td>
 

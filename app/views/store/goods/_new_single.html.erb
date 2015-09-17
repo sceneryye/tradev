@@ -84,7 +84,9 @@
       <%=render :partial=>"store/goods/product/new_spec",:locals=>{ :good=>good }%>
     </div>
 
-
+    <div class="spec">
+      运费： <%=@good.supplier.express_rule.title if @good.supplier.express_rule_id%>
+    </div>
     <div class="actions clearfix">
       <%if @good.marketable == "true"%>
             <div id="cart_msg"></div>

@@ -31,7 +31,7 @@ module Admin
                 pp "spec info ......"
                 pp row[20]
                 if row[4].nil?
-                  render :text=>"Line: #{i}"
+                  render :text=>"商品导入表为空或者格式错误。Line: #{i}"
                   return
                 else
                   bn = row[4].strip

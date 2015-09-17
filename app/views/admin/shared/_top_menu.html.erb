@@ -7,12 +7,7 @@
           <span class="icon-bar"></span>
         </a> -->
         <a class="brand" href="#">
-          <%if request.domain=="trade"%>
-          TRADE-V
-          <%else%>
-          卓展数据
-          <%end%>
-          管理系统
+          TRADE-V  后台管理系统
         </a>
         <%if admin_signed_in?%>
         <div class="nav-collapse collapse">
@@ -226,26 +221,26 @@
               <a href="#">微店管理</a>
               <ul class="dropdown-menu " aria-labelledby="dropdownMenu">
                 <li>
-                  <%=link_to "微店信息",'/admin/weshop/edit' if current_admin.has_right_of("promotions","index")%>
-                  <%=link_to "关注用户",'/admin/wechat/followers' if current_admin.has_right_of("promotions","index")%>
-                  <%=link_to "用户分组",'/admin/wechat/groups' if current_admin.has_right_of("promotions","index")%>
-                  <%=link_to "微信菜单",'/admin/wechat/menu' if current_admin.has_right_of("promotions","index")%>
-                  <%=link_to "微信群发", '/admin/wechat/batch_sending' if current_admin.has_right_of("promotions","index")%>
-                  <%=link_to "平台佣金", '/commissions/platform' if current_admin.has_right_of("promotions","index")%>
-                  <%=link_to "推广佣金", '/commissions' if current_admin.has_right_of("promotions","index")%>
+                  <%=link_to "微店信息",'/admin/weshop/edit' if current_admin.has_right_of("vshops","index")%>
+                  <%=link_to "关注用户",'/admin/wechat/followers' if current_admin.has_right_of("vshops","index")%>
+                  <%=link_to "用户分组",'/admin/wechat/groups' if current_admin.has_right_of("vshops","index")%>
+                  <%=link_to "微信菜单",'/admin/wechat/menu' if current_admin.has_right_of("vshops","index")%>
+                  <%=link_to "微信群发", '/admin/wechat/batch_sending' if current_admin.has_right_of("vshops","index")%>
+                  <%=link_to "平台佣金", '/commissions/platform' if current_admin.has_right_of("vshops","index")%>
+                  <%=link_to "推广佣金", '/commissions' if current_admin.has_right_of("vshops","index")%>
                 </li>
               </ul>
             </li>
-            <li class="<%='active' if controller_name=='trace'%>">
+            <li class="<%='active' if controller_name=='tracks'%>">
               <a href="#">行为跟踪</a>
               <ul class="dropdown-menu " aria-labelledby="dropdownMenu">
                 <li>
-                  <%=link_to "微信推荐访问",admin_tracks_path if current_admin.has_right_of("promotions","index")%>
-                  <%=link_to "站内追踪",'/admin/tracks/pages' if current_admin.has_right_of("promotions","index")%>
+                  <%=link_to "微信推荐访问",admin_tracks_path if current_admin.has_right_of("tracks","index")%>
+                  <%=link_to "站内追踪",'/admin/tracks/pages' if current_admin.has_right_of("tracks","index")%>
                 </li>
               </ul>
             </li>
-            <li class="<%='active' if controller_name=='cart'%>">
+            <li class="<%='active' if controller_name=='carts'%>">
               <a href="#">用户购物车</a>
               <ul class="dropdown-menu " aria-labelledby="dropdownMenu">
                 <li>
@@ -254,11 +249,11 @@
                 </li>
               </ul>
             </li>
-            <li class="<%='active' if controller_name=='shop'%>">
+            <li class="<%='active' if controller_name=='shops'%>">
               <a href="#">店铺管理</a>
               <ul class="dropdown-menu " aria-labelledby="dropdownMenu">
                 <li>
-                  <%=link_to "店铺查看", admin_shops_path if current_admin.has_right_of("promotions","index")%>
+                  <%=link_to "店铺查看", admin_shops_path if current_admin.has_right_of("shops","index")%>
 
                 </li>
               </ul>
@@ -267,12 +262,21 @@
               <a href="#">团购</a>
               <ul class="dropdown-menu " aria-labelledby="dropdownMenu">
                 <li>
-                  <%=link_to "团购设置", admin_tuans_path if current_admin.has_right_of("promotions","index")%>
+                  <%=link_to "团购设置", admin_tuans_path if current_admin.has_right_of("tuans","index")%>
 
                 </li>
               </ul>
             </li>
 
+            <li class="<%='active' if controller_name=='express_rules'%>">
+              <a href="#">物流规则</a>
+              <ul class="dropdown-menu " aria-labelledby="dropdownMenu">
+                <li>
+                  <%=link_to "物流规则", admin_express_rules_path if current_admin.has_right_of("express_rules","index")%>
+
+                </li>
+              </ul>
+            </li>
 
           </ul>
         </div><!--/.nav-collapse -->

@@ -2,10 +2,6 @@
 class Admin::ExpressRulesController < Admin::BaseController
 
 
-  def show
-
-  end
-
   def index
      @express_rules = Ecstore::ExpressRule.paginate(:page => params[:page], :per_page => 20).order("id DESC")
 
@@ -13,32 +9,47 @@ class Admin::ExpressRulesController < Admin::BaseController
 
   def edit
     @express_rule = Ecstore::ExpressRule.find(params[:id])
+    @action_url =  admin_express_rule_path(@express_rule)
+    @method = :put
   end
 
  
-  def create
-      @express_rule = Ecstore::ExpressRule.new
-      @goodcat.cat_name = params[:express_rule][:cat_name]
-      @goodcat.type_id = params[:express_rule][:type]
-      @goodcat.parent_id =params[:express_rule][:cat]
-      path = Ecstore::ExpressRule.find(params[:express_rule][:cat]).cat_path
-      @goodcat.cat_path = path + params[:express_rule][:cat] + ","
+  def new
+    @express_rule = Ecstore::ExpressRule.new
+    @action_url =  admin_express_rules_path
+    @method = :post
+  end
 
-      if @goodcat.save
-        redirect_to edit_admin_express_rule_url(@express_rule)
-      else
-        render "new"
-      end
+
+  def create
+
+    @express_rule = Ecstore::ExpressRule.new params[:express_rule]
+    if @express_rule.save
+      redirect_to admin_express_rules_url
+    else
+      @action_url =  admin_express_rules_path
+      @method = :post
+      render :new
+    end
   end
 
   def update
     @express_rule = Ecstore::ExpressRule.find(params[:id])
-    if @express_rule.update_attributes(params[:ecstore_express_rule])
-      redirect_to edit_admin_express_rule_url(@express_rule)
+    if @express_rule.update_attributes(params[:express_rule])
+      redirect_to admin_express_rules_url
     else
-      render action: "edit"
+      @action_url =  admin_express_rule_path(@express_rule)
+      @method = :put
+      render :edit
     end
   end
+
+  def destroy
+    @brand  = Ecstore::Footer.find(params[:id])
+    @brand.destroy
+    redirect_to admin_brand_adms_url
+  end
+
 
   def destroy
     @express_rule = Ecstore::ExpressRule.find(params[:id])

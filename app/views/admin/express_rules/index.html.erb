@@ -6,9 +6,10 @@
 		<tr>
 			<th>ID</th>
 			<th>规则名称</th>
+			<th>默认首重</th>
+			<th>默认续重</th>
 			<th>地区</th>
 			<th>首重价</th>
-			<th>首重kg</th>
 			<th>续重价</th>
 			<th>操作</th>
 		</tr>
@@ -18,9 +19,10 @@
 			<tr>
 				<td><%=express.id%></td>
 				<td><%=express.title%></td>
+				<td><%=express.default_first_price%></td>
+				<td><%=express.default_each_add_price%></td>
 				<td><%=express.areas%></td>
 				<td><%=express.first_price%></td>
-				<td><%=express.first_weight%></td>
 				<td><%=express.each_add_price%></td>
 				<td>
 					<%=link_to '编辑', edit_admin_express_rule_path(express) %>

@@ -3,7 +3,7 @@ class Admin::SuppliersController < ApplicationController
   layout 'admin'
 
   def index
-    @suppliers = Ecstore::Supplier.paginate(:page => params[:page], :per_page => 20).order("status DESC,created_at DESC")
+    @suppliers = Ecstore::Supplier.paginate(:page => params[:page], :per_page => 20).order("status DESC,updated_at DESC")
   end
 
 

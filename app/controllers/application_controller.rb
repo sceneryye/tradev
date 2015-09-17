@@ -54,9 +54,9 @@ class ApplicationController < ActionController::Base
       if signed_in?
 
         if (shop_id.nil?)
-          @line_items = Ecstore::Cart.where(:member_id=>current_account.account_id,:shop_id=>nil).order("supplier_id")
+          @line_items = Ecstore::Cart.where(:member_id=>current_account.account_id,:shop_id=>nil).order("supplier_id,goods_supplier")
         else
-          @line_items = Ecstore::Cart.where(:member_id=>current_account.account_id,:shop_id=>shop_id)
+          @line_items = Ecstore::Cart.where(:member_id=>current_account.account_id,:shop_id=>shop_id).order("goods_supplier")
         end
       else
         member_ident = @m_id

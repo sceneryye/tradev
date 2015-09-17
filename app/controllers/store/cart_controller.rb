@@ -98,7 +98,7 @@ class Store::CartController < ApplicationController
     end
 
 
-#return render :text=>@products.product_id
+    #return render :text=>@products.product_id
 		if signed_in?
 			member_id = @user.member_id
 			member_ident = Digest::MD5.hexdigest(@user.member_id.to_s)
@@ -111,6 +111,7 @@ class Store::CartController < ApplicationController
 									  :member_ident=>member_ident).first_or_initialize do |cart|
 			cart.obj_type = "goods"
 			cart.quantity = quantity
+      cart.goods_supplier = @good.supplier_id
 			cart.time = Time.now.to_i
 			cart.member_id = member_id
       cart.supplier_id=supplier_id
