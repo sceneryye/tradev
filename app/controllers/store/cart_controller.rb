@@ -30,7 +30,7 @@ class Store::CartController < ApplicationController
     @goods_supplier = 0
     @bg_color = ["#cde6f3","#e5fdff"]
     @i = 0
-    if  @user        
+    if  @user
         @supplier = Ecstore::Supplier.find(supplier_id)
          render :layout=>@supplier.layout
     else
@@ -40,11 +40,11 @@ class Store::CartController < ApplicationController
 
   end
 
-	
+
 	def add
 
 		# parse params
-    
+
     supplier_id=params[:supplier_id]
 
     if params[:supplier_id] =="98"
@@ -138,14 +138,13 @@ class Store::CartController < ApplicationController
 		# end
 
 		#calculate cart_total and cart_total_quantity
-   
-		find_cart!
 
+		find_cart!
     #定制低头神器
     # if @cart.obj_ident.split('_')[1]=='26351'
     #  return redirect_to "/order_attachments/new?obj_ident=#{@cart.obj_ident}"
     # end
-    
+
     if params[:zhuanghuo] ||params[:xiehuo]
       session[:zhuanghuo] =params[:zhuanghuo]
       session[:xiehuo] =params[:xiehuo]

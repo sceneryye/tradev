@@ -4,8 +4,10 @@ console.log(document.frames("iframeCart"));
 // iframeCart.location.reload();
 <%if  @mall=="mall"%>
     $(".J-shoping-num").text(<%=@line_items.count%>)
+    alert('ss');
 
 <%else%>
+alert('what is wrong?');
 $("#iframe_cart").attr("src",$("#iframe_cart").attr("src"));
 
 var _pDoc =  window.parent.document;

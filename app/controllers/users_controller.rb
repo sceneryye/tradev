@@ -14,7 +14,7 @@ class UsersController < ApplicationController
   def create
     supplier_id =78
 
-    if params[:supplier_id].length>0
+    if params[:supplier_id].present?
       supplier_id = params[:supplier_id]
     end
 
