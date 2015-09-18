@@ -767,7 +767,7 @@ window._navfoot = {};
         </div>
         <div class="wei_tag_box" id="divThemeTabList">
 	    <%@categories.each  do |category|%>        
-	    <a href="javascript:;" dindex="99<%=category.cat_id%>" ptag="37773.1.<%=category.cat_id%>" class="cur">
+	    <a href="/mobile/<%=category.cat_id%>/category_goods" dindex="99<%=category.cat_id%>" ptag="37773.1.<%=category.cat_id%>" class="cur">
 	    	<span><%=category.cat_name%></span>
 	    </a>	    
 	    <%end%>
