@@ -1,6 +1,6 @@
 
 
-<hr/>
+
 <%=form_for :addr, :url=>@method == :put ? @action_url : member_addrs_path, :remote=>true,:method=>@method||:post,:html=>{ :class=> " form-horizontal" } do |f|%>
 <fieldset>
   <input type="hidden" name="platform" value="<%=params[:platform]%>">
