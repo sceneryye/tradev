@@ -4,7 +4,7 @@
       <%good.pictures(:large).each_with_index do |large, index|%>
         <li>
           <%= link_to large, :class=>"jqzoom#{ index + 1 }" do %>
-            <%=image_tag large,:style=>"width:420x420",:alt=>nil%>
+            <%=image_tag large,:style=>"width:420px",:alt=>nil%>
           <% end %>
         </li>
       <%end%>
@@ -123,8 +123,8 @@ $(document).ready(function(){
               lens:true,
               preloadImages: false,
               alwaysOn:false,
-              zoomWidth: 400,
-              zoomHeight: 592,
+              zoomWidth: 300,
+              zoomHeight: 300,
               preloadText: '正在加载图片...',
               title: false
           });
