@@ -1,19 +1,23 @@
-if($("#main").hasClass("member_addrs")){
-	window.location.href = '/member_addrs?supplier_id=<%=@supplier.id if @supplier%>';
-	return;
+
+
+var addrLine = '<label class="radio active shipping-address-active" id="addr-<%= params[:id] %>">'+
+'<%=radio_button_tag "member_addr", @addr.addr_id,:checked=>true%> '+
+'<span class="addr-line"><%=@addr.addr_line%></span>'+
+'<%=link_to "修改","/member_addrs/params[:id]/edit",:class=>"update-link",:remote=>true%>'+
+'</label>';
+
+
+
+
+
+
+//$(".shipping-address-active").append(addrLine);
+//$(addLine).insertAfter($('.shipping-address-active'));
+if($('.shipping-addr').size() > 0) {
+  $(".new-shipping-address form").remove();
+  $(".shipping-addr:last").after(addrLine);
 }
-
-var addrLine = '<label class="radio active">'+
-					'<%=radio_button_tag "member_addr", @addr.addr_id,:checked=>true%> '+
-					'<span class="addr-line"><%=@addr.addr_line%></span>'+
-					'<%=link_to "修改",edit_member_addr_path(@addr),:class=>"update-link",:remote=>true%>'+
-				'</label>';
-
-
-if($("#member_addr_new").length > 0){
-	$("#member_addr_new").parent("label.radio").before(addrLine);//.removeClass("active");
-}else{
-	$(".addr-list").append(addrLine);
+else {
+  $(".addr form").remove();
+  $('.addr-lists').prepend(addrLine);
 }
-$("#member_addr").val('<%=@addr.addr_id%>');
-$("#addr_form").addClass("hide");

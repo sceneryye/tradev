@@ -1,22 +1,22 @@
 <%if @line_items.size > 0%>
 <div class="section addr">
 	<h5>
-		收货地址 
+		收货地址
 		<span class="required">*</span>
 	</h5>
-	<div class="checkcon clearfix">
+	<div class="checkcon clearfix addr-lists">
 		<%if @addrs.size>0%>
 		<%@addrs.each_with_index do |addr,index|%>
 		<%if @def_addr == addr%>
-		<label class="radio active shipping-address-active">
+		<label class="radio active shipping-address-active shipping-addr" id="addr-<%= addr.id %>">
 			<%=radio_button_tag "member_addr", addr.addr_id,:checked=>true%>
 			<span class="addr-line"><%=addr.addr_line%></span>
 			<%=link_to "修改",edit_member_addr_path(addr),:remote=>true,:class=>"update-link"%>
 		</label>
 
 		<%else%>
-		<label class="radio shipping-address">
-			<%=radio_button_tag "member_addr", addr.addr_id%> 
+		<label class="radio shipping-address shipping-addr" id="addr-<%= addr.id %>">
+			<%=radio_button_tag "member_addr", addr.addr_id%>
 			<span class="addr-line"><%=addr.addr_line%></span>
 			<%=link_to "修改",edit_member_addr_path(addr), :remote=>true, :class=>"update-link"%>
 		</label>
@@ -24,9 +24,9 @@
 		<%end%>
 
 
-		<label class="radio">
-			<%=radio_button_tag "member_addr", "new"%>
-			<span>使用新地址+</span>
+		<label class="radio new-shipping-address">
+
+			<%=link_to "新增地址＋",new_member_addr_path, :remote=>true, :class=>"new-link"%>
 		</label>
 		<%end%>
 
@@ -181,7 +181,7 @@
 					<span class="text">商品总额：</span>
 					<span class="rmb-symbol">￥</span>
 					<span class="money" data-amount="<%=@cart_total%>" id="cart_amount">
-						<%=@cart_total%> 
+						<%=@cart_total%>
 					</span>
 				</div> -->
 				<div class="item">
@@ -208,7 +208,7 @@
 						-0
 					</span>
 				</div>
-				
+
 				<div class="item">
 					<span class="text">订单总金额：</span>
 					<span class="rmb-symbol">￥</span>
@@ -217,7 +217,7 @@
 
 			</div>
 			<div class="total" id="order_bill">
-				
+
 				<%unless @user.advance == 0%>
 				<div class="item">
 					<span class="text">预付金额：</span>
@@ -227,7 +227,7 @@
 					</span>
 				</div>
 				<%end%>
-				
+
 				<div class="item bcom" for="#order_payment_bcom" style="display:none">
 					<span class="text">支付优惠(交通银行)：</span>
 					<span class="rmb-symbol">￥</span>

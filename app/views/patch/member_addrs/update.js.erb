@@ -1,4 +1,4 @@
 
 
 $(".shipping-address-active form").remove();
-$(".shipping-address-active .addr-line").text('<%=@addr.addr_line%>');
+$("#addr-<%= params[:id] %> .addr-line").text('<%=@addr.addr_line%>');

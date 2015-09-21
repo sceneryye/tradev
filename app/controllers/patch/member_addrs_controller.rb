@@ -68,7 +68,12 @@ end
 
     return_url= params[:return_url]
 
-    @addr.save
+    if @addr.save
+      respond_to do |format|
+        format.js
+        format.html
+      end
+    end
 
     if return_url 
       @ids=@addr.addr_id
