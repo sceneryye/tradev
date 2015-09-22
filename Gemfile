@@ -30,7 +30,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 
 end
-  gem 'iconv'
+gem 'iconv'
 gem  'sitemap_generator'
 
 gem 'jquery-rails',  '~> 2.1.4'
@@ -41,6 +41,9 @@ gem 'rmagick','~> 2.13.1'
 gem 'ya2yaml'
 
 gem 'whenever', :require=>false
+
+
+gem 'rack-mini-profiler' 
 
 #gem 'rjb'
 
