@@ -1,261 +1,262 @@
 <!DOCTYPE html>
 <html lang="zh-CN" class="detail_standard"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
- <script>
+<script>
 
     <% return_url={:return_url => request.url.sub('http://trade','').force_encoding('UTF-8')}.to_query%>
     function isWeixinBrowser(){
         var ua = navigator.userAgent.toLowerCase();
       //  alert(ua);
-        return (/micromessenger/.test(ua)) ? true : false ;
-    }   
+      return (/micromessenger/.test(ua)) ? true : false ;
+  }
 
-    var is_weixin_browser = true; isWeixinBrowser();
+  var is_weixin_browser = true; isWeixinBrowser();
 
-    var auto_login_url= '/mlogin';
-    var supplier_id='78';
+  var auto_login_url= '/mlogin';
+  var supplier_id='78';
 
-    if(is_weixin_browser){
-      
+  if(is_weixin_browser){
+
       auto_login_url= '/auto_login?id=78&<%=return_url%>&platform=mobile';
-    }
-    
-    <%if @user && @user.account.supplier_id%>
-      if ('<%=@user.account.supplier_id %>'!=supplier_id){
-        location.href = auto_login_url;
-      }
-    <%elsif @no_need_login.nil?%>
-      location.href = auto_login_url;
-    <%end%>   
-  </script>
+  }
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>贸威优品商城-商品详情</title>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="format-detection" content="telephone=no">
-    <meta http-equiv="x-dns-prefetch-control" content="on">
-    <link rel="dns-prefetch" href="http://wq.360buyimg.com/">
+  <%if @user && @user.account.supplier_id%>
+  if ('<%=@user.account.supplier_id %>'!=supplier_id){
+    location.href = auto_login_url;
+}
+<%elsif @no_need_login.nil?%>
+location.href = auto_login_url;
+<%end%>
+</script>
 
-    <link rel="stylesheet" href="/new_mobile/css/base.s.min.css">
-    <link rel="stylesheet" href="/new_mobile/css/mod_nav_head.s.min.css">
-    <link rel="stylesheet" href="/new_mobile/css/mod_aside.s.min.css">
-    <link rel="stylesheet" href="/new_mobile/css/mod_bar_download.s.min.css">
-    <link rel="stylesheet" href="/new_mobile/css/area_select.s.min.css">
-    <link rel="stylesheet" href="/new_mobile/css/detail.s.min.css?t=1435217816">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>贸威优品商城-商品详情</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="x-dns-prefetch-control" content="on">
+<link rel="dns-prefetch" href="http://wq.360buyimg.com/">
+
+<link rel="stylesheet" href="/new_mobile/css/base.s.min.css">
+<link rel="stylesheet" href="/new_mobile/css/mod_nav_head.s.min.css">
+<link rel="stylesheet" href="/new_mobile/css/mod_aside.s.min.css">
+<link rel="stylesheet" href="/new_mobile/css/mod_bar_download.s.min.css">
+<link rel="stylesheet" href="/new_mobile/css/area_select.s.min.css">
+<link rel="stylesheet" href="/new_mobile/css/detail.s.min.css?t=1435217816">
 
 </head>
 <body>
-<div id="part_main">
-<div class="wx_bar wx_bar_in" style="display:none" id="topBack">
-  <div class="wx_bar_back"><a id="backUrl" href="/mobile">贸威购物</a></div>
-  <div class="wx_bar_tit"></div>
-</div>
-<script type="text/javascript">
-function $id(id){
-    return document.getElementById(id) || document.createElement('span');
-}
-var _iswx = navigator.userAgent.toLowerCase().indexOf('micromessenger') != -1;
-function showTopBack(isshow){
-    if(isshow || (history.length<=1 && location.href.indexOf('hidetitle')==-1)) {
-        if(_iswx){
-        	$id('topBack').style.display = '';
-            $id('backUrl').href='/mobile';
-        };
-    };
-};
-showTopBack(false);
-</script>
-<div class="mod_slider" id="loopImgDiv">
-    <div class="inner">
-     <%for value in 0..(@goods.big_pic.split(",").length-1)%>
-        <ul class="pic_list" id="loopImgUl" style="">
-        	<li>
-        		<img src="<%=@goods.big_pic.split(",")[value]%>">
-        	</li>
-        </ul>
-	<%end%>
-    </div>
-    <div class="bar_wrap">
+    <div class="container">
+        <div id="part_main">
+            <div class="wx_bar wx_bar_in" style="display:none" id="topBack">
+              <div class="wx_bar_back"><a id="backUrl" href="/mobile">贸威购物</a></div>
+              <div class="wx_bar_tit"></div>
+          </div>
+          <script type="text/javascript">
+            function $id(id){
+                return document.getElementById(id) || document.createElement('span');
+            }
+            var _iswx = navigator.userAgent.toLowerCase().indexOf('micromessenger') != -1;
+            function showTopBack(isshow){
+                if(isshow || (history.length<=1 && location.href.indexOf('hidetitle')==-1)) {
+                    if(_iswx){
+                       $id('topBack').style.display = '';
+                       $id('backUrl').href='/mobile';
+                   };
+               };
+           };
+           showTopBack(false);
+       </script>
+       <div class="mod_slider" id="loopImgDiv">
+        <div class="inner">
+           <%for value in 0..(@goods.big_pic.split(",").length-1)%>
+           <ul class="pic_list" id="loopImgUl" style="">
+               <li>
+                  <img src="<%=@goods.big_pic.split(",")[value]%>">
+              </li>
+          </ul>
+          <%end%>
+      </div>
+      <div class="bar_wrap">
         <ul class="bar" id="loopImgBar"><li></ul>
     </div>
 </div>
 <script>
-(function(){
-    var wli = $id('loopImgUl').getElementsByTagName('li'), wb = document.body.clientWidth;
-    $id('loopImgUl').style.left=(wb-wli[0].offsetWidth)/2 + 'px';
-})();
+    (function(){
+        var wli = $id('loopImgUl').getElementsByTagName('li'), wb = document.body.clientWidth;
+        $id('loopImgUl').style.left=(wb-wli[0].offsetWidth)/2 + 'px';
+    })();
 </script>
 <%=form_for :product,:url=>add_cart_index_path do |f|%>
-    <%=f.hidden_field :goods_id,:value=>@goods.goods_id%>
-    <%=f.hidden_field :type_id,:value=>@goods.type_id%>
-    <input type="hidden" name="platform" value="new_mobile">
+<%=f.hidden_field :goods_id,:value=>@goods.goods_id%>
+<%=f.hidden_field :type_id,:value=>@goods.type_id%>
+<input type="hidden" name="platform" value="new_mobile">
 <div class="buy_area">
     <div class="fn_wrap">
         <h1 class="fn" id="itemName"><%=@goods.name%></h1>
         <div class="desc" id="itemDesc">
 
-      <%=raw @goods.desc.gsub(/width/,'widthh').gsub(/height/,'heightt/') if @goods.desc%>
+          <%=raw @goods.desc.gsub(/width/,'widthh').gsub(/height/,'heightt/') if @goods.desc%>
       </div>
 
-        <div class="book_desc" id="actTitleDesc" style="display:none"></div>
-    </div>
-        
-    <div class="price_wrap" id="priceBlock">
-        <span class="tit" id="priceTitle">优惠价：</span>
-        <span class="price" id="priceSale"><%=@goods.price%></span>
- <span class="tit" id="priceTitle">市场价：</span>
-<span class=""  style="text-decoration:line-through"><%=@goods.mktprice%></span>
-        <span class="group" id="priceGroupStyle" style="display: none"></span>
-        <span class="tip_red" id="priceDis" style="display: none"></span>
-        <span class="price_old" id="priceMarket" style="display: none"></span>
-        <span class="col_right" id="headEval" ptag="7001.1.26">
-            <span class="sale_num">评价：<b id="evalNo1"></b>条</span>
-        </span>
-    </div>
-    <div class="price_wrap" id="priceExp" style="display: none"></div>
-    <div class="price_wrap" id="ysPriceBlock" style="display:none;">
-        <span class="tit">预售价：</span><span class="price" id="ysPrice1"></span>
-        <span class="pre_buy">(定金：<span class="price" id="ysPrice2"></span>)</span>
-        <span class="col_right">
-            <a href="http://mm.wanggou.com/item/illustrate.shtml">预售规则</a>
-        </span>
-        <div class="tip">先付定金，即可获得该预售商品的购买资格</div>
-    </div>
-    <!--微信手Q专享-->
-    <div class="de_fn hide" id="priceWQDiscount">
-        <div class="price_wrap">
-            <span class="tit_tip hide"><i class="icon_tit_phone"></i>微信专享</span><span class="tit_tip hide"><i class="icon_tit_phone"></i>手Q专享 </span> <span class="desc de_c_red"><!--比电脑买省 ¥1246--></span>
-        </div>
-    </div>
-    <div class="detail_group_nav" id="ysStepShow" style="display:none;">
-        <span class="step"></span>
-        <span class="step"></span>
-        <span class="step"></span>
-    </div>
-    <!--优惠券-->
-    <div class="detail_row detail_getquan" id="couponListDiv" style="display: none;">
-        <i class="icon_point icon_point_drop" id="couponRow"></i>
-        <div class="de_row">
-            <div class="tit">领券：</div>
-            <div class="de_span">
-                <div class="de_lot_list" id="couponList" ptag="7001.1.43">
+      <div class="book_desc" id="actTitleDesc" style="display:none"></div>
+  </div>
 
-                </div>
-                <!-- /de_lot_list -->
+  <div class="price_wrap" id="priceBlock">
+    <span class="tit" id="priceTitle">优惠价：</span>
+    <span class="price" id="priceSale"><%=@goods.price%></span>
+    <span class="tit" id="priceTitle">市场价：</span>
+    <span class=""  style="text-decoration:line-through"><%=@goods.mktprice%></span>
+    <span class="group" id="priceGroupStyle" style="display: none"></span>
+    <span class="tip_red" id="priceDis" style="display: none"></span>
+    <span class="price_old" id="priceMarket" style="display: none"></span>
+    <span class="col_right" id="headEval" ptag="7001.1.26">
+        <span class="sale_num">评价：<b id="evalNo1"></b>条</span>
+    </span>
+</div>
+<div class="price_wrap" id="priceExp" style="display: none"></div>
+<div class="price_wrap" id="ysPriceBlock" style="display:none;">
+    <span class="tit">预售价：</span><span class="price" id="ysPrice1"></span>
+    <span class="pre_buy">(定金：<span class="price" id="ysPrice2"></span>)</span>
+    <span class="col_right">
+        <a href="http://mm.wanggou.com/item/illustrate.shtml">预售规则</a>
+    </span>
+    <div class="tip">先付定金，即可获得该预售商品的购买资格</div>
+</div>
+<!--微信手Q专享-->
+<div class="de_fn hide" id="priceWQDiscount">
+    <div class="price_wrap">
+        <span class="tit_tip hide"><i class="icon_tit_phone"></i>微信专享</span><span class="tit_tip hide"><i class="icon_tit_phone"></i>手Q专享 </span> <span class="desc de_c_red"><!--比电脑买省 ¥1246--></span>
+    </div>
+</div>
+<div class="detail_group_nav" id="ysStepShow" style="display:none;">
+    <span class="step"></span>
+    <span class="step"></span>
+    <span class="step"></span>
+</div>
+<!--优惠券-->
+<div class="detail_row detail_getquan" id="couponListDiv" style="display: none;">
+    <i class="icon_point icon_point_drop" id="couponRow"></i>
+    <div class="de_row">
+        <div class="tit">领券：</div>
+        <div class="de_span">
+            <div class="de_lot_list" id="couponList" ptag="7001.1.43">
+
             </div>
+            <!-- /de_lot_list -->
         </div>
     </div>
-    <script type="text/html" id="couponTpl">
-        <div class="item" key="{#key#}" roleId="{#roleId#}" id="couponItem_{#roleId#}">
-            <div class="status">领取</div>
-            <div class="name"><span class="price">&yen;{#discount#}</span></div>
-            <div class="desc">满{#quota#}减{#discount#}</div>
-        </div>
-    </script>
-    <!--送货地址-->
-    <div class="detail_promote detail_sendto" style="display:none">
-        <div class="tit">送至：</div>
-        <div class="promote_tag" id="addrArea" ptag="7001.1.4">
-            <div class="addr"><span id="addrName">北京</span><span class="yh"><span class="tag" id="postNotice1"></span></span><span class="postage" id="postPrice"></span></div>
-            <div class="extra"><span id="postNotice2"></span></div>
-            <div class="extra"><span id="postNotice3"></span><span id="postNotice4"></span></div>
-        </div>
-        <i class="icon_promote" id="postIco"></i>
+</div>
+<script type="text/html" id="couponTpl">
+    <div class="item" key="{#key#}" roleId="{#roleId#}" id="couponItem_{#roleId#}">
+        <div class="status">领取</div>
+        <div class="name"><span class="price">&yen;{#discount#}</span></div>
+        <div class="desc">满{#quota#}减{#discount#}</div>
     </div>
-    <!-- 促销 -->
-    <div class="detail_promote detail_promote_tag" style="display: none" id="promoteDiv" hashval="promotions">
-        <div class="tit">促销：</div>
-        <!-- 只有一个tag时增加 promote_tag_one -->
-        <div class="promote_tag" id="promote"></div>
-        <i class="icon_promote"></i>
+</script>
+<!--送货地址-->
+<div class="detail_promote detail_sendto" style="display:none">
+    <div class="tit">送至：</div>
+    <div class="promote_tag" id="addrArea" ptag="7001.1.4">
+        <div class="addr"><span id="addrName">北京</span><span class="yh"><span class="tag" id="postNotice1"></span></span><span class="postage" id="postPrice"></span></div>
+        <div class="extra"><span id="postNotice2"></span></div>
+        <div class="extra"><span id="postNotice3"></span><span id="postNotice4"></span></div>
     </div>
-    <div class="sku_container sku_container_on" id="skuCont">
-        <div class="sku_wrap">            
-            <div id="propertyDiv">
-            	<%@goods.specs.order("spec_id asc").each do |spec|%>
-			        <span class="spec-name"><%=spec.spec_name%> : </span>
-			        <%=hidden_field_tag "product[specs][]"%>
-			        <ul class="spec-values clearfix">
-			            <%@goods.spec_values.where(:spec_id=>spec.spec_id).uniq.order("p_order asc").each do |spec_value|%>
-			                <li>
-			                  <%=link_to spec_value.spec_value, "#", :class=>"spec-value text",:data=>{:value=>spec_value.spec_value_id},:title=>spec_value.spec_value%>
-			                </li>
-			             <%end%>
-			         </ul>
-			    <%end%>            	
-            </div>
-<script language="javascript"> 
+    <i class="icon_promote" id="postIco"></i>
+</div>
+<!-- 促销 -->
+<div class="detail_promote detail_promote_tag" style="display: none" id="promoteDiv" hashval="promotions">
+    <div class="tit">促销：</div>
+    <!-- 只有一个tag时增加 promote_tag_one -->
+    <div class="promote_tag" id="promote"></div>
+    <i class="icon_promote"></i>
+</div>
+<div class="sku_container sku_container_on" id="skuCont">
+    <div class="sku_wrap">
+        <div id="propertyDiv">
+           <%@goods.specs.order("spec_id asc").each do |spec|%>
+           <span class="spec-name"><%=spec.spec_name%> : </span>
+           <%=hidden_field_tag "product[specs][]"%>
+           <ul class="spec-values clearfix">
+             <%@goods.spec_values.where(:spec_id=>spec.spec_id).uniq.order("p_order asc").each do |spec_value|%>
+             <li>
+               <%=link_to spec_value.spec_value, "#", :class=>"spec-value text",:data=>{:value=>spec_value.spec_value_id},:title=>spec_value.spec_value%>
+           </li>
+           <%end%>
+       </ul>
+       <%end%>
+   </div>
+   <script language="javascript">
     function add() {
-            var obj = document.getElementById("buyNum");
+        var obj = document.getElementById("buyNum");
 
-            obj.value = parseInt(obj.value) + 1;
+        obj.value = parseInt(obj.value) + 1;
+    }
+
+    function remov() {
+        var obj = document.getElementById("buyNum");
+
+        if(obj.value <=1) {
+            return;
         }
 
-        function remov() {
-            var obj = document.getElementById("buyNum");
+        obj.value = parseInt(obj.value) - 1;
+    }
 
-            if(obj.value <=1) {
-                return;
-            }
+</script>
+<div class="sku sku_num" id="skuNum">
+    <h3>数量</h3>
+    <div class="num_wrap">
+        <span class="minus minus_disabled" id="minus" ptag="7001.1.11" onclick="remov()"></span>
+        <input class="num" id="buyNum" type="tel" value="1" name="product[quantity]" >
+        <span class="plus" id="plus" ptag="7001.1.11" onclick="add()"></span>
+    </div>
+</div>
+</div>
+</div>
+<div class="sku_tip" id="skuNotice" style="display:none">
+    <span id="skuTitle2"></span>
+</div>
 
-            obj.value = parseInt(obj.value) - 1;
-        }
+<!-- S 延保 -->
+<div class="detail_row detail_insure" id="ybArea" style="display:none;" hashval="yanbao">
+    <h3 class="tit" id="ybArea1">延保服务</h3>
+    <i class="icon_promote" id="ybArea2"></i>
+</div>
+<!-- E 延保 -->
+<!-- S 延保列表 -->
+<div class="detail_ins_list" id="ybList">
+</div>
+<!-- E 延保列表 -->
+<div class="detail_gap"></div>
+<!-- S 店铺信息 -->
+<div class="detail_shop_box" id="shopInfoP">
+    <div class="detail_shop_info">
+        <i class="icon_promote" id="shopLinks" style="display:none;" ptag="7001.1.21"></i>
+        <div class="cover">
+            <img id="shopLogo" src="/new_mobile/img/index_114009134.jpg">
+        </div>
+        <div class="info" id="shopInfo" ptag="7001.1.25"></div>
+        <div class="action" id="shopLinks2" style="display:none;">
+           <a href="#" class="btn_shop">进入店铺</a>
+       </div>
+   </div>
+</div>
+<!-- E 店铺信息 -->
 
-    </script>
-            <div class="sku sku_num" id="skuNum">
-                <h3>数量</h3>
-                <div class="num_wrap">
-                    <span class="minus minus_disabled" id="minus" ptag="7001.1.11" onclick="remov()"></span>
-                    <input class="num" id="buyNum" type="tel" value="1" name="product[quantity]" >
-                    <span class="plus" id="plus" ptag="7001.1.11" onclick="add()"></span>
-                </div>
-            </div>
+<div class="service_wrap service_wrap_none" id="serviveArea">
+    <div class="service_tit">
+        <i class="icon_promote"></i>
+        <strong>本商品提供以下服务</strong>
+    </div>
+    <ul class="service_list" id="serviceInfo"></ul>
+    <div class="ft" id="outService" style="display:none">
+        <div class="tip" id="outServiceNote">
+            <strong>温馨提示：</strong>
         </div>
     </div>
-    <div class="sku_tip" id="skuNotice" style="display:none">
-        <span id="skuTitle2"></span>
-    </div>
-
-    <!-- S 延保 -->
-    <div class="detail_row detail_insure" id="ybArea" style="display:none;" hashval="yanbao">
-        <h3 class="tit" id="ybArea1">延保服务</h3>
-        <i class="icon_promote" id="ybArea2"></i>
-    </div>
-    <!-- E 延保 -->
-    <!-- S 延保列表 -->
-    <div class="detail_ins_list" id="ybList">
-    </div>
-    <!-- E 延保列表 -->
-    <div class="detail_gap"></div>
-    <!-- S 店铺信息 -->
-    <div class="detail_shop_box" id="shopInfoP">
-        <div class="detail_shop_info">
-            <i class="icon_promote" id="shopLinks" style="display:none;" ptag="7001.1.21"></i>
-            <div class="cover">
-                <img id="shopLogo" src="/new_mobile/img/index_114009134.jpg">
-            </div>
-            <div class="info" id="shopInfo" ptag="7001.1.25"></div>
-	        <div class="action" id="shopLinks2" style="display:none;">
-	            <a href="#" class="btn_shop">进入店铺</a>
-	        </div>
-        </div>
-    </div>
-    <!-- E 店铺信息 -->
-
-    <div class="service_wrap service_wrap_none" id="serviveArea">
-        <div class="service_tit">
-            <i class="icon_promote"></i>
-            <strong>本商品提供以下服务</strong>
-        </div>
-        <ul class="service_list" id="serviceInfo"></ul>
-        <div class="ft" id="outService" style="display:none">
-            <div class="tip" id="outServiceNote">
-                <strong>温馨提示：</strong>
-            </div>
-        </div>
-    </div>
+</div>
 </div>
 
 <div class="mod_tab_gap"></div>
@@ -266,14 +267,14 @@ showTopBack(false);
         <i class="icon_promote"></i>
     </div>
     <div class="detail_gap"></div>
-    
+
     <div class="detail_row detail_row_cmt" id="summaryEnter" ptag="7001.1.27" hashval="summary"  style="display:none">
         <h3 class="tit">评价</h3>
         <i class="icon_promote" id="summaryEnterIco"></i>
         <p class="good">好评 <strong id="evalRate"></strong></p>
         <p class="count">共 <span class="num" id="evalNo2"></span> 条评价</p>
     </div>
-    
+
     <div class="detail_cmt"  style="display:none">
         <div class="cmt_tag" id="evalTag"></div>
         <!-- cmt_tag -->
@@ -283,53 +284,53 @@ showTopBack(false);
         </div>
         <!-- list -->
     </div>
-    
+
     <div class="detail_gap"  style="display:none"></div>
-     <%if @recommend_goods.size > 0%>
+    <%if @recommend_goods.size > 0%>
     <div class="detail_cmd" id="guessArea">
-        <div class="hd"><h3 class="tit">猜你喜欢</h3></div>
-        <!-- hd -->
-        <div class="bd">
-        
-            <div class="inner" id="guessItem">
-                
-                 <%@recommend_goods.each do |good|%>
-                <ul class="bar" id="guessItemTab">
-                   
-         
-          <li>
+    <!--<div class="hd"><h3 class="tit">猜你喜欢</h3></div>
+
+    <div class="bd">-->
+
+        <div class="inner" id="guessItem" style="display:none;">
+
+           <%@recommend_goods.each do |good|%>
+           <ul class="bar" id="guessItemTab">
+
+
+              <li>
                 <%=link_to good_path(good.bn,:tag=>@tag&&@tag.tag_name) do %>
-                    <%=image_tag good.rec_image,:alt=>good.name%>
+                <%=image_tag good.rec_image,:alt=>good.name%>
                 <%end%>
-           
-          </li>
 
-                </ul>
-                
-          <%end%>
-            </div>
-            <!-- inner -->
-            <div class="bar_wrap">
-             <%@recommend_goods.each do |good|%>
-                <ul class="bar" id="guessItemTab">
-                   
-         
-          <li>
-                <%=link_to good_path(good.bn,:tag=>@tag&&@tag.tag_name) do %>
-                    <%=image_tag good.rec_image,:alt=>good.name%>
-                <%end%>
-           
-          </li>
+            </li>
 
-                </ul>
+        </ul>
 
-          <%end%>
-            </div>
-
-        </div>
-        <!-- bd -->
+        <%end%>
     </div>
-    <div id="appdlCon"></div>
+    <!-- inner -->
+    <div class="bar_wrap" style="display:none;">
+       <%@recommend_goods.each do |good|%>
+       <ul class="bar" id="guessItemTab">
+
+
+          <li>
+            <%=link_to good_path(good.bn,:tag=>@tag&&@tag.tag_name) do %>
+            <%=image_tag good.rec_image,:alt=>good.name%>
+            <%end%>
+
+        </li>
+
+    </ul>
+
+    <%end%>
+</div>
+
+</div>
+<!-- bd -->
+</div>
+<div id="appdlCon"></div>
 </div>
 <%end%>
 <div id="detailBaseLine" class="mod_tab_gap"></div>
@@ -345,72 +346,72 @@ showTopBack(false);
 </div>
 <!--<script type="text/javascript">
    $(document).ready(function(){
-                $('#commDesc1 img').each(function() {   
-                var maxWidth =600; // 图片最大宽度          
-                var ratio = 0;  // 缩放比例  
-                 var width = $(this).width();    // 图片实际宽度   
-                 var height = $(this).height();  // 图片实际高度  
-                               // 检查图片是否超宽   
-                 if(width > maxWidth){       
-                 ratio = maxWidth / width;   // 计算缩放比例       
-                 $(this).css("width", maxWidth); // 设定实际显示宽度       
-                 height = height * ratio;    // 计算等比例缩放后的高度       
-                  $(this).css("height", height);  // 设定等比例缩放后的高度   
-                  }     // 检查图片是否超宽 
+                $('#commDesc1 img').each(function() {
+                var maxWidth =600; // 图片最大宽度
+                var ratio = 0;  // 缩放比例
+                 var width = $(this).width();    // 图片实际宽度
+                 var height = $(this).height();  // 图片实际高度
+                               // 检查图片是否超宽
+                 if(width > maxWidth){
+                 ratio = maxWidth / width;   // 计算缩放比例
+                 $(this).css("width", maxWidth); // 设定实际显示宽度
+                 height = height * ratio;    // 计算等比例缩放后的高度
+                  $(this).css("height", height);  // 设定等比例缩放后的高度
+                  }     // 检查图片是否超宽
                   });
-            }); 
-</script>-->
-<style>
-#commDesc1 img{
-width:100%
-}
-</style>
-<div class="detail_info_wrap1" id="detail1" style="width:600px" >
-    <div class="detail_list1" id="detailCont1">
-        <!-- 商品介绍 -->
-        <div class="detail_item1 p_desc1" id="detail11" style="position:static;width:100%">
+            });
+        </script>-->
+        <style>
+            #commDesc1 img{
+                width:100%
+            }
+        </style>
+        <div class="detail_info_wrap1" id="detail1" >
+            <div class="detail_list1" id="detailCont1">
+                <!-- 商品介绍 -->
+                <div class="detail_item1 p_desc1" id="detail11" style="position:static;width:100%">
 
-            <div id="commDesc1" class="detail_pc1" style="width:100%" >
-	  <!--<%=raw @goods.intro%>-->
-            <%=raw @goods.intro.gsub(/width/,'widthh').gsub(/height/,'heightt/') if @goods.intro%>
-            </div>
-            <div id="pcItemLink" style="display: none" ptag="7001.1.17">
-                <a class="btn btn_full" href="javascript:;">查看电脑版商品详情</a>
-                <div class="detail_full_tip">（ 查看电脑版商品详情，可能会消耗较多流量 ）</div>
-            </div>
-        </div>
-        <!-- 商品参数 -->
-        <div class="detail_item p_prop" id="detail2">
-        	<div id="package">
-        		<div class="mod_tit_line">
-	                <h3>包装清单</h3>
-	            </div>
-	            <div class="mod_row" id="detPackage"></div>
-        	</div>
-        	<div>
-        		<div class="mod_tit_line">
-	                <h3>商品参数</h3>
-	            </div>
-	            <div id="detParam"></div>
-        	</div>
-        </div>
-        <!-- 评论 -->
-        <div class="detail_item p_cmt" id="detail3">
-        	<div id="detServer"></div>
-        	<div>
-	            <div class="mod_tit_line"><h3>服务承诺</h3></div>
-	            贸威优品商城向您保证所售商品均为正品行货，贸威自营商品开具机打发票或电子发票。凭质保证书及贸威优品商城发票，可享受全国联保服务（奢侈品、钟表除外；奢侈品、钟表由贸威联系保修，享受法定三包售后服务），与您亲临商场选购的商品享受相同的质量保证。贸威优品商城还为您提供具有竞争力的商品价格和<a target="_blank" href="/help/kdexpress.aspx">运费政策</a>，请您放心购买！
-	            <div class="for_separator"></div>
-	            注：因厂家会在没有任何提前通知的情况下更改产品包装、产地或者一些附件，本司不能确保客户收到的货物与商城图片、产地、附件说明完全一致。只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！
-	        </div>
-	        <div>
-	            <div class="mod_tit_line"><h3>权利声明</h3></div>
-	            贸威优品商城上的所有商品信息、客户评价、商品咨询、网友讨论等内容，是贸威优品商城重要的经营资源，未经许可，禁止非法转载使用。
-	            <div class="for_separator"></div>
-                <p><b>注：</b>本站商品信息均来自于厂商，其真实性、准确性和合法性由信息拥有者（厂商）负责。本站不提供任何保证，并不承担任何法律责任。</p>
-	        </div>
-        </div>
-    </div>
+                    <div id="commDesc1" class="detail_pc1 col-xs-12" style="width:100%" >
+                        <!--<%#=raw @goods.intro%>-->
+                        <%=raw @goods.intro.gsub(/width/,'widthh').gsub(/height/,'heightt/') if @goods.intro%>
+                    </div>
+                    <div id="pcItemLink" style="display: none" ptag="7001.1.17">
+                        <a class="btn btn_full" href="javascript:;">查看电脑版商品详情</a>
+                        <div class="detail_full_tip">（ 查看电脑版商品详情，可能会消耗较多流量 ）</div>
+                    </div>
+                </div>
+                <!-- 商品参数 -->
+                <div class="detail_item p_prop" id="detail2">
+                   <div id="package">
+                      <div class="mod_tit_line">
+                       <h3>包装清单</h3>
+                   </div>
+                   <div class="mod_row" id="detPackage"></div>
+               </div>
+               <div>
+                  <div class="mod_tit_line">
+                   <h3>商品参数</h3>
+               </div>
+               <div id="detParam"></div>
+           </div>
+       </div>
+       <!-- 评论 -->
+       <div class="detail_item p_cmt" id="detail3">
+           <div id="detServer"></div>
+           <div>
+               <div class="mod_tit_line"><h3>服务承诺</h3></div>
+               贸威优品商城向您保证所售商品均为正品行货，贸威自营商品开具机打发票或电子发票。凭质保证书及贸威优品商城发票，可享受全国联保服务（奢侈品、钟表除外；奢侈品、钟表由贸威联系保修，享受法定三包售后服务），与您亲临商场选购的商品享受相同的质量保证。贸威优品商城还为您提供具有竞争力的商品价格和<a target="_blank" href="/help/kdexpress.aspx">运费政策</a>，请您放心购买！
+               <div class="for_separator"></div>
+               注：因厂家会在没有任何提前通知的情况下更改产品包装、产地或者一些附件，本司不能确保客户收到的货物与商城图片、产地、附件说明完全一致。只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！
+           </div>
+           <div>
+               <div class="mod_tit_line"><h3>权利声明</h3></div>
+               贸威优品商城上的所有商品信息、客户评价、商品咨询、网友讨论等内容，是贸威优品商城重要的经营资源，未经许可，禁止非法转载使用。
+               <div class="for_separator"></div>
+               <p><b>注：</b>本站商品信息均来自于厂商，其真实性、准确性和合法性由信息拥有者（厂商）负责。本站不提供任何保证，并不承担任何法律责任。</p>
+           </div>
+       </div>
+   </div>
 </div>
 
 <!-- btn_wrap_nocart -->
@@ -419,7 +420,7 @@ width:100%
     <!--<a class="btn_fav" href="javascript:;" id="fav" manualclick="xxx" pppptag="7001.1.23"><i>收藏</i></a>-->
     <div class="btn_col">
         <!--   <a class="btn btn_buy_exp" href="javascript:;" id="buyBtnExp" style="display: none" manualclick="xxx" pppptag="7001.1.8">立即购买</a>-->
-     <a class="btn btn_cart add_to_cart" href="javascript:;" manualclick="xxx" pppptag="7001.1.10" id="add_to_cart">加入购物车</a>
+        <a class="btn btn_cart add_to_cart" href="javascript:;" manualclick="xxx" pppptag="7001.1.10" id="add_to_cart">加入购物车</a>
         <a class="btn btn_buy add_to_cart" href="javascript:;" id="buyBtn2" manualclick="xxx" pppptag="7001.1.8">立即购买</a>
     </div>
 
@@ -430,7 +431,7 @@ width:100%
     </a>-->
 </div>
 
- <%end%>   
+<%end%>
 <div class="wx_aside" id="quckArea">
     <a href="javascript:void(0);" id="quckIco2" class="btn_more">更多</a>
     <a href="javascript:void(0);" id="shopIM" ptag="7001.1.20" class="btn_ask on">资讯</a>
@@ -442,9 +443,9 @@ width:100%
     	<a href="/shopping/sharegoodsV2.html?ptag=7001.1.42&skuid=" id="fxgwq" onclick="this.href += _itemDeatail.skuId" class="item_gwq" style="display: none;">分享购物圈</a>
     	<script>if(!_iswx){$id('fxgwq').style.display = 'none'}</script>
         <a href="/my/index.shtml?ptag=7001.1.38&backurl=" onclick="this.href += encodeURIComponent(location.href)" id="persLink" class="item_uc">个人中心</a>
-    	<a href="javascript:;" class="item_index" ptag="7001.1.39" id="quick_shoplink" style="display: none">店铺首页</a>
+        <a href="javascript:;" class="item_index" ptag="7001.1.39" id="quick_shoplink" style="display: none">店铺首页</a>
         <a href="/my/fav/goods_fav.shtml?ptag=7001.1.40" class="item_fav">我的收藏</a>
-    	<a href="/my/recently.shtml?ptag=7001.1.41" class="item_history">最近浏览</a>
+        <a href="/my/recently.shtml?ptag=7001.1.41" class="item_history">最近浏览</a>
     </div>
 </div>
 
@@ -459,7 +460,7 @@ width:100%
         <div class="wx_bar_tit">配送地址</div>
     </div>
     <div class="wx_wrap area_select" id="addrList"></div>
-</div> 
+</div>
 <!--part_address end-->
 
 <!--
@@ -474,17 +475,17 @@ width:100%
 <!--part_tab end-->
 
 <div id="part_summary" style="display: none">
-<div class="wx_aside">
-    <a href="javascript:;" id="goTop" ptag="7001.1.2" style="display:none;" class="goTopBtn btn_top btn_top_active">返回顶部</a>
-</div>
-<div class="detail_row detail_cmt">
-	<div class="mod_fix_wrap"><div id="evalHead" class="mod_fix fixed"></div></div>
-	<div id="evalHead2"></div>
-	
-    <!-- cmt_view -->
-    <div class="cmt_tag" id="evalTag2"></div>
-    <!-- cmt_tag -->
-    <div class="cmt_list_wrap">
+    <div class="wx_aside">
+        <a href="javascript:;" id="goTop" ptag="7001.1.2" style="display:none;" class="goTopBtn btn_top btn_top_active">返回顶部</a>
+    </div>
+    <div class="detail_row detail_cmt">
+       <div class="mod_fix_wrap"><div id="evalHead" class="mod_fix fixed"></div></div>
+       <div id="evalHead2"></div>
+
+       <!-- cmt_view -->
+       <div class="cmt_tag" id="evalTag2"></div>
+       <!-- cmt_tag -->
+       <div class="cmt_list_wrap">
         <ul class="cmt_list" id="evalDet_summary"></ul>
         <div class="cmt_list_loading">
             <span class="tip" style="display: none;">加载更多</span>
@@ -498,16 +499,16 @@ width:100%
 <!--part_summary end-->
 
 <div id="part_promotions" style="display: none">
-<div class="wx_wrap">
-    <div class="promo_list">
-        <h3>促销详情</h3>
-        <ul id="promoteIcos"></ul>
+    <div class="wx_wrap">
+        <div class="promo_list">
+            <h3>促销详情</h3>
+            <ul id="promoteIcos"></ul>
+        </div>
+        <div class="fitting_list" id="promoteItemDiv" style="display: none">
+            <h3>赠品</h3>
+            <ul id="promoteItem"></ul>
+        </div>
     </div>
-    <div class="fitting_list" id="promoteItemDiv" style="display: none">
-        <h3>赠品</h3>
-        <ul id="promoteItem"></ul>
-    </div>
-</div>
 </div>
 <!--part_promotions end-->
 
@@ -527,60 +528,62 @@ width:100%
 </div>
 <!-- common part  -->
 
+</div>
+
 
 <script type="text/html" id="evalTpl">
-<li>
-    <div class="cmt_user">
-        <span class="user">{#name#}</span>
-        <span class="tip">{#levelName#}</span>
-        <span class="credit"><span style="width:{#score_code#}%"></span></span>
-        <span class="date">{#creationTime#}</span>
-    </div>
-    <div class="cmt_cnt">{#content#}</div>
-    <div class="cmt_att">{#shaidanImg#}</div>
-    <div class="cmt_sku">{#sku#}<div class="reply">{#reply#}</div></div>
-</li>
+    <li>
+        <div class="cmt_user">
+            <span class="user">{#name#}</span>
+            <span class="tip">{#levelName#}</span>
+            <span class="credit"><span style="width:{#score_code#}%"></span></span>
+            <span class="date">{#creationTime#}</span>
+        </div>
+        <div class="cmt_cnt">{#content#}</div>
+        <div class="cmt_att">{#shaidanImg#}</div>
+        <div class="cmt_sku">{#sku#}<div class="reply">{#reply#}</div></div>
+    </li>
 </script>
 <script type="text/html" id="evalHeadTpl">
-<div class="cmt_tab" id="evalTab">
-    <span no="0" ptag="7001.1.30">全部<em>{#commentCount#}</em></span>
-    <span class="cur" no="3" ptag="7001.1.31">好评<em>{#goodCount#}</em></span>
-    <span no="2" ptag="7001.1.32">中评<em>{#generalCount#}</em></span>
-    <span no="1" ptag="7001.1.33">差评<em>{#poorCount#}</em></span>
-    <span no="4" ptag="7001.1.34">晒单<em>{#showCount#}</em></span>
-</div>
+    <div class="cmt_tab" id="evalTab">
+        <span no="0" ptag="7001.1.30">全部<em>{#commentCount#}</em></span>
+        <span class="cur" no="3" ptag="7001.1.31">好评<em>{#goodCount#}</em></span>
+        <span no="2" ptag="7001.1.32">中评<em>{#generalCount#}</em></span>
+        <span no="1" ptag="7001.1.33">差评<em>{#poorCount#}</em></span>
+        <span no="4" ptag="7001.1.34">晒单<em>{#showCount#}</em></span>
+    </div>
 </script>
 <script type="text/html" id="evalHeadTpl2">
-<div class="cmt_view">
-    <div class="per">
-        <em>{#goodRateShow#}%</em>
-        <span>好评率</span>
+    <div class="cmt_view">
+        <div class="per">
+            <em>{#goodRateShow#}%</em>
+            <span>好评率</span>
+        </div>
+        <div class="tips">
+            <div class="line">
+                好评
+                <span class="box"><b style="width:{#goodRateShow#}%"></b></span>
+                <span class="num">{#goodRateShow#}%</span>
+            </div>
+            <div class="line">
+                中评
+                <span class="box"><b style="width:{#generalRateShow#}%"></b></span>
+                <span class="num">{#generalRateShow#}%</span>
+            </div>
+            <div class="line">
+                差评
+                <span class="box"><b style="width:{#poorRateShow#}%"></b></span>
+                <span class="num">{#poorRateShow#}%</span>
+            </div>
+        </div>
     </div>
-    <div class="tips">
-        <div class="line">
-            好评
-            <span class="box"><b style="width:{#goodRateShow#}%"></b></span>
-            <span class="num">{#goodRateShow#}%</span>
-        </div>
-        <div class="line">
-            中评
-            <span class="box"><b style="width:{#generalRateShow#}%"></b></span>
-            <span class="num">{#generalRateShow#}%</span>
-        </div>
-        <div class="line">
-            差评
-            <span class="box"><b style="width:{#poorRateShow#}%"></b></span>
-            <span class="num">{#poorRateShow#}%</span>
-        </div>
-    </div>
-</div>
 </script>
 <script type="text/html" id="serviceTpl">
-<li>
-    <i class="icon_service {#iconCode#}"></i>
-    <div class="service_txt">{#iconSrc#}</div>
-    <div class="service_desc">{#iconTip#}</div>
-</li>
+    <li>
+        <i class="icon_service {#iconCode#}"></i>
+        <div class="service_txt">{#iconSrc#}</div>
+        <div class="service_desc">{#iconTip#}</div>
+    </li>
 </script>
 <script type="text/html" id="ybListTpl">
     <div class="item" pid="{#pid#}">
@@ -605,7 +608,7 @@ width:100%
 
 
 
-  <script src="/assets/jquery.js?body=1" type="text/javascript"></script>
+<script src="/assets/jquery.js?body=1" type="text/javascript"></script>
 <script src="/assets/jquery_ujs.js?body=1" type="text/javascript"></script>
 <script src="/assets/jquery-ui-1.9.2.custom.js?body=1" type="text/javascript"></script>
 <script src="/assets/jquery_jcarousel.js?body=1" type="text/javascript"></script>
@@ -614,7 +617,7 @@ width:100%
 <script src="/assets/bootstrap-popover.js?body=1" type="text/javascript"></script>
 <script src="/assets/bootstrap-dropdown.js?body=1" type="text/javascript"></script>
 <script src="/assets/store/new_base.js?body=1" type="text/javascript"></script>
-  <script src="/assets/jquery.countdown.js?body=1" type="text/javascript"></script>
+<script src="/assets/jquery.countdown.js?body=1" type="text/javascript"></script>
 <script src="/assets/jquery.jqzoom-core.js?body=1" type="text/javascript"></script>
 <script src="/assets/store/new_goods.js?body=1" type="text/javascript"></script>
 

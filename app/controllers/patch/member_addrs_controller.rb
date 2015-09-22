@@ -12,6 +12,7 @@ class Patch::MemberAddrsController < ApplicationController
     @addr = Ecstore::MemberAddr.new
     if params[:platform]=="mobile"
       @supplier = Ecstore::Supplier.find(@user.account.supplier_id)
+      # layout = (@user.account.supplier_id == '78' ? 'mobile' : @supplier.layout)
       layout = @supplier.layout
       render :layout =>layout
     end
@@ -108,7 +109,7 @@ class Patch::MemberAddrsController < ApplicationController
 end
 
 def update
-  
+
   @platform = params[:platform]
   @addr = Ecstore::MemberAddr.find(params[:id])
   if @addr.update_attributes(params[:addr])

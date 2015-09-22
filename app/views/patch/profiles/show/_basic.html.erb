@@ -23,7 +23,7 @@
 		<%if @user.email_validate=='true'%>
 		<span class="tip">邮箱已认证</span>
 		<%else%>
-		<%=link_to "去验证>>","/member-sms_validate.html?tab=email",:class=>"modify",:target=>"_top"%>
+		<%=link_to "去验证>>","/validation/email",:class=>"modify",:target=>"_top"%>
 		<%end%>
 	</div>
 
@@ -48,7 +48,7 @@
 		<%if @user.sms_validate=='true'%>
 		<span class="tip">手机已认证</span>
 		<%else%>
-		<%=link_to "去验证>>","/member-sms_validate.html?tab=mobile",:class=>"modify",:target=>"_top"%>
+		<%=link_to "去验证>>","/validation/mobile",:class=>"modify",:target=>"_top"%>
 		<%end%>
 
 	</div>
