@@ -72,56 +72,55 @@ class Patch::MemberAddrsController < ApplicationController
     return_url= params[:return_url]
 
     if @addr.save
-      respond_to do |format|
-        format.js
-        format.html
+      if return_url
+        @ids=@addr.addr_id
+        session[:depar]=@ids
+        return redirect_to return_url
+      elsif params[:platform]=='mobile'
+        return redirect_to "/member_addrs?platform=#{pramas[:platform]}"
+      elsif params[:action_url] == 'member_addrs'
+        return redirect_to "/member_addrs"
+      else
+        respond_to do |format|
+          format.js
+          format.html
+        end
       end
     end
+  end
 
-    if return_url 
-      @ids=@addr.addr_id
-      session[:depar]=@ids
-      redirect_to return_url
-    elsif params[:platform]=='mobile'
-      redirect_to "/member_addrs?platform=#{pramas[:platform]}"
-
+  def new_memberaddr_add
+    supplier_id = params[:supplier_id]
+    if supplier_id.nil?
+      supplier_id =78
     end
-
-    respond_to do |format|
-     format.js
-     format.html { redirect_to "/member_addrs?platform=#{params[:platform]}" }
-   end
-
-
- end
- def new_memberaddr_add
-  supplier_id = params[:supplier_id]
-  if supplier_id.nil?
-    supplier_id =78
+    @supplier=Ecstore::Supplier.find_by_id(supplier_id)
+    @addr=Ecstore::MemberAddr.new
+    @return_url= params[:return_url]
+    if @return_url.nil?
+      @return_url="/member_addrs?platform=mobile"
+    end
+    render :layout=>@supplier.layout
   end
-  @supplier=Ecstore::Supplier.find_by_id(supplier_id)
-  @addr=Ecstore::MemberAddr.new
-  @return_url= params[:return_url]
-  if @return_url.nil?
-    @return_url="/member_addrs?platform=mobile"
-  end
-  render :layout=>@supplier.layout
-end
 
-def update
+  def update
 
-  @platform = params[:platform]
-  @addr = Ecstore::MemberAddr.find(params[:id])
-  if @addr.update_attributes(params[:addr])
-    if params[:platform] == 'mobile'
-      return redirect_to "/member_addrs?platform=#{params[:platform]}"
+    @platform = params[:platform]
+    @addr = Ecstore::MemberAddr.find(params[:id])
+    if @addr.update_attributes(params[:addr])
+      if params[:platform] == 'mobile'
+        if params[:action_url] == 'orders_new_mobile'
+          return redirect_to "/orders/new_mobile?platform=mobile"
+        else
+          return redirect_to "/member_addrs?platform=#{params[:platform]}"
+        end
+      else
+        respond_to do |format|
+          format.js
+          format.html { redirect_to "/member_addrs?platform=#{params[:platform]}" }
+        end
+      end
     else
-      respond_to do |format|
-        format.js
-        format.html { redirect_to "/member_addrs?platform=#{params[:platform]}" }
-      end
-    end
-  else
       render 'error.js' #, status: :unprocessable_entity
     end
   end

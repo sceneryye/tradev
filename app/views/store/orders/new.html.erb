@@ -81,7 +81,7 @@
 		<%=f.radio_button :payment, "alipay"%> <b>支付宝</b>
 		<span class="extra-desc"><img src="/assets/store/alipay.png"/></span>
 	</label>
-	<label class="radio">
+	<label class="radio" style="display:none">
 		<%=f.radio_button :payment, "offline"%> <b>货到付款</b>
 		<span class="extra-desc"><%=link_to "点击查询货到付款配送区域","http://www.zjs.com.cn/WS_Business/WS_Bussiness_CityArea.aspx?id=6",:target=>"_blank"%></span>
 	</label>
