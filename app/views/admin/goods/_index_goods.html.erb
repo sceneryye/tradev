@@ -51,7 +51,7 @@
 			</td>
 
 			<td><%=good.bn%></td>
-			<td><%=good.name%><%#=link_to good.name,good_path(good.bn),:target=>"_blank"%></td>
+			<td><%=link_to good.name,good_path(good.bn),:target=>"_blank"%></td>
 			<td align="center">
 				<%=link_to "#", :class=>"hover-thumb", :data=>{ :thumb => good.list_default_pic||"",:title=>"#{good.name}(#{good.bn})" } do%>
 					<%=image_tag good.list_default_pic, :size => "35x50"%>
