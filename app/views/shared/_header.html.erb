@@ -33,7 +33,8 @@
         <li>
             <a id="cart_link" href="#" class="cart-link <%='login' unless signed_in?%>">
               购物袋
-              <span class="cart-number" id='cart_number_111'>(<%=@cart_total_quantity%>)</span></a>
+              <span class="cart-number" id='cart_number_111'><%=@cart_total_quantity%></span>
+              </a>
         </li>
 
         <%if @user%>
