@@ -5,12 +5,12 @@
 	<thead>
 		<tr>
 			<th>ID</th>
-			<th>规则名称</th>
-			<th>默认首重</th>
-			<th>默认续重</th>
+			<th>规则名称</th>			
 			<th>地区</th>
-			<th>首重价</th>
-			<th>续重价</th>
+			<th>首重价(元)/首重(克)</th>
+			<th>续重价(元)/增重(克)</th>			
+			<th>其他地区首重(元)</th>
+			<th>其他地区续重(元)</th>
 			<th>操作</th>
 		</tr>
 	</thead>
@@ -19,11 +19,12 @@
 			<tr>
 				<td><%=express.id%></td>
 				<td><%=express.title%></td>
+				
+				<td><%=express.areas%></td>
+				<td><%=express.first_price%>/<%=express.first_weight%></td>
+				<td><%=express.each_add_price%>/<%=express.each_add_weight%></td>
 				<td><%=express.default_first_price%></td>
 				<td><%=express.default_each_add_price%></td>
-				<td><%=express.areas%></td>
-				<td><%=express.first_price%></td>
-				<td><%=express.each_add_price%></td>
 				<td>
 					<%=link_to '编辑', edit_admin_express_rule_path(express) %>
 					|
