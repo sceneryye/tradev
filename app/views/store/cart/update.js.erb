@@ -5,7 +5,7 @@ $("#line_<%=params[:id]%> .line-total").html('<%=raw "￥#{ format('%.2f',@line_
 $("#line_<%=params[:id]%> .line-point").text('<%= format('%.2f',@line_item.line_total)%>');
 //var pDoc = window.parent.document;
 //dDoc.find("#cart_link .cart-number").text("(<%= @cart_total_quantity %>)");
-$("#cart_link .cart-number").text('(ss)');
-alert(window.parent.document.getElementById("cart_number_111"));
+//$("#cart_link .cart-number").text('(ss)');
+window.parent.document.getElementById("cart_number_111").innerHTML='(<%=@cart_total_quantity%>)';
 
 //$("#menu_cart .number").html('(<%=@cart_total_quantity%>)');
