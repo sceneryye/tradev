@@ -317,12 +317,12 @@
 .block-wrap-cart:hover .block-mini-cart .mini-cart-list .p-right .p-rice{
 
 }
-.block-wrap-cart .toal-cart{
+.block-wrap-cart .total-cart{
 	padding: 10px 0;
 	width: 100%;
 	float: left;
 }
-.block-wrap-cart .toal-cart .toal-price{
+.block-wrap-cart .total-cart .toal-price{
 	font-size: 18px;
 }
 /*--------------------

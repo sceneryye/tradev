@@ -13,7 +13,7 @@
     <link rel="stylesheet" type="text/css" href="/new/css/global.css" />
     <link rel="stylesheet" type="text/css" href="/new/css/style.css" />
     <link rel="stylesheet" type="text/css" href="/new/css/responsive.css" />
-    <link rel="stylesheet" type="text/css" href="/new/css/option4.css" />   
+    <link rel="stylesheet" type="text/css" href="/new/css/option4.css" />
 	<title>贸威优品商城</title>
 </head>
 
@@ -389,9 +389,9 @@
                                         <input id="search_input" name="q" placeholder="请输入搜索关键字" value="<%= controller_name=="search" ? params[:q] : Ecstore::Config.get(:search_key)%>">
                                     </div>
                                     <button type="submit" class="btn-search"><i class="fa fa-search"></i></button>
-                                </form>                                
+                                </form>
                             </div>
-                        </div>       
+                        </div>
 
                         <div class="col-sm-6 col-md-4 col-lg-4">
                             <div class="wrap-block-cl">
@@ -424,12 +424,12 @@
                                         </div>
                                         <div class="block-mini-cart">
                                             <div class="mini-cart-content">
-                                            <h5 class="mini-cart-head"><%=@cart_total_quantity%>件商品</h5>
-                                            <div class="mini-cart-list">                                               
+                                            <h5 class="mini-cart-head"><span class="cart-number"><%=@cart_total_quantity%></span>件商品</h5>
+                                            <div class="mini-cart-list">
                                             </div>
-                                            <div class="toal-cart">
+                                            <div class="total-cart">
                                                 <span>商品总价</span>
-                                                <span class="toal-price pull-right"><%=@cart_total%></span>
+                                                <span class="toal-price pull-right "><%=@cart_total%></span>
                                             </div>
                                             <div class="cart-buttons">
                                                 <a href="#" class="button-radius btn-check-out cart-link <%='login' unless signed_in?%>"">结算<span class="icon"></span></a>
@@ -443,9 +443,9 @@
                                     <div class="currency">
                                         <a class="loggedin login" href="javascript:void(0);" id="reg">注册</a>
                                     </div>
-                                    <%end%>    
-                                   
-                                   
+                                    <%end%>
+
+
                                 </div>
                             </div>
                         </div>
@@ -665,7 +665,7 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
     </footer>
     <!-- ./footer -->
     <a href="#" class="scroll_top" title="回到顶部" style="display: none;">Scroll</a>
@@ -677,13 +677,13 @@
         url =window.location.href
         if (url.indexOf("/products/") >= 0 ){
             document.getElementById("product-bar").style.display="block";
-            document.getElementById("tool-bar").style.display="none";            
+            document.getElementById("tool-bar").style.display="none";
 
         }
 
 
         var myDate = new Date();
-        var currentYear = myDate.getFullYear(); 
+        var currentYear = myDate.getFullYear();
         document.getElementById('copyright_year').innerText=currentYear;
     </script>
 
