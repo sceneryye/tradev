@@ -4,9 +4,10 @@ class HomeController < ApplicationController
 	# layout 'magazine'
 	layout 'standard'
 
+	
 	def index
-		
 		@title = "trade-V 跨境贸易直通车"
+		@suppliers = Ecstore::Supplier.where(:recommend=>1)
 	  	@galleries = Ecstore::Teg.where(:tag_type=>"gallery")	
 	  	@i = 1  	
 		@home = Ecstore::Home.where(:supplier_id=>nil).last
@@ -14,7 +15,8 @@ class HomeController < ApplicationController
 		    redirect_to params[:return_url] if params[:return_url].present?
 		end
 
-		
+		return render :layout=>'new'
+
 		respond_to do  |format|
 	        format.mobile { render :layout=> 'msite'}
 	    end
