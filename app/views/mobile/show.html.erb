@@ -88,7 +88,7 @@ location.href = auto_login_url;
         $id('loopImgUl').style.left=(wb-wli[0].offsetWidth)/2 + 'px';
     })();
 </script>
-<%=form_for :product,:url=>add_cart_index_path do |f|%>
+<%=form_for :product,:url=>add_cart_index_path, :html => {:id => 'add_product_to_cart'} do |f|%>
 <%=f.hidden_field :goods_id,:value=>@goods.goods_id%>
 <%=f.hidden_field :type_id,:value=>@goods.type_id%>
 <input type="hidden" name="platform" value="new_mobile">
@@ -105,9 +105,9 @@ location.href = auto_login_url;
 
   <div class="price_wrap" id="priceBlock">
     <span class="tit" id="priceTitle">优惠价：</span>
-    <span class="price" id="priceSale"><%=@goods.price%></span>
+    <span class="price price-sale" id="priceSale"><%=@goods.price%></span>
     <span class="tit" id="priceTitle">市场价：</span>
-    <span class=""  style="text-decoration:line-through"><%=@goods.mktprice%></span>
+    <span class="price price-market"  id="priceMarket" style="text-decoration:line-through"><%=@goods.mktprice%></span>
     <span class="group" id="priceGroupStyle" style="display: none"></span>
     <span class="tip_red" id="priceDis" style="display: none"></span>
     <span class="price_old" id="priceMarket" style="display: none"></span>
@@ -179,15 +179,22 @@ location.href = auto_login_url;
            <span class="spec-name"><%=spec.spec_name%> : </span>
            <%=hidden_field_tag "product[specs][]"%>
            <ul class="spec-values clearfix">
-             <%@goods.spec_values.where(:spec_id=>spec.spec_id).uniq.order("p_order asc").each do |spec_value|%>
+             <%@goods.spec_values.where(:spec_id=>spec.spec_id).uniq.order("p_order asc").each_with_index do |spec_value, index|%>
+             
              <li>
-               <%=link_to spec_value.spec_value, "#", :class=>"spec-value text",:data=>{:value=>spec_value.spec_value_id},:title=>spec_value.spec_value%>
+               <%=link_to spec_value.spec_value, "javascript:;", :onclick => 'change_price(this)', :class=>"spec-value text", :id => "spec-value-#{index}", :data=>{:value=>spec_value.spec_value_id},:title=>spec_value.spec_value%>
            </li>
            <%end%>
        </ul>
        <%end%>
    </div>
    <script language="javascript">
+   function change_price(obj){
+    //$('.price-sale #priceSale').text($(obj).attr-data('price'));
+    //$('.price-market #priceMarket').text($(obj).attr-data('market_price'));
+
+   }
+
     function add() {
         var obj = document.getElementById("buyNum");
 

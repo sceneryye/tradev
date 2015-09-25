@@ -53,6 +53,8 @@ class Store::CartController < ApplicationController
 
   @supplier = Ecstore::Supplier.find(supplier_id)
 
+  @line_item  = @line_items.where(:obj_ident=>params[:id],:shop_id=>@shop_id).first
+
 
   if params[:attr]=="mall"
    @mall="mall"

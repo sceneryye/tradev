@@ -63,8 +63,8 @@
 <script>
     if(((JD.cookie.get('wq_graytag') & 8)==0 && !JD.cookie.get('wq_oldversion')) ||JD.url.getUrlParam("title")  ){
 
-       document.getElementById("topsearchbar").dataset.switchstyle="0";
-   }
+     document.getElementById("topsearchbar").dataset.switchstyle="0";
+ }
 </script>
 <script type="text/javascript">
 window.speedTimePoint&&(speedTimePoint[9]=new Date());//342
@@ -204,19 +204,19 @@ menu_list.find(".item").on(clickEvent, function(e) {
         var mask = wx_side_menu.find(".mod_alert_mask"),
         fold = wx_side_menu.find(".fold"),
         on_click = function(e) {
-         if(e&&$(e.target).attr("class")=="icon_cate"){
-          JD.report.rd($(e.target).attr("ptag"));
-      }
-      e && (e.preventDefault(), e.stopPropagation());
-      showMenu(false);
+           if(e&&$(e.target).attr("class")=="icon_cate"){
+              JD.report.rd($(e.target).attr("ptag"));
+          }
+          e && (e.preventDefault(), e.stopPropagation());
+          showMenu(false);
 
-  },
-  on_menu = function(e) {
-    var elm = $(e.target).closest(".menu_list");
-    elm.length > 0 || on_click();
-};
-wx_search_chanel_mode.find(".wx_bar_cate").on(clickEvent, on_click), mask.on(clickEvent, on_click), fold.on(clickEvent, on_click),
-wx_side_menu.on(clickEvent, on_menu);
+      },
+      on_menu = function(e) {
+        var elm = $(e.target).closest(".menu_list");
+        elm.length > 0 || on_click();
+    };
+    wx_search_chanel_mode.find(".wx_bar_cate").on(clickEvent, on_click), mask.on(clickEvent, on_click), fold.on(clickEvent, on_click),
+    wx_side_menu.on(clickEvent, on_menu);
 },
 init_guide: function() {
     var on_clear = function() {
@@ -336,8 +336,8 @@ window.speedTimePoint&&(speedTimePoint[11]=new Date());//342
                             if( curAd.check && !curtainAdShow  ){
                                 showBigPic();
                                 window.setTimeout(function() {
-                                   ( bigShow.className !== "wx_bar_window")&& on_click();
-                               }, 10000);
+                                 ( bigShow.className !== "wx_bar_window")&& on_click();
+                             }, 10000);
                                 on_click();
                                 JD.cookie.set("curtainAdShow", 1, Math.round((new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1) - now) / 6e4), "/", "jd.com");
                             }
@@ -766,34 +766,37 @@ window.speedTimePoint&&(speedTimePoint[11]=new Date());//342
                 <span>热门主题 精选微店</span>
             </div>
             <div class="wei_tag_box" id="divThemeTabList">
-               <%@categories.each  do |category|%>
-               <a href="/mobile/<%=category.cat_id%>/category_goods" dindex="99<%=category.cat_id%>" ptag="37773.1.<%=category.cat_id%>" class="cur">
-                  <span><%=category.cat_name%></span>
-              </a>
-              <%end%>
-          </div>
-          <div id="divThemeShopGroup">
-            <!--99是一个特殊的混合排列-->
+             <%@categories.each  do |category|%>
+             <a href="/mobile/<%=category.cat_id%>/category_goods" dindex="99<%=category.cat_id%>" ptag="37773.1.<%=category.cat_id%>" class="cur">
+              <span><%=category.cat_name%></span>
+          </a>
+          <%end%>
+      </div>
+      <div id="divThemeShopGroup">
+        <!--99是一个特殊的混合排列-->
 
-            <%@categories.each  do |category|%>
-            <div class="wei_shop_list jsfilter99<%=category.cat_id%>" sytle="background-color:white;">
-              <%@goods=Ecstore::Good.where(:cat_id=>category.cat_id,:marketable=>"true").order("p_order ASC , goods_id DESC")%>
-              <% @goods.each do |good|%>
-              <div class="item" dpos="1|0" ptag="37790.1.165">
-               <a href="/mobile/<%=good.goods_id%>" class="url">
-                  <div class="sign">NEW</div>
-                  <div class="img">                 <img src="<%=good.medium_pic%>">             </div>
-                  <div class="info">
-                     <div class="name"><%=good.name%></div>
-                     <div class="gift"><%=good.price%> &nbsp;
-                        <span class="" style="text-decoration:line-through">¥<%=good.mktprice%></span> </div>
-                    </div>
-                </a>
-            </div>
-            <%end%>
+        <%@categories.each  do |category|%>
+        <div class="wei_shop_list jsfilter99<%=category.cat_id%>" style="background-color:white;margin-bottom:20px;margin-right:2px;">
+        <div class="category-name" style="padding:2px 5px;background-color:red;color:white"><%= category.cat_name %>:</div>
+          <%@goods=Ecstore::Good.where(:cat_id=>category.cat_id,:marketable=>"true").order("p_order ASC , goods_id DESC")%>
+          <% @goods.each_with_index do |good, index|%>
+          <div class="item" dpos="1|0" ptag="37790.1.165">
+             <a href="/mobile/<%=good.goods_id%>" class="url">
+                 <% if index < 3 %>
+                 <div class="sign">NEW</div>
+                 <% end %>
+                 <div class="img">                 <img src="<%=good.medium_pic%>">             </div>
+                 <div class="info">
+                   <div class="name"><%=good.name%></div>
+                   <div class="gift"><%=good.price%> &nbsp;
+                    <span class="" style="text-decoration:line-through">¥<%=good.mktprice%></span> </div>
+                </div>
+            </a>
         </div>
         <%end%>
     </div>
+    <%end%>
+</div>
 </section>
 <!-- E 主题微店 -->
 
@@ -817,7 +820,7 @@ window.speedTimePoint&&(speedTimePoint[11]=new Date());//342
 
 <!-- S 热门微店 -->
 <section id="divInSection4" class="wei_section" style="display:none">
- <div class="wei_section_title">
+   <div class="wei_section_title">
     <h2>热门微店</h2>
     <span>最受粉丝热捧TOP好店</span>
 </div>
@@ -976,7 +979,7 @@ window.speedTimePoint&&(speedTimePoint[11]=new Date());//342
                                         </script>
                                         <!--热门微店-->
                                         <script type="text/template" id="tplMicstoreHot">
-                                           <%#for(var i=0;i<model.length;i++){var item=model[i];%>
+                                         <%#for(var i=0;i<model.length;i++){var item=model[i];%>
                                             <div class="wei_item">
                                                 <div class="wei_item_sign">TOP <%#=i+1%></div>
                                                 <a href="<%#=item.shop_url%>&ptag=37773.8.<%#=i+1%>" class="wei_logo">
@@ -1041,23 +1044,23 @@ window.speedTimePoint&&(speedTimePoint[11]=new Date());//342
     g["0"]=["\/js\/version\/201505\/zepto.201505191506.js"];
     c = [['cookie',1,0],['formatJson',1,1],['iscroll',2,0],['lazyLoad',1,2],['loadJs',1,3],['login',1,4],['speedtime',1,5],['ui',1,6],['wg.speedtime',1,7],['wq.microstore',1,8],['wq.wx.menu',2,1],['zepto',0,0]];
     if(typeof(JSON)!="undefined" && window.localStorage){
-       for(var key in localStorage){
-          if(/^_m_/.test(key)){
-             var store = JSON.parse(localStorage.getItem(key));
-             var i = key.substr(3);
-             if((new Date()).getTime()>store.cacheTime){
-                 continue;
-             }
-             var _m=getModuleMap(i);
-             if(!_m || _m.group==0){continue;}
-             var curPath=g[_m.group][_m.groupid];
-             if((d+curPath)==store.path){
-                g[0].push(curPath);
-                g[_m.group][_m.groupid]=blankjs;
-                c[_m.index]=[_m.id,0,g[0].length-1];
-            }
-        }
+     for(var key in localStorage){
+      if(/^_m_/.test(key)){
+       var store = JSON.parse(localStorage.getItem(key));
+       var i = key.substr(3);
+       if((new Date()).getTime()>store.cacheTime){
+           continue;
+       }
+       var _m=getModuleMap(i);
+       if(!_m || _m.group==0){continue;}
+       var curPath=g[_m.group][_m.groupid];
+       if((d+curPath)==store.path){
+        g[0].push(curPath);
+        g[_m.group][_m.groupid]=blankjs;
+        c[_m.index]=[_m.id,0,g[0].length-1];
     }
+}
+}
 }
 function getModuleMap(id){
 	for(var i=0;i<c.length;i++){
