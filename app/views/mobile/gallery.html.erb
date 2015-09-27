@@ -48,9 +48,10 @@
     <div class="wx_bar_cate">
         <span id="__cate" ptag="37080.5.1" class="icon_cate"></span>
     </div>
-    <form action="" method="get" class="wx_search_form">
-        <input name="key" class="wx_search_txt" placeholder="德国香肠" ptag="37080.5.2" type="search" id="topSearchTxt" autocomplete="off">
-        <a class="wx_search_clear" href="javascript:;" id="topSearchClear" style="display: none;">x</a>
+    <form action="/search" method="get" class="wx_search_form">
+        <input name="q" class="wx_search_txt" placeholder="德国香肠" ptag="37080.5.2" type="search" id="topSearchTxt" autocomplete="off">
+        <input type='hidden' name='platform' value='mobile'>
+        <a class="wx_search_clear" href="javascript:;" id="topSearchClear">x</a>
     </form>
     <div class="wx_search_act">
         <a href="javascript:;" id="topSearchbtn" class="wx_search_ov" style="display:none"><span ptag="37787.1.2">换新版</span></a>

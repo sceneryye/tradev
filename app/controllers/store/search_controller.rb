@@ -7,17 +7,17 @@ class Store::SearchController < ApplicationController
 		page  =  (params[:page] || 1).to_i
 		per_page = 20
 
-		q = params[:q].strip
+		@q = q = params[:q].strip
 		q = q.gsub(/[\s,\.\*\+\/\-:'"!\&\^\[\]\(\)， 。：”’（）%@！、]+/,"%")
 		@splits = q.split(/%+/)
 
 		order = params[:order]
-	  	if order.present?
-	             col, sorter = order.split("-")
-	  		order = order.split("-").join(" ")
-	  	else
-	             order = "uptime desc"
-	       end
+		if order.present?
+			col, sorter = order.split("-")
+			order = order.split("-").join(" ")
+		else
+			order = "uptime desc"
+		end
 
 		@goods = Ecstore::Good.selling.order(order)
 
@@ -26,6 +26,11 @@ class Store::SearchController < ApplicationController
 		end
 
 		@goods = @goods.includes(:brand).paginate(:per_page=>per_page,:page=>page)
+		if params[:platform] == 'mobile'
+			@platform = 'mobile'
+			render  '/mobile/goods_list', :layout => 'mobile'
+		end
 	end
+
 
 end

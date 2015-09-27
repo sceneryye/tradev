@@ -1,0 +1,104 @@
+
+<title><%=@q%></title>
+<meta name="description" content="贸威微店，微店频道盛大开业！正品保证，闪电发货。快来关注你喜欢的微店吧">
+<meta name="keywords" content="贸威,微店,购物,正品">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+
+<!-- #include virtual="/sinclude/cssi/wx/mall/wei.shtml"-->
+<script type="text/javascript">recordTimeData[1]=recordTimeDataHT[1]=Date.now();</script>
+<style type="text/css">
+    body {font-family: "\5fae\8f6f\96c5\9ed1",Helvetica,Arial,sans-serif;}
+</style>
+
+<link rel="stylesheet" href="/new_mobile/css/mod_bar_history.s.min.css">
+<link rel="stylesheet" href="/new_mobile/css/mod_bar_download.s.min.css">
+<link rel="stylesheet" href="/new_mobile/css/wx_bar.s.min.css">
+<link rel="stylesheet" href="/new_mobile/css/wx_bar_v2.s.min.css">
+<link rel="stylesheet" href="/new_mobile/css/mall.s.min.css">
+<link rel="stylesheet" href="/new_mobile/css/wei.s.min.css?t=1432983857739">
+<link rel="stylesheet" href="/new_mobile/css/search_panel.s.min.css"  id="loadCss0.49526069639250636">
+
+
+<script charset="utf-8" async="" src="./微店_files/wq.microstore.201506021109.js"></script>
+<script type="text/javascript" src="./微店_files/jd.smartbox.min.js"></script>
+</head>
+
+<body>
+  <textarea class="J_viewData" style="display:none">{"tab":4}</textarea>
+
+  <div class="wx_bar_window" id="bigShow">
+    <div class="mod_alert_mask">
+    </div>
+    <div class="window_box">
+        <div class="inner">
+            <div class="window_item" id="bigShowInner">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="dacu_banner_mask" style="display: none"></div>
+<div id="topsearchbar" class="wx_search wx_search_chanel_mode" data-switchstyle="0" data-showcurtain="0" data-hotrd="37080.5.4" data-searchrd="37080.5.4" data-placeholder="" data-mpj="118" data-index="2" data-switchclassname="">
+  <div class="wx_search_inner">
+    <div class="wx_bar_cate">
+        <span id="__cate" ptag="37080.5.1" class="icon_cate"></span>
+    </div>
+    <form action="/search" method="get" class="wx_search_form">
+        <input name="q" class="wx_search_txt" placeholder="德国香肠" ptag="37080.5.2" type="search" id="topSearchTxt" autocomplete="off">
+        <input type='hidden' name='platform' value='mobile'>
+        <a class="wx_search_clear" href="javascript:;" id="topSearchClear">x</a>
+    </form>
+    <div class="wx_search_act">
+        <a href="javascript:;" id="topSearchbtn" class="wx_search_ov" style="display:none"><span ptag="37787.1.2">换新版</span></a>
+        <span id="topSearchCbtn" class="wx_search_btn" style="display:none">取消</span>
+    </div>
+</div>
+
+</div>
+<div class="WX_tab Top_tab WX_tab_fixed" id="toolbarHead">
+    <div class="WX_tab_wrap">
+        <span class="WX_tab_inner">
+            <a id="__xinTab" ptag="37035.8.3" href="/mobile">首发</a>
+            <a id="__brandTab" ptag="37035.8.1" href="/mobile">品牌</a>
+            <a id="__juhuiTab" ptag="37035.8.2" href="/tuan">特价</a>
+            <a id="__weiTab" href="/mobile">商品馆</a>
+        </span>
+    </div>
+</div>
+
+
+<div id="divRecommendShop" class="wei_tab_body ">
+    <!-- S 主题微店 -->
+    <section id="section1" class="wei_section">
+        <div class="wei_section_title">
+            <h2><%=@q%></h2>
+            <span>搜索结果</span>
+        </div>
+
+        <div id="divThemeShopGroup">
+            <!--99是一个特殊的混合排列-->
+            <% @goods.each_with_index do |good, index|%>
+            <div class="item" dpos="1|0" ptag="37790.1.165">
+             <a href="/mobile/<%=good.goods_id%>" class="url">
+
+                 <div class="img">
+                     <img src="<%=good.medium_pic%>">
+                 </div>
+                 <div class="info">
+                   <div class="name"><%=good.name%></div>
+                   <div class="gift"><%=good.price%> &nbsp;
+                    <span class="" style="text-decoration:line-through">¥<%=good.mktprice%></span> </div>
+                </div>
+            </a>
+        </div>
+        <%end%>
+    </div>
+    <%end%>
+</div>
+<div class="pagination">
+    <%=will_paginate @goods,:container=>false if @goods%>
+</div>
+
+
+
