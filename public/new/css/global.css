@@ -59,7 +59,7 @@ select{
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background: url('../img/dropdow.png') no-repeat right center;
+  background: url('../images/dropdow.png') no-repeat right center;
 }
 ul{
   margin-bottom: 0;
@@ -524,12 +524,12 @@ img.alignright{
 }
 
 .kt-owl-carousel .owl-next:hover{
-  background-image:url('../img/next-hover.png');
+  background-image:url('../images/next-hover.png');
   background-color: #5a88ca;
   border-color: #5a88ca;
 }
 .kt-owl-carousel .owl-prev:hover{
-  background-image:url('../img/prev-hover.png');
+  background-image:url('../images/prev-hover.png');
   background-color: #5a88ca;
   border-color: #5a88ca;
 }
@@ -541,7 +541,7 @@ img.alignright{
   -ms-transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
-  background-image:url('../img/next.png'); 
+  background-image:url('../images/next.png'); 
   background-repeat: no-repeat;
   background-position: 7px center;
 }
@@ -552,7 +552,7 @@ img.alignright{
   -ms-transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
-  background-image:url('../img/prev.png'); 
+  background-image:url('../images/prev.png'); 
   background-repeat: no-repeat;
   background-position: 5px center;
 }
@@ -597,7 +597,7 @@ img.alignright{
 }
 .btn-add-cart .icon:before{
   content: ' ';
-  background-image: url("../img/cart-icon.png");
+  background-image: url("../images/cart-icon.png");
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -732,7 +732,7 @@ img.alignright{
   -webkit-transform: translateX(-50%);
   transform: translateX(-50%);
   z-index: 2;
-  background-image: url('../img/eye-icon.png');
+  background-image: url('../images/eye-icon.png');
   background-repeat: no-repeat;
   background-position: center center;
   font-size: 0;
@@ -747,25 +747,25 @@ img.alignright{
 .products .btn-add-comparre{
   width: 17px;
   height: 34px;
-  background: url('../img/compare-icon.png') no-repeat left center;
+  background: url('../images/compare-icon.png') no-repeat left center;
   font-size: 0px;
   float: left;
   margin-right: 15px;
 }
 
 .products .btn-add-comparre:hover{
-  background: url('../img/compare-icon.png') no-repeat right;
+  background: url('../images/compare-icon.png') no-repeat right;
 }
 .products .btn-add-wishlist{
   width: 19px;
   height: 34px;
-  background: url('../img/wishlist-icon.png') no-repeat left center;
+  background: url('../images/wishlist-icon.png') no-repeat left center;
   font-size: 0px;
   float: left;
   margin-right: 15px;
 }
 .products .btn-add-wishlist:hover{
-  background: url('../img/wishlist-icon.png') no-repeat right;
+  background: url('../images/wishlist-icon.png') no-repeat right;
 }
 .products .btn-add-cart{
   margin-top: 0;

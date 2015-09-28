@@ -248,7 +248,7 @@
 	border-radius: 90%;
 	margin-top: 2px;
 	margin-right: 2px;
-	background: #5a88ca url('../img/cart-icon.png') no-repeat center center;
+	background: #5a88ca url('../images/cart-icon.png') no-repeat center center;
 }
 .block-wrap-cart .block-mini-cart{
 	position: absolute;
@@ -546,7 +546,7 @@
 }
 .block-category .nav-tab>li>a{
 	border-top: 1px solid #eaeaea;
-	background: url('../img/bg-tab.png') repeat-x 0 -1px;
+	background: url('../images/bg-tab.png') repeat-x 0 -1px;
 	height: 28px;
 	float: left;
 	padding: 0 15px;
@@ -1530,7 +1530,7 @@
 .block-hot-deals2 .nav-tab li{
 	list-style: none;
 	height: 40px;
-	background:url("../img/hotdeal-icon.png") no-repeat left center;
+	background:url("../images/hotdeal-icon.png") no-repeat left center;
 	padding-left: 65px;
 	line-height: 40px;
 	margin-bottom: 30px;
@@ -1561,7 +1561,7 @@
 }
 .block-hot-deals2 .nav-tab li.active,
 .block-hot-deals2 .nav-tab li:hover{
-	background:url("../img/hotdeal-icon-active.png") no-repeat left center;
+	background:url("../images/hotdeal-icon-active.png") no-repeat left center;
 }
 .block-hot-deals2 .nav-tab li.active a,
 .block-hot-deals2 .nav-tab li:hover a{
@@ -1809,7 +1809,7 @@
 	width: 30px;
 	text-indent: -9999em;
 	height: 100%;
-	background: url('../img/bg-breadcrumbs.png') no-repeat 0 0;
+	background: url('../images/bg-breadcrumbs.png') no-repeat 0 0;
 	padding: 12px 5px;
 }
 
@@ -1912,7 +1912,7 @@
   float: left;
   cursor: pointer;
   text-indent: -9999px;
-  background: url("../img/grid-view-bg.png") 0 0 #666;
+  background: url("../images/grid-view-bg.png") 0 0 #666;
 }
 .display-product-option li.view-as-list span {
   width: 30px;
@@ -1921,7 +1921,7 @@
   float: left;
   cursor: pointer;
   text-indent: -9999px;
-  background: url("../img/list-view-bg.png") 0 0 #666;
+  background: url("../images/list-view-bg.png") 0 0 #666;
 }
 .display-product-option li.selected span, 
 .display-product-option li:hover span {
@@ -2036,7 +2036,7 @@
 .block-filter-top .list-color li>a:before{
 	width: 5px;
 	height: 5px;
-	background: url('../img/arow.png') no-repeat;
+	background: url('../images/arow.png') no-repeat;
 	display: block;
 	content: '';
 	position: absolute;
@@ -2131,7 +2131,7 @@
 	height: 13px;
 	width: 13px;
 	content: '';
-	background: url('../img/plus-square.png') no-repeat;
+	background: url('../images/plus-square.png') no-repeat;
 	display: inline-block;
 	float: right;
 	content: '';
@@ -2142,14 +2142,14 @@
 }
 
 .block-list-category>ul>li:hover:after{
-	background: url('../img/plus-square-hover.png') no-repeat;
+	background: url('../images/plus-square-hover.png') no-repeat;
 }
 .block-list-category>ul>li.active:after{
-	background: url('../img/minus.png') no-repeat;
+	background: url('../images/minus.png') no-repeat;
 	top: 15px;
 }
 .block-list-category>ul>li.active:hover:after{
-	background: url('../img/minus-hover.png') no-repeat;
+	background: url('../images/minus-hover.png') no-repeat;
 }
 
 .block-list-category>ul>li>ul>li>a:before{
@@ -2197,13 +2197,13 @@
       width:15px;
       height:15px;
       margin-right: 10px;
-      background: url("../img/checkbox.png") no-repeat;
+      background: url("../images/checkbox.png") no-repeat;
       padding: 0;
       border: none;
       margin-bottom: -2px;
 }
 .check-box-list input[type="checkbox"]:checked + label span.button{
-    background: #5a88ca url("../img/checked.png") no-repeat center center;
+    background: #5a88ca url("../images/checked.png") no-repeat center center;
 }
 .check-box-list input[type="checkbox"]:checked + label{
   	color: #5a88ca;
@@ -2219,7 +2219,7 @@
 .check-box-list.corlor label:before{
 	width: 5px;
 	height: 5px;
-	background: url('../img/arow.png') no-repeat;
+	background: url('../images/arow.png') no-repeat;
 	display: block;
 	content: '';
 	position: absolute;
@@ -2353,7 +2353,7 @@
 .block-product-info .variations-box .list-check-box li>a:before{
 	width: 5px;
 	height: 5px;
-	background: url('../img/arow.png') no-repeat;
+	background: url('../images/arow.png') no-repeat;
 	content: '';
 	position: absolute;
 	top: -7px;
@@ -2387,20 +2387,20 @@
 	background-color: #f8f8f8;
 }
 .block-product-info .box-qty .quantity-minus{
-	background-image: url('../img/minus.png');
+	background-image: url('../images/minus.png');
 	background-repeat: no-repeat;
 	background-position: center center;
 }
 .block-product-info .box-qty .quantity-minus:hover{
-	background-image: url('../img/minus-hover.png');
+	background-image: url('../images/minus-hover.png');
 }
 .block-product-info .box-qty .quantity-plus{
-	background-image: url('../img/plus-square.png');
+	background-image: url('../images/plus-square.png');
 	background-repeat: no-repeat;
 	background-position: center center;
 }
 .block-product-info .box-qty .quantity-plus:hover{
-	background-image: url('../img/plus-square-hover.png');
+	background-image: url('../images/plus-square-hover.png');
 }
 .block-product-info .box-qty input.quantity{
 	border: 1px solid #eaeaea;
@@ -2422,24 +2422,24 @@
 .block-product-info .box-control-button .link-wishlist{
 	width: 19px;
 	height: 34px;
-	background: url('../img/wishlist-icon.png') no-repeat left center;
+	background: url('../images/wishlist-icon.png') no-repeat left center;
 	font-size: 0px;
 	float: left;
 	margin-right: 25px;
 }
 .block-product-info .box-control-button .link-wishlist:hover{
-	background: url('../img/wishlist-icon.png') no-repeat right;
+	background: url('../images/wishlist-icon.png') no-repeat right;
 }
 .block-product-info .box-control-button .link-compare {
   width: 17px;
   height: 34px;
-  background: url('../img/compare-icon.png') no-repeat left center;
+  background: url('../images/compare-icon.png') no-repeat left center;
   font-size: 0px;
   float: left;
   margin-right: 25px;
 }
 .block-product-info .box-control-button .link-compare:hover{
-	 background: url('../img/compare-icon.png') no-repeat right;
+	 background: url('../images/compare-icon.png') no-repeat right;
 }
 .block-product-info .box-control-button .link-sendmail{
 	width: 17px;
@@ -3159,7 +3159,7 @@
     
 }
 .cart_summary .action a{
-  background: url("../img/delete_icon.png") no-repeat center center;
+  background: url("../images/delete_icon.png") no-repeat center center;
   font-size: 0;
   height: 9px;
   width: 9px;
