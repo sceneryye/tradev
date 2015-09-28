@@ -11,10 +11,12 @@ Modengke::Application.routes.draw do
       get :user_center
       get :categories
       get :orderlist
+
       get :mobile_search
+
   	end
 
-    member do 
+    member do
       get :shop
       get :category_goods
     end
@@ -23,12 +25,12 @@ Modengke::Application.routes.draw do
 
   resources :distributions do
 
-    collection do 
+    collection do
       get :cart
       get :bookmark
       get :orderproducts
       get :ordernew
-    end 
+    end
 
     member do
       get 'add_to_cart'
@@ -50,7 +52,7 @@ Modengke::Application.routes.draw do
         get 'adderror'
         get 'my_goods'
         get 'goods_details'
-        get :myshop        
+        get :myshop
         get :goods_destroy
         post 'goods_destroy'
         get 'myorder'
@@ -196,7 +198,7 @@ Modengke::Application.routes.draw do
   resources :sessions
   resources :users do
     get 'forgot_password', :on=>:collection
-    post 'send_reset_password_instruction', :on=>:collection    
+    post 'send_reset_password_instruction', :on=>:collection
     get 'reset_password',:on=>:collection
     post 'search', :on=>:collection
     post 'change_password',:on=>:collection
@@ -384,7 +386,7 @@ Modengke::Application.routes.draw do
         get 'detail'
       end
     end
-    
+
     resources :wechat do
       get :menu,:on=>:collection
       get :menu_edit,:on=>:collection
@@ -406,7 +408,7 @@ Modengke::Application.routes.draw do
     resources :sessions
     resources :coupons
     resources :express_rules
-    
+
     resources :goods_cats do
       get :create_top,:on=>:collection
       get :toggle_future,:on=>:member
