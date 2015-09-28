@@ -1,0 +1,130 @@
+<style type="text/css">
+
+    .change_lange{
+        display: none;
+    }
+     .bottomdivsclearfix{
+         display: none;
+     }
+
+</style>
+
+<%=form_for :addr, :url=>@method == :put ?@action_url :" /member_addrs/addship?platform=#{params[:platform]}&supplier_id=#{@supplier.id}",  :remote=>true,:method=>@method||:post,:html=>{ :class=> " form-horizontal" } do |f|%>
+    <input name="return_url" type="hidden" value="<%="/orders/arrival?platform=#{params[:platform]}&supplier_id=#{@supplier.id}&member_departure_id=#{params[:member_departure_id]}"%>" >
+    <input name="addr[addr_type]" type="hidden" value="0" >
+
+    <br/>
+      <div class="am-panel am-panel-default">
+
+        <div class="am-input-group">
+          <span class="am-input-group-label">联系人</span>
+          <input class="am-form-field" id="addr_name" name="addr[name]" placeholder="联系人" value="<%=@addr.name%>" size="30" type="text">
+
+
+        </div>
+        <br/>
+        <div class="am-input-group">
+          <span class="am-input-group-label">手机</span>
+          <input class="am-form-field" id="addr_mobile" name="addr[mobile]" placeholder="手机" value="<%=@addr.mobile%>" size="30" type="text">
+
+
+        </div>
+        <br/>
+        <div class="am-input-group">
+          <span class="am-input-group-label">固定电话</span>
+          <input class="am-form-field" id="addr_tel" name="addr[tel]" placeholder="固定电话"  value="<%=@addr.tel%>" size="30" type="text">
+
+
+        </div>
+        <br/>
+        <div class="am-input-group">
+          <span class="am-input-group-label">邮编</span>
+          <input class="am-form-field" id="addr_zip" name="addr[zip]" placeholder="邮编" value="<%=@addr.zip%>" size="30" type="text">
+
+        </div>
+        <br/>
+      <%if params[:platform]=="manco_local"%>
+
+
+
+
+            <%end%>
+
+      <div class="controls" style="display:none">
+        <select id="province" name="addr[province]">
+          <option value="21" selected="selected">上海</option>
+        </select>
+        <select class="am-input-group-label" id="city" name="addr[city]">
+          <option value="1" selected="selected">上海</option>
+        </select>
+        <select id="district" name="addr[district]" onchange="selectDistrict(this);">
+          <option value="1" selected="selected">静安区</option>
+        </select>
+      </div>
+
+
+
+      <div class="am-panel-hd">
+        <label for="addr">详细地址</label>
+        </div>
+      <div class="am-panel-bd">
+        <%if  session[:arrivals]%>
+            <%=f.text_field :addr,:class=>"span5", :id=>"addr",:class=>"am-form-field", :value =>  session[:arrivals]%>
+        <%else%>
+            <%=f.text_field :addr,:class=>"span5", :id=>"addr",:class=>"am-form-field"%>
+        <%end%>
+        <span class="help-inline error"></span>
+      </div>
+    </div>
+
+
+
+
+    <div class="am-panel am-panel-default " id="choose_default">
+      <div class="am-panel-hd">
+        <label for="addr_def_addr">设置默认<em style="color: #ff0000">(选择设置为当前默认地址)</em>:</label>
+        </div>
+      <div class="am-panel-bd">
+        <%=f.check_box :def_addr, {}, 1, 0 %><span><%=I18n.t "default"%></span>
+        <span class="help-inline error"></span>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <div class="controls">
+        <%if @method == :put%>
+            <input type="button" id="sub" class="am-btn am-btn-primary am-btn-block" value="<%=I18n.t "modify"%>">
+
+        <%else%>
+            <input type="button" id="sub" class="am-btn am-btn-primary am-btn-block" value="<%=I18n.t "confirm"%>">
+
+        <%end%>
+      </div>
+    </div>
+    </div>
+<%end%>
+
+
+<script type="application/javascript">
+    $(document).ready(function(){
+        $("#choose_default").bind("click",function(){
+
+            checkbox($("#addr_def_addr"));
+        })
+
+        $("#sub").bind("click",function(){
+            if( $("#addr_name").val()=="" &&$("#addr_mobile").val()==""||$("#addr").val()=="") {
+                alert("请完善联系人信息")
+                return false;
+
+            }
+            else{
+                $(".form-horizontal").submit()
+
+            }
+
+        })
+
+    })
+
+</script>

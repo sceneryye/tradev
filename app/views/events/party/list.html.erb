@@ -1,0 +1,34 @@
+<div class="am-g" style="padding: 15px">
+
+  <div data-am-widget="list_news" class="am-list-news am-list-news-default am-no-layout">
+    <div class="am-list-news-hd am-cf">
+      <a href="###" class=""><h2 style="border: 4px solid #FF8000"></h2> <h2 style="margin-left: 10px">活动列表</h2><span class="am-list-news-more am-fr">更多 »</span></a>
+    </div>
+    <div class="am-list-news-bd">
+      <ul class="am-list">
+        <% @events.each do |event| %>
+        <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-bottom-left">
+          <a href="/events/party/detail?id=<%=event.id%>&supplier_id=78">
+          <div class="am-u-sm-2 am-list-thumb">
+            <%if Ecstore::User.find_by_member_id(event.member_id).weixin_headimgurl%>
+           <%=image_tag Ecstore::User.find_by_member_id(event.member_id).weixin_headimgurl,:id=>"weixin" ,:class => "am-circle",:onerror=>"javascript:this.src='/assets/event.png';"%>
+            <%else%>
+                <img src="/assets/event.png" style="width: 45px; height: 45px;"> <%end%>
+          </div>
+          <div class="am-u-sm-10 am-list-main">
+            <h4 class="clearstyle evenfont"> <%=event.name%>  </h4>
+            <%if (Time.at(event.endtime).to_s(:db))<Time.at(Time.now).to_s(:db)%>
+            <span style="font-size: 13px;color: #000000">报名已经结束</span>
+
+                <%else%>
+            <span style="font-size: 13px">报名截止时间:<%=Time.at(event.endtime).to_s(:db)%> </span><%end%> <br>
+            <span class="icon-arr"></span>
+          </div></a></li>
+
+          <%end%>
+      </ul>
+    </div>
+  </div>
+
+
+        </div>

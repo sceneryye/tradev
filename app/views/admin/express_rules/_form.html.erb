@@ -1,0 +1,66 @@
+<%= form_for :express_rule,:url =>@action_url, :method=>@method, :html => {:class => "form-horizontal"} do |f| %>
+  <fieldset>
+    <div class="control-group">
+      <%= f.label :title, "规则名称", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :title%>
+      </div>
+    </div>
+     <div class="control-group">
+      <%= f.label :areas, "地区选择", :class => "control-label" %>
+      <div class="controls">       
+        <ul>
+        <%Ecstore::Region.provinces.all.each do |province|%>
+            <li class="controller" style="float:left;width:100px">
+              <%checkd=""
+                if @express_rule.areas
+                    if @express_rule.areas.include?(province.local_name)
+                      checked="checked"
+                    end
+                end%>
+                <input type="checkbox" name="express_rule[areas][]" value="<%=province.local_name%>" <%=checked%>>
+                    <%=province.local_name%>
+                   
+            </li>
+        <%end%>
+      </ul>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :first_price, "首重价格", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :first_price%>/<%= f.text_field :first_weight%>克
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :each_add_price, "续重价格", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :each_add_price%>/<%= f.text_field :each_add_weight%>克
+      </div>
+    </div>
+
+     <div class="control-group">
+      <%= f.label :default_first_price, "其他地区首重价格", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :default_first_price%>
+      </div>
+    </div>
+    <div class="control-group">
+      <%= f.label :default_each_add_price, "其他地区续重价格", :class => "control-label" %>
+      <div class="controls">
+        <%= f.text_field :default_each_add_price%>
+      </div>
+    </div>
+
+   
+    
+    <div class="control-group">
+      <div class="controls">
+        <%= f.submit '确定', :class => "btn btn-primary" %>&nbsp;&nbsp;&nbsp;&nbsp;<%= link_to '返回', admin_express_rules_path %>
+      </div>
+    </div>
+
+  </fieldset>
+<% end %>

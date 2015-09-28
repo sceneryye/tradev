@@ -1,0 +1,6 @@
+if($('h4').hasClass('member-address-pc')) {
+  window.location.pathname = "/member_addrs";
+}
+
+$(".shipping-address-active form").remove();
+$("#addr-<%= params[:id] %> .addr-line").text('<%=@addr.addr_line%>');

@@ -1,0 +1,34 @@
+<style type="text/css" >
+
+    .order_list{overflow: hidden;text-overflow: ellipsis;border: none !important ;padding:3px;white-space: nowrap;}.order_list>img{width: 45px!important;height: 45px!important}.order_list>span{font-size: 14px;color: #000000}
+</style>
+
+<div class="am-panel am-panel-default " style="margin: 0px;padding: 0px">
+  <div class="am-panel-hd" style="text-align: center;padding: 10px">订单中心</div>
+</div>
+
+<div class="am-g" style="margin-top: 10px">
+  <div class="am-u-md-6">
+    <%@orders.each  do |order|%>
+
+        <div class="am-panel am-panel-default">
+
+          <div class="am-panel-hd"><span class="left">订单状态:</span>
+            <%if @supplier.id.to_s=="98"%>
+                <a href="/orders/wuliu_show_order?id=<%=order.order_id%>&supplier_id=<%=@supplier.id%>" target="_blank"><%=order.order_status_text%> </a>
+                <%else%>
+                <a href="/orders/mobile_show_order?id=<%=order.order_id%>&supplier_id=<%=@supplier.id%>" target="_blank"><%=order.order_status_text%> </a>
+             <%end%> </div>
+          <ul class="am-panel-bd am-list">
+            <%order.order_items.each_with_index do |order_item,index|%>
+
+                <li class="order_list">
+                  <%unless @supplier.id.to_s=="98" %>
+                  <%=image_tag order_item.good.medium_pic,:class=>"thumb" if order_item.good%><%end%>
+                  <span style="font-size: 14px"><%=order_item.good.name if order_item.good%></span></li>
+            <%end%>
+          </ul>
+        </div>
+    <%end%></div></div>
+
+

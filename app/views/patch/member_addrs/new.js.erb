@@ -1,0 +1,5 @@
+if($(".new-shipping-address form").size() == 0){
+  $(".new-shipping-address").prepend('<%=j render(:partial=>"patch/member_addrs/form",:locals=>{:display=>true}).html_safe%>');
+}else{
+  $(".new-shipping-address form").remove();
+}

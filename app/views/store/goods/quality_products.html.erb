@@ -1,0 +1,31 @@
+
+
+
+<style type="text/css">
+
+    .am-btn-catid{
+        font-size: 15px;
+        margin-left: 30px;
+
+    }
+   .am-panel-hd >span{
+    text-align: center;
+   }
+
+</style>
+
+<div class="am-panel am-panel-default fixed_one "style="margin: 0px;padding: 0px">
+  <div class="am-panel-hd"  style="text-align: center;padding: 10px">欢迎来到生态农产馆</div>
+</div>
+
+<%= render :partial=>"mall_detail",:locals=>{ :promotions=>@promotions } %>
+
+<div class="J-shoping">
+  <div class="amz-toolbar J-shoping-title" id="amz-toolbar">
+    <a href="/cart/mobile?id=<%=@supplier.id%>" title="购物车" >
+      <i class="am-icon-btn  am-icon-shopping-cart " id="cart"></i>
+    </a>
+    <span class="  J-shoping-num" id="cart_num"><%=@line_items.count%></span>
+  </div> </div>
+
+

@@ -1,0 +1,23 @@
+
+
+var addrLine = '<label class="radio active shipping-address-active" id="addr-<%= params[:id] %>">'+
+'<%=radio_button_tag "member_addr", @addr.addr_id,:checked=>true%> '+
+'<span class="addr-line"><%=@addr.addr_line%></span>'+
+'<%=link_to "修改","/member_addrs/params[:id]/edit",:class=>"update-link",:remote=>true%>'+
+'</label>';
+
+
+
+
+
+
+//$(".shipping-address-active").append(addrLine);
+//$(addLine).insertAfter($('.shipping-address-active'));
+if($('.shipping-addr').size() > 0) {
+  $(".new-shipping-address form").remove();
+  $(".shipping-addr:last").after(addrLine);
+}
+else {
+  $(".addr form").remove();
+  $('.addr-lists').prepend(addrLine);
+}

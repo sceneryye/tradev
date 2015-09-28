@@ -1,0 +1,30 @@
+<br/><br/><br/><br/>
+    <div class='sel_banner'>
+      <p class="total_member hidden"><%=@total_clients%></p>
+    </div>
+    <table class="table table-bordered table-hover">
+      <tr>
+        <td>会员ID</td>
+        <!-- <td>SID</td> -->
+        <td>姓名</td>
+        <td>邮箱</td>
+        <td>手机</td>
+        <td>注册时间</td>
+      </tr>
+
+      <% @clients.each do |client| %>
+          <tr>
+            <td><%=client.user.member_id %></td>
+            <!-- <td><%=client.user.account.login_name%></td> -->
+            <td><%=client.user.name %></td>
+            <td><%=client.user.email%></td>
+            <td><%=client.user.mobile%></td>
+            <td><%=Time.at(client.user.account.createtime).strftime('%Y-%m-%d %H:%M')%></td>
+          </tr>
+      <% end %>
+    </table>
+
+    <div class="pagination">
+      <%= will_paginate @clients, :container => false %>
+    </div>
+

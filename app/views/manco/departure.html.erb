@@ -1,0 +1,100 @@
+<style type="text/css">
+
+    .href{
+        text-align: center;
+        padding: 10px;
+    }
+
+</style>
+<script src="/assets/jquery.js?body=1" type="text/javascript"></script>
+<script src="/assets/jquery_ujs.js?body=1" type="text/javascript"></script>
+        <hr>
+<a id="ahref" class="am-btn am-btn-danger" href="/manco/departure_new?supplier_id=98&way=<%=@way%>">新增
+  <%if @way =="departure"%>
+      装货人地址
+  <%elsif @way =="arrival"%>
+      卸货人地址
+  <%end%> </a>
+<hr>
+<form action="departure_edit" class="am-form" method="post">
+
+  <input type="hidden" name="supplier_id"value="<%=@supplier.id%>">
+  <input type="hidden" name="way" value="<%=@way%>"/>
+
+
+  <ul class="am-list am-list-striped ">
+
+    <%if @def_addrs.size>0%>
+        <%@def_addrs.each do |def_addr|%>
+            <li style="padding: 15px" class="li_addr">
+              <%=radio_button_tag "member_departure_id",def_addr.addr_id ,:checked=>true ,:class=>"am-badge-danger"%>
+              <span >&nbsp;&nbsp;<%=def_addr.name%>  <span  style="margin-left: 30px"> <%=def_addr.mobile%></span></span>
+              <br/>
+
+              <span >&nbsp;&nbsp;<%=def_addr.addr%></span>
+              <span class="am-badge am-badge-danger delete" style="cursor:pointer " data-confirm="确定要删除吗？"data-method="delete" >删除</span>
+
+            </li>
+
+
+        <% end %>
+        <input type="submit" class="am-btn am-btn-primary am-btn-block"  value="修改" >
+    <%else%>
+        <a id="ahref" class="am-btn am-btn-primary am-btn-block" href="/manco/departure_new?supplier_id=98&way=<%=@way%>&good_id=<%=@good.good_id%>">新增
+          <%if @way =="departure"%>
+              寄货人地址
+          <%elsif @way =="arrival"%>
+              收货人地址
+          <%end%> </a>
+    <%end%>
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</form>
+<br/>
+<br/>
+<%= javascript_include_tag "jquery", "jquery_ujs" %>
+ <%=javascript_include_tag "manco/city.js"%>
+<script type="application/javascript">
+    $(document).ready(function(){
+        $(".delete").bind("click",function(){
+            var addr_idsss=   $(this).parent("li").children("input[type='radio']").val();
+            var thisTr =  $(this);
+
+            $.ajax( {
+                url: "/orders/destroyaddr?supplier_id=#{<%@supplier.id%>}",
+                type: "post",
+                data:{addr_idsss:addr_idsss },
+                success:function(res){
+
+                 thisTr.parents("li").remove();
+
+
+                }
+            });
+
+        })
+        $(".li_addr").bind("click",function(){
+            $(this).children("input[type='radio']").attr("checked",'true');
+
+        })
+
+
+
+
+
+
+    })
+
+</script>

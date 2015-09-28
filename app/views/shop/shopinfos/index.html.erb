@@ -1,0 +1,152 @@
+
+<div class="main" >
+<div class="get">
+  <div class="am-container">
+    <p>
+      <%=image_tag @user.weixin_headimgurl,:id=>"weixin" ,:style=>"display:block"%>
+    </p>
+
+       <p>
+         <%if @shop.nil?%>
+         <h3 class="get-title">欢迎来到贸威自媒体商城<br>
+         <a href="/shop/shopinfos/new"class="am-btn am-btn-sm get-btn">请创建您的店铺</a></h3>
+         <%elsif @shop.status==0%>
+           <h3 class="get-title">您已成功创建了店铺，店铺正在审核阶段请耐心等待！</h3>
+         <%elsif @shop.status==1%>
+            <input type="hidden" id="shopid" value="<%=@shop.shop_id%>">
+            <a href="/shop/shopinfos/myshop?shop_id=<%=@shop.shop_id%>" class="am-btn am-btn-sm get-btn">我的店铺</a>
+             <button class="am-btn am-btn-sm  am-btn-danger look" data-am-modal="{target: '#my-popup'}">二维码查看</button>
+
+             <div class="am-popup" id="my-popup">
+               <div class="am-popup-inner">
+                 <div class="am-popup-hd">
+                   <h4 class="am-popup-title"><%=@shop_title%></h4>
+      <span data-am-modal-close class="am-close">&times;</span>
+                 </div>
+                 <div class="am-popup-bd"style="text-align: center">
+                   <div id="qrcodeCanvas" style="display: block" ></div>
+                   <div id="qrcodeimg"></div>
+                   <div >欢迎关注</div>
+
+                 </div>
+               </div>
+             </div>
+             <div class="am-modal am-modal-confirm" tabindex="1" id="my-confirm" style="color: #000000">
+               <div class="am-modal-dialog">
+                 <div class="am-modal-hd"><%=@shop_title%></div>
+                 <div class="am-modal-bd" id="url">
+                    前往店铺查看
+                 </div>
+                 <div class="am-modal-footer">
+                   <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                   <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+                 </div>
+               </div>
+             </div>
+
+    <%elsif @shop.status==-2%>
+        <h3 class="get-title">您已成功提交了关闭店铺，系统正在审核阶段请耐心等待！</h3>
+    <%elsif @shop.status==-1%>
+        <h3 class="get-title">您已成功关闭了店铺！</h3>
+       <%end%>
+    </p>
+  </div>
+  <% unless @shop.nil?%>
+       <%if @shop.permission_branch=="-1"%>
+  <div class="am-alert tijiao am-alert-danger">
+    <strong>注意：</strong>您的订单成交金额已达到200元
+    <p>可以申请开分店了哦!!</p>
+    <button class="am-btn am-btn-sm get-btn am-btn-default fendian">开启分店</button>
+     </div>
+      <%elsif @shop.permission_branch=="0" %>
+      <div class="am-alert ">
+      <p>您已经成提交申请开分店了,请耐心等待!!,如果系统审核完成,您可以在店铺管理中查看到"分店管理"</p>
+       </div>
+  <%end%>
+  <%end%>
+
+  </div>
+  <div class="am-g ">
+  <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default am-margin-zero am-titlebar-multi am-no-layout">
+    <h2 class="am-titlebar-title">店铺玩法</h2>
+  </div>
+      <div class="main" >
+  <section class="amz-features" style="text-align: center">
+    <div class="am-g am-g-fixed">
+      <div class="col-md-6 am-u-md-6" data-scrollspy="{animation:'slide-left', delay: 0}">
+        <img class="am-img-responsive img" src="/assets/fendian.png" alt="fendian" />
+        <h2>怎么开分店?</h2>
+        <p>当店主的订单销售金额达到200元后,可以在平台申请开启分店!</p>
+      </div>
+
+      <div class="col-md-6 am-u-md-6" data-scrollspy="{animation:'slide-top', delay: 500}">
+        <img class="am-img-responsive img" src="/assets/duoge.png" alt="web" />
+        <h2>店铺商品如何才能存放多个</h2>
+        <p>目前,对于新开的店铺只能存放3个供应商,但是用户数或者订单数达到一定量后,会开放更多的商品和更多的玩法,尽情期待!!</p>
+      </div>
+    </div>
+
+    <div class="am-g am-g-fixed">
+      <div class="col-md-6 am-u-md-6" data-scrollspy="{animation:'slide-right', delay: 1000}">
+        <img class="am-img-responsive img" src="http://a.static.amazeui.org/assets/2.x/i/ui/chinese.png" alt="chinese" />
+        <h2>怎么添加商品</h2>
+        <p>可以进入店铺管理然后选择商品管理</p>
+      </div>
+
+      <div class="col-md-6 am-u-md-6" data-scrollspy="{animation:'slide-bottom', delay: 1500}">
+        <img class="am-img-responsive img" src="http://a.static.amazeui.org/assets/2.x/i/ui/mobile.png" alt="mobile" />
+        <h2>如何让别人知道您的店铺</h2>
+        <p>朋友圈微信码微信推广</p>
+      </div>
+    </div>
+  </section> </div></div>
+
+</div>
+
+<%= javascript_include_tag "qrcode/kaelQrcode.min.js"%>
+<%= javascript_include_tag "shop/urlqrcode.js"%>
+
+
+<script>
+
+
+  var shop_id= $("#shopid").val();
+     var host=window.location.host;
+
+    var url="http://"+host+"/shop/?shop_id="+shop_id;
+    var imag=$("#weixin").attr("src");
+  window.onload = function(){
+      var kaelBase = new KaelQrcode();
+      kaelBase.init(document.getElementById("qrcodeCanvas"), {
+          text :url,
+          size: 300,
+          img: {
+              src : imag
+
+          }
+      });
+
+
+  }
+
+
+$(document).ready(function(){
+    $(".fendian").click(function(){
+        $.ajax(
+                {  type:"post",
+                   url:"/shop/shopinfos/fendian?shop_id="+shop_id,
+                    success:function(data){
+
+                        window.location.href=window.location.href;
+                    }
+
+                }
+        )
+
+
+    })
+})
+
+
+
+</script>

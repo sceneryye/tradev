@@ -1,0 +1,1003 @@
+
+    <script>
+    var speedTimePoint = [
+        [(new Date()), 1470,120,9,1470,120,10,1470,120,11,1470,120,45]
+    ];
+    speedTimePoint.rptTime = 3000;
+    speedTimePoint.diffNetwork = true;
+    speedTimePoint.huatuoReport = true;
+    </script>
+    <title>贸威优品商城</title>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+
+    <!--S 线上样式-->
+    <link rel="stylesheet" href="/new_mobile/css/wx_bar.s.min.css">
+    <link rel="stylesheet" href="/new_mobile/css/wx_bar_v2.s.min.css">
+    <link rel="stylesheet" href="/new_mobile/css/wallet_v2.s.min.css">
+    <link rel="stylesheet" href="/new_mobile/css/wallet_v2_guide.s.min.css?t=1434713982">
+
+     <!--
+    <link combofile="wallet/wallet_v2.shtml" rel="stylesheet" href="http://wq.360buyimg.com/c/=/fd/base/css/base/base.s.min.css,/fd/base/css/base/mod_nav_foot.s.min.css,/fd/wx/css/base/wx_bar.s.min.css,/fd/wx/css/base/wx_bar_v2.s.min.css,/fd/wx/css/wallet/wallet_v2.s.min.css,/fd/wx/css/wallet/wallet_v2_guide.s.min.css?t=1434713982">  //-->
+
+    <!--E 线上样式-->
+
+    <style type="text/css">
+    .wet_slider {
+        min-height: 150px;
+    }
+    .wet_app_panel{
+        min-height: 40px;
+    }
+    .wei_tp_list{
+        min-height: 100px;
+    }
+    .wei_tm_panel{
+        min-height: 80px;
+    }
+    .wet_mat_panel{
+        min-height: 100px;
+    }
+    .WX_backtop_active {
+        display: block;
+        bottom:60px;
+    }
+    </style>
+
+    <script>
+        speedTimePoint["1"] = new Date();
+        function firstImgLoaded(){
+            !speedTimePoint[4] && (speedTimePoint[4] = new Date());
+        }
+    </script><style type="text/css"></style>
+
+<script type="text/javascript" href="/new_mobile/js/jd.smartbox.min.js"></script><link type="text/css" rel="stylesheet" href="/new_mobile/css/search_panel.s.min.css" id="loadCss0.513467502547428"></head>
+<body>
+
+
+
+<script>
+!function(a) {
+    function b() {
+      
+    }
+    function c() {
+       
+    }
+    function d() {
+      
+    }
+    var e = {};
+    e.send = function(a) {
+        var b = (new Date).getTime(),
+        c = "_COUNTRD" + b++;
+        try {
+            window[c] = new Image,
+            window[c].src = a
+        } catch(d) {}
+    },
+    e.sendJs = function(a, b) {
+        function c() {
+            d && (d.onload = d.onreadystatechange = d.onerror = null, d.parentNode && d.parentNode.removeChild(d), d = null)
+        }
+        var d = document.createElement("script");
+        b = b || {},
+        d.charset = b.charset || "utf-8",
+        d.onload = d.onreadystatechange = function() { (/loaded|complete/i.test(this.readyState) || -1 == navigator.userAgent.toLowerCase().indexOf("msie")) && (b.onLoad && b.onLoad(), c())
+        },
+        d.onerror = function() {
+            b.onError && b.onError(),
+            c()
+        },
+        d.src = a,
+        b.defer && (d.defer = "defer"),
+        b.async && (d.async = "async"),
+        b.crossorigin && d.setAttribute("crossorigin", "true"),
+        document.getElementsByTagName("head")[0].appendChild(d)
+    },
+    e.device = {
+        retina: window.devicePixelRatio >= 1.5,
+        sticky: function() {
+            var a,
+            b = "-webkit-sticky",
+            c = document.createElement("i");
+            return c.style.position = b,
+            a = c.style.position,
+            c = null,
+            a === b
+        } (),
+        scene: function() {
+            var a = navigator.userAgent.toLowerCase();
+            return a.indexOf("micromessenger") > -1 ? "weixin": /qq\/([\d\.]+)*/.test(a) ? "qq": /jzyc\/\d\.\d/.test(a) ? "jzyc": "mobile"
+        } (),
+        webp: !1,
+        getNetwork: function(a) {
+            try {
+                var b = e.cookie.get("network");
+                if (b) return a(b);
+                "qq" == this.scene ? mqq.device.getNetworkType(function(b) {
+                    switch (1 * b) {
+                    case 0:
+                        nt = b;
+                        break;
+                    case 1:
+                        nt = "wifi";
+                        break;
+                    case 2:
+                        nt = "2G";
+                        break;
+                    case 3:
+                        nt = "3G";
+                        break;
+                    case 4:
+                        nt = "4G"
+                    }
+                    e.cookie.set("network", nt, 2, "/", "jd.com"),
+                    a(nt)
+                }) : "weixin" == this.scene ? (console.log("head getNetworkType "), wx.getNetworkType({
+                    success: function(b) {
+                        console.log(b.networkType);
+                        var c = b.networkType;
+                        /wifi/i.test(c) ? c = "wifi": /4g|3g+/i.test(c) ? c = "4g": /3g/i.test(c) ? c = "3g": /2g/i.test(c) && (c = "2g"),
+                        console.log(c),
+                        e.cookie.set("network", c, 2, "/", "jd.com"),
+                        a(c)
+                    },
+                    fail: function() {
+                        a("unknown")
+                    }
+                })) : a("unknown")
+            } catch(c) {
+                a("unknown")
+            }
+        }
+    },
+    e.performance = {
+        useScaleImg: function() {
+            var a = e.cookie.get("network"),
+            b = e.device.retina;
+            return "wifi" != a || !b
+        },
+        getScaleImg: function(a) {
+            return /360buyimg\.com/.test(a) && /\.(jpg|jpeg|png)$/.test(a) && (/jfs\//.test(a) || /com\/n\d{1,2}\//.test(a)) ? e.device.webp ? a + ".webp": /\.(jpg|jpeg)$/.test(a) ? a + "!q80.jpg": a: a
+        }
+    },
+    e.report = {
+        itil: function() {
+            return ! 1
+        },
+        rd: function(a) {
+            function b() {
+                if (d.length) {
+                    var a = d.shift();
+                    c(a),
+                    setTimeout(b, 30)
+                }
+            }
+            function c(a) {
+                a && (a = "[object Object]" == {}.toString.call(a) ? a: {
+                    ptag: a
+                },
+                window.ja.trace(a), ECC.cloud.report.trace(a))
+            }
+            var d; ! this._rdList && (this._rdList = []),
+            window.ECC_cloud_report_pv ? (c(a), d = this._rdList, b()) : this._rdList.push(a)
+        },
+        badJs: function(a) {
+            var b = new Image;
+            a && a.stack ? a = a.stack.toString() : "object" == typeof a && window.JSON && window.JSON.stringify && (a = JSON.stringify(a)),
+            b.src = "/webmonitor/collect/badjs.json?Content=" + a + "&t=" + Math.random()
+        },
+        umpBiz: function(a) {
+            var b;
+            if (a instanceof Array) {
+                b = [];
+                for (var c = 0; c < a.length; c++) b.push(a.bizid + "|" + a.operation + "|" + a.result + "|" + a.source + "|" + encodeURIComponent(a.message.replace(/,/g, " ")));
+                b = b.join(",")
+            } else b = a.bizid + "|" + a.operation + "|" + a.result + "|" + a.source + "|" + encodeURIComponent(a.message.replace(/,/g, " "));
+            var d = new Image;
+           
+        }
+    },
+   
+    },
+    e.url = {
+        setHash: function(a) {
+            setTimeout(function() {
+                location.hash = a
+            },
+            0)
+        },
+        getHash: function(a) {
+            var b = a || location.hash;
+            return b ? b.replace(/.*#/, "") : ""
+        },
+        getHashParam: function(a) {
+            var b = this.getHash().match(new RegExp("(^|&)" + a + "=([^&]*)(&|$)"), "i");
+            return null != b ? b[2] : ""
+        },
+        getUrlParam: function(a) {
+            var b = arguments[1] || window.location.search,
+            c = new RegExp("(^|&)" + a + "=([^&]*)(&|$)", "i"),
+            d = b.substr(b.indexOf("?") + 1).match(c);
+            return null != d ? d[2] : ""
+        },
+        parseUrl: function(a) {
+            var b = document.createElement("a");
+            return b.href = a,
+            {
+                source: a,
+                protocol: b.protocol.replace(":", ""),
+                host: b.hostname,
+                port: b.port,
+                query: b.search,
+                params: function() {
+                    for (var a, c = {},
+                    d = b.search.replace(/^\?/, "").split("&"), e = d.length, f = 0; e > f; f++) d[f] && (a = d[f].split("="), c[a[0]] = a[1]);
+                    return c
+                } (),
+                file: (b.pathname.match(/([^\/?#]+)$/i) || [, ""])[1],
+                hash: b.hash.replace("#", ""),
+                path: b.pathname.replace(/^([^\/])/, "/$1"),
+                relative: (b.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ""])[1],
+                segments: b.pathname.replace(/^\//, "").split("/")
+            }
+        },
+        addRd: function(a, b) {
+            a = a.replace(/？/g, "?");
+            var c = /ptag[=,]\d+\.\d+\.\d+/i,
+            d = /\?/.test(a);
+            return hasAnchor = a.indexOf("#") > -1,
+            a = c.test(a) ? a.replace(c, "PTAG=" + b) : hasAnchor ? a.replace("#", (d ? "&": "?") + "PTAG=" + b + "#") : a + (d ? "&": "?") + "PTAG=" + b
+        },
+        smartboxUrl: "js/jd.smartbox.min.js?t=201506121048"
+    },
+    e.gray = function() {
+        var a = e.url.getUrlParam("mgray") || e.cookie.get("mgray"),
+        b = {
+            mmart: !1,
+            focusCpt: !1,
+            focusBi: !1,
+            syncCookieToJD: function(a) {
+                var b = e.cookie.get(a);
+                if (b) {
+                    var c = document.createElement("iframe");
+                    c.style.display = "none",
+                    c.onload = function() {
+                        document.body.removeChild(c)
+                    },
+                    c.src = "item/sck?" + a + "=" + encodeURIComponent(b),
+                    document.body.appendChild(c)
+                }
+            }
+        };
+        return a ? (a = 1 * a, 1 & a && (b.mmart = !0), 2 & a && (b.focusCpt = !0), 4 & a && (b.focusBi = !0), b) : b
+    } (),
+    e.events = function() {
+        var a,
+        b,
+        c,
+        d,
+        e,
+        f;
+        return b = {},
+        f = this,
+        a = function(a, c) {
+            var d,
+            e;
+            return d = null != (e = b[a]) ? e: b[a] = [],
+            d.push(c)
+        },
+        c = function(b, c) {
+            return d(b),
+            a(b, c)
+        },
+        d = function(a) {
+            var c;
+            return null != (c = b[a]) ? c.length = 0: void 0
+        },
+        e = function() {
+            var a,
+            c,
+            d,
+            e,
+            g,
+            h;
+            for (h = Array.prototype.shift.call(arguments), c = null != (g = b[h]) ? g: b[h] = [], d = 0, e = c.length; e > d; d++) if (a = c[d], a.apply(f, arguments) === !1) return ! 1
+        },
+        {
+            listen: a,
+            one: c,
+            remove: d,
+            trigger: e
+        }
+    } (),
+    e.wxapi = function() {
+        if ("weixin" == e.device.scene) {
+            var a,
+            b = "wx_api_ready",
+            c = "wx_cfg_init",
+            d = "wx_api_error",
+            f = "wx_js_load",
+            g = "wx_sign_get",
+            h = !1;
+            return funcs = [],
+            initSdkCofig = function() {
+                a && window.wx && e.events.trigger(c, a)
+            },
+            {
+                ready: function(c, i, j) {
+                    if (i) {
+                        a && (a = null);
+                        var k = function() {
+                            e.events.trigger(g, !0)
+                        };
+                        window.wx ? k() : e.events.listen(f, k)
+                    }
+                    a && window.wx && h ? c && c.call(null, a) : c && e.events.listen(b, c),
+                    j && e.events.listen(d, j)
+                },
+                signatureReady: function(b) {
+                    a = b,
+                    initSdkCofig()
+                },
+                getSignature: function() {
+                    return a
+                },
+                jsReady: function(a) {
+                    e.events.listen(c, a),
+                    e.events.trigger(f),
+                    e.events.remove(f),
+                    initSdkCofig()
+                },
+                wxReady: function() {
+                    h = !0
+                }
+            }
+        }
+    } (),
+    b(),
+    c(),
+    d(),
+    window[a] = e
+} ("JD");
+
+</script>
+<script>
+window.closeSearchEntrance = false;  //控制smartbox是否展示(容灾用)
+window.smartboxGrayStrategy = 99;  //smartbox灰度百份比(灰度到直出版,99全量)
+window._useStaticItemLink = false;  //true切换商详静态版
+window._loadCoupon = true;  //false不加载优惠券  -- 商祥用
+window._loadYanbao = true;  //false不加载延保  -- 商祥用
+window._searchWhiteList = '357661421|93219600|88528398|44668570|497195833|1066176|404139319|394757186|263096207|1507902953|15608209';  //搜索用灰度白名单
+function getItemLink(str, ptag){
+	var link = str;
+	if(parseInt(str) == str){ //传入sku,链接生成
+		var linkpre = 'item/view?sku=';
+		if(window._useStaticItemLink){  //容灾开关(切换到wqs版本)
+			linkpre = '/item/jd.shtml?sku=';
+		}
+		link = linkpre + str;
+	}else{ //传入链接,容灾转换
+		if(window._useStaticItemLink){
+			link = link.replace("item/view","/item/jd.shtml");
+		}
+	}
+	return ptag ? (link + '&ptag=' + ptag) : link;
+}
+</script>
+
+ <div class="WX_msg_bar" id="yxHead" style="display: none"></div>
+    <div id="topsearchbar" class="wx_search wx_search_chanel_mode fixed" data-switchstyle="1" data-homepage="1" data-hotrd="37670.9.1" data-searchrd="37787.1.5" data-placeholder="" data-index="2" data-switchclassname=" wx_search_promote">
+      <div class="wx_search_inner">
+        <div class="wx_bar_cate">
+            <span id="__cate" ptag="37787.1.3" class="icon_cate"></span>
+        </div>
+        <form action="" method="get" class="wx_search_form wx_search_promote" onsubmit="return false;">
+            <input name="key" class="wx_search_txt" placeholder="德国香肠" ptag="37787.1.5" type="search" id="topSearchTxt" autocomplete="off">
+            <a class="wx_search_clear" href="javascript:;" id="topSearchClear" style="display: none;">x</a>
+        </form>
+        <div class="wx_search_act">
+            <span id="topSearchCbtn" class="wx_search_btn">取消</span>
+        </div>
+    </div>
+
+ </div>
+
+<script type="text/javascript">
+window.speedTimePoint&&(speedTimePoint[9]=new Date());//342
+</script>
+<div class="wx_side_menu">
+    <div class="mod_alert_mask"></div>
+      <div class="menu_box">
+        <div class="inner">
+            <div class="menu_hd">
+            </div>
+            <div class="menu_bd" id="yScroll1" style="display:none;overflow:hidden;position:absolute">
+                <div class="menu_list" style="display: none; transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); -webkit-transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 0ms; -webkit-transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
+                    <!--WEBPAGEBEGIN@6431-->
+                    <%@galleries.each do |gallery|%>
+                    <div class="item" data-href="/mobile/gallery?id=<%gallery.tag_id%>" data-dis="" data-strong="">
+                    <i class="icon_m" style="background: url(http://wq.360buyimg.com/img/20150423/pcd_icon_3c.png) no-repeat; background-size: 100%;"></i><%=gallery.tag_name%>
+                    <span class="new" style="display:none"></span>
+                    <span class="hot" style="display:none"></span>
+                    </div>
+
+            <%end%>    
+                    <div class="item" data-href="/portal/wx/chaoshi.shtml?PTAG=37080.12.2" data-dis="" data-strong=""><i class="icon_m" style="background: url(http://img11.360buyimg.com/jdphoto/s40x40_jfs/t1072/232/643107197/1395/df47e911/5538d952N8e6a4676.png) no-repeat; background-size: 100%;"></i>贸威超市<span class="new" style="display:none"></span><span class="hot" style="display:none"></span></div><div class="item" data-href="/portal/wx/jiadianguan.shtml?PTAG=37080.12.3" data-dis="" data-strong=""><i class="icon_m" style="background: url(http://img11.360buyimg.com/jdphoto/s40x40_jfs/t901/38/652412697/1088/b8a1f61b/5538d949N70218103.png) no-repeat; background-size: 100%;"></i>家电馆<span class="new" style="display:none"></span><span class="hot" style="display:none"></span></div><div class="item" data-href="/portal/wx/yundongguan.shtml?PTAG=37080.12.4" data-dis="" data-strong=""><i class="icon_m" style="background: url(http://img11.360buyimg.com/jdphoto/s40x40_jfs/t1063/27/661419772/1669/6ff61fa/5538d957Ndf326e58.png) no-repeat; background-size: 100%;"></i>运动健康馆<span class="new" style="display:none"></span><span class="hot" style="display:none"></span></div><div class="item" data-href="/portal/wx/xin.shtml?PTAG=37080.12.5&amp;title=1" data-dis="" data-strong=""><i class="icon_m" style="background: url(http://img11.360buyimg.com/jdphoto/s40x40_jfs/t751/100/1378588789/1635/455930a8/5538d961N680d0208.png) no-repeat; background-size: 100%;"></i>首发<span class="new" style="display:none"></span><span class="hot" style="display:none"></span></div><div class="item" data-href="mcoss/mportal/show?tpl=11&amp;tabid=11&amp;PTAG=37080.12.6&amp;title=1" data-dis="" data-strong="1"><i class="icon_m" style="background: url(http://img11.360buyimg.com/jdphoto/s40x40_jfs/t817/363/678234978/1370/3be55859/5538d945N21482b1e.png) no-repeat; background-size: 100%;"></i>品牌<span class="new" style="display:none"></span><span class="hot"></span></div><div class="item" data-href="mcoss/mportal/show?tabid=9&amp;tpl=9&amp;PTAG=37080.12.7&amp;title=1" data-dis="" data-strong=""><i class="icon_m" style="background: url(http://img11.360buyimg.com/jdphoto/s40x40_jfs/t925/297/578435459/1529/4e89c4c7/5538d94eN83c7f182.png) no-repeat; background-size: 100%;"></i>特价<span class="new" style="display:none"></span><span class="hot" style="display:none"></span></div><div class="item" data-href="/portal/wx/microstore.shtml?PTAG=37080.12.8&amp;title=1" data-dis="" data-strong=""><i class="icon_m" style="background: url(http://img11.360buyimg.com/jdphoto/s40x40_jfs/t988/5/660836885/1329/65ff1ec6/5538d95cN0fc6ea83.png) no-repeat; background-size: 100%;"></i>微店<span class="new" style="display:none"></span><span class="hot" style="display:none"></span></div><div class="item" data-href="/portal/wx/category_m.shtml?PTAG=37080.12.9" data-dis="" data-strong=""><i class="icon_m" style="background: url(http://img11.360buyimg.com/jdphoto/s40x40_jfs/t1405/312/353164650/1185/2c92df86/55781255Ndded211a.png) no-repeat; background-size: 100%;"></i>全部商品分类<span class="new" style="display:none"></span><span class="hot" style="display:none"></span></div><!--WEBPAGEEND@6431-->
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="smartboxBlock"><div class="search_panel_wrapper" dtab="s-tab" style="display:none;"><div class="search_panel_title"><div class="text">最近搜索</div><div class="title_btn" dtab="s-btn" cg="1-6-13" rd="7095.8.1">清除</div></div><div class="search_panel_con two_row" dtab="s-row"></div><div class="search_panel_title"><div class="text">热门搜索</div><div class="title_btn" dtab="c-btn" cg="1-7-1" rd="7095.8.2">换一批</div></div><div class="search_panel_con" dtab="s-tag"></div></div><div class="s_row" dtab="smartWrap" style="display:none;"> </div></div>
+<script type="text/javascript">
+window.speedTimePoint&&(speedTimePoint[10]=new Date());//342
+</script>
+<script>
+
+! function() {
+
+    function showFirstTips() {
+        if(location.href.indexOf("/portal/wx/index.shtml")==-1){return $(".wx_bar_guide_area").remove();}
+        var hasShowInst = JD.cookie.get(tipsKey);
+        hasShowInst ? $(".wx_bar_guide_area").remove() : $(".wx_bar_guide_area").show();
+    }
+
+    function go(searchLink) {
+        location.href = searchLink;
+    }
+
+    var  tipsKey = "jd_newversion_062021",
+        bar = document.getElementById("topsearchbar"),
+        topSearchbtn = document.getElementById("topSearchbtn"),
+        searhPanel = document.querySelector(".wx_search_form"),
+        barData = bar.dataset,
+        switchword = "1" == barData.homepage ? "<span ptag='37787.1.1'>换旧版</span>" : "<span ptag='37787.1.2'>换新版</span>",
+        switchurl = "1" == barData.homepage ? "mcoss/wxmall/home?ptype=1&ptag=37787.1.2" : "/portal/wx/index.shtml?ptag=37787.1.1";
+    barData.index = 2, barData.switchclassname = "1" == barData.switchstyle ? " wx_search_promote" : "";
+
+    searhPanel.className = searhPanel.className + barData.switchclassname;
+
+    topSearchbtn.innerHTML = switchword;
+
+    barData.switchstyle == "1" && (topSearchbtn.style.display = "",
+        barData.switchstyle == "1" && document.querySelector(".wx_search_ov").addEventListener("touchstart", function(e) {
+            if (e.srcElement && -1 === e.srcElement.className.indexOf("wx_search_btn")) {
+                var wq_graytag,oldversion;
+                if (barData.homepage) {
+                    wq_graytag = -9 & JD.cookie.get("wq_graytag");
+                    oldversion=1;
+                   
+                    JD.report.rd("37787.1.2");
+                } else {
+                    wq_graytag=8 | wq_graytag;
+                    oldversion=0;
+                }
+                JD.cookie.set("wq_graytag", wq_graytag, 864e3, "/", "jd.com"), JD.cookie.set("wq_oldversion", oldversion, 864e3, "/", "jd.com");
+                e&& e.stopPropagation() && e.preventDefault();
+                location.href = switchurl;
+            }
+        }, !1)), window.closeSearchEntrance ? bar.style.display = "none" : (window._searchbar = barData,
+
+        //入口文件后执行
+        JD.events.listen("wq.wx.menu_ready", function(s1) {
+            var Bar, stopMove, clickEvent = "ontouchstart" in window ? "tap" : "click",
+                wx_side_menu = $(".wx_side_menu"),
+                wx_search_chanel_mode = $(".wx_search_chanel_mode"),
+                bigShow = $("#bigShow"),
+                menu_list = $(".menu_list"),
+                guide = $(".wx_bar_guide_area"),
+                wx_search_inner = $(".wx_search_inner"),
+                showMenu = function(hide) {
+                    JD.events.trigger("event_checkpopmenu", hide);
+                },
+                stopMove = function(e) {
+                    0 == $(e.target).parents(".stopmove").length && (e.preventDefault());
+                };
+            menu_list.find(".item[data-dis=new] .new").show();
+            menu_list.find(".item[data-strong='1'] .hot").show();
+
+            JD.events.listen("event_checkpopmenu", function(hide) {
+                if (hide || menu_list.css("display") !== "none") {
+                    wx_side_menu.removeClass("show");
+                    wx_search_chanel_mode.removeClass("wx_search_show_menu");
+                    JD.events.trigger("event_hidecurtain");
+                    setTimeout(function() {
+                        menu_list.hide().parent().hide();
+                    }, 500);
+                    $(document).unbind("touchmove", stopMove, !1)
+                } else {
+
+                    wx_search_chanel_mode.removeClass("wx_search_show_window").addClass("wx_search_show_menu");
+                    wx_side_menu.addClass("show");
+                    bigShow.removeClass("show");
+                    $(document).bind("touchmove", stopMove, !1);
+                    if (wx_search_chanel_mode.hasClass("fixed")) {
+                        menu_list.show().parent().show();
+                    } else {
+                        setTimeout(function() {
+                            menu_list.show().parent().show();
+                        }, 500);
+                        menu_list.show().parent().show();
+                        window.scrollTo(0, 0);
+                        menu_list.show().parent().show().css("top", (wx_search_inner.offset().top + wx_search_inner.height() - 1) + "px");
+                    }
+
+                    s1.refresh();
+                }
+            });
+            menu_list.find(".item").on(clickEvent, function(e) {
+                var target = $(e.target);
+                e.preventDefault(), e.stopPropagation(), go(target.data("href") || $(target).parents("[data-href]").attr("data-href"));
+            }), Bar = {
+                init: function() {
+
+                    this.init_tab(), this.init_menu(), this.init_guide();
+                },
+                init_tab: function() {
+
+                    wx_search_inner.on(clickEvent, function(e) {
+                        showMenu(true);
+                    });
+                },
+                init_menu: function(e) {
+
+                    var mask = wx_side_menu.find(".mod_alert_mask"),
+                        fold = wx_side_menu.find(".fold"),
+                        on_click = function(e) {
+                           if(e&&$(e.target).attr("class")=="icon_cate"){
+                              JD.report.rd($(e.target).attr("ptag"));
+                        }
+                            e && (e.preventDefault(), e.stopPropagation());
+                            showMenu(false);
+
+                        },
+                        on_menu = function(e) {
+                            var elm = $(e.target).closest(".menu_list");
+                            elm.length > 0 || on_click();
+                        };
+                    wx_search_chanel_mode.find(".wx_bar_cate").on(clickEvent, on_click), mask.on(clickEvent, on_click), fold.on(clickEvent, on_click),
+                    wx_side_menu.on(clickEvent, on_menu);
+                },
+                init_guide: function() {
+                    var on_clear = function() {
+                            guide.remove();
+                        },
+                        on_click = function() {
+                            JD.cookie.set(tipsKey, 1, 5256e4, "/", "jd.com"), //确保展示一次
+                            guide.addClass("fade"), timer = setTimeout(on_clear, 500);
+                        };
+                    guide.on(clickEvent, on_click);
+                }
+            }, Bar.init(), window._navfoot && showFirstTips();
+        }));
+}();
+</script>
+<script type="text/javascript">
+window.speedTimePoint&&(speedTimePoint[11]=new Date());//342
+</script>
+
+<div class="wx_wrap" >
+    <div class="wet_section">
+
+        <!-- wet_bnr /广告 -->
+        <div class="wet_window"  style="display:none;">
+            <div class="wet_slider">
+                <div class="list" style="-webkit-transform: translate3d(-694.5px, 0px, 0px); -webkit-transition: all 0.3s ease; transition: all 0.3s ease;"><div class="item">   <a href="/event/brand/apple2/index.shtml?PTAG=37787.2.3&DAP=5309323687731273805:1689135651693812273:4:466130&pps=focus.00000004030003%3A00071cd2000170b100001a1600000984%3A%3A630014" class="url">       <img src="/new_mobile/img/558a69ebNff4dedad.jpg.webp" alt="" onload="firstImgLoaded();">   </a></div><div class="item">   <a href="/promote/2015/clothesparty/index.html?PTAG=37787.2.1&DAP=5309323687731273805:1689135651693812271:4:465790&pps=focus.00000004030003%3A00071b7e000170f000001a1400000984%3A%3A630014" class="url">       <img src="/new_mobile/img/5583c406Ne34f2e25.jpg.webp" alt="" onload="firstImgLoaded();">   </a></div><div class="item">   <a href="/promote/2015/615jiadian/shuma_55.html?PTAG=37787.2.2&DAP=5309323687731273805:1689135651693812272:4:466302&pps=focus.00000004030003%3A00071d7e000170f100001a1500000984%3A%3A630014" class="url">       <img src="/new_mobile/img/558b6c7fN4280d905.jpg.webp" alt="" onload="firstImgLoaded();">   </a></div><div class="item">   <a href="/event/brand/apple2/index.shtml?PTAG=37787.2.3&DAP=5309323687731273805:1689135651693812273:4:466130&pps=focus.00000004030003%3A00071cd2000170b100001a1600000984%3A%3A630014" class="url">       <img src="/new_mobile/img/558a69ebNff4dedad.jpg.webp" alt="" onload="firstImgLoaded();">   </a></div><div class="item">   <a href="/promote/2015/clothesparty/index.html?PTAG=37787.2.1&DAP=5309323687731273805:1689135651693812271:4:465790&pps=focus.00000004030003%3A00071b7e000170f000001a1400000984%3A%3A630014" class="url">       <img src="/new_mobile/img/5583c406Ne34f2e25.jpg.webp" alt="" onload="firstImgLoaded();">   </a></div></div>
+                <div class="nav">
+                    <span class="nav_bar">
+                        <b class="" no="1"></b><b no="2" class=""></b><b no="3" class="cur"></b>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- app_panel icon 栏 -->
+        <!--WEBPAGEBEGIN@6365--><script>
+var ppms_wx_index_app =[
+
+{
+    title  : "签到",
+    desc   :"每天领1元",
+    yaoDesc   :"{#yaodesc#}"
+},
+
+{
+    title  : "摇一摇",
+    desc   :"摇出低价商品",
+    yaoDesc   :"摇10元优惠券"
+},
+
+{
+    title  : "贸威会员",
+    desc   :"我的会员特权",
+    yaoDesc   :""
+},
+
+null];
+</script><!--WEBPAGEEND@6365-->
+
+        <div class="wet_app_panel"  style="display:none;">
+            <div class="wet_app_list"><div class="item"><a href="/promote/2015/checkin/checkin.html?activitysrc=1&PTAG=37787.3.1" class="url"><div class="cover"><i class="icon icon_check_no"></i></div><div class="name">签到<span class="dot" id="checkin" style="display:none"></span></div><div class="desc">每天领1元</div></a></div><div class="item"><a href="/promote/2015/shake/home.html?PTAG=37787.3.2" class="url"><div class="cover"><i class="icon icon_yao"></i></div><div class="name">摇一摇<span class="dot" id="yao" style="display:none"></span></div><div class="desc">摇出低价商品</div></a></div><div class="item"><a href="/my/vip.shtml?PTAG=37787.3.3" class="url"><div class="cover"><i class="icon icon_gift"></i></div><div class="name">贸威会员<span class="dot" id="gift" style="display: none;"></span></div><div class="desc">我的会员特权</div></a></div></div>
+            <!-- /row -->
+        </div>
+        <!-- /panel -->
+
+        <div class="wet_space size_s top"  style="display:none;"></div>
+
+        <div class="wet_bnr ">
+        <script type="text/html" id="AdBannerTpl">
+            <div class="item">
+                <a href="<%#=data.link%>" class="url">
+                    <img src="<%#=JD.performance.getScaleImg(data.urlImg1)%>" alt="">
+                </a>
+            </div>
+        </script>
+        </div>
+
+        <div class="wet_space size_s btm"></div>
+
+        <div class="wei_tp_panel">
+            <div class="wei_tp_list"><div class="item item_1"><span class="icon_c_618" style="display:none;"></span>   <a href="/mobile/26238" class="url">       <div class="info">           <div class="name">特价秒杀</div>           <div class="desc">德国香肠免费送</div>       </div>       <div class="img">           <img src="/images/a0127/a01270014_m.jpg" alt="" onload="firstImgLoaded();">       </div>   </a></div><div class="item item_2"><span class="icon_c_618" style="display:none;"></span>   <a href="/mobile/26235" class="url">       <div class="info">           <div class="name">众筹买手</div>           <div class="desc">嘉定水蜜桃预定</div>       </div>       <div class="img">           <img src="/images/a0129/a01290001_m.jpg" alt="" onload="firstImgLoaded();">       </div>   </a></div><div class="item item_3"><span class="icon_c_618" style="display:none;"></span>   <a href="/mobile/26106" class="url">       <div class="info">           <div class="name">跨境直邮</div>           <div class="desc">荷兰牛栏奶粉</div>       </div>       <div class="img">           <img src="/images/a05/a050005_m.jpg" alt="" onload="firstImgLoaded();">       </div>   </a></div></div>
+            <!-- /wei_row -->
+        </div>
+        <!-- /tp_panel -->
+
+        <div class="wet_space"></div>
+
+        <div class="wei_tm_panel">
+            <div class="wei_tm_list"><div class="item" id="newSku"><span class="icon_c_618" style="display:none;"></span>   <a href="/mobile/48/shop" class="url">       <div class="info">           <div class="name">好店推荐</div>           <div class="desc">精选店铺抢上新</div>           <div class="tip">店铺上新 6 件</div>       </div>       <div class="img">           <img alt="" src="/images/welcome/shop139.jpg" onload="firstImgLoaded();">       </div>   </a></div><div class="item" id="timeLimit"><span class="icon_c_618" style="display:none;"></span>   <a href="/mobile/26237" class="url">       <div class="info">           <div class="name">心跳秒杀</div>           <div class="desc">德国奶酪肠</div>           <div class="tip">免费试吃，仅限上海</div>       </div>       <div class="img">           <img alt="" src="/images/a0127/a01270013_m.jpg" onload="firstImgLoaded();">       </div>   </a></div></div>
+            <!-- /wei_row -->
+        </div>
+        <!-- /tp_panel -->
+
+        <div class="wet_space"></div>
+
+    </div>
+    <!-- /section -->
+    <!--WEBPAGEBEGIN@6295--><script>
+var ppms_index_hot = [
+
+{
+    title : "电器数码城",
+    desc  : "稀缺现货限时抢",
+    image : "http://img11.360buyimg.com/jdphoto/s120x120_jfs/t1183/257/1282134000/14345/250945ba/558bab91N8cb7c43c.jpg",
+    url   : "/portal/wx/digit_mall.shtml?ptag=37787.5.1",
+    sign  : "2"
+},
+
+{
+    title : "贸威超市",
+    desc  : "精选商品急速送达",
+    image : "http://img11.360buyimg.com/jdphoto/s120x120_jfs/t1579/76/430937131/7949/5426312c/5583b06dN4f03ed94.jpg",
+    url   : "/portal/wx/chaoshi.shtml?ptag=37787.5.2",
+    sign  : "1"
+},
+
+{
+    title : "家电馆",
+    desc  : "打白条 领券享免息",
+    image : "http://img11.360buyimg.com/jdphoto/s120x120_jfs/t1330/132/542955491/14690/7b1e6a3a/5583b185N37e17552.jpg",
+    url   : "/portal/wx/jiadianguan.shtml?ptag=37787.5.3",
+    sign  : "1"
+},
+
+{
+    title : "运动馆",
+    desc  : "阿迪清凉一夏",
+    image : "http://img11.360buyimg.com/jdphoto/s120x120_jfs/t1627/311/436174949/7633/1a6e1827/5583b91dNd2ef451f.jpg",
+    url   : "/portal/wx/yundongguan.shtml?ptag=37787.5.4",
+    sign  : "0"
+},
+
+{
+    title : "男装",
+    desc  : "牛仔裤全场低至39",
+    image : "http://img11.360buyimg.com/jdphoto/s120x120_jfs/t1546/319/464962393/26554/ab389f/5588cd08Ncfa5277d.jpg",
+    url   : "/portal/wx/category_m.shtml?keywordid=665&ptag=37787.5.5",
+    sign  : "0"
+},
+
+{
+    title : "女装内衣",
+    desc  : "时尚女装 狂欢继续",
+    image : "http://img11.360buyimg.com/jdphoto/s120x120_jfs/t1153/237/1202633131/10501/2a377082/5583ef67N27a17131.jpg",
+    url   : "/portal/wx/category_m.shtml?keywordid=629&ptag=37787.5.6",
+    sign  : "0"
+},
+
+{
+    title : "男女鞋靴",
+    desc  : "女鞋厂家直销199封顶",
+    image : "http://img11.360buyimg.com/jdphoto/s120x120_jfs/t922/64/1256706336/8114/e24d5331/558bacc1Nfc3959f5.jpg",
+    url   : "/portal/wx/category_m.shtml?keywordid=756&ptag=37787.5.7",
+    sign  : "0"
+},
+
+{
+    title : "箱包礼品",
+    desc  : "我的潮包我做主",
+    image : "http://img11.360buyimg.com/jdphoto/s120x120_jfs/t1579/258/437497221/6815/e62a933f/5583b8deN738d9c69.jpg",
+    url   : "/portal/wx/category_m.shtml?keywordid=630&ptag=37787.5.8",
+    sign  : "0"
+},
+
+{
+    title : "个护化妆",
+    desc  : "夏季美白防晒",
+    image : "http://img11.360buyimg.com/jdphoto/s120x120_jfs/t1579/344/428147212/6461/791f5d67/5583fab3N18702839.jpg",
+    url   : "/portal/wx/category_m.shtml?keywordid=631&ptag=37787.5.9",
+    sign  : "0"
+},
+
+{
+    title : "家居百货",
+    desc  : "夏凉床品199减100",
+    image : "http://img11.360buyimg.com/jdphoto/s120x120_jfs/t1030/91/1193326460/15982/55505ce3/5583fab9N82d6ed19.jpg",
+    url   : "/portal/wx/category_m.shtml?keywordid=632&ptag=37787.5.10",
+    sign  : "0"
+},
+
+{
+    title : "手表饰品",
+    desc  : "爆款疯抢不停歇",
+    image : "http://img11.360buyimg.com/jdphoto/s120x120_jfs/t1039/154/1229303283/9690/4b28468/5583cb65N061b4d03.jpg",
+    url   : "/portal/wx/category_m.shtml?keywordid=654&ptag=37787.5.11",
+    sign  : "0"
+},
+
+{
+    title : "母婴玩具",
+    desc  : "新衣新玩具过暑假",
+    image : "http://img11.360buyimg.com/jdphoto/s120x120_jfs/t1624/266/444036942/10373/9cf7cdc5/5583b781N2460733d.jpg",
+    url   : "/portal/wx/category_m.shtml?keywordid=633&ptag=37787.5.12",
+    sign  : "0"
+},
+
+{
+    title : "电脑数码",
+    desc  : "618热销TOP排行",
+    image : "http://img11.360buyimg.com/jdphoto/s120x120_jfs/t1393/96/457676705/6744/d540b665/5588dc94Ncf0f910e.jpg",
+    url   : "/portal/wx/category_m.shtml?keywordid=627&ptag=37787.5.13",
+    sign  : "0"
+},
+
+{
+    title : "手机通讯",
+    desc  : "iPhone6现货抢",
+    image : "http://img11.360buyimg.com/jdphoto/s120x120_jfs/t1642/5/470226302/5921/e862f1b7/5588dc98Nb5ef3812.jpg",
+    url   : "/portal/wx/category_m.shtml?keywordid=626&ptag=37787.5.14",
+    sign  : "0"
+},
+
+{
+    title : "图书音像",
+    desc  : "图书排行版推荐",
+    image : "http://img11.360buyimg.com/jdphoto/s120x120_jfs/t1372/145/446947851/5781/bca160db/5588dc9bN4a495ade.jpg",
+    url   : "/portal/wx/category_m.shtml?keywordid=637&ptag=37787.5.15",
+    sign  : "0"
+},
+
+null
+];
+</script><!--WEBPAGEEND@6295-->
+    <div class="wet_section">
+        <div class="section_hd">
+            <h3>精选类目</h3>
+        </div>
+        <!-- /hd -->
+
+        <div class="wet_mat_panel">
+            <div class="wet_mat_list">      
+            <%@galleries.each do |gallery|%>
+                  
+
+            <div class="item" >                     
+            <a href="/mobile/gallery?id=<%=gallery.tag_id%>" class="url"> 
+            <div class="sign hot">hot</div>
+            <div class="info">                             
+            <div class="name"><%=gallery.tag_name%></div>                             
+            <div class="desc"><%=gallery.issue_no%></div>                         </div>                         
+            <div class="img">                             <img src="<%=gallery.cover_url%>" alt="">                         </div>                     </a>                 </div>   
+
+            <%end%>                                
+           </div>
+            <!-- /list -->
+        </div>
+        <!-- /panel -->
+
+        <div class="wet_space"></div>
+    </div>
+    <!-- /section -->
+
+    <div class="wet_section">
+        <div class="section_hd">
+            <h3>有你喜欢的</h3>
+        </div>
+        <!-- <div class="wet_tag_box">
+            <a href="#" class="cur"><span>综合</span></a>
+            <a href="#"><span>高性价比</span></a>
+            <a href="#"><span>情人节礼物1111</span></a>
+            <a href="#"><span>过年必备</span></a>
+        </div> -->
+        <!-- tag box -->
+
+        <div class="wet_pro_panel">
+            <div class="wet_pro_list">
+             <%@goods.each do |good|%>
+            <div class="item">
+            <a href="/mobile/<%=good.goods_id%>" class="url">
+            <div class="img">
+            <img alt="" src="<%=good.medium_pic%>">
+            </div>
+            <div class="info">
+            <div class="name"><%=good.name%> </div>
+            <div class="cost">
+            <span class="price">¥<%=good.price%></span>&nbsp;
+<span class="" style="text-decoration:line-through">¥<%=good.mktprice%></span>
+            </div>
+            </div>
+            </a>
+            </div>
+<%end%>
+            <!-- /list -->
+        </div>
+        <!-- /panel -->
+    </div>
+    <!-- /section -->
+</div>
+<a id="backToTop" href="#" class="WX_backtop WX_backtop_active" style="bottom: 60px;">返回顶部</a>
+<script type="text/javascript">
+    window._navfoot = {
+        manual : true
+    };
+</script>
+
+<script type="text/javascript">
+//entra746-34
+
+
+
+(function(global){
+var g=[[]],d='http://wq.360buyimg.com',m={},blankjs="",grays={},mdebug = location.href.indexOf("mdebug=1")!=-1;
+m.alias = {};
+var a={},p={},c=[];
+g["1"]=["\/js\/version\/201505\/cookie.201505071822.js","\/js\/version\/201505\/date.201505071823.js","\/js\/version\/201505\/formatJson.201505071823.js","\/js\/version\/201505\/iscroll.201505131224.js","\/js\/version\/201505\/lazyLoad.201505071825.js","\/js\/version\/201505\/loadJs.201505111110.js","\/js\/version\/201505\/login.201505071826.js","\/js\/version\/201505\/loopScroll.201505131229.js","\/js\/version\/201505\/mqqStorage.201505071823.js","\/js\/version\/201501\/scrollCtrl.201501191811.js","\/js\/version\/201505\/util.201505151212.js","\/js\/version\/201505\/wfdata.201505071824.js","\/js\/version\/201506\/wfpage.201506101631.js","\/js\/version\/201506\/wq.wx.index.201506101744.js","\/js\/version\/201505\/wq.wx.menu.201505290925.js","\/js\/version\/201505\/zepto.201505191506.js"];
+g["0"]=["\/js\/version\/201505\/url.201505111643.js"];
+c = [['cookie',1,0],['date',1,1],['formatJson',1,2],['iscroll',1,3],['lazyLoad',1,4],['loadJs',1,5],['login',1,6],['loopScroll',1,7],['mqqStorage',1,8],['scrollCtrl',1,9],['url',0,0],['util',1,10],['wfdata',1,11],['wfpage',1,12],['wq.wx.index',1,13],['wq.wx.menu',1,14],['zepto',1,15]];
+if(typeof(JSON)!="undefined" && window.localStorage){
+	for(var key in localStorage){
+		if(/^_m_/.test(key)){
+			var store = JSON.parse(localStorage.getItem(key));
+        	var i = key.substr(3);
+        	if((new Date()).getTime()>store.cacheTime){
+	    		continue;
+	    	}
+	    	var _m=getModuleMap(i);
+	    	if(!_m || _m.group==0){continue;}
+	    	var curPath=g[_m.group][_m.groupid];
+	    	if((d+curPath)==store.path){
+				g[0].push(curPath);
+				g[_m.group][_m.groupid]=blankjs;
+				c[_m.index]=[_m.id,0,g[0].length-1];
+			}
+		}
+	}
+	}
+function getModuleMap(id){
+	for(var i=0;i<c.length;i++){
+		if(c[i][0]==id){
+			return {"id":id,"index":i,"group":c[i][1],"groupid":c[i][2]};
+		}
+	}
+	return "";
+}
+function getCombUrl(list){
+	var a=[];
+	for(var i=0;i<list.length;i++){
+		if(list[i]){
+			a.push(list[i]);
+		}
+	}
+	return a.length>1?(d+"/c/="+a.join(",")):(d+a[0]);
+}
+
+for(var i=0;i<c.length;i++){
+	var surl=d+g[c[i][1]][c[i][2]];
+	var furl=getCombUrl(g[c[i][1]]);//合并包地址
+		a[c[i][0]]=surl;
+		p[c[i][0]]=(c[i][1]==0)?surl:furl;
+}
+
+m.alias=mdebug?a:p;
+m.moduleURI=a;
+
+
+global._moduleConfig = m;
+
+function gray(m){
+	}
+
+})(this);
+
+</script>
+<script type="text/javascript">var modulejs,require,define;(function(global){var mod,cfg,_modulejs,_define,_require;var version="1.0.2";var isCache=true;var cacheTime=60*60*24*30*1000;cfg={debug:location.href.indexOf("mdebug=1")!=-1?true:false,alias:{},cssAlias:{},moduleURI:{},vars:{},uris:{},modules:{},callback:[],actModules:{},cacheLoad:{},cacheDel:{},deps:{},events:{},timing:{}};_modulejs.config=config;config(global["_moduleConfig"]?global._moduleConfig:cfg);global["_moduleConfig"]=cfg;require=_require;define=_define;modulejs=_modulejs;on("module_ready",function(id,fromeCache){cfg.callback=cleanArray(cfg.callback);var init=cfg.callback,l=init.length;for(var i=0;i<l;i++){if(init[i]&&checkDeps(init[i].dependencies)){var cb=init[i].factory;var deps=init[i].dependencies;var mods=[];var allDeps=[];var m;for(var j=0;j<deps.length;j++){var m=_require(deps[j]);allDeps.push(m.dependencies);mods.push(m);}
+debug("callback_is_run=start",cb.toString(),cfg.callback);init[i]=null;cb.apply(null,mods);cfg.debug&&emit("callback_is_run",cb.toString().replace(/[\r\n]/g,""));}}});on("module_require",function(id){cfg.actModules[id]=cfg.actModules[id]?(cfg.actModules[id]+1):1;});on("module_cacheDel",function(id){cfg.cacheDel[id]=1;});on("cache_load",function(m){});on("module_loss_alias",function(id){console.error("module_loss_alias:"+id);});var cacheNow=new Date();_loadCache();cfg.timing['loadcache']=new Date()-cacheNow;function _loadCache(){if(!_useCache()){return false;}
+localStorage.removeItem("_modules");for(var key in localStorage){if(/^_m_/.test(key)){var store=JSON.parse(localStorage.getItem(key));var i=key.substr(3);var now=(new Date()).getTime();var oneDay=24*3600*1000;if(cfg.alias[i]){if(_getModuleURI(i)!=store.path||store.deps.join(",").indexOf("{")>-1){emit("module_cacheDel",i);localStorage.removeItem(key);continue;}}else{if(now>store.cacheTime){emit("module_cacheDel",i);localStorage.removeItem(key);continue;}}
+if(store.cacheTime-now<oneDay){store.cacheTime=(new Date()).getTime()+cacheTime;try{localStorage.removeItem(key);localStorage.setItem(key,JSON.stringify(store));}catch(e){}}
+cfg.cacheLoad[store.id]=store;emit("cache_load",store);}}}
+function _getModuleURI(id){return cfg.moduleURI[id]?cfg.moduleURI[id]:cfg.alias[id];}
+function _useCache(id,deps,factory){if(typeof(JSON)=="undefined"){return false;}
+if(!isCache){return false;}
+if(!(JSON&&window.localStorage)){return false;}
+if(cfg.debug){return false;}
+var agent=navigator.userAgent.toLowerCase();if(agent.indexOf("msie")>0){var m=agent.match(/msie\s([\d\.]+);/i);if(m&&m.length>=2&&parseInt(m[1])<=6){return false;}}
+if(id&&id.indexOf("_")==0){return false;}
+if(factory&&factory.toString().indexOf("_cacheThisModule_")<0){return false;}
+return true;}
+function _cacheModule(id,deps,factory){var key="_m_"+id;var _t=localStorage.getItem(key);var ms=_t?JSON.parse(_t):{};ms={"id":id,"deps":deps,"factory":factory.toString(),"path":_getModuleURI(id),"cacheTime":(new Date()).getTime()+cacheTime};try{localStorage.removeItem(key);localStorage.setItem(key,JSON.stringify(ms));emit("module_cached",id);}catch(e){}}
+function _define(id,deps,factory){if(!id||(typeof(id)!="string"))
+return;if(id!="_init"&&typeof(cfg.modules[id])!="undefined"){emit("module_ready",id);return true;}
+if(arguments.length===2){factory=deps;deps=null;}
+deps=isType("Array",deps)?deps:(deps?[deps]:[]);if(isType("Function",factory)){var _deps=parseDependencies(factory.toString());}
+_useCache(id,deps,factory)&&_cacheModule(id,deps,factory);deps=mergeArray(deps,_deps);var mod=new Module(id);mod.dependencies=deps||[];for(var i=mod.dependencies.length-1;i>=0;i--){mod.dependencies[i]=parseVars(mod.dependencies[i]);}
+mod.factory=factory;if(id=="_init"){cfg.callback.push(mod);}else{cfg.modules[id]=mod;}
+emit("module_ready",id);}
+function _require(id){id=parseVars(id);var module=cfg.modules[id];emit("module_require",id);if(!module){emit("module_error",id);return null}
+if(module.exports){return module.exports;}
+var now=new Date();var factory=module.factory;var exports=isType("Function",factory)?factory(require,module.exports={},module):factory;module.exports=exports===undefined?module.exports:exports;cfg.timing[id]=new Date()-now;return module.exports;}
+_require.async=_modulejs;_require.css=function(path){path=cfg.cssAlias&&cfg.cssAlias[path]?cfg.cssAlias[path]:path;if(!path){return;}
+var l;if(!window["_loadCss"]||window["_loadCss"].indexOf(path)<0){l=document.createElement('link');l.setAttribute('type','text/css');l.setAttribute('rel','stylesheet');l.setAttribute('href',path);l.setAttribute("id","loadCss"+Math.random());document.getElementsByTagName("head")[0].appendChild(l);window["_loadCss"]?(window["_loadCss"]+="|"+path):(window["_loadCss"]="|"+path);}
+l&&(typeof callback=="function")&&(l.onload=callback);return true;}
+function _modulejs(deps,factory){_define("_init",deps,factory);}
+function checkDeps(deps){var list={},flag=true;for(var i=0;i<deps.length;i++)list[deps[i]]=1;getDesps(deps,list);for(var i in list){if(!cfg.modules[i]){loadModule(i);flag=false;}}
+return flag;function getDesps(deps,list){for(var i=0;i<deps.length;i++){if(!list[deps[i]]){list[deps[i]]=1;}
+if(cfg.modules[deps[i]]&&list[deps[i]]!=2){list[deps[i]]=2;getDesps(cfg.modules[deps[i]].dependencies,list);}}}}
+function parseVars(id){var VARS_RE=/{([^{]+)}/g
+var vars=cfg.vars
+if(vars&&id.indexOf("{")>-1){id=id.replace(VARS_RE,function(m,key){return isType("String",vars[key])?vars[key]:key})}
+return id}
+function mergeObject(a,b){for(var i in b){if(!b.hasOwnProperty(i)){continue;}
+if(!a[i]){a[i]=b[i];}else if(Object.prototype.toString.call(b[i])=="[object Object]"){mergeObject(a[i],b[i]);}else{a[i]=b[i];}}
+return a;}
+function config(obj){return cfg=mergeObject(cfg,obj);}
+function Module(id){this.id=id;this.dependencies=[];this.exports=null;this.uri="";}
+function loadModule(id){var m;if(m=cfg.cacheLoad[id]){return _define(m.id,m.deps,eval("a = "+m.factory));}
+if(cfg.modules[id]){emit("module_ready",id);return;}
+var url=cfg.alias[id]?cfg.alias[id]:"";if(!url){emit("module_loss_alias",id);return;}
+if(cfg.uris[url]){return;}
+cfg.uris[url]=1;var head=document.getElementsByTagName("head")[0]||document.documentElement;var baseElement=head.getElementsByTagName("base")[0];var node=document.createElement("script");node.charset="utf-8";node.async=true;node.src=url;var handler=function(){var callee=arguments.callee
+cfg.timing[callee.uri]=new Date()-callee.time;};handler.time=new Date();handler.uri=url;node.onload=handler;baseElement?head.insertBefore(node,baseElement):head.appendChild(node);cfg.debug&&emit("file_loading",url);}
+function on(name,cb){var cbs=cfg.events[name];if(!cbs){cbs=cfg.events[name]=[];}
+cbs.push(cb);}
+function emit(name,evt){debug(name,evt);if(!cfg.events[name]||cfg.events[name].length==0){return;}
+for(var i=0,l=cfg.events[name].length;i<l;i++){cfg.events[name][i](evt);}
+if(name==='error'){delete cfg.events[name];}}
+function cleanArray(a){var n=[];for(var i=0;i<a.length;i++){a[i]&&n.push(a[i]);}
+return n;}
+function mergeArray(a,b){for(var i=0;i<b.length;i++){((","+a+",").indexOf(","+b[i]+",")<0)&&a.push(b[i]);}
+return a;}
+function isType(type,obj){return Object.prototype.toString.call(obj)==="[object "+type+"]"}
+function parseDependencies(code){var commentRegExp=/(\/\*([\s\S]*?)\*\/|([^:]|^)\/\/(.*)$)/mg;var cjsRequireRegExp=/[^.]\s*require\s*\(\s*["']([^'"\s]+)["']\s*\)/g;var ret=[];code.replace(commentRegExp,"").replace(cjsRequireRegExp,function(match,dep){dep&&ret.push(parseVars(dep));})
+return ret;}
+function debug(){if(!cfg.debug){return true;}
+var a=[],l=arguments.length;for(var i=0;i<l;i++){a.push(arguments[i]);}
+try{console.log.apply(console,a);}catch(e){}}}(this));</script>
+<script type="text/javascript">
+var _speedMarkModule = new Date();
+modulejs('wq.wx.index', function(m){    
+    speedTimePoint['3'] = new Date();
+    m.init();
+});</script>
+
+
+<script>
+speedTimePoint['2'] = new Date();
+</script>
+

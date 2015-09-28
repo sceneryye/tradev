@@ -1,0 +1,39 @@
+<div>
+    <%=link_to "新建物流规则",new_admin_express_rule_path %>
+</div>
+<table class="table table-bordered table-striped table-hover">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>规则名称</th>			
+			<th>地区</th>
+			<th>首重价(元)/首重(克)</th>
+			<th>续重价(元)/增重(克)</th>			
+			<th>其他地区首重(元)</th>
+			<th>其他地区续重(元)</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%@express_rules.each do |express|%>
+			<tr>
+				<td><%=express.id%></td>
+				<td><%=express.title%></td>
+				
+				<td><%=express.areas%></td>
+				<td><%=express.first_price%>/<%=express.first_weight%></td>
+				<td><%=express.each_add_price%>/<%=express.each_add_weight%></td>
+				<td><%=express.default_first_price%></td>
+				<td><%=express.default_each_add_price%></td>
+				<td>
+					<%=link_to '编辑', edit_admin_express_rule_path(express) %>
+					|
+					<%=link_to "删除",admin_express_rule_path(express),:method=>:delete,:confirm=>"确定删除吗？"%>					
+				</td>
+			</tr>
+		<%end%>
+	</tbody>
+</table>
+<div class="pagination">
+	<%=will_paginate @express_rules,:container=>false%>
+</div>
