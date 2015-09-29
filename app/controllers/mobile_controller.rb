@@ -27,59 +27,64 @@ class MobileController < ApplicationController
           @orders_nw = @orders_nw
         elsif
          @orders_nw = @orders_nw.where(:status=>params[:status])
-        end
+       end
 
-        if !params[:pay_status].nil?
-          @orders_nw = @orders_nw.where(:pay_status=>params[:pay_status])
-        end
-
-        if !params[:ship_status].nil?
-          @orders_nw = @orders_nw.where(:ship_status=>params[:ship_status])
-        end
-
-        @order_ids = @orders_nw.pluck(:order_id)
-
-
-        @orders = @orders_nw.includes(:user).paginate(:page=>params[:page],:per_page=>30)
-
-        return render :layout =>'mobile_admin'
+       if !params[:pay_status].nil?
+        @orders_nw = @orders_nw.where(:pay_status=>params[:pay_status])
       end
 
-    end
-
-    redirect_to '/mobile/admin'
-  end
-
-  def admin_visitors
-
-    if @user
-      if @user.member_id==4403
-
-        shop_id = 48
-
-        @total_vistors = Ecstore::ShopClient.where(:shop_id=>shop_id).count()
-
-        @visitors=Ecstore::ShopClient.where(:shop_id=>shop_id).paginate(:page => params[:page], :per_page => 20).order("created_at desc")
-
-        return render :layout =>'mobile_admin'
+      if !params[:ship_status].nil?
+        @orders_nw = @orders_nw.where(:ship_status=>params[:ship_status])
       end
 
+      @order_ids = @orders_nw.pluck(:order_id)
+
+
+      @orders = @orders_nw.includes(:user).paginate(:page=>params[:page],:per_page=>30)
+
+      return render :layout =>'mobile_admin'
     end
 
-    redirect_to '/mobile/admin'
   end
 
-  def user_center
+  redirect_to '/mobile/admin'
+end
+
+def admin_visitors
+
+  if @user
+    if @user.member_id==4403
+
+      shop_id = 48
+
+      @total_vistors = Ecstore::ShopClient.where(:shop_id=>shop_id).count()
+
+      @visitors=Ecstore::ShopClient.where(:shop_id=>shop_id).paginate(:page => params[:page], :per_page => 20).order("created_at desc")
+
+      return render :layout =>'mobile_admin'
+    end
 
   end
 
-  def index
+  redirect_to '/mobile/admin'
+end
 
-    @title = "贸威优品商城移动版"
+def user_center
 
-    @galleries = Ecstore::TagExt.order("id desc").limit(10)
+end
 
-    @goods=Ecstore::Good.where(:marketable=>"true").order("goods_id DESC").limit(24)
+def index
+
+  @title = "贸威优品商城移动版"
+
+  @galleries = Ecstore::TagExt.order("id desc").limit(10)
+
+  @goods=Ecstore::Good.where(:marketable=>"true").order("goods_id DESC").limit(24)
+  @brands = []
+  Ecstore::Brand.all.each do |brand|
+    @brands << brand if brand.goods.count > 2
+    return if @brands.length > 3
+  end
 
     #@home = Ecstore::Home.last
     #if signed_in?
@@ -88,58 +93,58 @@ class MobileController < ApplicationController
   end
 
   def categories
-     @cats = Ecstore::Category.where(:parent_id=>0)
+   @cats = Ecstore::Category.where(:parent_id=>0)
+ end
+
+ def category_goods
+   @cat = Ecstore::Category.find_by_cat_id(params[:id])
+   case params[:gtype]
+   when "2"
+    @all_goods = @cat.all_goods(:future=>"true")
+  when "3"
+    @all_goods = @cat.all_goods(:agent=>"true")
+  else
+    @all_goods = @cat.all_goods(:sell=>"true")
+  end
+  order = params[:order]
+
+  if order.present?
+    col, sorter = order.split("-")
+  else
+    col, sorter =  %w{goods_id desc}
   end
 
-  def category_goods
-     @cat = Ecstore::Category.find_by_cat_id(params[:id])
-      case params[:gtype]
-        when "2"
-          @all_goods = @cat.all_goods(:future=>"true")
-        when "3"
-          @all_goods = @cat.all_goods(:agent=>"true")
-        else
-          @all_goods = @cat.all_goods(:sell=>"true")
-      end
-      order = params[:order]
+  page  =  (params[:page] || 1).to_i
+  per_page = 18
 
-      if order.present?
-        col, sorter = order.split("-")
-      else
-        col, sorter =  %w{goods_id desc}
-      end
+  if params[:brand].to_i > 0
+    @all_goods.select! {|g| g.brand_id == params[:brand].to_i }
+  end
 
-         page  =  (params[:page] || 1).to_i
-         per_page = 18
-
-         if params[:brand].to_i > 0
-              @all_goods.select! {|g| g.brand_id == params[:brand].to_i }
-         end
-
-         if params[:color].to_i > 0
-              @all_goods.select! { |g| g.color_specs('id').include? params[:color].to_i }
-         end
+  if params[:color].to_i > 0
+    @all_goods.select! { |g| g.color_specs('id').include? params[:color].to_i }
+  end
 
 
-         if col&&sorter == 'asc'
-              @goods = @all_goods.sort{ |x,y| x.attributes[col] <=> y.attributes[col] }.paginate(page,per_page)
-         elsif col&&sorter == 'desc'
-              @goods = @all_goods.sort{ |x,y| y.attributes[col] <=> x.attributes[col] }.paginate(page,per_page)
-         else
+  if col&&sorter == 'asc'
+    @goods = @all_goods.sort{ |x,y| x.attributes[col] <=> y.attributes[col] }.paginate(page,per_page)
+  elsif col&&sorter == 'desc'
+    @goods = @all_goods.sort{ |x,y| y.attributes[col] <=> x.attributes[col] }.paginate(page,per_page)
+  else
              # @goods = @all_goods.sort{ |x,y| y.uptime <=> x.uptime }.paginate(page,per_page)
-           @goods = @all_goods.paginate(page,per_page)
+             @goods = @all_goods.paginate(page,per_page)
+           end
+
          end
 
-  end
+         def orderlist
+          @supplier_id = params[:supplier_id]
+          if  @user
+            if @supplier_id == nil
+              @supplier_id=78
+            end
 
-  def orderlist
-    @supplier_id = params[:supplier_id]
-    if  @user
-      if @supplier_id == nil
-        @supplier_id=78
-      end
-
-      @orders =  @user.orders.order("createtime desc")
+            @orders =  @user.orders.order("createtime desc")
 
       # if params["platform"]=="mobile"
       #   render :layout=>@supplier.layout
@@ -161,7 +166,7 @@ class MobileController < ApplicationController
 
     @cat = @goods.cat
 
-     @recommend_goods = []
+    @recommend_goods = []
     if @cat.goods.size >= 4
       @recommend_goods =  @cat.goods.where("goods_id <> ?", @goods.goods_id).order("goods_id desc").limit(4)
     else
@@ -178,16 +183,16 @@ class MobileController < ApplicationController
 
   def shop
   	if @user
-	  	 @shop_goods = Ecstore::ShopsGood.where(:shop_id=>48)
-	  	 @galleries = Ecstore::TagExt.order("id desc").limit(6)
-  	else
-  		sid = params[:sid]
+     @shop_goods = Ecstore::ShopsGood.where(:shop_id=>48)
+     @galleries = Ecstore::TagExt.order("id desc").limit(6)
+   else
+    sid = params[:sid]
 
-  		if sid.blank?
-  			return render :text=>"No Sid"
-  		end
+    if sid.blank?
+     return render :text=>"No Sid"
+   end
 
-  		redirect_to "/auth/email139?sid=#{sid}"
+   redirect_to "/auth/email139?sid=#{sid}"
 
   	  #  redirect_uri="http%3a%2f%2fvshop.trade-v.com%2fauth%2femail139%2f#{sid}%2fcallback"
   	  #  @oauth2_url = "http://121.15.167.240:19090/SSOInterface/GetUserByKey"
@@ -199,13 +204,13 @@ class MobileController < ApplicationController
   	end
   end
 
-	def gallery
-		tag_id = params[:id]
-  	@gallery = Ecstore::TagExt.where(:tag_id=>tag_id).first
-  	if @gallery.nil?
-  		return render :text=>"敬请期待"
-  	end
-		@categories = Ecstore::Category.where("cat_id in (#{@gallery.categories})").order("p_order")
+  def gallery
+    tag_id = params[:id]
+    @gallery = Ecstore::TagExt.where(:tag_id=>tag_id).first
+    if @gallery.nil?
+      return render :text=>"敬请期待"
+    end
+    @categories = Ecstore::Category.where("cat_id in (#{@gallery.categories})").order("p_order")
 
 		#render :layout=> 'msite'
 
