@@ -7,7 +7,7 @@ class Store::GalleriesController < ApplicationController
   skip_before_filter :find_path_seo, :find_cart!, :only=>[:newest]
   before_filter :find_tags, :only=>[:cheuksgroup,:newest]
 
-   def show
+  def show
     @no_need_login = 1
     
     if params[:supplier_id]
@@ -17,12 +17,22 @@ class Store::GalleriesController < ApplicationController
       supplier_id =78
     end
 
-  	tag_id = params[:id]
-  	@gallery = Ecstore::TagExt.where(:tag_id=>tag_id).first
-  	if @gallery.nil?
-  		return render :text=>"敬请期待"
-  	end
-  	@categories = Ecstore::Category.where("cat_id in (#{@gallery.categories})").order("p_order")
+    @gallery_id = (126..134).to_a
+    @galleries = []
+    @gallery_id.each do |id|
+      @galleries << Ecstore::TagExt.where(:tag_id=>id).first
+    end
+
+    tag_id = params[:id] || 126
+    @gallery = Ecstore::TagExt.where(:tag_id=>tag_id).first
+    if @gallery.nil?
+      return render :text=>"敬请期待"
+    end
+    condation = params[:cat_id].present? ? ("cat_id = #{params[:cat_id]}") : "cat_id in (#{@gallery.categories})"
+    @categories = Ecstore::Category.where(condation).order("p_order")
+    @categories.each do |category|
+      @goods = Ecstore::Good.where(:cat_id=>category.cat_id,:marketable=>"true").order("p_order ASC , goods_id DESC").paginate(:per_page => 40, :page => params[:page] || 1)
+    end
 
     @supplier = Ecstore::Supplier.find(supplier_id)
 
@@ -47,11 +57,6 @@ class Store::GalleriesController < ApplicationController
       end.save
       session[:recommend_user]=@recommend_user
       session[:recommend_time] =now
-    end
-  	
-    respond_to do  |format|
-        format.html {render :layout=>@supplier.layout}
-        format.mobile { render :layout=> 'msite'}
     end
   end
 
@@ -85,7 +90,7 @@ class Store::GalleriesController < ApplicationController
     end
 
     render :layout=>@supplier.layout
-  	
+
   end
 
 

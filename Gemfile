@@ -43,7 +43,7 @@ gem 'ya2yaml'
 gem 'whenever', :require=>false
 
 
-gem 'rack-mini-profiler' 
+# gem 'rack-mini-profiler' 
 
 #gem 'rjb'
 
