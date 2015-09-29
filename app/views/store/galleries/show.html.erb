@@ -1,5 +1,5 @@
 <%=content_for :head do%>
-  <link href="/assets/store/gallery.css.scss" media="screen" rel="stylesheet" type="text/css" />
+<link href="/assets/store/gallery.css.scss" media="screen" rel="stylesheet" type="text/css" />
 
 <%end%>
 
@@ -11,19 +11,19 @@
 
 <div class="products">
 
-<!--Position-->
-<div id="position">
-  <div class="container">
-    <div class="current_pos">当前位置 ：</div>
-    <ul class="breadcrumb">
-      <li><a href="http://www.TRADE-V.com">首页</a> <span class="divider">/</span></li>
-      <li><a href="/galleries/<%= params[:id] %>" class="<%= 'active' unless params[:cat_id].present? %>"><%= @gallery.tag_name %></a></li>
-      <% if params[:cat_id].present? %>
-      <li><span class="divider">/</span><%= Ecstore::Category.where(:cat_id => params[:cat_id]).first.cat_name %></li>
-      <% end %>
-    </ul>
+  <!--Position-->
+  <div id="position">
+    <div class="container">
+      <div class="current_pos">当前位置 ：</div>
+      <ul class="breadcrumb">
+        <li><a href="http://www.TRADE-V.com">首页</a> <span class="divider">/</span></li>
+        <li><a href="/galleries/<%= params[:id] %>" class="<%= 'active' unless params[:cat_id].present? %>"><%= @gallery.tag_name %></a></li>
+        <% if params[:cat_id].present? %>
+        <li><span class="divider">/</span><span class="active"><%= Ecstore::Category.where(:cat_id => params[:cat_id]).first.cat_name %></span></li>
+        <% end %>
+      </ul>
+    </div>
   </div>
-</div>
   <ul class="left tree-menu">
 
     <% @galleries.each do |gallery| %>
