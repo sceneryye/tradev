@@ -11,7 +11,7 @@ Modengke::Application.routes.draw do
       get :user_center
       get :categories
       get :orderlist
-
+      get :brand
       get :mobile_search
 
   	end

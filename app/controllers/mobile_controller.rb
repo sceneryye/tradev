@@ -81,7 +81,9 @@ def index
 
   @goods=Ecstore::Good.where(:marketable=>"true").order("goods_id DESC").limit(24)
   @brands = []
-  Ecstore::Brand.all.each do |brand|
+
+  Ecstore::Brand.where(:disabled => 'false').shuffle.each_with_index do |brand, index|
+    next if Ecstore::Good.where(:brand_id => brand.brand_id).map(&:medium_pic).include?('') || Ecstore::Good.where(:brand_id => brand.brand_id).map(&:medium_pic).include?(nil)
     @brands << brand if brand.goods.count > 2
     return if @brands.length > 3
   end
@@ -248,8 +250,12 @@ def index
     end
 
     @goods = @goods.includes(:brand).paginate(:per_page=>per_page,:page=>page)
-
-    
   end
 
+  def brand
+    brand_id = (params[:brand_id] || 190).to_i
+    @brand = Ecstore::Brand.where(:brand_id => brand_id).first
+    @goods = Ecstore::Good.where(:brand_id => brand_id).order('name')
+
+  end
 end
