@@ -3,6 +3,19 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+  <title><%=page_title%></title>
+  <meta name="keywords" content="<%=meta_keywords%>" />
+  <meta name="description" content="<%=meta_description%>" />
+
+  <%=javascript_include_tag "standard"%>
+  <%=stylesheet_link_tag "standard"%>
+
+  <%= yield :head%>
+
+  <%=render "shared/baidu" if Rails.env == "production"%>
+  <%= csrf_meta_tags %>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="/new/css/reset.css" />
     <link rel="stylesheet" type="text/css" href="/new/css/bootstrap.min.css" />
@@ -486,9 +499,17 @@
 
     </header>
     <!-- ./header -->
-    <%=yield%>
+    <%=yield%>   
     <!-- footer -->
-    <footer id="footer">
+<%=render "shared/common_footer"%>
+
+<div id="backToTop" title="返回顶部"><span><em class="at">♦</em><em class="ab">▐</em>返回顶部</span></div>
+
+<%=render "shared/iframe_cart" if signed_in?%>
+<%=render "shared/iframe_login" unless signed_in?%>
+<%= javascript_include_tag "google-analytics" if Rails.env == "production"%>
+    <!-- footer -->
+  <!--   <footer id="footer">
         <!-- <div class="footer-top">
             <div class="container">
                 <div class="row">
@@ -666,9 +687,9 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer>-->
     <!-- ./footer -->
-    <a href="#" class="scroll_top" title="回到顶部" style="display: none;">Scroll</a>
+    <!-- <a href="#" class="scroll_top" title="回到顶部" style="display: none;">Scroll</a>-->
     <script src="/assets/standard.js?body=1" type="text/javascript"></script>
  <%=render "shared/iframe_cart" if signed_in?%>
 <%=render "shared/iframe_login" unless signed_in?%>
