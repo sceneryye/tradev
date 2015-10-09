@@ -1,43 +1,4 @@
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-  <title><%=page_title%></title>
-  <meta name="keywords" content="<%=meta_keywords%>" />
-  <meta name="description" content="<%=meta_description%>" />
-
-  <%=javascript_include_tag "standard"%>
-  <%=stylesheet_link_tag "standard"%>
-
-  <%= yield :head%>
-
-  <%=render "shared/baidu" if Rails.env == "production"%>
-  <%= csrf_meta_tags %>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="/new/css/reset.css" />
-    <link rel="stylesheet" type="text/css" href="/new/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="/new/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="/new/css/owl.carousel.css" />
-    <link rel="stylesheet" type="text/css" href="/new/css/jquery-ui.css" />
-    <link rel="stylesheet" type="text/css" href="/new/css/animate.css" />
-    <link rel="stylesheet" type="text/css" href="/new/css/global.css" />
-    <link rel="stylesheet" type="text/css" href="/new/css/style.css" />
-    <link rel="stylesheet" type="text/css" href="/new/css/responsive.css" />
-    <link rel="stylesheet" type="text/css" href="/new/css/option4.css" />
-	<title>贸威优品商城</title>
-</head>
-
-<body class="option4">
-    <!-- header -->
-<<<<<<< HEAD
-    
-<%=yield :notice%>
-<%= render "shared/header" %>
-          <%= render "shared/new_top_menu" %>
-=======
+ <!-- header -->
     <header id="header">
         <div class="container">
             <!-- main header -->
@@ -504,44 +465,4 @@
             </div>
 
     </header>
->>>>>>> origin/master
     <!-- ./header -->
-    <%=yield%>   
-    <!-- footer -->
-<%=render "shared/common_footer"%>
-
-<div id="backToTop" title="返回顶部"><span><em class="at">♦</em><em class="ab">▐</em>返回顶部</span></div>
-
-<%=render "shared/iframe_cart" if signed_in?%>
-<%=render "shared/iframe_login" unless signed_in?%>
-<%= javascript_include_tag "google-analytics" if Rails.env == "production"%>
-  
-
-    <script>
-
-        url =window.location.href
-        if (url.indexOf("/products/") >= 0 ){
-            document.getElementById("product-bar").style.display="block";
-            document.getElementById("tool-bar").style.display="none";
-
-        }
-
-
-        var myDate = new Date();
-        var currentYear = myDate.getFullYear();
-        document.getElementById('copyright_year').innerText=currentYear;
-    </script>
-
-    <script type="text/javascript" src="/new/js/jquery-1.11.2.min.js"></script>
-    <script type="text/javascript" src="/new/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/new/js/jquery.bxslider.min.js"></script>
-    <script type="text/javascript" src="/new/js/owl.carousel.min.js"></script>
-    <script type="text/javascript" src="/new/js/jquery-ui.min.js"></script>
-    <!-- COUNTDOWN -->
-    <script type="text/javascript" src="/new/js/jquery.plugin.js"></script>
-    <script type="text/javascript" src="/new/js/jquery.countdown.js"></script>
-    <!-- ./COUNTDOWN -->
-    <script type="text/javascript" src="/new/js/jquery.actual.min.js"></script>
-    <script type="text/javascript" src="/new/js/script.js"></script>
-</body>
-</html>

@@ -133,7 +133,7 @@
 	border: none;
 	border-radius: 0px;
 	font-size: 14px;
-	font-family: 'Open Sans', sans-serif;
+	font-family: 'Microsoft YaHei', 'Open Sans', sans-serif;
 	height: 30px;
 	position: relative;
 	min-width: 135px;
@@ -167,7 +167,7 @@
 	-webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
   box-shadow: 0 6px 12px rgba(0,0,0,.175);
   font-size: 14px;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Microsoft YaHei', 'Open Sans', sans-serif;
 }
 #category-select-menu .ui-state-focus{
 	border: none;
