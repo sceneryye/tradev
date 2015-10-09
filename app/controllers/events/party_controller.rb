@@ -24,6 +24,8 @@ class Events::PartyController < ApplicationController
        ev.endtime= Time.parse(params[:event][:endtime]).to_i
     end
 
+
+
      if @event.save
        redirect_to "/events/party?supplier_id=78&step=3"
      end
