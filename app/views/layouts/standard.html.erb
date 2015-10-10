@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +15,13 @@
   <%=render "shared/baidu" if Rails.env == "production"%>
   <%= csrf_meta_tags %>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-	
+	<link rel="stylesheet" type="text/css" href="/new/css/reset.css" />
+    <link rel="stylesheet" type="text/css" href="/new/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/new/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/new/css/owl.carousel.css" />
+    <link rel="stylesheet" type="text/css" href="/new/css/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="/new/css/animate.css" />
+    <link rel="stylesheet" type="text/css" href="/new/css/global.css" />
     <link rel="stylesheet" type="text/css" href="/new/css/style.css" />
     <link rel="stylesheet" type="text/css" href="/new/css/responsive.css" />
     <link rel="stylesheet" type="text/css" href="/new/css/option4.css" />
@@ -27,7 +32,8 @@
 <%=yield :notice%>
 <%= render "shared/header" %>
 <%if controller_name!='home'%>
-    <%= render "shared/new_top_menu" %>
+ <%= render "shared/new_top_menu" %>
+
     <%= yield :cover %>
 
     <div id= "main" class="<%=controller_name%> <%=action_name%> clearfix">
@@ -44,4 +50,4 @@
 <%=render "shared/iframe_login" unless signed_in?%>
 <%= javascript_include_tag "google-analytics" if Rails.env == "production"%>
 </body>
-</html>
+</html>
