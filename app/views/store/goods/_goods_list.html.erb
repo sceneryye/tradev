@@ -1,0 +1,62 @@
+<div class="sorter" style="float:left">
+  <span class="sort">排序: </span>
+  <%
+  query_hash = {}
+    # query_hash[:color] = params[:color] if params[:color]
+    # query_hash[:brand] = params[:brand] if params[:brand]
+    # query_hash[:cat_id] = params[:cat_id] if params[:cat_id]
+    params_hash = params.dup
+
+    params_hash.delete(:controller)
+    params_hash.delete(:action)
+    params_hash.delete(:order)
+
+    query = params_hash.to_query
+    %>
+
+    <%if params[:order].blank?%>
+    <%=link_to "价格&uarr;".html_safe,"?order=price-asc",:title=>"价格从低往高"%>
+    <%elsif  params[:order] == "price-asc"%>
+    <%=link_to "价格&uarr;".html_safe,"?order=price-desc",:title=>"价格从低往高"%>
+    <%else params[:order] =='price-desc'%>
+    <%=link_to "价格&darr;".html_safe,"?order=price-asc",:title=>"价格从高往低"%>
+    <%end%>
+
+    <%=link_to "销量&darr;".html_safe,"?order=buy_count-desc",:title=>"价格从高往低"%>
+    <%=link_to "人气&darr;".html_safe,"?order=view_count-asc",:title=>"人气从高往低"%>
+    <% params[:order] ||= 'price-asc' %>
+    <div class="pagination top">
+      <%=will_paginate @goods,:container=>false if @goods%>
+    </div>
+  </div>
+
+  <ul class="list clearfix" id="goods">
+   <% @categories.each do |category| %>
+   <!--<div class="category-name" style="padding:2px 5px;background-color:red;color:white"><%= category.cat_name %>:</div>-->
+   <%@goods=Ecstore::Good.where(:cat_id=>category.cat_id,:marketable=>"true").order(params[:order].split('-').join(' ')).paginate(:per_page => 30, :page => params[:page] || 1) %>
+   <% @goods.each_with_index do |goods, index|%>
+ <li><div class="good-pic>
+  
+     <%= link_to good_path(goods.bn) do %>
+     <div class="img">
+      <img src="<%=goods.medium_pic%>">
+    </div>
+    <% end %>
+    <!--</a>-->
+    <div class="info">
+      <a href="/products/<%=goods.bn%>" class="">
+       <div class="name"><%=goods.name%></div>
+     </a>
+     <div class="gift"><%=goods.price%> &nbsp;
+      <span class="" style="text-decoration:line-through">¥<%=goods.mktprice%></span> </div>
+  
+  </a>
+</div>
+<%end%>
+</div>
+<%end%>
+</ul>
+<div class="pagination">
+  <%=will_paginate @goods,:container=>false if @goods%>
+</div>
+<div class="clearfix"></div>

@@ -1,10 +1,12 @@
 <%=content_for :head do%>
 <link href="/assets/store/gallery.css.scss" media="screen" rel="stylesheet" type="text/css" />
-
 <%end%>
+<%=render "shared/metable", :resource=>@cat%>
 
-
-
+<%=content_for :head do%>
+	<%= stylesheet_link_tag "store/cats" %>
+	
+<%end%>
 <!--Tree Menu-->
 
 
@@ -24,8 +26,7 @@
       </ul>
     </div>
   </div>
-  <ul class="left tree-menu">
-
+<ul style="float:left" >
     <% @galleries.each do |gallery| %>
 
     <li class="categories">
@@ -38,10 +39,10 @@
     </li>
     <% end %>
   </ul>
-
-  <div class="right goods">
-    <%= render :partial =>'goods_list' %>
+  <div class="right goods" >
+    <%= render :partial =>'/store/goods/goods_list' %>
   </div>
+</div>
 </div>
 
 
