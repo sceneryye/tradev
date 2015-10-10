@@ -14,15 +14,20 @@
 
   <%=render "shared/baidu" if Rails.env == "production"%>
   <%= csrf_meta_tags %>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+    <link rel="stylesheet" type="text/css" href="/new/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="/new/css/responsive.css" />
+    <link rel="stylesheet" type="text/css" href="/new/css/option4.css" />
 </head>
 <body>
   <div id="preloader"></div>
   <%if @wechat_user.blank?%>
       <% # render "store/shared/new_header" %>
-      <% # render "store/shared/new_topmenu" %>
+      <% # render "shared/new_topmenu" %>
 
       <%= render "shared/header" %>
-      <%= render "shared/top_menu" %>
+      <%= render "shared/new_top_menu" %>
 
       <%= render "store/shared/position" if @cat%>
       <% # render "store/shared/mini_items" %>
