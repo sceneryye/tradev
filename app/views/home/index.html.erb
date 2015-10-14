@@ -1,379 +1,380 @@
 </br>
-	<div class="container">
-		<div class="row">
-			<!-- Slider -->
-			<div class="block-slider block-slider4">
-				<ul class="" id="bxslider-home4">
-				<%@home.sliders.each_with_index do |slider,i|%>
-					<li>
-						<%=image_tag slider["pic_url"]%>
-						<div class="caption-group">
-							<h2 class="caption title">
-								 <span class="primary">　<strong>　</strong></span>
-							</h2>
-							<h4 class="caption subtitle">　</h4>
-							<%=link_to slider["link_url"],:target=>"_blank" do%><span class="icon"></span>查看详情<%end%>
-						</div>
-					</li>
-				<%end%>
-				</ul>
-			</div>
-			<!-- ./Slider -->
-		</div>
-	</div>
+<div class="container">
+  <div class="row">
+   <!-- Slider -->
+   <div class="block-slider block-slider4">
+    <ul class="" id="bxslider-home4">
+      <%@home.sliders.each_with_index do |slider,i|%>
+      <li>
+        <%=image_tag slider["pic_url"]%>
+        <div class="caption-group">
+         <h2 class="caption title">
+           <span class="primary">　<strong>　</strong></span>
+         </h2>
+         <h4 class="caption subtitle">　</h4>
+         <%=link_to slider["link_url"],:target=>"_blank" do%><span class="icon"></span>查看详情<%end%>
+       </div>
+     </li>
+     <%end%>
+   </ul>
+ </div>
+ <!-- ./Slider -->
+</div>
+</div>
 
-	<div class="container">
-		<div class="row">
-			<!-- block categories -->
-			<div class="block-categories kt-owl-carousel" data-margin="30" data-loop="true" data-nav="true" data-responsive='{"0":{"items":1},"600":{"items":3},"768":{"items":2},"1000":{"items":3},"1200":{"items":4}}'>
-				<%@suppliers.each do |supplier|%>
-				<div class="block3 parent">
-					<div class="block-head">
-						<%=link_to supplier.name,supplier_path(supplier.id)%>
-					</div>
-					<div class="block-inner">
-						<%=link_to supplier_path(supplier.id), :target=>"_blank" do%>
-							<%=image_tag supplier.logo,:alt=>supplier.name%>
-						<%end%>
-						<div class="sub-cat">
-							<%=truncate2(supplier.desc,:lenght=>30)%>
-							<%@goods=Ecstore::Good.where(:supplier_id=>supplier.id).limit(6)%>
-							<ul>
-							<%@goods.each do |goods|%>
-								<li>
-								<%=link_to good_path(goods.bn),:target=>"_blank" do%>
-									<%=truncate2(goods.name,:length=>12)%>
-								<%end%>
-								</li>
-							<%end%>
-							</ul>
-						</div>
-					</div>
-				</div>
-				<%end%>
-			</div>
-			<!-- ./block categories -->
-			  <div class="block3 block-new-arrivals">
-                <div class="block-head">
-                    <h3 class="block-title">推荐品牌馆</h3>
-                    <ul class="nav-tab default">
-                        <%i=0%>
-                        <% @suppliers=[131,130,127,132]%>
-                        <%@suppliers.each do |supplier_id|%>
-                            <%@supplier = Ecstore::Supplier.where(:id=>supplier_id).first%>
-                                <%i+=1%>
-                        <li class="link-all"><a href="/suppliers/<%=@supplier.id%>" data-toggle="tab"><%=@supplier.name%></a></li>
-                        <%end%>
-                    </ul>
-                </div>
-                <div class="block-inner">
-                    <div class="tab-container">                           
-                        <div class="tab-panel active" id="#tab-supplier-goods">
-                            <ul class="products kt-owl-carousel" data-margin="20" data-loop="true" data-nav="true" data-responsive='{"0":{"items":2},"600":{"items":3},"768":{"items":2},"1000":{"items":3},"1200":{"items":4}}'>                
-                           <%@suppliers_goods.each do |good|%>
-                                <li class="product">111111
-                                    <div class="product-container">
-                                        <div class="product-left">
-                                            <div class="product-thumb">
-                                                <a class="product-img" href="/products/<%=good.bn%>"><img src="<%=good.medium_pic%>" alt="Product"></a>
-                                                <a title="Quick View" href="/products/<%=good.bn%>" class="btn-quick-view">Quick View</a>
-                                            </div>
-                                        </div>
-                                        <div class="product-right">
-                                            <div class="product-name">
-                                            [<%=good.supplier.name if good.supplier_id%>]
-                                                <a href="/products/<%=good.bn%>"><%=good.name%></a>
-                                            </div>
-                                            <div class="price-box">
-                                                <span class="product-price">￥<%=good.price%></span>
-                                                <span class="product-price-old">￥<%=good.mktprice%></span>
-                                            </div>
-                                          
-                                        </div>
-                                    </div>
-                                </li>
-                            <%end if @suppliers_goods%>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+<div class="container">
+  <div class="row">
+   <!-- block categories -->
+   <div class="block-categories kt-owl-carousel" data-margin="30" data-loop="true" data-nav="true" data-responsive='{"0":{"items":1},"600":{"items":3},"768":{"items":2},"1000":{"items":3},"1200":{"items":4}}'>
+    <%@suppliers.each do |supplier|%>
+    <div class="block3 parent">
+     <div class="block-head">
+      <%=link_to supplier.name,supplier_path(supplier.id)%>
+    </div>
+    <div class="block-inner">
+      <%=link_to supplier_path(supplier.id), :target=>"_blank" do%>
+      <%=image_tag supplier.logo,:alt=>supplier.name%>
+      <%end%>
+      <div class="sub-cat">
+       <%=truncate2(supplier.desc,:lenght=>30)%>
+       <%@goods=Ecstore::Good.where(:supplier_id=>supplier.id).limit(6)%>
+       <ul>
+         <%@goods.each do |goods|%>
+         <li>
+          <%=link_to good_path(goods.bn),:target=>"_blank" do%>
+          <%=truncate2(goods.name,:length=>12)%>
+          <%end%>
+        </li>
+        <%end%>
+      </ul>
+    </div>
+  </div>
+</div>
+<%end%>
+</div>
+<!-- ./block categories -->
+<div class="block3 block-new-arrivals">
+  <div class="block-head">
+    <h3 class="block-title">推荐品牌馆</h3>
+    <ul class="nav-tab default">
+      <%i=0%>
+      <% @suppliers=[131,130,127,132]%>
+      <%@suppliers.each do |supplier_id|%>
+      <%@supplier = Ecstore::Supplier.where(:id=>supplier_id).first%>
+      <%i+=1%>
+      <li class="link-all"><a href="/suppliers/<%=@supplier.id%>" data-toggle="tab"><%=@supplier.name%></a></li>
+
+    </ul>
+  </div>
+  <div class="block-inner">
+    <div class="tab-container">                           
+      <div class="tab-panel active" id="#tab-supplier-goods">
+        <ul class="products kt-owl-carousel" data-margin="20" data-loop="true" data-nav="true" data-responsive='{"0":{"items":2},"600":{"items":3},"768":{"items":2},"1000":{"items":3},"1200":{"items":4}}'>                
+        <%Ecstore::Good.where(:supplier_id => supplier_id).each do |good|%>
+         <li class="product">
+          <div class="product-container">
+            <div class="product-left">
+              <div class="product-thumb">
+                <a class="product-img" href="/products/<%=good.bn%>"><img src="<%=good.medium_pic%>" alt="Product"></a>
+                <a title="Quick View" href="/products/<%=good.bn%>" class="btn-quick-view">Quick View</a>
+              </div>
             </div>
-			<!-- galleries -->			
-			<% @galleries.each do |gallery|%>
-          	<div class="block3 block-new-arrivals">
-          		<div class="block-head">
-					<h3 class="block-title"><%=gallery.tag_name%></h3>
-					<%categories = Ecstore::Category.where("cat_id in (#{gallery.tag_ext.categories})").order("p_order")%>                    
-					<ul class="nav-tab default">
-					<%categories.each do |category|%>
-                    	<%@more = category.cat_id%>                                                  
-                        <li class="active"><a href="/gallery/<%=category.cat_id%>?type=1"  target="_blank"><%=category.cat_name%></a></li>
-                    <%end%> 
-                  	</ul>
-				</div>
-				<div class="block-inner">
-					<div class="tab-container">
-						<div id="tab-1" class="tab-panel active">
-						<%goods=Ecstore::Good.where("marketable ='true' and cat_id in (#{gallery.tag_ext.categories})").order("p_order ASC, goods_id DESC").limit(6)%>
-            
-							<ul class="products kt-owl-carousel" data-margin="21" data-loop="true" data-nav="true" data-responsive='{"0":{"items":1},"600":{"items":3},"768":{"items":2},"1000":{"items":3},"1200":{"items":5}}'>
-								
-                  				<%goods.each do |good|%>
-								<li class="product">
-									<div class="product-container">
-										<div class="product-left">
-											<div class="product-thumb">
-												<a href="/products/<%=good.bn%>" target="_blank"><img alt="<%=good.name%>" src="<%=good.medium_pic%>" style="width:150px;" /></a>
-											</div>
-										</div>
-										<div class="product-right">
-											<div class="product-name">
-												<a href="/products/<%=good.bn%>" target="_blank" title="<%=good.name%>"><%=good.name%></a>
-											</div>
-											<div class="price-box">
-												<span class="product-price">￥<%=good.price%></span>
-												<span class="product-price-old">￥<%=good.mktprice%></span>
-											</div>
-										</div>
-									</div>
-								</li>
-							<%end%>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>            
-	        <%@i +=1%>
-	        <%end%>
-			<!-- galleries -->
-			<!-- box band -->
-			<div class="box-band block3" style="display:none">
-				<a href="#"><img src="/new/logo1.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo2.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo3.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo4.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo5.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo6.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo7.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo8.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo9.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo10.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo11.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo12.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo13.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo14.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo15.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo16.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo17.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo18.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo19.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo20.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo21.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo22.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo23.png" alt="Band logo"></a>
-				<a href="#"><img src="/new/logo24.png" alt="Band logo"></a>
-			</div>
-			<!-- ./box band -->
-			<!-- Hot deals -->
-			<div class="block3 block-hotdeals"  style="display:none">
-				<div class="block-head">
-					<h3 class="block-title">Hot deals</h3>
-					<a class="link-all" href="#">View All</a>
-				</div>
-				<div class="block-inner">
-					<ul class="products kt-owl-carousel" data-margin="21" data-loop="true" data-nav="true" data-responsive='{"0":{"items":1},"600":{"items":3},"768":{"items":2},"1000":{"items":3},"1200":{"items":5}}'>
-						<li class="product">
-							<div class="product-container">
-								<div class="product-left">
-									<div class="product-thumb">
-										<a class="product-img" href="#"><img src="/new/p25.jpg" alt="Product"></a>
-										<a title="Quick View" href="#" class="btn-quick-view">Quick View</a>
-									</div>
-								</div>
-								<div class="product-right">
-									<div class="product-name">
-										<a href="#">Cotton Lycra Leggings</a>
-									</div>
-									<div class="price-box">
-										<span class="product-price">$139.98</span>
-										<span class="product-price-old">$169.00</span>
-									</div>
-                                    <div class="product-button">
-                                    	<a class="btn-add-wishlist" title="Add to Wishlist" href="#">Add Wishlist</a>
-                                    	<a class="btn-add-comparre" title="Add to Compare" href="#">Add Compare</a>
-                                    	<a class="button-radius btn-add-cart" title="Add to Cart" href="#">Buy<span class="icon"></span></a>
-                                    </div>
-								</div>
-								<div class="product-count-down">
-									<span class="countdown-lastest" data-y="2016" data-m="10" data-d="1" data-h="00" data-i="00" data-s="00"></span>
-								</div>
-							</div>
-						</li>
-						<li class="product">
-							<div class="product-container">
-								<div class="product-left">
-									<div class="product-thumb">
-										<a class="product-img" href="#"><img src="/new/p26.jpg" alt="Product"></a>
-										<a title="Quick View" href="#" class="btn-quick-view">Quick View</a>
-									</div>
-								</div>
-								<div class="product-right">
-									<div class="product-name">
-										<a href="#">Cotton Lycra Leggings</a>
-									</div>
-									<div class="price-box">
-										<span class="product-price">$139.98</span>
-										<span class="product-price-old">$169.00</span>
-									</div>
-                                    <div class="product-button">
-                                    	<a class="btn-add-wishlist" title="Add to Wishlist" href="#">Add Wishlist</a>
-                                    	<a class="btn-add-comparre" title="Add to Compare" href="#">Add Compare</a>
-                                    	<a class="button-radius btn-add-cart" title="Add to Cart" href="#">Buy<span class="icon"></span></a>
-                                    </div>
-								</div>
-								<div class="product-count-down">
-									<span class="countdown-lastest" data-y="2016" data-m="10" data-d="1" data-h="00" data-i="00" data-s="00"></span>
-								</div>
-							</div>
-						</li>
-						<li class="product">
-							<div class="product-container">
-								<div class="product-left">
-									<div class="product-thumb">
-										<a class="product-img" href="#"><img src="/new/p27.jpg" alt="Product"></a>
-										<a title="Quick View" href="#" class="btn-quick-view">Quick View</a>
-									</div>
-								</div>
-								<div class="product-right">
-									<div class="product-name">
-										<a href="#">Cotton Lycra Leggings</a>
-									</div>
-									<div class="price-box">
-										<span class="product-price">$139.98</span>
-										<span class="product-price-old">$169.00</span>
-									</div>
-                                    <div class="product-button">
-                                    	<a class="btn-add-wishlist" title="Add to Wishlist" href="#">Add Wishlist</a>
-                                    	<a class="btn-add-comparre" title="Add to Compare" href="#">Add Compare</a>
-                                    	<a class="button-radius btn-add-cart" title="Add to Cart" href="#">Buy<span class="icon"></span></a>
-                                    </div>
-								</div>
-								<div class="product-count-down">
-									<span class="countdown-lastest" data-y="2016" data-m="10" data-d="1" data-h="00" data-i="00" data-s="00"></span>
-								</div>
-							</div>
-						</li>
-						<li class="product">
-							<div class="product-container">
-								<div class="product-left">
-									<div class="product-thumb">
-										<a class="product-img" href="#"><img src="/new/p28.jpg" alt="Product"></a>
-										<a title="Quick View" href="#" class="btn-quick-view">Quick View</a>
-									</div>
-								</div>
-								<div class="product-right">
-									<div class="product-name">
-										<a href="#">Cotton Lycra Leggings</a>
-									</div>
-									<div class="price-box">
-										<span class="product-price">$139.98</span>
-										<span class="product-price-old">$169.00</span>
-									</div>
-                                    <div class="product-button">
-                                    	<a class="btn-add-wishlist" title="Add to Wishlist" href="#">Add Wishlist</a>
-                                    	<a class="btn-add-comparre" title="Add to Compare" href="#">Add Compare</a>
-                                    	<a class="button-radius btn-add-cart" title="Add to Cart" href="#">Buy<span class="icon"></span></a>
-                                    </div>
-								</div>
-								<div class="product-count-down">
-									<span class="countdown-lastest" data-y="2016" data-m="10" data-d="1" data-h="00" data-i="00" data-s="00"></span>
-								</div>
-							</div>
-						</li>
-						<li class="product">
-							<div class="product-container">
-								<div class="product-left">
-									<div class="product-thumb">
-										<a class="product-img" href="#"><img src="/new/p29.jpg" alt="Product"></a>
-										<a title="Quick View" href="#" class="btn-quick-view">Quick View</a>
-									</div>
-								</div>
-								<div class="product-right">
-									<div class="product-name">
-										<a href="#">Cotton Lycra Leggings</a>
-									</div>
-									<div class="price-box">
-										<span class="product-price">$139.98</span>
-										<span class="product-price-old">$169.00</span>
-									</div>
-                                    <div class="product-button">
-                                    	<a class="btn-add-wishlist" title="Add to Wishlist" href="#">Add Wishlist</a>
-                                    	<a class="btn-add-comparre" title="Add to Compare" href="#">Add Compare</a>
-                                    	<a class="button-radius btn-add-cart" title="Add to Cart" href="#">Buy<span class="icon"></span></a>
-                                    </div>
-								</div>
-								<div class="product-count-down">
-									<span class="countdown-lastest" data-y="2016" data-m="10" data-d="1" data-h="00" data-i="00" data-s="00"></span>
-								</div>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<!-- Hot deals -->
-			<!-- popular cat -->
-			<div class="block-popular-cat2"  style="display:none">
-                <h3 class="title">Popular Categories</h3>
-                <div class="block block-popular-cat2-item">
-                    <div class="block-inner">
-                        <div class="cat-name">Electronics</div>
-                        <div class="box-subcat">
-                            <ul class="list-subcat kt-owl-carousel" data-margin="0" data-loop="true" data-nav="true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":7}}'>
-                                <li class="item"><a href="#"><img src="data/option2/c1.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c2.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c3.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c4.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c5.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c6.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c7.jpg" alt="Cat"></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="block block-popular-cat2-item box2">
-                    <div class="block-inner">
-                        <div class="cat-name">fashion</div>
-                        <div class="box-subcat">
-                            <ul class="list-subcat kt-owl-carousel" data-margin="0" data-nav="true" data-loop="true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":7}}'>
-                                <li class="item"><a href="#"><img src="data/option2/c8.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c9.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c10.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c11.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c12.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c13.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c14.jpg" alt="Cat"></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="block block-popular-cat2-item box3">
-                    <div class="block-inner">
-                        <div class="cat-name">Sport</div>
-                        <div class="box-subcat">
-                            <ul class="list-subcat kt-owl-carousel" data-margin="0" data-nav="true" data-loop="true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":7}}'>
-                                <li class="item"><a href="#"><img src="data/option2/c15.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c16.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c17.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c18.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c19.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c20.jpg" alt="Cat"></a></li>
-                                <li class="item"><a href="#"><img src="data/option2/c21.jpg" alt="Cat"></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            <div class="product-right">
+              <div class="product-name">
+                [<%=good.supplier.name if good.supplier_id%>]
+                <a href="/products/<%=good.bn%>"><%=good.name%></a>
+              </div>
+              <div class="price-box">
+                <span class="product-price">￥<%=good.price%></span>
+                <span class="product-price-old">￥<%=good.mktprice%></span>
+              </div>
+
             </div>
-            <!-- ./popular cat -->
-		</div>
-	</div>
+          </div>
+        </li>
+        <%end%>
+        <%end%>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+<!-- galleries -->			
+<% @galleries.each do |gallery|%>
+<div class="block3 block-new-arrivals">
+  <div class="block-head">
+   <h3 class="block-title"><%=gallery.tag_name%></h3>
+   <%categories = Ecstore::Category.where("cat_id in (#{gallery.tag_ext.categories})").order("p_order")%>                    
+   <ul class="nav-tab default">
+     <%categories.each do |category|%>
+     <%@more = category.cat_id%>                                                  
+     <li class="active"><a href="/gallery/<%=category.cat_id%>?type=1"  target="_blank"><%=category.cat_name%></a></li>
+     <%end%> 
+   </ul>
+ </div>
+ <div class="block-inner">
+   <div class="tab-container">
+    <div id="tab-1" class="tab-panel active">
+      <%goods=Ecstore::Good.where("marketable ='true' and cat_id in (#{gallery.tag_ext.categories})").order("p_order ASC, goods_id DESC").limit(6)%>
+
+      <ul class="products kt-owl-carousel" data-margin="21" data-loop="true" data-nav="true" data-responsive='{"0":{"items":1},"600":{"items":3},"768":{"items":2},"1000":{"items":3},"1200":{"items":5}}'>
+
+        <%goods.each do |good|%>
+        <li class="product">
+         <div class="product-container">
+          <div class="product-left">
+           <div class="product-thumb">
+            <a href="/products/<%=good.bn%>" target="_blank"><img alt="<%=good.name%>" src="<%=good.medium_pic%>" style="width:150px;" /></a>
+          </div>
+        </div>
+        <div class="product-right">
+         <div class="product-name">
+          <a href="/products/<%=good.bn%>" target="_blank" title="<%=good.name%>"><%=good.name%></a>
+        </div>
+        <div class="price-box">
+          <span class="product-price">￥<%=good.price%></span>
+          <span class="product-price-old">￥<%=good.mktprice%></span>
+        </div>
+      </div>
+    </div>
+  </li>
+  <%end%>
+</ul>
+</div>
+</div>
+</div>
+</div>            
+<%@i +=1%>
+<%end%>
+<!-- galleries -->
+<!-- box band -->
+<div class="box-band block3" style="display:none">
+  <a href="#"><img src="/new/logo1.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo2.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo3.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo4.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo5.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo6.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo7.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo8.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo9.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo10.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo11.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo12.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo13.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo14.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo15.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo16.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo17.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo18.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo19.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo20.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo21.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo22.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo23.png" alt="Band logo"></a>
+  <a href="#"><img src="/new/logo24.png" alt="Band logo"></a>
+</div>
+<!-- ./box band -->
+<!-- Hot deals -->
+<div class="block3 block-hotdeals"  style="display:none">
+  <div class="block-head">
+   <h3 class="block-title">Hot deals</h3>
+   <a class="link-all" href="#">View All</a>
+ </div>
+ <div class="block-inner">
+   <ul class="products kt-owl-carousel" data-margin="21" data-loop="true" data-nav="true" data-responsive='{"0":{"items":1},"600":{"items":3},"768":{"items":2},"1000":{"items":3},"1200":{"items":5}}'>
+    <li class="product">
+     <div class="product-container">
+      <div class="product-left">
+       <div class="product-thumb">
+        <a class="product-img" href="#"><img src="/new/p25.jpg" alt="Product"></a>
+        <a title="Quick View" href="#" class="btn-quick-view">Quick View</a>
+      </div>
+    </div>
+    <div class="product-right">
+     <div class="product-name">
+      <a href="#">Cotton Lycra Leggings</a>
+    </div>
+    <div class="price-box">
+      <span class="product-price">$139.98</span>
+      <span class="product-price-old">$169.00</span>
+    </div>
+    <div class="product-button">
+     <a class="btn-add-wishlist" title="Add to Wishlist" href="#">Add Wishlist</a>
+     <a class="btn-add-comparre" title="Add to Compare" href="#">Add Compare</a>
+     <a class="button-radius btn-add-cart" title="Add to Cart" href="#">Buy<span class="icon"></span></a>
+   </div>
+ </div>
+ <div class="product-count-down">
+   <span class="countdown-lastest" data-y="2016" data-m="10" data-d="1" data-h="00" data-i="00" data-s="00"></span>
+ </div>
+</div>
+</li>
+<li class="product">
+ <div class="product-container">
+  <div class="product-left">
+   <div class="product-thumb">
+    <a class="product-img" href="#"><img src="/new/p26.jpg" alt="Product"></a>
+    <a title="Quick View" href="#" class="btn-quick-view">Quick View</a>
+  </div>
+</div>
+<div class="product-right">
+ <div class="product-name">
+  <a href="#">Cotton Lycra Leggings</a>
+</div>
+<div class="price-box">
+  <span class="product-price">$139.98</span>
+  <span class="product-price-old">$169.00</span>
+</div>
+<div class="product-button">
+ <a class="btn-add-wishlist" title="Add to Wishlist" href="#">Add Wishlist</a>
+ <a class="btn-add-comparre" title="Add to Compare" href="#">Add Compare</a>
+ <a class="button-radius btn-add-cart" title="Add to Cart" href="#">Buy<span class="icon"></span></a>
+</div>
+</div>
+<div class="product-count-down">
+ <span class="countdown-lastest" data-y="2016" data-m="10" data-d="1" data-h="00" data-i="00" data-s="00"></span>
+</div>
+</div>
+</li>
+<li class="product">
+ <div class="product-container">
+  <div class="product-left">
+   <div class="product-thumb">
+    <a class="product-img" href="#"><img src="/new/p27.jpg" alt="Product"></a>
+    <a title="Quick View" href="#" class="btn-quick-view">Quick View</a>
+  </div>
+</div>
+<div class="product-right">
+ <div class="product-name">
+  <a href="#">Cotton Lycra Leggings</a>
+</div>
+<div class="price-box">
+  <span class="product-price">$139.98</span>
+  <span class="product-price-old">$169.00</span>
+</div>
+<div class="product-button">
+ <a class="btn-add-wishlist" title="Add to Wishlist" href="#">Add Wishlist</a>
+ <a class="btn-add-comparre" title="Add to Compare" href="#">Add Compare</a>
+ <a class="button-radius btn-add-cart" title="Add to Cart" href="#">Buy<span class="icon"></span></a>
+</div>
+</div>
+<div class="product-count-down">
+ <span class="countdown-lastest" data-y="2016" data-m="10" data-d="1" data-h="00" data-i="00" data-s="00"></span>
+</div>
+</div>
+</li>
+<li class="product">
+ <div class="product-container">
+  <div class="product-left">
+   <div class="product-thumb">
+    <a class="product-img" href="#"><img src="/new/p28.jpg" alt="Product"></a>
+    <a title="Quick View" href="#" class="btn-quick-view">Quick View</a>
+  </div>
+</div>
+<div class="product-right">
+ <div class="product-name">
+  <a href="#">Cotton Lycra Leggings</a>
+</div>
+<div class="price-box">
+  <span class="product-price">$139.98</span>
+  <span class="product-price-old">$169.00</span>
+</div>
+<div class="product-button">
+ <a class="btn-add-wishlist" title="Add to Wishlist" href="#">Add Wishlist</a>
+ <a class="btn-add-comparre" title="Add to Compare" href="#">Add Compare</a>
+ <a class="button-radius btn-add-cart" title="Add to Cart" href="#">Buy<span class="icon"></span></a>
+</div>
+</div>
+<div class="product-count-down">
+ <span class="countdown-lastest" data-y="2016" data-m="10" data-d="1" data-h="00" data-i="00" data-s="00"></span>
+</div>
+</div>
+</li>
+<li class="product">
+ <div class="product-container">
+  <div class="product-left">
+   <div class="product-thumb">
+    <a class="product-img" href="#"><img src="/new/p29.jpg" alt="Product"></a>
+    <a title="Quick View" href="#" class="btn-quick-view">Quick View</a>
+  </div>
+</div>
+<div class="product-right">
+ <div class="product-name">
+  <a href="#">Cotton Lycra Leggings</a>
+</div>
+<div class="price-box">
+  <span class="product-price">$139.98</span>
+  <span class="product-price-old">$169.00</span>
+</div>
+<div class="product-button">
+ <a class="btn-add-wishlist" title="Add to Wishlist" href="#">Add Wishlist</a>
+ <a class="btn-add-comparre" title="Add to Compare" href="#">Add Compare</a>
+ <a class="button-radius btn-add-cart" title="Add to Cart" href="#">Buy<span class="icon"></span></a>
+</div>
+</div>
+<div class="product-count-down">
+ <span class="countdown-lastest" data-y="2016" data-m="10" data-d="1" data-h="00" data-i="00" data-s="00"></span>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<!-- Hot deals -->
+<!-- popular cat -->
+<div class="block-popular-cat2"  style="display:none">
+  <h3 class="title">Popular Categories</h3>
+  <div class="block block-popular-cat2-item">
+    <div class="block-inner">
+      <div class="cat-name">Electronics</div>
+      <div class="box-subcat">
+        <ul class="list-subcat kt-owl-carousel" data-margin="0" data-loop="true" data-nav="true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":7}}'>
+          <li class="item"><a href="#"><img src="data/option2/c1.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c2.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c3.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c4.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c5.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c6.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c7.jpg" alt="Cat"></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="block block-popular-cat2-item box2">
+    <div class="block-inner">
+      <div class="cat-name">fashion</div>
+      <div class="box-subcat">
+        <ul class="list-subcat kt-owl-carousel" data-margin="0" data-nav="true" data-loop="true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":7}}'>
+          <li class="item"><a href="#"><img src="data/option2/c8.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c9.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c10.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c11.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c12.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c13.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c14.jpg" alt="Cat"></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="block block-popular-cat2-item box3">
+    <div class="block-inner">
+      <div class="cat-name">Sport</div>
+      <div class="box-subcat">
+        <ul class="list-subcat kt-owl-carousel" data-margin="0" data-nav="true" data-loop="true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":7}}'>
+          <li class="item"><a href="#"><img src="data/option2/c15.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c16.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c17.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c18.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c19.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c20.jpg" alt="Cat"></a></li>
+          <li class="item"><a href="#"><img src="data/option2/c21.jpg" alt="Cat"></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ./popular cat -->
+</div>
+</div>
 
