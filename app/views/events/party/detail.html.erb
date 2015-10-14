@@ -7,15 +7,15 @@
     <div class="am-u-md-6">
       <div class="am-panel am-panel-warning">
         <div class="am-panel-hd">活动: <%=@event.name%></div>
-        <div class="am-panel-bd"><span class="evenfont">目前已经有<span style="color: #ff0000">(<%=@applicants.size%>)</span>人报名了哦!!!</span><br>
-            <span class="evenfont">报名截止时间:<br><%=Time.at(@event.endtime).to_s(:db)%> </span> <br>
+      <!--  <div class="am-panel-bd"><span class="evenfont">目前已经有<span style="color: #ff0000">(<%=@applicants.size%>)</span>人报名了哦!!!</span><br>
+            <span class="evenfont">报名截止时间:<br><%=Time.at(@event.endtime).to_s(:db)%> </span> <br>-->
           <span class="evenfont">活动开始时间:<br><%=Time.at(@event.startime).to_s(:db)%> </span> <br>
           <span class="evenfont">活动内容:</span> <%=raw @event.body.gsub(/width/,'widthh').gsub(/height/,'heightt/') if @event.body%>   <br>
-          <span class="evenfont" >活动地址:<a href="#map"> <%=@event.adds%> <span style=" font-size: 13px;color: #0000ee">查看地图</span></a></span>
+          <span class="evenfont" >活动地址:<a href="#map"> <%=@event.adds%> <!--<span style=" font-size: 13px;color: #0000ee">查看地图</span></a>--></span>
         </div>
 
    </div></div></div>
-     <div id="demo-view" data-backend-compiled="">
+   <div id="demo-view" data-backend-compiled=""> <!-- 
           <div data-am-widget="list_news" class="am-list-news am-list-news-default am-no-layout">
             <div class="am-list-news-hd am-cf">
               <a href="javascript:void(0)" class=""><h2 style="border: 4px solid #FF8000"></h2> <h2 style="margin-left: 10px">当前报名人</h2></a>
@@ -24,6 +24,7 @@
               <ul class="am-list">
             <% @applicants.each do |applicant| %>
                 <li class="am-g am-list-item-desced am-list-item-thumbed am-list-item-thumb-bottom-left">
+                
                   <a href="javascript:void(0)">
                     <div class="am-u-sm-2 am-list-thumb">
                     <%if Ecstore::User.find_by_member_id(applicant.member_id)%>
@@ -38,7 +39,7 @@
                    <span class="icon-arr"></span>
                     </div></a></li>
                     <%end%>
-                   </ul>  </div></div></div>
+                   </ul>  </div></div></div>-->
        <a name="map"> </a>
   <div id="demo-view" data-backend-compiled="">
     <div data-am-widget="list_news" class="am-list-news am-list-news-default am-no-layout">
