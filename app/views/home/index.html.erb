@@ -53,6 +53,51 @@
 				<%end%>
 			</div>
 			<!-- ./block categories -->
+			  <div class="block3 block-new-arrivals">
+                <div class="block-head">
+                    <h3 class="block-title">推荐品牌馆</h3>
+                    <ul class="nav-tab default">
+                        <%i=0%>
+                        <% @suppliers=[131,130,127,132]%>
+                        <%@suppliers.each do |supplier_id|%>
+                            <%@supplier = Ecstore::Supplier.where(:id=>supplier_id).first%>
+                                <%i+=1%>
+                        <li class="link-all"><a href="/suppliers/<%=@supplier.id%>" data-toggle="tab"><%=@supplier.name%></a></li>
+                        <%end%>
+                    </ul>
+                </div>
+                <div class="block-inner">
+                    <div class="tab-container">                           
+                        <div class="tab-panel active" id="#tab-supplier-goods">
+                            <ul class="products kt-owl-carousel" data-margin="20" data-loop="true" data-nav="true" data-responsive='{"0":{"items":2},"600":{"items":3},"768":{"items":2},"1000":{"items":3},"1200":{"items":4}}'>                
+                           <%@suppliers_goods.each do |good|%>
+                                <li class="product">111111
+                                    <div class="product-container">
+                                        <div class="product-left">
+                                            <div class="product-thumb">
+                                                <a class="product-img" href="/products/<%=good.bn%>"><img src="<%=good.medium_pic%>" alt="Product"></a>
+                                                <a title="Quick View" href="/products/<%=good.bn%>" class="btn-quick-view">Quick View</a>
+                                            </div>
+                                        </div>
+                                        <div class="product-right">
+                                            <div class="product-name">
+                                            [<%=good.supplier.name if good.supplier_id%>]
+                                                <a href="/products/<%=good.bn%>"><%=good.name%></a>
+                                            </div>
+                                            <div class="price-box">
+                                                <span class="product-price">￥<%=good.price%></span>
+                                                <span class="product-price-old">￥<%=good.mktprice%></span>
+                                            </div>
+                                          
+                                        </div>
+                                    </div>
+                                </li>
+                            <%end if @suppliers_goods%>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
 			<!-- galleries -->			
 			<% @galleries.each do |gallery|%>
           	<div class="block3 block-new-arrivals">
