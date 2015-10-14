@@ -27,6 +27,9 @@ class Patch::MembersController < ApplicationController
 	def coupons
 		@user_coupons = @user.user_coupons.paginate(:page=>params[:page],:per_page=>10)
 		add_breadcrumb("我的优惠券")
+    if params[:platform]=='mobile'
+      render :layout=>"mobile"
+    end
   end
 
 
@@ -94,11 +97,17 @@ class Patch::MembersController < ApplicationController
 	def advance
 		@advances = @user.member_advances.paginate(:page=>params[:page],:per_page=>10)
 		add_breadcrumb("我的预存款")
+    if params[:platform]=='mobile'
+      render :layout=>"mobile"
+    end
 	end
 	
 	def favorites
 		@favorites = @user.favorites.includes(:good).paginate(:page=>params[:page],:per_page=>10,:order=>"create_time desc")
 		add_breadcrumb("我的收藏")
+    if params[:platform]=='mobile'
+      render :layout=>"mobile"
+    end
 	end
 	
 end
