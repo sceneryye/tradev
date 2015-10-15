@@ -1,4 +1,4 @@
-source 'http://ruby.taobao.org'
+source 'https://ruby.taobao.org'
 
 gem 'rails', '3.2.11'
 
@@ -33,8 +33,8 @@ end
 gem 'iconv'
 gem  'sitemap_generator'
 
-gem 'jquery-rails',  '~> 2.1.4'
-gem 'jquery-ui-rails',  '~> 2.0.2'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 gem 'rmagick','~> 2.13.1'
 
