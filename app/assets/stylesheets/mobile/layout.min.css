@@ -5743,14 +5743,14 @@ ul {
     float: left;
     display: inline;
     margin-left: 10px;
-    width: 340px;
+    width: 95%;
     cursor: default;
     overflow: hidden;
 }
 .new-coupons-list .coupon-wrapper {
     float: left;
-    width: 340px;
-    height: 230px;
+    width: 95%;
+    min-height: 300px;
     position: relative;
 }
 .new-coupons-list h2 {
@@ -5759,12 +5759,12 @@ ul {
     padding-bottom: 0;
     line-height: 20px;
     font-size: 14px;
-    height: 20px;
     overflow: hidden;
 }
 .new-coupons-list h2 a {
     float: left;
 }
+
 i.hot, i.new {
     width: 21px;
     height: 11px;
@@ -5780,8 +5780,8 @@ i.hot {
 .new-coupons-list .coupon {
     display: block;
     margin: 15px auto;
-    width: 326px;
-    height: 124px;
+    width: 95%;
+    min-height: 200px;
     border: solid 3px #B7E1EF;
     text-decoration: none;
     background-color: white;
@@ -5789,8 +5789,8 @@ i.hot {
 }
 .new-coupons-list .coupon .left {
     float: left;
-    height: 124px;
-    width: 200px;
+    width: 60%;
+    min-height: 200px;
     background-position: 195px -75px;
 }
 .new-coupons-list .coupon .description {
@@ -5817,14 +5817,13 @@ i.hot {
 .new-coupons-list .coupon .store-logo {
     display: block;
     margin: 6px auto 0 auto;
-    width: 90px;
-    height: 45px;
+    width: 50%;
     overflow: hidden;
 }
 .new-coupons-list .coupon .right {
     float: left;
-    width: 126px;
-    height: 124px;
+   width: 40%;
+    min-height: 200px;
     background-color: #EAF9FF;
 }
 .new-coupons-list .coupon .right .free {
@@ -5846,7 +5845,7 @@ a{
     position: relative;
     margin: 12px auto;
     width: 90px;
-    height: 30px;
+    min-height: 30px;
     text-align: center;
     font-size: 18px;
     font-family: Microsoft Yahei;

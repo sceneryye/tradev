@@ -156,6 +156,7 @@ Modengke::Application.routes.draw do
   post 'users/tairyo' =>"users#tairyo_user" ,:controller=>"users"
 
   #    #优惠卷
+  resources :coupon
   get 'coupon'=>"coupon#index" ,:controller=>"coupons"
   get  'coupon/lingqu'=>"coupon#lingqu",:controller=>"coupons"
 
