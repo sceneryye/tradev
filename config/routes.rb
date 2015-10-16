@@ -403,6 +403,7 @@ Modengke::Application.routes.draw do
     end
     resources :suppliers do
       get 'update_state',:on=>:collection
+      get 'reco', :on => :member
     end
 
     resources :sessions

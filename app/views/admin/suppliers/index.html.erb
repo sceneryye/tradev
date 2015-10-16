@@ -4,7 +4,7 @@
 <%= flash[:notice] %>
 <%= link_to '新建供应商', new_admin_supplier_path, :class => "pull-right btn btn-primary" %>
 
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-striped table-hover">
   <tr>
     <!--<th>修改权限(shopadmin->member)</th>-->
     <th>ID</th>
@@ -14,6 +14,7 @@
     <th>商品数量</th>
     <th>UserID</th>
     <th>电话</th>
+    <th>推荐</th>
     <th>url</th>
 
 
@@ -21,7 +22,7 @@
   </tr>
 
 <% @suppliers.each do |supplier| %>
-  <tr>
+  <tr class="<%= "success" if supplier.recommend == 1 %>" >
     <!--<td > <%#= link_to '修改', "/admin/suppliers/update_state?supplier_id=#{supplier.id}&user_id=#{supplier.member_id}"%></td>-->
     <td><%=supplier.id%></td>
     <td><%=supplier.name%></td>
@@ -30,6 +31,7 @@
     <td><%=Ecstore::Good.count(:conditions=>{:supplier_id=>"#{supplier.id}"})%></td>
     <td><%=supplier.member_id%></td>
     <td><%=supplier.tel%></td>
+    <td><%= supplier.recommend == 0 ? "否" : "是" %></td>
     <td><%=supplier.url%></td>
 
 
@@ -37,6 +39,8 @@
         <%= link_to '编辑', edit_admin_supplier_path(supplier) %>
           |
       <%= link_to '更新菜单', "/admin/wechat/menu_edit?id=#{supplier.id} "%>
+      |
+      <%= link_to '推荐', reco_admin_supplier_path(supplier) %>
       |
         <%= link_to '删除', admin_supplier_path(supplier), method: :delete, data: { confirm: '确定删除?' } %>
     </td>

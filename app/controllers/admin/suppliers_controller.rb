@@ -70,6 +70,20 @@ class Admin::SuppliersController < ApplicationController
     end
   end
 
+  def reco
+  return_url =  request.env["HTTP_REFERER"]
+  return_url =  admin_brand_pages_url if return_url.blank?
+  
+  @supplier = Ecstore::Supplier.find(params[:id])
+  if @supplier.recommend == 0
+    @supplier.update_attribute :recommend, 1
+  elsif @supplier.recommend == 1
+    @supplier.update_attribute :recommend, 0
+  end
+
+  redirect_to return_url
+end
+
 
 
   def destroy
