@@ -156,17 +156,16 @@ Modengke::Application.routes.draw do
   post 'users/tairyo' =>"users#tairyo_user" ,:controller=>"users"
 
   #    #优惠卷
-  resources :coupon
-  get 'coupon'=>"coupon#index" ,:controller=>"coupons"
-  get  'coupon/lingqu'=>"coupon#lingqu",:controller=>"coupons"
+  resources :coupons do
+    get  'get',:on=>:member
 
-  #        #评论+优惠卷
-  get 'comment_t'=>"comments#tairyo_comment",:controller=>"comments"
-  post 'comment'=>"comments#tairyo",:controller=>"comments"
+    #        #评论+优惠卷
+    get 'comment_t'=>"comments#tairyo_comment",:controller=>"comments"
+    post 'comment'=>"comments#tairyo",:controller=>"comments"
 
-  get 'mycoupon'=>"coupon#mycoupon",  :controller=>"coupons"
-  #    #特色
-
+    get 'mycoupon'=>"coupon#mycoupon",  :controller=>"coupons"
+    #    #特色
+  end
 
   mount WeixinRailsMiddleware::Engine, at: "/"
 
@@ -587,8 +586,7 @@ Modengke::Application.routes.draw do
 
     # end
   end
-  get 'm' =>"mobile#show", :as=>"mobile" ,:controller=>"mobile"
-
+ 
   scope :module => "store" do
 
     get 'search' => "search#index", :as=> :search

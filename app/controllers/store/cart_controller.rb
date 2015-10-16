@@ -44,12 +44,12 @@ class Store::CartController < ApplicationController
     supplier_id=params[:supplier_id]
 
     if params[:supplier_id] =="98"
-     @line_items.delete_all
-   end
+      @line_items.delete_all
+    end
 
-   if supplier_id.blank?
-    supplier_id=78
-  end
+    if supplier_id.blank?
+      supplier_id=78
+    end
 
   @supplier = Ecstore::Supplier.find(supplier_id)
 

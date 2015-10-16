@@ -1,0 +1,109 @@
+<link href="/assets/mobile/layout.min.css?body=1" media="screen" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    .aaa{
+        margin: 0;
+        float: left;
+        font-size: 15px
+    }
+  img{
+      width: 100%;
+  }
+</style>
+<script>
+    var ui = 'touch';
+</script>
+
+<header id="header" class="header clearfix">
+
+  <a class="aaa" href="javascript:history.go(-1);">上一页</a>
+  <span class="headtit"><%=@coupon.name%></span>
+  <div class="head_right fr"><a href="/m" mars_sead="nav_home_btn"><span class="h_home"></span></a></div>
+</header>
+<div class="space10"></div>
+
+
+<div  class="youhuijuan" >
+  <ul style="text-align:center" >
+    <li>
+      <img src="/images/a0132/a01320009_a.jpg">
+    </li>
+  </ul>
+</div>
+<div class="normal_m">
+  <ul class="normal_m_u detail clear">
+    <!--购买价格-->
+    <li>编号：<%=@coupon.coupon_prefix%></li>
+
+    <li><em>有效期：</em><%=@coupon.begin_at.strftime("%Y-%m-%d %H:%M") if @coupon.begin_at.present?%> ~ <%=@coupon.end_at.strftime("%Y-%m-%d %H:%M") if @coupon.end_at.present?%><br>
+    </li>
+
+    <li><em>优惠券数：</em> <%=@coupon.quantity ? "无限":"共：#{@coupon.quantity}"%>
+
+    <li><em>领取限制：</em>
+      <em class="free"><em><%=@coupon.exclusive ? "不可" : "可"%>与其他优惠券一起使用/<%=(@coupon.coupon_type=="A") ? "只能领取一张" : "可领取多张"%></em></em>
+     
+    </li>
+
+  </ul>
+  <!--购买或领取按钮-->
+
+
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<!--此处可以添加样式 ，但是目前还没有考虑，-->
+
+<div class="goods_con area_con_grey">
+  <h3 class="title"  >【使用条件】</h3>
+  <%=@coupon.desc%> 
+</div>
+<div class="goods_con area_con_grey">
+  <h3 class="title"  >【如何使用】</h3> 
+  <%if @goods%> 
+    购买如下商品：
+    <ul>
+    <%@goods.each do |goods|%>
+      <li>
+        <%=link_to goods.name, mobile_path(goods.id),:target=>'_blank'%>
+      </li>
+    <%end%>
+    </ul>
+  <%else%>
+  <%end%>
+  <br>
+  订单金额减<%=@coupon.action_val%>
+</div>
+<div class="goods_con area_con_grey">
+  <h3 class="title"  >温馨提示：</h3>  
+  <br/>已领取的券在您的账号中心 <a href="/member/coupons?platform=mobile">我领取的优惠券</a>中都可以查看到
+
+  <br/>
+</div>
+
+<div class="clear">
+</div>
+<!--Admin Pamel-->
+<!--管理员看到的-->
+<div class="clear">
+</div>
+</div>
+<div class="fanhui"  >
+  <a href="/coupons"  >放弃？返回</a>
+</div>
+
+<div class="btn_red">
+  <%=link_to get_coupon_path(@coupon.id) do%>
+  <font color="white">确认领取</font>
+  <%end%>
+</div>
+
+
+
+
+</html>
