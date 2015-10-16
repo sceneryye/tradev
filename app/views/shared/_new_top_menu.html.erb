@@ -17,14 +17,15 @@
                                         <a class="navbar-brand" href="#">MENU</a>
                                     </div>
                                     <div id="navbar" class="navbar-collapse collapse">
+
                                         <ul class="nav navbar-nav">
-                                            <li class="active"><a href="/">首页 HOME</a></li>
+                                            <li class="<%= "active" if controller_name == "home" %>"><a href="/">首页 HOME</a></li>
                                             <li><a href="/tuan">限时特价 ON SALE</a></li>
-                                            <li><a href="/galleries/129">商品馆 GALLERIES</a></li>
-                                            <li><a href="/brands">品牌专区 BRANDS</a><span class="ch_sp_tag new1"></span></li>
-                                            <li><a href="/gallery/483?type=1">商品分类 CATEGORIES</a></li>
+                                            <li class="<%= "active" if controller_name == "galleries" %>"><a href="/galleries/129">商品馆 GALLERIES</a></li>
+                                            <li class="<%= "active" if controller_name == "brands" %>"><a href="/brands">品牌专区 BRANDS</a><span class="ch_sp_tag new1"></span></li>
+                                            <li class="<%= "active" if controller_name == "cats" %>"><a href="/gallery/483?type=1">商品分类 CATEGORIES</a></li>
                                             <!-- <li><a href="/distributions">供配频道 SUPPLY-DISTRIBUTION</a></li> -->
-                                            <li><a href="/events/foodie?supplier_id=78">活动吧 EVENTS</a></li>
+                                            <li class="<%= "active" if controller_name == "events" %>"><a href="/events/foodie?supplier_id=78">活动吧 EVENTS</a></li>
                                         </ul></br>
                                     </div><!--/.nav-collapse -->
                                 </div>

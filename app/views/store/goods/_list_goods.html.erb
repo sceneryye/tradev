@@ -74,7 +74,7 @@
 								<%=dup_name.html_safe%>
 								<%end%>
 								<%else%>
-								<%=link_to good.name,good_path(good.bn),:target=>"_blank"%>
+								<%=link_to good.name[0..46],good_path(good.bn),:target=>"_blank"%>
 								<%end%>
 							</div>
 							<div class="prices">
