@@ -30,7 +30,7 @@
 	text-shadow: 0 1px 0 white;
 }
 
-.breadcrumb {
+.position-list {
   /*padding: 8px 15px;*/
   padding: 0;
   margin: 0;
@@ -42,23 +42,24 @@
   float: left;
 }
 
-.breadcrumb li {
+.position-list li {
   display: inline-block;
   *display: inline;
   text-shadow: 0 1px 0 #ffffff;
   *zoom: 1;
 }
-.breadcrumb li a{ 
+.position-list li a{ 
   height: 28px;
   line-height: 28px;
   color: #555;
 }
-.breadcrumb .divider {
+.position-list .divider {
   padding: 0 5px;
   color: #ccc;
+  vertical-align: center;
 }
 
-.breadcrumb .active {
+.position-list .active {
   color: #999999;
 }
 

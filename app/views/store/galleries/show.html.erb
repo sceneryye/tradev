@@ -2,48 +2,62 @@
 <link href="/assets/store/gallery.css.scss" media="screen" rel="stylesheet" type="text/css" />
 <%end%>
 <%=render "shared/metable", :resource=>@cat%>
-
-<%=content_for :head do%>
-	<%= stylesheet_link_tag "store/cats" %>
-	
-<%end%>
-<!--Tree Menu-->
-
-
-
-<div class="products">
-
-  <!--Position-->
-  <div id="position">
-    <div class="container">
-      <div class="current_pos">当前位置 ：</div>
-      <ul class="breadcrumb">
-        <li><a href="http://www.TRADE-V.com">首页</a> <span class="divider">/</span></li>
-        <li><a href="/galleries/<%= params[:id] %>" class="<%= 'active' unless params[:cat_id].present? %>"><%= @gallery.tag_name %></a></li>
-        <% if params[:cat_id].present? %>
-        <li><span class="divider">/</span><span class="active"><%= Ecstore::Category.where(:cat_id => params[:cat_id]).first.cat_name %></span></li>
-        <% end %>
-      </ul>
-    </div>
+<!--Position-->
+<div id="position">
+  <div class="container">
+    <div class="current_pos">当前位置 ：</div>
+    <ul class="position-list">
+      <li><a href="http://www.TRADE-V.com">首页</a> <span class="divider" style="vertical-align:center;">/</span></li>
+      <li><a href="/galleries/<%= params[:id] %>" class="<%= 'active' unless params[:cat_id].present? %>"><%= @gallery.tag_name %></a></li>
+      <% if params[:cat_id].present? %>
+      <li><span class="divider">/</span><span class="active"><%= Ecstore::Category.where(:cat_id => params[:cat_id]).first.cat_name %></span></li>
+      <% end %>
+    </ul>
   </div>
-<ul style="float:left" >
-    <% @galleries.each do |gallery| %>
+</div>
+<!-- Position over-->
 
-    <li class="categories">
-      <a class="gallery-name"  href= "/galleries/<%= gallery.tag_id %>"> <%= gallery.tag_name %></a>
-      <ul  style="<%= 'display:none' unless params[:id].to_i == gallery.tag_id %>">
-        <% Ecstore::Category.where("cat_id in (#{@gallery.categories})").order("p_order").each do |category| %>
-        <li><a href="?cat_id=<%= category.cat_id %>"><%= category.cat_name %></a></li>
-        <% end %>
-      </ul>
-    </li>
-    <% end %>
-  </ul>
-  <div class="right goods" >
+<div class="products clearfix">
+  <div class="left">
+    <ul>
+      <% @galleries.each do |gallery| %>
+
+      <li class="categories gallery-name" id="gallery-name-<%= params[:id] %>">
+        <a  href= "/galleries/<%= gallery.tag_id %>" class="gallery-tag-name"><%= gallery.tag_name %></a>
+        <ul  style="<%= 'display:none' unless params[:id].to_i == gallery.tag_id %>" id="name-<%= params[:id] %>" class="gallery-item">
+          <% Ecstore::Category.where("cat_id in (#{@gallery.categories})").order("p_order").each do |category| %>
+          <li class="gallery-cats"><a href="?cat_id=<%= category.cat_id %>" id="cat-<%= category.cat_id %>"><%= category.cat_name %></a></li>
+          <% end %>
+        </ul>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="right" >
+
     <%= render :partial =>'/store/goods/goods_list' %>
   </div>
 </div>
-</div>
+
+<script>
+  $(document).ready(function(){
+    var $name = $('.gallery-name');
+    var search = window.location.search
+    if(search) {
+      var id = search.match(/\d+/)[0]
+    }
+    $name.each(function(){
+      if($(this).find('.gallery-item').css('display') == 'block'){
+        $(this).find('.gallery-tag-name').addClass('click-color');
+        $(this).find("#cat-" + id).addClass('item-color');
+      } else {
+        $(this).find('.gallery-tag-name').removeClass('click-color');
+      }
+    })
+
+  })
+</script>
 
 
 

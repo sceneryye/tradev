@@ -1,10 +1,7 @@
-/*
-*= require bootstrap
-*= require header
-*= require top_menu
-*= require footer
-*= require bootstrap_override
-*/
+#main,
+.container{
+  width: 950px;
+}
 
 .products {
   .left {
@@ -16,16 +13,14 @@
     float:right;
     width: 735px;
   }
-  .tree-menu {
-    
+  .gallery-tag-name {
+    line-height: 2em;
   }
   .goods {
-    
+
     margin-left: 50px;
   }
-  .sorter {
-    float: right;
-  }
+  
 }
 #position{
   // margin-top: -18px;
@@ -40,7 +35,7 @@
   padding-right: 10px;
   text-shadow: 0 1px 0 white;
 }
-.breadcrumb {
+.position-list {
   /*padding: 8px 15px;*/
   padding: 0;
   margin: 0;
@@ -52,23 +47,45 @@
   float: left;
 }
 
-.breadcrumb li {
-  display: inline-block;
-  *display: inline;
-  text-shadow: 0 1px 0 #ffffff;
-  *zoom: 1;
+.position-list li {
+ height: 28px;
+ line-height: 28px;
+ text-shadow: 0 1px 0 #ffffff;
+
+ float: left;
 }
-.breadcrumb li a{ 
-  height: 28px;
-  line-height: 28px;
+.position-list li a{
   color: #555;
 }
-.breadcrumb .divider {
+.position-list .divider {
   padding: 0 5px;
   color: #ccc;
 }
 
-.breadcrumb .active {
+.position-list .active {
   color: #999999;
 }
-@import 'list_goods.css';
+.products {
+  .gallery-cats {
+    padding-left: 20px;
+    margin: 5px 0;
+  }
+  .gallery-tag-name {
+    font-size: 1.1em;
+    padding: 5px;
+  }
+}
+
+.click-color {
+  background-color: rgb(27, 207, 113);
+  color: white;
+}
+.item-color {
+  color: rgb(27, 207, 113);
+}
+
+@import 'goods_list.css.scss';
+
+
+
+

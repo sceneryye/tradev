@@ -23,16 +23,16 @@ class Store::GalleriesController < ApplicationController
       @galleries << Ecstore::TagExt.where(:tag_id=>id).first
     end
 
-    tag_id = params[:id] || 126
+    tag_id = params[:id] || 129
     @gallery = Ecstore::TagExt.where(:tag_id=>tag_id).first
     if @gallery.nil?
       return render :text=>"敬请期待"
     end
-    condation = params[:cat_id].present? ? ("cat_id = #{params[:cat_id]}") : "cat_id in (#{@gallery.categories})"
+    condation = params[:cat_id].present? ? ({:cat_id => params[:cat_id]}) : ({:cat_id=>@gallery.categories.split(',')})
     @categories = Ecstore::Category.where(condation).order("p_order")
-    @categories.each do |category|
-      @goods = Ecstore::Good.where(:cat_id=>category.cat_id,:marketable=>"true").order("p_order ASC , goods_id DESC").paginate(:per_page => 40, :page => params[:page] || 1)
-    end
+    
+      @goods = Ecstore::Good.where(condation,:marketable=>"true").order("p_order ASC , goods_id DESC").paginate(:per_page => 21, :page => (params[:page] || 1).to_i)
+ 
 
     @supplier = Ecstore::Supplier.find(supplier_id)
 

@@ -26,6 +26,7 @@
 		margin-bottom: 5px;
 		img{
 			width: 193px;
+			height: 193px;
 			max-width: none;
 			margin: 0px auto;
 			display: block;
@@ -35,7 +36,10 @@
 		}
 	}
 	.good-info{
+
+		
 		margin-left: 33px;
+
 		
 		.brand{
 			font-size: 14px;
@@ -62,6 +66,11 @@
 		}
 		
 	}
+}
+
+ul li .info {
+	text-align: center;
+	height: 60px;
 }
 .pagination{
 	float:right;

@@ -1,5 +1,5 @@
-<div class="sorter" style="float:left">
-  <span class="sort">排序: </span>
+<div class="sorter">
+  <span>排序:</span>
   <%
   query_hash = {}
     # query_hash[:color] = params[:color] if params[:color]
@@ -25,40 +25,48 @@
     <%=link_to "销量&darr;".html_safe,"?order=buy_count-desc",:title=>"价格从高往低"%>
     <%=link_to "人气&darr;".html_safe,"?order=view_count-asc",:title=>"人气从高往低"%>
     <% params[:order] ||= 'price-asc' %>
+
+
     <div class="pagination top">
       <%=will_paginate @goods,:container=>false if @goods%>
     </div>
   </div>
 
   <ul class="list clearfix" id="goods">
-   <% @categories.each do |category| %>
-   <!--<div class="category-name" style="padding:2px 5px;background-color:red;color:white"><%= category.cat_name %>:</div>-->
-   <%@goods=Ecstore::Good.where(:cat_id=>category.cat_id,:marketable=>"true").order(params[:order].split('-').join(' ')).paginate(:per_page => 30, :page => params[:page] || 1) %>
+
+  <!--<div class="category-name" style="padding:2px 5px;background-color:red;color:white"><%#= category.cat_name %>:</div>-->
+
    <% @goods.each_with_index do |goods, index|%>
- <li><div class="good-pic>
-  
-     <%= link_to good_path(goods.bn) do %>
-     <a href="/products/<%=goods.bn%>" class="">
-     <div class="img">
-      <img src="<%=goods.medium_pic%>">
+   <li>
+     <div class="good-pic">
+       <%= link_to good_path(goods.bn) do %>
+       <a href="/products/<%=goods.bn%>" class="">
+         <div class="img">
+          <img src="<%=goods.medium_pic%>">
+        </div>
+      </a>
+      <% end %>
     </div>
-     </a>
-    <% end %>
-    <!--</a>-->
+
     <div class="info">
       <a href="/products/<%=goods.bn%>" class="">
-       <div class="name"><%=goods.name%></div>
-     </a>
-     <div class="gift"><%=goods.price%> &nbsp;
-      <span class="" style="text-decoration:line-through">¥<%=goods.mktprice%></span> </div>
-  
-  </a>
-</div>
-<%end%>
-</div>
-<%end%>
-</ul>
-<div class="pagination">
+       <div class="name">
+         <%=goods.name[0..30]%></div>
+       </a>
+       <div class="gift">
+         会员价：
+         <span style="color:red"><%=goods.price%> &nbsp;</span>
+         市场价：
+         <span class="" style="text-decoration:line-through">¥<%=goods.mktprice%></span>
+       </div>
+     </div>
+   </li>
+   <%end%>
+
+ </ul>
+
+ <div class="clearfix"></div>
+ <div class="pagination">
   <%=will_paginate @goods,:container=>false if @goods%>
+
 </div>
-<div class="clearfix"></div>
