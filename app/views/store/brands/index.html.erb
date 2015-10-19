@@ -5,7 +5,7 @@
 <%end%>
 
 <%#=content_for :cover do%>
-	<%#=raw Ecstore::Config.get(:brand_cover) %>
+<%#=raw Ecstore::Config.get(:brand_cover) %>
 <%#end%>
 
 <%render "store/shared/brand_position"%>
@@ -15,22 +15,30 @@
 		<div class="title">品牌索引</div>
 
 		<%@brands.each do |brand|%>
-			<li>
-				<div>
+		<% next if Ecstore::Good.where(:brand_id => brand.brand_id).length == 0 %>
+		<li>
+			<div>
 				<%=link_to brand_path(brand),:class=>"name #{brand.status}" do%>
-					<%=brand.brand_name%>
-					<%=image_tag '/assets/store/hot2.gif' if brand.status=='special'%>
-					<%=image_tag '/assets/store/new.png' if brand.status=='new'%>
-				<%end%>
+				<% Ecstore::Good.where(:brand_id => brand.brand_id).each do |good| %>
+				<% @good_pic = good.medium_pic %>
+				<% break if @good_pic.present? %>
+				<% end %>
+				<div class ="brand-pic">
+					<%= image_tag @good_pic %>
 				</div>
-				<div>
-					<%=link_to truncate2(brand.brand_desc.html_safe,:length=>15),brand_path(brand),:class=>"desc",:title=>brand.brand_desc.html_safe%>
-				</div>
-				<%if brand.status == 'coming'%>
-				<div><%=image_tag '/assets/store/comingsoon2.gif'%></div>
+				<%= brand.brand_name if @good_pic.present? %>
+				<%=image_tag '/assets/store/hot2.gif' if brand.status=='special'%>
+				<%=image_tag '/assets/store/new.png' if brand.status=='new'%>
 				<%end%>
+			</div>
+			<div>
+				<%=link_to truncate2(brand.brand_desc.html_safe,:length=>15),brand_path(brand),:class=>"desc",:title=>brand.brand_desc.html_safe%>
+			</div>
+			<%if brand.status == 'coming'%>
+			<div><%=image_tag '/assets/store/comingsoon2.gif'%></div>
+			<%end%>
 
-			</li>
+		</li>
 		<%end%>
 	</ul>
 </div>

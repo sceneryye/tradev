@@ -36,7 +36,7 @@
 	background-color: rgba(0,0,0,0.5);
 }
 .carousel-indicators {
-  position: absolute;
+	position: absolute;
   // bottom: 5px;
   // right: 15px;
   left:50%;
@@ -47,21 +47,21 @@
 }
 
 .carousel-indicators li {
-  display: block;
-  float: left;
-  width: 10px;
-  height: 10px;
-  margin-left: 5px;
-  text-indent: -999px;
+	display: block;
+	float: left;
+	width: 10px;
+	height: 10px;
+	margin-left: 5px;
+	text-indent: -999px;
 
-  background-color: #555;
+	background-color: #555;
   /*background-color: rgba(255, 255, 255, 0.25);*/
   border-radius: 5px;
   cursor: pointer;
 }
 
 .carousel-indicators .active {
-    background-color: #ccc;
+	background-color: #ccc;
 }
 
 img{
@@ -102,15 +102,15 @@ img{
 	}
 	.tabs-left{
 		float: right;
-            width: 165px;
-            height: 390px;
-            position: relative;
-            .brand-logo{
-            		img{
-            			max-width: none;
-            			width: 160px;
-            		}
-            }
+		width: 165px;
+		height: 390px;
+		position: relative;
+		.brand-logo{
+			img{
+				max-width: none;
+				width: 160px;
+			}
+		}
 		.nav{
 			li{
 				height: 20px;
@@ -198,10 +198,11 @@ ul.brands{
 		font-weight: bold;
 	}
 	li{
+		text-align: center;
 		list-style: none;
 		float: left;
 		width: 270px;
-		height: 61px;
+		height: 181px;
 		margin-bottom: 30px;
 		// img{
 		// 	width: 300px;
@@ -210,6 +211,13 @@ ul.brands{
 		// }
 		padding-left: 40px;
 		overflow: hidden;
+		.brand-pic {
+			padding-bottom: 10px;
+			img {
+			width: 140px;
+			height: 140px;
+		}
+	}
 		
 		.name{
 			font-size: 16px;
@@ -219,6 +227,7 @@ ul.brands{
 				img{
 					margin-top: -3px;
 				}
+				
 			}
 
 			&.new{
