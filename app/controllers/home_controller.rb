@@ -26,7 +26,7 @@ class HomeController < ApplicationController
 		@recommend_goods = []
 		@promotion.each do |promotion|
 			promotion.field_vals.each do |val|
-				@recommend_goods << Ecstore::Good.where(:bn => val).first
+				@recommend_goods << Ecstore::Good.where(:bn => val, :marketable => 'true').first
 			end
 		end
 		@recommend_goods = @recommend_goods.shuffle[0..5]

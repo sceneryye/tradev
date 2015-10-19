@@ -71,13 +71,13 @@
 
       <ul class="products kt-owl-carousel" data-margin="21" data-loop="true" data-nav="true" data-responsive='{"0":{"items":1},"600":{"items":3},"768":{"items":2},"1000":{"items":3},"1200":{"items":5}}'>
 
-        <% @recommend_goods.each do |recommend_goods| %>
+        <% @recommend_goods.compact.each do |recommend_goods| %>
         <li class="product">
          <div class="product-container">
           <div class="product-left">
            <div class="product-thumb">
             <a href="/products/<%= recommend_goods.bn %>" target="_blank">
-              <img alt="<%= recommend_goods.name %>" src="<%= recommend_goods.medium_pic %>" style="width:150px;" />
+              <img alt="<%= recommend_goods.name %>" src="<%= recommend_goods.medium_pic %>" style="width:150px;height:150px;" />
             </a>
           </div>
         </div>
