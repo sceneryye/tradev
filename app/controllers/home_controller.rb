@@ -21,6 +21,7 @@ class HomeController < ApplicationController
 				@promotion << promotion
 			end
 		end
+		@recommend_suppliers.shuffle!
 
 		@recommend_goods = []
 		@promotion.each do |promotion|

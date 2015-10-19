@@ -58,7 +58,7 @@
   <div class="block-head">
    <h3 class="block-title">推荐商品</h3>
    <ul class="nav-tab default">
-     <% @recommend_suppliers[0..7].each do |recommend_supplier| %>
+     <% @recommend_suppliers[0..3].each do |recommend_supplier| %>
      
      <li class="active"><%= link_to recommend_supplier.name, supplier_path(recommend_supplier.id), :target => "_blank" %></li>
      <% end %>

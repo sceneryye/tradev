@@ -214,10 +214,10 @@ ul.brands{
 		.brand-pic {
 			padding-bottom: 10px;
 			img {
-			width: 140px;
-			height: 140px;
+				width: 140px;
+				height: 140px;
+			}
 		}
-	}
 		
 		.name{
 			font-size: 16px;
@@ -390,6 +390,39 @@ ul.brands{
 			}
 		}
 	}
+}
+
+.position-list {
+  /*padding: 8px 15px;*/
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  /*background-color: #f4f3f7;*/
+  background-color: #fff;
+  font-size: 13px;
+  /*width: 500px;*/
+  float: left;
+}
+
+.position-list li {
+	display: inline-block;
+	*display: inline;
+	text-shadow: 0 1px 0 #ffffff;
+	*zoom: 1;
+}
+.position-list li a{ 
+	height: 28px;
+	line-height: 28px;
+	color: #555;
+}
+.position-list .divider {
+	padding: 0 5px;
+	color: #ccc;
+	vertical-align: center;
+}
+
+.position-list .active {
+	color: #999999;
 }
 
 
