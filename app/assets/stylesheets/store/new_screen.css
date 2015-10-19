@@ -4,7 +4,7 @@
  *= require top_menu
  */
 
-body {
+ body {
   height: auto;
 }
 
@@ -316,8 +316,8 @@ body {
   opacity: 0.8;
 }
 #products .meta_info .not-marketing{
-   float: left;
-   margin-right: 10px;
+ float: left;
+ margin-right: 10px;
 }
 #products .meta_info .add_to_favorites:hover {
   color: #333;
@@ -357,7 +357,7 @@ body {
   line-height: 30px;
 }
 #products .meta_info h3.name_and_price .name{
-   text-align: center;
+ text-align: center;
 }
 #products .meta_info h3.name_and_price span.price {
   color: #d30000;
@@ -520,7 +520,7 @@ body {
   color: #777;
   font-size: 14px;
 /*background: none;
-  border: none;*/
+border: none;*/
 }
 #products .meta_info .spec table.spec_bar td a .mask{
   display: block;
@@ -708,8 +708,8 @@ body {
 }
 
 #products .meta_info h3.title{ /*header of 1st demo*/
-cursor: hand;
-cursor: pointer;
+  cursor: hand;
+  cursor: pointer;
 padding: 0px 0px 0px 36px;/*
 border: 1px solid gray;
 border-bottom: none;*/
@@ -766,10 +766,10 @@ line-height: 36px;
   line-height: 22px;
   padding: 0 20px 10px 36px;
 /*  border-left: 1px solid gray;
-  border-right: 1px solid gray;*/
+border-right: 1px solid gray;*/
 }
 #products .meta_info .detail.cmt{
-    padding-left: 20px;
+  padding-left: 20px;
 }
 
 #products .meta_info div.detail h5{
@@ -972,15 +972,15 @@ line-height: 36px;
 }
 
 #products .single-loader{
-    background:  #dfdee5 url('/assets/progress2.gif') center center no-repeat;
-    position:absolute;
-    left:0px; 
-    top:0px; 
-    width:100%; 
-    height:100%; 
-    z-index:1000;
-    opacity: 0.8;
-    display: none;
+  background:  #dfdee5 url('/assets/progress2.gif') center center no-repeat;
+  position:absolute;
+  left:0px; 
+  top:0px; 
+  width:100%; 
+  height:100%; 
+  z-index:1000;
+  opacity: 0.8;
+  display: none;
 }
 
 
@@ -1012,20 +1012,20 @@ line-height: 36px;
 }
 #mini_items .jcarousel-skin-tango .jcarousel-container-horizontal,
 #btm_items .jcarousel-skin-tango .jcarousel-container-horizontal {
-    width: 1038px;
-    padding: 20px 41px;
+  width: 1038px;
+  padding: 20px 41px;
 }
 
 #mini_items .jcarousel-skin-tango .jcarousel-clip-horizontal,
 #btm_items .jcarousel-skin-tango .jcarousel-clip-horizontal {
-    width: 1038px;
-    height: 310px;
+  width: 1038px;
+  height: 310px;
 }
 #mini_items .jcarousel-skin-tango .jcarousel-item,
 #btm_items .jcarousel-skin-tango .jcarousel-item {
-    width: 190px;
-    height: 310px;
-    text-align: center;
+  width: 190px;
+  height: 310px;
+  text-align: center;
 }
 
 #mini_items .jcarousel-skin-tango .jcarousel-clip-horizontal,
@@ -1355,7 +1355,7 @@ line-height: 36px;
   width: 33px;
 }
 #header #search #btn_search:hover {
-    background: url("search_input_bg.png") no-repeat scroll right bottom transparent;
+  background: url("search_input_bg.png") no-repeat scroll right bottom transparent;
 }
 
 #header #account {
@@ -1378,111 +1378,111 @@ line-height: 36px;
 }
 */
 #header #account #login_tools {
-    float: right;
-    list-style: none outside none;
-    margin: 13px 0 0;
-    padding: 0;
-    width: 510px;
+  float: right;
+  list-style: none outside none;
+  margin: 13px 0 0;
+  padding: 0;
+  width: 510px;
 }
 #header #account #login_tools li {
-    display: block;
-    /*float: left;*/
-    margin: 0 0 0 10px;
-    float: right;
+  display: block;
+  /*float: left;*/
+  margin: 0 0 0 10px;
+  float: right;
 }
 #header #account #login_tools li a {
-    color: #000000;
-    float: left;
-    font-size: 13px;
-    height: 18px;
-    line-height: 18px;
-    opacity: 0.75;
-    text-decoration: none;
+  color: #000000;
+  float: left;
+  font-size: 13px;
+  height: 18px;
+  line-height: 18px;
+  opacity: 0.75;
+  text-decoration: none;
 }
 #header #account #login_tools li a:hover {
-    color: #000000;
-    opacity: 1;
+  color: #000000;
+  opacity: 1;
 }
 #header #account #login_tools li div.bar {
-    float: left;
-    height: 18px;
+  float: left;
+  height: 18px;
 }
 #header #account #login_tools li div.bar a.login,
 #header #account #login_tools li a.girl_head {
-    background: url("minicons.png") no-repeat scroll 0 -1px transparent;
-    height: 17px;
-    line-height: 17px;
-    margin: 0;
-    padding-left: 20px;
-    /*padding-top: 1px;*/
+  background: url("minicons.png") no-repeat scroll 0 -1px transparent;
+  height: 17px;
+  line-height: 17px;
+  margin: 0;
+  padding-left: 20px;
+  /*padding-top: 1px;*/
 }
 #header #account #login_tools li div.bar a {
-    height: 17px;
-    line-height: 17px;
-    margin-top: 1px;
+  height: 17px;
+  line-height: 17px;
+  margin-top: 1px;
 }
 #header #account #login_tools li span.login_name {
-    background: url("minicons.png") no-repeat scroll 0 -1px transparent;
-    float: left;
-    font-size: 13px;
-    height: 17px;
-    line-height: 17px;
-    margin: 0 0 0 2px;
-    max-width: 150px;
-    opacity: 0.75;
-    overflow: hidden;
-    padding-left: 22px;
-    padding-top: 1px;
-    text-overflow: ellipsis;
+  background: url("minicons.png") no-repeat scroll 0 -1px transparent;
+  float: left;
+  font-size: 13px;
+  height: 17px;
+  line-height: 17px;
+  margin: 0 0 0 2px;
+  max-width: 150px;
+  opacity: 0.75;
+  overflow: hidden;
+  padding-left: 22px;
+  padding-top: 1px;
+  text-overflow: ellipsis;
 }
 #header #account #login_tools li a.loggedin,
 #header #account #login_tools li a.vip_card {
-    margin-left: 6px;
+  margin-left: 6px;
 }
 #header #account #login_tools li a#cart_link {
-    background: url("minicons.png") no-repeat scroll 0 -22px transparent;
-    padding-left: 20px;
+  background: url("minicons.png") no-repeat scroll 0 -22px transparent;
+  padding-left: 20px;
 }
 #header #account #login_tools li div#support {
-    background: url("minicons.png") no-repeat scroll 0 -84px transparent;
-    float: left;
-    height: 18px;
-    line-height: 18px;
-    opacity: 0.75;
-    padding-left: 20px;
+  background: url("minicons.png") no-repeat scroll 0 -84px transparent;
+  float: left;
+  height: 18px;
+  line-height: 18px;
+  opacity: 0.75;
+  padding-left: 20px;
 }
 #header #account #login_tools li div#support:hover, #header #account #login_tools li div#support a {
-    opacity: 1;
+  opacity: 1;
 }
 #header #account #login_tools li div#support a {
-    height: 17px;
-    line-height: 17px;
-    margin-top: 1px;
+  height: 17px;
+  line-height: 17px;
+  margin-top: 1px;
 }
 #header #account #login_tools li a#weibo {
-    background: url("minicons.png") no-repeat scroll 0 -122px transparent;
-    cursor: pointer;
-    opacity: 1;
-    padding-left: 16px;
+  background: url("minicons.png") no-repeat scroll 0 -122px transparent;
+  cursor: pointer;
+  opacity: 1;
+  padding-left: 16px;
 }
 #header #account #login_tools li a#weibo:hover {
-    background: url("minicons.png") no-repeat scroll 0 -122px transparent;
+  background: url("minicons.png") no-repeat scroll 0 -122px transparent;
 }
 #header #account #login_tools li a#reg {
-    margin-left: 5px;
+  margin-left: 5px;
 }
 #header #account #login_tools li #tel {
-    background: url("/assets/store/minicons.png") no-repeat scroll 0 -141px transparent;
-    color: #000000;
-    /*display: none;*/
-    /*float: right;*/
-    font-size: 14px;
-    height: 20px;
-    line-height: 20px;
-    /*margin-left: 380px;*/
-    opacity: 0.75;
-    padding: 0 2px 0 20px;
-    /*display: none;*/
+  background: url("/assets/store/minicons.png") no-repeat scroll 0 -141px transparent;
+  color: #000000;
+  /*display: none;*/
+  /*float: right;*/
+  font-size: 14px;
+  height: 20px;
+  line-height: 20px;
+  /*margin-left: 380px;*/
+  opacity: 0.75;
+  padding: 0 2px 0 20px;
+  /*display: none;*/
 }
 #header #account #vipcard {
   float: right;
@@ -1895,20 +1895,20 @@ line-height: 36px;
   font-size: 19px;
 }
 #more_products .jcarousel-skin-tango {
-    margin-left: -40px;
+  margin-left: -40px;
 }
 #more_products .jcarousel-skin-tango .jcarousel-container-horizontal {
-    width: 1038px;
-    padding: 20px 41px;
+  width: 1038px;
+  padding: 20px 41px;
 }
 #more_products .jcarousel-skin-tango .jcarousel-clip-horizontal {
-    width: 1038px;
-    height: 340px;
+  width: 1038px;
+  height: 340px;
 }
 #more_products .jcarousel-skin-tango .jcarousel-item {
-    width: 190px;
-    height: 340px;
-    text-align: center;
+  width: 190px;
+  height: 340px;
+  text-align: center;
 }
 #more_products .jcarousel-skin-tango .jcarousel-item p {
   margin: 7px 0 0 0;
@@ -2133,8 +2133,37 @@ line-height: 36px;
   padding-right: 10px;
   text-shadow: 0 1px 0 #ffffff;
 }
-#position .breadcrumb {
-  /*background: #f2f2f2;*/
+.position-list {
+  /*padding: 8px 15px;*/
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  /*background-color: #f4f3f7;*/
+  background-color: #fff;
+  font-size: 13px;
+  /*width: 500px;*/
+  float: left;
+}
+
+.position-list li {
+  display: inline-block;
+  *display: inline;
+  text-shadow: 0 1px 0 #ffffff;
+  *zoom: 1;
+}
+.position-list li a{ 
+  height: 28px;
+  line-height: 28px;
+  color: #555;
+}
+.position-list .divider {
+  padding: 0 5px;
+  color: #ccc;
+  vertical-align: center;
+}
+
+.position-list .active {
+  color: #999999;
 }
 #position #clock {
   float: right;
@@ -2465,10 +2494,10 @@ line-height: 36px;
   display: inline-block;
   color: #888888;
   font-size: 12px;
-   float: left;
+  float: left;
 }
 #footer .partners ul li.active {
-/*  background: url(../images/triangle.png) 34px 31px no-repeat;*/
+  /*  background: url(../images/triangle.png) 34px 31px no-repeat;*/
 }
 #footer .partners ul li a {
   display: inline;

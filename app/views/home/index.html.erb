@@ -52,64 +52,67 @@
 </div>
 <%end%>
 </div>
-<!-- ./block categories -->
+<!-- recommends -->
+
 <div class="block3 block-new-arrivals">
   <div class="block-head">
-    <h3 class="block-title">推荐商品</h3>
-    <ul class="nav-tab default">
-      <%i=0%>
-      <% @suppliers=[131,130,127,132]%>
-      <%@suppliers.each do |supplier_id|%>
-      <%@supplier = Ecstore::Supplier.where(:id=>supplier_id).first%>
-      <%i+=1%>
-      <li class="link-all"><a href="/suppliers/<%=@supplier.id%>" data-toggle="tab"><%=@supplier.name%></a></li>
+   <h3 class="block-title">推荐商品</h3>
+   <ul class="nav-tab default">
+     <% @recommend_suppliers[0..7].each do |recommend_supplier| %>
+     
+     <li class="active"><%= link_to recommend_supplier.name, supplier_path(recommend_supplier.id), :target => "_blank" %></li>
+     <% end %>
+   </ul>
+ </div>
+ <div class="block-inner">
+   <div class="tab-container">
+    <div id="tab-1" class="tab-panel active">
 
-    </ul>
-  </div>
-  <div class="block-inner">
-    <div class="tab-container">                           
-      <div class="tab-panel active" id="#tab-supplier-goods">
-        <ul class="products kt-owl-carousel" data-margin="20" data-loop="true" data-nav="true" data-responsive='{"0":{"items":2},"600":{"items":3},"768":{"items":2},"1000":{"items":3},"1200":{"items":4}}'>                
-        <%Ecstore::Good.where(:supplier_id => supplier_id).each do |good|%>
-         <li class="product">
-          <div class="product-container">
-            <div class="product-left">
-              <div class="product-thumb">
-                <a class="product-img" href="/products/<%=good.bn%>"><img src="<%=good.medium_pic%>" alt="Product"></a>
-                <a title="Quick View" href="/products/<%=good.bn%>" class="btn-quick-view">Quick View</a>
-              </div>
-            </div>
-            <div class="product-right">
-              <div class="product-name">
-                [<%=good.supplier.name if good.supplier_id%>]
-                <a href="/products/<%=good.bn%>"><%=good.name%></a>
-              </div>
-              <div class="price-box">
-                <span class="product-price">￥<%=good.price%></span>
-                <span class="product-price-old">￥<%=good.mktprice%></span>
-              </div>
 
-            </div>
+      <ul class="products kt-owl-carousel" data-margin="21" data-loop="true" data-nav="true" data-responsive='{"0":{"items":1},"600":{"items":3},"768":{"items":2},"1000":{"items":3},"1200":{"items":5}}'>
+
+        <% @recommend_goods.each do |recommend_goods| %>
+        <li class="product">
+         <div class="product-container">
+          <div class="product-left">
+           <div class="product-thumb">
+            <a href="/products/<%= recommend_goods.bn %>" target="_blank">
+              <img alt="<%= recommend_goods.name %>" src="<%= recommend_goods.medium_pic %>" style="width:150px;" />
+            </a>
           </div>
-        </li>
-        <%end%>
-        <%end%>
-      </ul>
+        </div>
+        <div class="product-right">
+         <div class="product-name">
+          <a href="/products/<%= recommend_goods.bn %>" target="_blank" title="<%= recommend_goods.name %>"><%= recommend_goods.name %></a>
+        </div>
+        <div class="price-box">
+          <span class="product-price">￥<%= recommend_goods.price %></span>
+          <span class="product-price-old">￥<%= recommend_goods.mktprice %></span>
+        </div>
+      </div>
     </div>
-  </div>
+  </li>
+  <%end%>
+</ul>
 </div>
 </div>
-<!-- galleries -->			
+</div>
+
+
+
+<!-- recommends -->
+
+<!-- galleries -->
 <% @galleries.each do |gallery|%>
 <div class="block3 block-new-arrivals">
   <div class="block-head">
    <h3 class="block-title"><%=gallery.tag_name%></h3>
-   <%categories = Ecstore::Category.where("cat_id in (#{gallery.tag_ext.categories})").order("p_order")%>                    
+   <%categories = Ecstore::Category.where("cat_id in (#{gallery.tag_ext.categories})").limit(9).order("p_order")%>
    <ul class="nav-tab default">
      <%categories.each do |category|%>
-     <%@more = category.cat_id%>                                                  
+     <%@more = category.cat_id%>
      <li class="active"><a href="/gallery/<%=category.cat_id%>?type=1"  target="_blank"><%=category.cat_name%></a></li>
-     <%end%> 
+     <%end%>
    </ul>
  </div>
  <div class="block-inner">
@@ -143,7 +146,7 @@
 </div>
 </div>
 </div>
-</div>            
+</div>
 <%@i +=1%>
 <%end%>
 <!-- galleries -->

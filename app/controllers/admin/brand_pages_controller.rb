@@ -6,7 +6,7 @@ class Admin::BrandPagesController < Admin::BaseController
     else
       @brands =  Ecstore::Brand.order("ordernum asc,slug asc")
     end
-    
+
     if params[:search]
       key =  params[:search][:key]
       @brands = @brands.where("brand_name like ?","%#{key}%").paginate(:page=>params[:page],:per_page=>20)
@@ -17,9 +17,9 @@ class Admin::BrandPagesController < Admin::BaseController
   end
 
   def new
-    
+
   end
-  
+
   def edit
    @brand = Ecstore::Brand.find(params[:id])
    @brand_page = @brand.brand_page
@@ -42,7 +42,7 @@ def update
     redirect_to edit_admin_brand_page_url(@brand)
   else
     render :edit
-  end 
+  end
 end
 
 def create
@@ -54,7 +54,7 @@ def create
     redirect_to edit_admin_brand_page_url(@brand)
   else
     render :new
-  end 
+  end
 end
 
 def destroy
@@ -82,7 +82,7 @@ end
 def reco
   return_url =  request.env["HTTP_REFERER"]
   return_url =  admin_brand_pages_url if return_url.blank?
-  
+
   @brand = Ecstore::Brand.find(params[:id])
   if @brand.reco == false
     @brand.update_attribute :reco, true

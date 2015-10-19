@@ -15,7 +15,7 @@
 		<div class="title">品牌索引</div>
 
 		<%@brands.each do |brand|%>
-		<% next if Ecstore::Good.where(:brand_id => brand.brand_id).length == 0 %>
+		<% next if Ecstore::Good.where(:brand_id => brand.brand_id).length == 0 || [94, 242].include?(brand.brand_id) %>
 		<li>
 			<div>
 				<%=link_to brand_path(brand),:class=>"name #{brand.status}" do%>
