@@ -88,6 +88,9 @@
   -ms-user-select: none;
   user-select: none;
 }
+.owl-carousel .owl-controls .owl-nav .owl-prev {
+  vertical-align: top;
+}
 .owl-carousel.owl-loaded {
   display: block;
 }
