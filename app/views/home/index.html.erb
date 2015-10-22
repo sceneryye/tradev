@@ -58,10 +58,7 @@
   <div class="block-head">
    <h3 class="block-title">推荐商品</h3>
    <ul class="nav-tab default">
-     <% @recommend_suppliers[0..3].each do |recommend_supplier| %>
      
-     <li class="active"><%= link_to recommend_supplier.name, supplier_path(recommend_supplier.id), :target => "_blank" %></li>
-     <% end %>
    </ul>
  </div>
  <div class="block-inner">
@@ -91,7 +88,7 @@
           </div>
         </div>
         <div class="product-slide-up">
-          <%= recommend_goods.desc %>
+          <%= raw recommend_goods.desc %>
         </div>
       </div>
     </li>
@@ -384,6 +381,7 @@
 </div>
 </div>
 
+
 <script type="text/javascript">
   $(document).ready(function(){
     
@@ -412,5 +410,7 @@
   z-index: 9999;
   display: none;
   padding: 10px;
+  width: 150px;
+
 }
 </style>

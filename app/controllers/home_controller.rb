@@ -12,24 +12,15 @@ class HomeController < ApplicationController
 		@i = 1
 		@home = Ecstore::Home.where(:supplier_id=>nil).last
 
-		@recommend_suppliers = []
-		@promotion = []
-		Ecstore::Promotion.where("field_name = 'bn'").each do |promotion|
-			recommend_suppliers = Ecstore::Supplier.where(:name => promotion.name).first
-			if recommend_suppliers.present?
-				@recommend_suppliers << recommend_suppliers
-				@promotion << promotion
-			end
-		end
-		@recommend_suppliers.shuffle!
+
+		@promotion = Ecstore::Promotion.where(:name => 'goods_pro').first
 
 		@recommend_goods = []
-		@promotion.each do |promotion|
-			promotion.field_vals.each do |val|
-				@recommend_goods << Ecstore::Good.where(:bn => val, :marketable => 'true').first
-			end
+		@promotion.field_vals.each do |val|
+			@recommend_goods << Ecstore::Good.where(:bn => val).first
 		end
-		@recommend_goods = @recommend_goods.compact.shuffle[0..5]
+
+		@recommend_goods = @recommend_goods.compact
 		if signed_in?
 			redirect_to params[:return_url] if params[:return_url].present?
 		end
