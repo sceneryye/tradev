@@ -29,7 +29,7 @@ class HomeController < ApplicationController
 				@recommend_goods << Ecstore::Good.where(:bn => val, :marketable => 'true').first
 			end
 		end
-		@recommend_goods = @recommend_goods.shuffle[0..5]
+		@recommend_goods = @recommend_goods.compact.shuffle[0..5]
 		if signed_in?
 			redirect_to params[:return_url] if params[:return_url].present?
 		end

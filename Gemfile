@@ -70,6 +70,9 @@ gem 'httpclient'
 # Use unicorn as the app server
 gem 'unicorn'
 
+# Use rails_db to look up datas
+
+
 # Deploy with Capistrano
 # gem 'capistrano'
 
