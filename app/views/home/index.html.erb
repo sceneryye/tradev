@@ -58,7 +58,7 @@
   <div class="block-head">
    <h3 class="block-title">推荐商品</h3>
    <ul class="nav-tab default">
-     
+
    </ul>
  </div>
  <div class="block-inner">
@@ -75,9 +75,13 @@
              <div class="product-thumb">
               <a href="/products/<%= recommend_goods.bn %>" target="_blank">
                 <img alt="<%= recommend_goods.name %>" src="<%= recommend_goods.medium_pic %>" style="width:150px;height:150px;" />
+                <div class="product-slide-up">
+                  <%= raw recommend_goods.desc %>
+                </div>
               </a>
             </div>
           </div>
+
           <div class="product-right">
            <div class="product-name">
             <a href="/products/<%= recommend_goods.bn %>" target="_blank" title="<%= recommend_goods.name %>"><%= recommend_goods.name %></a>
@@ -87,9 +91,7 @@
             <span class="product-price-old">￥<%= recommend_goods.mktprice %></span>
           </div>
         </div>
-        <div class="product-slide-up">
-          <%= raw recommend_goods.desc %>
-        </div>
+        
       </div>
     </li>
     <%end%>
@@ -384,7 +386,7 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    
+
     $('.describe-show').hover(function(){
       $(this).mouseover(function(){
         $(this).find('.product-slide-up').stop(true, true).slideDown(400);
@@ -397,20 +399,20 @@
 
 </script>
 <style type="text/css">
-.describe-show {
-  position: absolute;
-}
+  .product-thumb {
+    position: absolute;
+  }
 
-.product-slide-up {
-  position: absolute;
-  bottom: 0;
-  background-color: rgb(27, 209, 114);
-  color: white;
-  margin: 0 auto;
-  z-index: 9999;
-  display: none;
-  padding: 10px;
-  width: 150px;
+  .product-slide-up {
+    position: absolute;
+    bottom: 0;
+    background-color: rgb(27, 209, 114);
+    color: white;
+    margin: 0 auto;
+    z-index: 9999;
+    display: none;
+    padding: 10px;
+    width: 150px;
 
-}
+  }
 </style>
