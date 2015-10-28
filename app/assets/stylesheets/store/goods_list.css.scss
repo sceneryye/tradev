@@ -83,15 +83,18 @@ ul li .info {
     padding:3px 5px;
 
     &:hover{
-       color:#8d0a0f;
-    } 
-  }
-  .current{
-    font-weight:bold;
-    padding:3px 5px;
-  }
-  span.disabled{
-    padding:3px 5px;
-    color:#999;
-  }
+     color:#8d0a0f;
+   } 
+ }
+ .current{
+  font-weight:bold;
+  padding:3px 5px;
+}
+span.disabled{
+  padding:3px 5px;
+  color:#999;
+}
+}
+.gray {
+  img {filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1); -webkit-filter: grayscale(100%); }
 }

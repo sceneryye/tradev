@@ -36,8 +36,10 @@
 					<li>
 						<div class="good-pic good-<%=good.goods_id%>">
 							<%=link_to good_path(good.bn), :target=>"_blank" do %>
+							<div class="<%= 'gray' if good.marketable == 'false' %>">
 							<%=image_tag good.list_default_pic,:alt=>good.name,:class=>"default"%>
 							<%#=image_tag good.list_hover_pic,:alt=>good.name,:class=>"hover"%>
+							</div>
 							<%end%>
 						</div>
 						<div class="good-info">

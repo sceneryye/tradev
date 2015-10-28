@@ -31,7 +31,7 @@ class Store::GalleriesController < ApplicationController
     condation = params[:cat_id].present? ? ({:cat_id => params[:cat_id]}) : ({:cat_id=>@gallery.categories.split(',')})
     @categories = Ecstore::Category.where(condation).order("p_order")
     
-      @goods = Ecstore::Good.where(condation,:marketable=>"true").order("p_order ASC , goods_id DESC").paginate(:per_page => 21, :page => (params[:page] || 1).to_i)
+      @goods = Ecstore::Good.where(condation).order("p_order ASC , goods_id DESC").paginate(:per_page => 21, :page => (params[:page] || 1).to_i)
  
 
     @supplier = Ecstore::Supplier.find(supplier_id)

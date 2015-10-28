@@ -41,7 +41,7 @@
      <div class="good-pic">
        <%= link_to good_path(goods.bn) do %>
        <a href="/products/<%=goods.bn%>" class="">
-         <div class="img">
+         <div class="img <%= 'gray' if goods.marketable == 'false' %>">
           <img src="<%=goods.medium_pic%>">
         </div>
       </a>

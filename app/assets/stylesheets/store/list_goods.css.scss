@@ -95,3 +95,7 @@ ul li .info {
 		color:#999;
 	}
 }
+
+.gray {
+  img {filter: progid:DXImageTransform.Microsoft.BasicImage(grayscale=1); -webkit-filter: grayscale(100%); }
+}
