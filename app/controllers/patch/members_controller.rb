@@ -12,7 +12,7 @@ class Patch::MembersController < ApplicationController
 		add_breadcrumb("我的贸威",:member_path)
 	end
 
- 
+  
 	def show
 		@orders = @user.orders.limit(5)
 		@unpay_count = @user.orders.where(:pay_status=>'0',:status=>'active').size

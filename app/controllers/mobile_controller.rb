@@ -70,7 +70,9 @@ class MobileController < ApplicationController
   end
 
   def user_center
-
+    if @user.nil?
+      redirect_to '/auto_login?id=78&return_url=/mobile/user_center&platform=mobile'
+    end
   end
 
   def index
