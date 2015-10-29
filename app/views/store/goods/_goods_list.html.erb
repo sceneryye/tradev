@@ -41,9 +41,17 @@
      <div class="good-pic">
        <%= link_to good_path(goods.bn) do %>
        <a href="/products/<%=goods.bn%>" class="">
-         <div class="img <%= 'gray' if goods.marketable == 'false' %>">
-          <img src="<%=goods.medium_pic%>">
-        </div>
+
+         <div class="img <%= 'gray' if goods.marketable == 'false' %>" style="position: relative;" > 
+  <% if goods.marketable == 'false' %>
+  <div style="position: absolute;z-index:999;left:10%" > 
+    <img style="filter:alpha(opacity=50); 
+-moz-opacity:0.5; 
+opacity:0.5;" src="/images/homepage/sellout.jpg">
+  </div>
+  <% end %>
+  <img src="<%=goods.medium_pic%>">
+</div>
       </a>
       <% end %>
     </div>
