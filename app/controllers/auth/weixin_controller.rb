@@ -22,9 +22,18 @@ class Auth::WeixinController < ApplicationController
 	end
 
 	def callback
-
 		return redirect_to(site_path) if params[:error].present?
-	    supplier_id = params[:id]
+
+		
+		id =  params[:id] 
+		id_type = id.split('shop')
+
+		if id_type[1]
+			shop_id = id_type[1]
+		else
+			supplier_id = id
+		end
+	    
 	    if params[:supplier_id]
 	        supplier_id=params[:supplier_id]
 	    end
@@ -46,6 +55,7 @@ class Auth::WeixinController < ApplicationController
 	  	# return  render :text=>user_info.nickname
 
 		auth_ext = Ecstore::AuthExt.where(:provider=>"weixin",
+						:shop_id =>shop_id,
 						:uid=>token.openid).first_or_initialize(
 						:access_token=>token.access_token,
 		   #            :refresh_token=>token.refresh_token,
@@ -60,6 +70,9 @@ class Auth::WeixinController < ApplicationController
 
 			#login_name = auth_user.screen_name
 	        login_name = token.openid
+	        if shop_id
+	        	login_name +="_shop_#{shop_id}"
+	        end
 	    	#  return render :text=>login_name
 			check_user = Ecstore::Account.find_by_login_name(login_name)
 			
@@ -75,6 +88,7 @@ class Auth::WeixinController < ApplicationController
 		  		ac.createtime = now.to_i
 		  		ac.auth_ext = auth_ext
         		ac.supplier_id = supplier_id
+        		ac.shop_id = shop_id
 	  		end
 
 	  		Ecstore::Account.transaction do
@@ -113,7 +127,7 @@ class Auth::WeixinController < ApplicationController
 	  			@user.weixin_unionid = user_info.unionid
   			@user.save!(:validate=>false)
 			sign_in(auth_ext.account,'1')
-
+=begin
 			# @key = session[:key]
 			# @url = session[:url]
 			# if @key　#如果是从推荐页面进来的用户
@@ -168,24 +182,25 @@ class Auth::WeixinController < ApplicationController
 			# 	end
 
 			# end
-		   
+=end		   
 		end
+#return render :text=>"return_url:#{return_url.empty?}"
 
+	    redirect = return_url
 
-
-		if return_url
-	        redirect = return_url
-	    else
-	    	if supplier_id == 78
-	    		redirect  = "/tuan"
-	    	else
+	    if redirect.empty?
+	    	
+	    	if shop_id
+	    		redirect ="/weihuo/shops?shop_id=#{shop_id}"	    		
+	    	elsif supplier_id == '78'
+	    		redirect  = "/mobile"          		
+          	else
           		redirect = "/vshop/#{supplier_id}"
           	end
-        	#  redirect = after_user_sign_in_path
 	    end
+	    
+
 	    redirect_to redirect
-		#rescue
-		#	redirect_to(site_path)
 	end
 
 	def cancel
