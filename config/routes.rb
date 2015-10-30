@@ -359,6 +359,7 @@ Modengke::Application.routes.draw do
     # subdomain = "www" if Rails.env == "production"
     # constraints :subdomain => subdomain do
     get 'logout'=>'sessions#destroy'
+    get 'get_users' => 'bonuses#get_users'
     resources :tracks do
       get :pages,:on=>:collection
     end

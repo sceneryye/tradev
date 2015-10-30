@@ -1,0 +1,28 @@
+<div class="container">
+<table class="table table-hover table-striped">
+<tr>
+  <th>头像</th>
+  <th>昵称</th>
+  <th>付款金额</th>
+  <th>红包祝福语</th>
+  <th>活动名称</th>
+  <th>备注</th>
+  <th>操作</th> 
+</tr>
+<% @users_information.each do |user_info| %>
+<tr>
+  <td><img src="<%= user_info['headimgurl'] %>"></td>
+  <td><%= user_info['nickname'] %></td>
+  <% form_for @users_information, :url => '/' do |f| %>
+  <td>
+    <%= f.text_field :total_amount %>
+  </td>
+  <td><%= f.text_field :whihing, :placeholder => '恭喜发财' %></td>
+  <td><%= f.text_field :act_name, :placeholder => '销售红包', :value => '销售红包' %></td>
+  <td><%= f.text_field :remark, :placeholder => '销售红包', :value => '销售红包' %></td>
+  <td><button type="button">发送红包</button></td>
+  <% end %>
+</tr>
+<% end %>
+</table>
+</div>

@@ -182,6 +182,12 @@
             </li>
             <%end%>
 
+            <%if current_admin.has_right_of("members","index")%>
+            <li class="<%='active' if controller_name=='members'%>">
+              <%=link_to "发送红包",admin_get_users_path%>
+            </li>
+            <%end%>
+
             <%if current_admin.has_right_of("cards","index")%>
             <li class="<%='active' if controller_name=='cards'%>">
               <%=link_to "会员VIP卡管理",admin_cards_path%>
@@ -275,6 +281,7 @@
                   <%=link_to "物流规则", admin_express_rules_path if current_admin.has_right_of("express_rules","index")%>
 
                 </li>
+
               </ul>
             </li>
 
