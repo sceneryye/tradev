@@ -5,6 +5,27 @@ class SessionsController < ApplicationController
   skip_before_filter :authorize_user!
   layout 'login'
 
+
+
+   def shop_login
+    shop_id = params[:shop_id]
+
+    if shop_id.empty?
+      return render :text=>'店铺不存在'
+    end
+
+    supplier_id = 78
+    @supplier = Ecstore::Supplier.find(supplier_id)
+
+    redirect_uri="http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2fshop#{shop_id}%2fcallback"
+    @oauth_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+
+    session[:return_url] =  params[:return_url]
+    session[:shop_id] = shop_id
+
+    redirect_to  @oauth_url
+  end
+
   def new
 
   end

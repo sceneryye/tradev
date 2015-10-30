@@ -2,6 +2,32 @@
 require 'httpclient'
 Modengke::Application.routes.draw do
 
+  namespace :weihuo do
+    resources :orgnizations
+    resources :orders
+
+    resources :shops do
+      collection do
+        get :gallery
+        get :admin
+        get :admin_visitors
+        get :admin_orders
+        get :user_center
+        get :categories
+        get :orderlist
+        get :brand
+        get :mobile_search
+
+      end
+
+      member do
+        get :shop
+        get :category_goods
+      end
+    end
+  end
+
+
   resources :mobile do
   	collection do
   		get :gallery
@@ -254,6 +280,7 @@ Modengke::Application.routes.draw do
   end
 
   get 'auto_login'=>"sessions#auto_login"
+  get 'shop_login'=>"sessions#shop_login"
   get 'autologin1'=>"sessions#auto_login1"
   get 'login'=>"sessions#new"
   get 'mlogin'=>"sessions#new_mobile"

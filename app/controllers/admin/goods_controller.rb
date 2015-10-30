@@ -49,8 +49,12 @@ module Admin
                     @good.type_id = good_type.type_id
                     @good.supplier_id = supplier
                     cat_arr = row[0].split("->")
+                   # return render :text=>cat_arr[0]
                     cat_deep = cat_arr.length - 1
                     good_cat = Ecstore::GoodCat.find_by_cat_name(cat_arr[cat_deep])
+                    if good_cat.nil?
+                       return render :text=>"第#{i}行商品类别[#{cat_arr}]不存在。"
+                    end
                     @good.cat_id = good_cat.cat_id
 
                     @good.medium_pic = row[2]
