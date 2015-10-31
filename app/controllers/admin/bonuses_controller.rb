@@ -13,11 +13,15 @@ class Admin::BonusesController < Admin::BaseController
     access_token = ActiveSupport::JSON.decode(get_access_token)['access_token']
     get_users_list = RestClient.get "https://api.weixin.qq.com/cgi-bin/user/get?access_token=#{access_token}&next_openid="
     users_list = ActiveSupport::JSON.decode(get_users_list)['data']['openid']
-
+    page = (params[:page].to_i - 1) || 0
+    users_list_partial = arr_paginate(users_list).first[params[:page].to_i || 0]
+    @pages_number = arr_paginate(users_list).last
     @users_information = []
-    users_list.each do |open_id|
+    users_list_partial.each do |open_id|
       @users_information << ActiveSupport::JSON.decode(RestClient.get("https://api.weixin.qq.com/cgi-bin/user/info?access_token=#{access_token}&openid=#{open_id}&lang=zh_CN"))
     end
+            # return render :text => get_users_list
+
   end
 
   def send_bonus
@@ -62,22 +66,18 @@ class Admin::BonusesController < Admin::BaseController
 
     url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack'
     res_data = RestClient.post url, params_xml, :content_type => :xml, :accept => :xml
-    res_data_hash = Hash.from_xml res_data
-    if res_data_hash[:return_code] == 'SUCCESS'
-      return render :text => 'ok'
-    else
-      return render :text => "#{res_data_hash}"
-    end
+    @res_data_hash = Hash.from_xml res_data
+    render send_bonus.js.erb
   end
 
   private
 
-  def paginate
-    page_numbers = params[page_numbers] || 50
-    pages_count = self.length / pages_numbers == 0 ? self.length / pages_numbers : self.length / pages_numbers + 1
+  def arr_paginate arr
+    page_numbers = 50
+    pages_count = arr.length % page_numbers == 0 ? arr.length / page_numbers : arr.length / page_numbers + 1
     pages = []
     pages_count.times do |num|
-      pages << self.slice((page_numbe * num)...(page_numbers * (num + 1)))
+      pages << arr.slice((page_numbers * num)...(page_numbers * (num + 1)))
     end
     return [pages, pages_count]
   end
