@@ -20,13 +20,11 @@ class Admin::BonusesController < Admin::BaseController
     users_list_partial.each do |open_id|
       @users_information << ActiveSupport::JSON.decode(RestClient.get("https://api.weixin.qq.com/cgi-bin/user/info?access_token=#{access_token}&openid=#{open_id}&lang=zh_CN"))
     end
-            # return render :text => get_users_list
-
   end
 
   def send_bonus
     supplier = Ecstore::Supplier.where(:name => '贸威').first
-    #Random string
+
     arr = ('0'..'9').to_a + ('a'..'z').to_a
     nonce_str = ''
     32.times do 
@@ -34,7 +32,7 @@ class Admin::BonusesController < Admin::BaseController
     end
 
     re_openid = params[:re_openid]
-    total_amount = params[:total_amount].to_i
+    total_amount = params[:total_amount].present? ? params[:total_amount].to_i : ''
     weixin_appid = supplier.weixin_appid
     weixin_appsecret = supplier.weixin_appsecret
     key = supplier.weixin_secret_key
@@ -42,7 +40,7 @@ class Admin::BonusesController < Admin::BaseController
     mch_billno = mch_id + Time.now.strftime('%F').split('-').join
 
     parameter = {
-      :nonce_str => nonce_str, :mch_billno => mch_billno, :mch_id => mch_id, :wxappid => weixin_appid, :send_name =>'贸威优品商城',
+      :nonce_str => nonce_str, :mch_billno => mch_billno, :mch_id => mch_id, :wxappid => weixin_appid, :send_name =>'s',
       :re_openid => re_openid, :total_amount => total_amount, :total_num => 1, :wishing => params[:wishing], 
       :client_ip => '182.254.138.119', :act_name => params[:act_name], :remark => params[:remark]
     }
@@ -53,34 +51,60 @@ class Admin::BonusesController < Admin::BaseController
 
     stringA = stringA.join("&")
     #return render :text => stringA
-    string_sing_temp = stringA + "&key=#{key}"
+    @b = string_sing_temp = stringA + "&key=#{key}"
 
     sign = (Digest::MD5.hexdigest string_sing_temp).upcase
     parameter[:sign] = sign
-    #return render :text => string_sing_temp  + "sign=#{sign}"
+    parameter
+    
+    
     params_str = ''
     parameter.each do |key, value|
       params_str += "<#{key}>" + "<![CDATA[#{value}]]>" + "</#{key}>"
     end
-    params_xml = '<xml>' + params_str + '</xml>'
+    @a = params_xml = '<xml>' + params_str + '</xml>'
 
-    url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack'
-    @a = res_data = RestClient.post url, params_xml, :content_type => :xml, :accept => :xml
-    @res_data_hash = Hash.from_xml res_data
-    render 'send_bonus'
+    #url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack'
+
+    uri = URI.parse('https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack')
+
+    cert = File.read("#{ Rails.root }/lib/maowei_cert/apiclient_cert.pem")
+
+    key = File.read("#{ Rails.root }/lib/maowei_cert/apiclient_key.pem")
+
+    http = Net::HTTP.new(uri.host, uri.port)
+
+    http.use_ssl = true if uri.scheme == 'https'
+
+    http.cert = OpenSSL::X509::Certificate.new(cert)
+
+    http.key = OpenSSL::PKey::RSA.new(key, '商户编号')
+
+    http.ca_file = File.join("#{ Rails.root }/lib/maowei_cert/rootca.pem")
+
+    http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+    res_data = ''
+
+    http.start { http.request_post(uri.path, params_xml) { |res| res_data = res.body } }
+
+
+    # @a = res_data = RestClient::Request.execute(method: :post, url: url,
+      # timeout: 10, headers: {:params => params_xml})
+@res_data_hash = Hash.from_xml res_data
+render 'send_bonus'
+end
+
+private
+
+def arr_paginate arr
+  page_numbers = 50
+  pages_count = arr.length % page_numbers == 0 ? arr.length / page_numbers : arr.length / page_numbers + 1
+  pages = []
+  pages_count.times do |num|
+    pages << arr.slice((page_numbers * num)...(page_numbers * (num + 1)))
   end
-
-  private
-
-  def arr_paginate arr
-    page_numbers = 50
-    pages_count = arr.length % page_numbers == 0 ? arr.length / page_numbers : arr.length / page_numbers + 1
-    pages = []
-    pages_count.times do |num|
-      pages << arr.slice((page_numbers * num)...(page_numbers * (num + 1)))
-    end
-    return [pages, pages_count]
-  end
+  return [pages, pages_count]
+end
 
 end
 

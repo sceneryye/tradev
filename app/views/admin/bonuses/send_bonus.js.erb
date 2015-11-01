@@ -1,6 +1,9 @@
 <% if @res_data_hash['xml']['return_code'] == 'SUCCESS' %>
-alert('红包发送成功！');
+//var total_amount = <%= @res_data_hash['xml'][total_amount].to_i %> / 100;
+alert('红包发送成功!');
 <% else %>
 alert("<%= @res_data_hash['xml']['err_code_des'] %>");
+//$("#demo").html("<%= escape_javascript(render('demo')) %>");
+//$('#demo').text("sf");
 <% end %>
 
