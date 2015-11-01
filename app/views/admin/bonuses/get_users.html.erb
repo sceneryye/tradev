@@ -27,15 +27,15 @@
     <tr class="<%= 'info' if index % 2 == 0 %>">
       <!--<td style="width:10%"><img src="<%#= user_info['headimgurl'] %>" width="80%"></td>-->
       <td style="width:10%"><%= user_info['nickname'] %></td>
-      <form  action="<%= admin_send_bonus_path %>" method="post">
+      <form>
         <input type="hidden" name="re_openid" value="<%= user_info['openid'] %>" />
         <td style="width:10%">
-          <input type="number" name="total_amount" placeholder="0" style="width:60px" />
+          <input type="number" id="total_amount-<%= user_info['openid'] %>" name="total_amount" placeholder="0" style="width:60px" />
         </td>
-        <td style="width:15%"><input type="text" value="恭喜发财"  name="wishing" placeholder="恭喜发财" style="width:100px"/></td>
-        <td style="width:15%"><input type="text" value="销售红包" name="act_name" placeholder="销售红包" style="width:100px"/></td>
-        <td style="width:15%"><input type="text" value="销售红包" name="remark" placeholder="销售红包" style="width:100px" /></td>
-        <td style="width:15%"><input type="submit" value="发送红包" style="width:120px;" /></td>
+        <td style="width:15%"><input type="text" value="恭喜发财"  id="wishing-<%= user_info['openid'] %>" name="wishing" placeholder="恭喜发财" style="width:100px"/></td>
+        <td style="width:15%"><input type="text" value="销售红包" id="act_name-<%= user_info['openid'] %>" name="act_name" placeholder="销售红包" style="width:100px"/></td>
+        <td style="width:15%"><input type="text" value="销售红包" id="remark-<%= user_info['openid'] %>" name="remark" placeholder="销售红包" style="width:100px" /></td>
+        <td style="width:15%"><button type="button" style="width:120px;" class="btn btn-primary btn-submit" data-id="<%= user_info['openid'] %>">发送红包</button></td>
       </form>
     </tr>
     <% end %>
@@ -61,6 +61,31 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
+    var url = '/admin/send_bonus'
+    $('.btn-submit').on('click', function(){
+      var id = $(this).attr('data-id');
+      var total_amount = $('#total_amount-' + id).val();
+      var wishing = $('#wishing-' + id).val();
+      var act_name = $('#act_name-' + id).val();
+      var remark = $('#remark-' + id).val();
+      $.ajax({
+        url: url,
+        data: {
+          re_openid: id,
+          total_amount: total_amount,
+          wishing: wishing,
+          act_name: act_name,
+          remark: remark
+        },
+        type: 'post',
+        //dataType: 'json',
+        success: function(data) {
+          //alert(data);
+        }
+      });
+
+    })
+
     $('#page_value').val(parseInt(window.location.search.match(/\d+/)));
     $('#page_value').change(function(){
       $('.select_page').submit();

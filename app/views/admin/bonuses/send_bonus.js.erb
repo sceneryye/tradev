@@ -1,5 +1,6 @@
-<% if @res_data_hash['return_code'] == 'SUCCESS' %>
+<% if @res_data_hash['xml']['return_code'] == 'SUCCESS' %>
 alert('红包发送成功！');
 <% else %>
-alert(<%= @res_data_hash['err_code_des'] %>)
+alert("<%= @res_data_hash['xml']['err_code_des'] %>");
 <% end %>
+

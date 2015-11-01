@@ -65,9 +65,9 @@ class Admin::BonusesController < Admin::BaseController
     params_xml = '<xml>' + params_str + '</xml>'
 
     url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack'
-    res_data = RestClient.post url, params_xml, :content_type => :xml, :accept => :xml
+    @a = res_data = RestClient.post url, params_xml, :content_type => :xml, :accept => :xml
     @res_data_hash = Hash.from_xml res_data
-    render send_bonus.js.erb
+    render 'send_bonus'
   end
 
   private
