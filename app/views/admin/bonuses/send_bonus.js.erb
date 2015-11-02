@@ -1,9 +1,9 @@
-<% if @res_data_hash['xml']['return_code'] == 'SUCCESS' %>
-//var total_amount = <%= @res_data_hash['xml'][total_amount].to_i %> / 100;
-alert('红包发送成功!');
+<% if @res_data_hash['xml']['result_code'] == "SUCCESS" %>
+//$("#demo").html("<%= escape_javascript(render('demo')) %>");
+alert("红包发送成功!共计<%= @res_data_hash['xml']['total_amount'].to_f / 100 %>元。");
 <% else %>
 alert("<%= @res_data_hash['xml']['err_code_des'] %>");
-$("#demo").html("<%= escape_javascript(render('demo')) %>");
+//$("#demo").html("<%= escape_javascript(render('demo')) %>");
 //$('#demo').text("sf");
 <% end %>
 

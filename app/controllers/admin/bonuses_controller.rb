@@ -12,14 +12,14 @@ class Admin::BonusesController < Admin::BaseController
     get_access_token = RestClient.get "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=#{weixin_appid}&secret=#{weixin_appsecret}"
     access_token = ActiveSupport::JSON.decode(get_access_token)['access_token']
     get_users_list = RestClient.get "https://api.weixin.qq.com/cgi-bin/user/get?access_token=#{access_token}&next_openid="
-    users_list = ActiveSupport::JSON.decode(get_users_list)['data']['openid']
-    page = (params[:page].to_i - 1) || 0
-    users_list_partial = arr_paginate(users_list).first[params[:page].to_i || 0]
-    @pages_number = arr_paginate(users_list).last
-    @users_information = []
-    users_list_partial.each do |open_id|
-      @users_information << ActiveSupport::JSON.decode(RestClient.get("https://api.weixin.qq.com/cgi-bin/user/info?access_token=#{access_token}&openid=#{open_id}&lang=zh_CN"))
-    end
+    users_list = ActiveSupport::JSON.decode(get_users_list)
+    users_list_count = users_list['count']
+    users_list_openid = users_list['data']['openid']
+    users_list_openid_partial = arr_paginate(users_list_openid).first[params[:page].to_i - 1 || 0]
+    users_list_openid_partial_hash = users_list_openid_partial.map{|u| {"openid" => u, "lang" => "zh-CN"}}
+    users_list_information = ActiveSupport::JSON.decode(RestClient.post("https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=#{access_token}", {:user_list => users_list_openid_partial_hash}.to_json))
+    @users_information = users_list_information['user_info_list']
+    @pages_number = arr_paginate(users_list_openid).last
   end
 
   def send_bonus
@@ -27,7 +27,7 @@ class Admin::BonusesController < Admin::BaseController
 
     arr = ('0'..'9').to_a + ('a'..'z').to_a
     nonce_str = ''
-    32.times do 
+    32.times do
       nonce_str += arr[rand(36)].upcase
     end
 
@@ -41,7 +41,7 @@ class Admin::BonusesController < Admin::BaseController
 
     parameter = {
       :nonce_str => nonce_str, :mch_billno => mch_billno, :mch_id => mch_id, :wxappid => weixin_appid, :send_name =>'贸威',
-      :re_openid => re_openid, :total_amount => total_amount, :total_num => 1, :wishing => params[:wishing], 
+      :re_openid => re_openid, :total_amount => total_amount, :total_num => 1, :wishing => params[:wishing],
       :client_ip => '182.254.138.119', :act_name => params[:act_name], :remark => params[:remark]
     }
 
@@ -56,13 +56,13 @@ class Admin::BonusesController < Admin::BaseController
     sign = (Digest::MD5.hexdigest string_sing_temp).upcase
     parameter[:sign] = sign
     parameter
-    
-    
-     params_str = ''
-     parameter.each do |key, value|
-       params_str += "<#{key}>" + "<![CDATA[#{value}]]>" + "</#{key}>"
-     end
-     @a = params_xml = '<xml>' + params_str + '</xml>'
+
+
+    params_str = ''
+    parameter.each do |key, value|
+     params_str += "<#{key}>" + "<![CDATA[#{value}]]>" + "</#{key}>"
+   end
+   @a = params_xml = '<xml>' + params_str + '</xml>'
 
     #url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack'
 
@@ -96,8 +96,8 @@ end
 
 private
 
-def arr_paginate arr
-  page_numbers = 50
+def arr_paginate arr, per_page = 50
+  page_numbers = per_page
   pages_count = arr.length % page_numbers == 0 ? arr.length / page_numbers : arr.length / page_numbers + 1
   pages = []
   pages_count.times do |num|

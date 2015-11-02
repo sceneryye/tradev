@@ -86,8 +86,10 @@
       });
 
     })
-
-    $('#page_value').val(parseInt(window.location.search.match(/\d+/)));
+    var str = window.location.search;
+    var reg = /page=\d+/;
+    var num = reg.exec(str)[0].match(/\d+/);
+    $('#page_value').val(parseInt(num));
     $('#page_value').change(function(){
       $('.select_page').submit();
     });
