@@ -3,7 +3,7 @@
 alert('红包发送成功!');
 <% else %>
 alert("<%= @res_data_hash['xml']['err_code_des'] %>");
-//$("#demo").html("<%= escape_javascript(render('demo')) %>");
+$("#demo").html("<%= escape_javascript(render('demo')) %>");
 //$('#demo').text("sf");
 <% end %>
 

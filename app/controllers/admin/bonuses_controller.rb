@@ -32,15 +32,15 @@ class Admin::BonusesController < Admin::BaseController
     end
 
     re_openid = params[:re_openid]
-    total_amount = params[:total_amount].present? ? params[:total_amount].to_i : ''
+    total_amount = params[:total_amount].present? ? params[:total_amount].to_i * 100 : ''
     weixin_appid = supplier.weixin_appid
     weixin_appsecret = supplier.weixin_appsecret
-    key = supplier.weixin_secret_key
+    key = 'nQHdhE6QiPLcfeguqKTdax2ExunyYJpG'
     mch_id = supplier.mch_id
-    mch_billno = mch_id + Time.now.strftime('%F').split('-').join
+    mch_billno = mch_id + Time.now.strftime('%F').split('-').join + rand(10000000000).to_s.rjust(10, '0')
 
     parameter = {
-      :nonce_str => nonce_str, :mch_billno => mch_billno, :mch_id => mch_id, :wxappid => weixin_appid, :send_name =>'s',
+      :nonce_str => nonce_str, :mch_billno => mch_billno, :mch_id => mch_id, :wxappid => weixin_appid, :send_name =>'贸威',
       :re_openid => re_openid, :total_amount => total_amount, :total_num => 1, :wishing => params[:wishing], 
       :client_ip => '182.254.138.119', :act_name => params[:act_name], :remark => params[:remark]
     }
@@ -58,11 +58,11 @@ class Admin::BonusesController < Admin::BaseController
     parameter
     
     
-    params_str = ''
-    parameter.each do |key, value|
-      params_str += "<#{key}>" + "<![CDATA[#{value}]]>" + "</#{key}>"
-    end
-    @a = params_xml = '<xml>' + params_str + '</xml>'
+     params_str = ''
+     parameter.each do |key, value|
+       params_str += "<#{key}>" + "<![CDATA[#{value}]]>" + "</#{key}>"
+     end
+     @a = params_xml = '<xml>' + params_str + '</xml>'
 
     #url = 'https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack'
 
