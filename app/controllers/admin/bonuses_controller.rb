@@ -5,6 +5,7 @@ require 'erb'
 include ERB::Util
 
 class Admin::BonusesController < Admin::BaseController
+  before_filter :authorize_admin!
   def get_users
     supplier = Ecstore::Supplier.where(:name => '贸威').first
     weixin_appid = supplier.weixin_appid
