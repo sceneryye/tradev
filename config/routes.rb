@@ -3,6 +3,7 @@ require 'httpclient'
 Modengke::Application.routes.draw do
 
   namespace :weihuo do
+    get 'pay_with_goods' => 'weixin_pay#pay_with_goods'
     resources :orgnizations
     resources :orders
 

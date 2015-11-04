@@ -26,6 +26,8 @@ WeixinRailsMiddleware::WeixinController.class_eval do
         render xml: send("response_news_message", {})
       when '登录'
         render xml: send("response_news_message", {})
+      when '签到'
+        render xml: send("check_in_#{@weixin_message.MsgType}_message", {})
       else
        render xml: send("response_#{@weixin_message.MsgType}_message", {})
     end
@@ -95,8 +97,6 @@ WeixinRailsMiddleware::WeixinController.class_eval do
         pic_url=""
         link_url="http://vshop.trade-v.com/autologin1?id=#{id}"
         articles = [generate_article(title, desc, pic_url, link_url)]
-
-
 
       when '1'
         title="我的自媒体店铺"
@@ -246,6 +246,11 @@ WeixinRailsMiddleware::WeixinController.class_eval do
     #reply_text_message("Your Message: #{@keyword}")
 
     message="您好！#{@weixin_public_account.name}欢迎您！"
+    reply_text_message(message)
+  end
+
+  def check_in_text_message(options={})
+    message="今日成功签到，明天不要忘记哟～"
     reply_text_message(message)
   end
 

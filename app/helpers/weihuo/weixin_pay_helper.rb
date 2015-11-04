@@ -1,0 +1,2 @@
+module Weihuo::WeixinPayHelper
+end
