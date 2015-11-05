@@ -131,7 +131,6 @@ class Store::PaymentsController < ApplicationController
 
 		@order = @payment.pay_bill.order
 		@user = @payment.user
-
 		result = ModecPay.verify_return(adapter, params, { :bill99_redirect_url=>detail_order_url(@order),:ip=>request.remote_ip })
 
 		if result.is_a?(Hash) && result.present?

@@ -128,7 +128,7 @@ module ModecPay
       <div class="list_status">
         <h2 class="blue" >
           <span class="pay_icon"></span>
-          <span style="color: #0abede">正在跳转到到微信支付...<br/>如果长时间没有反应，请</span>
+          <span style="color: #0abede">正在跳转到到微信支付...</span>
         </h2>
       </div>
         <form accept-charset="#{self.charset}" action="/vshop/#{self.fields['device_info']}/payments?id=#{self.pay_id}" method="post" id="pay_form">
@@ -152,40 +152,43 @@ module ModecPay
           $('#content').removeClass().addClass('fontSize' + fontsize);
       }
 
-      // 当微信内置浏览器完成内部初始化后会触发WeixinJSBridgeReady事件。
-      document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
-          //公众号支付
-          jQuery('a#getBrandWCPayRequest').click(function(e){
-              WeixinJSBridge.invoke('getBrandWCPayRequest',{
-                  "appId" : "#{self.fields['appid']}", //公众号名称，由商户传入
+       function onBridgeReady(){
+         WeixinJSBridge.invoke(
+             'getBrandWCPayRequest', {
+                 "appId" : "#{self.fields['appid']}", //公众号名称，由商户传入
                   "timeStamp" : "#{self.fields['time_stamp']}", //时间戳
                   "nonceStr" : "#{self.fields['nonce_str']}", //随机串
                   "package" : "#{self.fields['package']}",//扩展包
                   "signType" : "#{self.fields['sign_type']}", //微信签名方式:1.sha1;2.md5
                   "paySign" : "#{self.fields['pay_sign']}" //微信签名
-              },function(res){
+             },
+             // 返回res.err_msg,取值
+            //get_brand_wcpay_request:cancel 用户取消
+            //get_brand_wcpay_request:fail 发送失败
+            //get_brand_wcpay_request:ok 发送成功
+            //WeixinJSBridge.log(res.err_msg);
+            //alert(res.err_code+res.err_desc);
+             function(res){
+                var error_message="";
+                if(res.err_msg != "get_brand_wcpay_request:ok") { 
+                  error_message = "&error_message="+res.err_desc;                  
+                } 
+               // window.location = "/payments/#{self.fields['out_trade_no']}/wxpay/callback"+error_message;
+                window.location ="/vshop/#{self.fields['device_info']}/paynotifyurl?payment_id=payment_id=#{self.fields['out_trade_no']}"+error_message;
+             }
+         ); 
+      }
+      if (typeof WeixinJSBridge == "undefined"){
+         if( document.addEventListener ){
+             document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+         }else if (document.attachEvent){
+             document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+             document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+         }
+      }else{
+         onBridgeReady();
+      }
 
-// 返回res.err_msg,取值
-//get_brand_wcpay_request:cancel 用户取消
-//get_brand_wcpay_request:fail 发送失败
-//get_brand_wcpay_request:ok 发送成功
-//WeixinJSBridge.log(res.err_msg);
-//alert(res.err_code+res.err_desc);
-
-
-                  if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-                    window.location ="/vshop/#{self.fields['device_info']}/paynotifyurl?temp=solution&payment_id=#{self.fields['out_trade_no']}";
-                  }
-                    else{alert('支付未成功');
-                  //  window.location ="/orders/mobile_show?id=20141003100859&supplier_id=97";
-                  }
-              });
-
-          });
-
-          WeixinJSBridge.log('yo~ ready.');
-
-      }, false)
       if(jQuery){
           jQuery(function(){
 
@@ -217,12 +220,6 @@ module ModecPay
   </script>
 </head>
 <body>
-<div class="WCPay" >
-  <a id="getBrandWCPayRequest" href="javascript:void(0);"><h1 class="title">点击支付</h1></a>
- <script language="javascript" type="text/javascript">
-document.getElementById("getBrandWCPayRequest").click();
-</script>
-</div>
 				</body>
 				</html>
       FORM
