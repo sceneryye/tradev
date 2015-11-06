@@ -1,6 +1,6 @@
 <table class="table table-striped" id="coupons_list">
 	<tr>
-		<th>优惠券号码</th>
+		<!-- <th>优惠券号码</th> -->
 		<th>名称</th>
 		<th>有效期</th>
 		<th>状态</th>
@@ -9,10 +9,17 @@
 	<%  if @user_coupons && @user_coupons.size > 0%>
 		<%@user_coupons.each  do |user_coupon|%>
 		<tr>
-			<td><%=user_coupon.coupon_code%></td>
+			<!-- <td><%=user_coupon.coupon_code%></td> -->
 			<td><%=user_coupon.coupon_name%></td>
-			<td><%=user_coupon.new_coupon.begin_at.strftime("%Y-%m-%d %H:%M:%S")%> ~ <%=user_coupon.new_coupon.end_at.strftime("%Y-%m-%d %H:%M:%S")%></td>
-			<td><%=user_coupon.status_text%></td>
+			<td><%=user_coupon.new_coupon.begin_at.strftime("%Y-%m-%d %H:%M:%S")%> ~ <%=user_coupon.new_coupon.end_at.strftime("%Y-%m-%d %H:%M:%S")%>
+			</td>
+			<td>				
+				<% if user_coupon.status_text=='有效'%>
+					<%=link_to '使用',user_coupon.new_coupon.goto_url,:class=>'btn'%>
+				<%else%>
+					<%=user_coupon.status_text%>
+				<%end%>
+			</td>
 		</tr>
 		<%end%>
 	<%else%>

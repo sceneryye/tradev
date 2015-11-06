@@ -13,13 +13,27 @@
 </div>
 
 <div class="control-group">
+    <%=f.label :goto_url, "优惠券使用页面*",:class=>"control-label"%>
+    <div class="controls">
+      <%=f.text_field :goto_url,:placeholder=>"例如：/mobile/48/shop"%>
+      <span class="help-inline error"><%=@coupon.errors[:name].join(",")%></span>
+    </div>
+</div>
+<div class="control-group">
+    <%=f.label :pic_url, "优惠券图片地址*",:class=>"control-label"%>
+    <div class="controls">
+      <%=f.text_field :pic_url,:placeholder=>"例如：/images/coupons/abc.jpg"%>
+      <span class="help-inline error"><%=@coupon.errors[:name].join(",")%></span>
+    </div>
+</div>
+
+<div class="control-group">
     <%=f.label :desc, "描述*",:class=>"control-label"%>
     <div class="controls">
       <%=f.text_area :desc,:rows=>3%>
       <span class="help-inline error"><%=@coupon.errors[:desc].join(",")%></span>
     </div>
 </div>
-
 
 <div class="control-group">
     <%=f.label :name, "是否开启*",:class=>"control-label"%>
