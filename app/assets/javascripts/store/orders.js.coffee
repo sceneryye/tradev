@@ -22,7 +22,6 @@ $ ->
     order_amount =  parseFloat($("#order_amount").data("amount")) || 0
 
     coupon_amount =  parseFloat($("#coupon_amount").data("amount")) || 0
-
     part_amount = 0.0
     part_amount =  parseFloat $("#advance").data("amount") if $("#advance").attr("checked") == "checked"
 
@@ -147,7 +146,17 @@ $ ->
 
   $("#coupon_options").change ->
     code = $(this).val()
-    $("#coupon_code").val(code)
+    $("#coupon_code").val(code)    
+    codes = []
+    codes.push(code)
+    $("#matched_coupons input:hidden").each ->
+      _code  = $(this).val()
+      codes.push(_code) if codes.indexOf(_code) < 0
+
+    url = '/orders/check_coupon'
+    $.get( url, { codes: codes }, ->
+      window.compute_payment();
+    );
 
   $("#coupon_code").keydown (e)->
     if e.keyCode == 13

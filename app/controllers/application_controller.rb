@@ -103,7 +103,7 @@ def find_cart!
         end
         @cart_total = @cart_total1 + @cart_total2
 
-      #@pmtable = @line_items.select { |line_item| line_item.good.is_suit? }.size == 0
+      @pmtable = @line_items.select { |line_item| line_item.good.is_suit? }.size == 0
 
     end
 

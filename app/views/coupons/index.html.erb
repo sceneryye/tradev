@@ -20,25 +20,27 @@
 <%@coupons.each do |coupon|%>
   <li>
     <div class="coupon-wrapper">
-      <h2><a  href="#" title=""><%=coupon.name%>(No.<%=coupon.coupon_prefix%>)</a>
+      <!--<h2><%=coupon.name%>(No.<%=coupon.coupon_prefix%>)</a>
         <i class="hot">hot</i>
-      </h2>
+      </h2>-->
       <div class="coupon"><!--left begin-->
         <span class="left">
           <span class="description">
-            <a  href="lingqu" title="">
+           <strong style="color:red;font-size:14px">
               <em><%=coupon.desc%></em>
-            </a> 
+           </strong>  
           </span>
           <span class="store-logo">
             <a rel="nofollow" href="" href2="" class="clicktrick" title="">
-              <img alt="" title="" src="/images/a0132/a01320009_m.jpg">
+            <!--  <img alt="" title="" style="width:120px;height:120px" src="/assets/store/logo_big.png">-->
             </a>                
           </span>
         </span><!--left end--><!--right begin-->
-        <span class="right">                
-            <em class="free"><em><%=coupon.exclusive ? "不可" : "可"%>与其他优惠券一起使用</em></em>
+        <span class="right"  >     
+        <br/>    <br/>
+           <em class="free"><em><%=coupon.exclusive ? "不可" : "可"%>与其他优惠券一起使用</em></em><br/>
             <!--price or coupon type end-->
+         <!-- <strong style="color:red; font-size:48px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;￥</strong>-->
             <%=link_to coupon_path(coupon) do%>
               <span class="get"><b></b>立即领取</span>
             <%end%>
@@ -50,8 +52,8 @@
         </em>
       </div>
       <div class="info">
-        <em><i class="remain"></i>已领:153470</em>
-        <em>今日剩余:<%=coupon.quantity%></em>
+       <!-- <em><i class="remain"></i>已领:153470</em>
+        <em>今日剩余:<%=coupon.quantity%></em>-->
       </div>
     </div>
   </li>

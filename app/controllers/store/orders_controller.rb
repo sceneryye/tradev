@@ -179,21 +179,21 @@ class Store::OrdersController < ApplicationController
 
        ship_riqi=Time.parse(ship_day).to_i;       ###大渔饭店订餐日期
      end
-   end
-   return_url=params[:return_url]
-
-
-   if supplier_id == nil
-    supplier_id =78
-  end
-
-  unless supplier_id ==98
-    ["name","area","addr","zip","tel","mobile"].each do |key,val|
-      params[:order].merge!("ship_#{key}"=>addr.attributes[key])
     end
-  end
+    return_url=params[:return_url]
 
-  params[:order].merge!(:ip=>request.remote_ip, :member_id=>@user.member_id,:supplier_id=>supplier_id,:ship_day=>ship_riqi.to_s, :ship_time=>hour.to_s)
+
+    if supplier_id == nil
+    supplier_id =78
+    end
+
+    unless supplier_id ==98
+      ["name","area","addr","zip","tel","mobile"].each do |key,val|
+        params[:order].merge!("ship_#{key}"=>addr.attributes[key])
+      end
+    end
+
+    params[:order].merge!(:ip=>request.remote_ip, :member_id=>@user.member_id,:supplier_id=>supplier_id,:ship_day=>ship_riqi.to_s, :ship_time=>hour.to_s)
 
     #=====推广佣金计算=======
     recommend_user = session[:recommend_user]
@@ -411,7 +411,6 @@ class Store::OrdersController < ApplicationController
       @goods_promotions = Ecstore::Promotion.matched_goods_promotions(@line_items)
       @coupons = @user.usable_coupons
     end
-
 
   end
 
