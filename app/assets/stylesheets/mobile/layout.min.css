@@ -5752,6 +5752,7 @@ ul {
     width: 95%;
     min-height: 300px;
     position: relative;
+
 }
 .new-coupons-list h2 {
     padding-top: 5px;
@@ -5786,6 +5787,11 @@ i.hot {
     text-decoration: none;
     background-color: white;
     cursor: pointer;
+    background:url(/images/homepage/ground1.jpg) no-repeat;
+background-size:100%;
+
+
+ ;
 }
 .new-coupons-list .coupon .left {
     float: left;
@@ -5824,7 +5830,8 @@ i.hot {
     float: left;
    width: 40%;
     min-height: 200px;
-    background-color: #EAF9FF;
+    background-color: #EAF9FF filter:alpha(opacity=80);
+
 }
 .new-coupons-list .coupon .right .free {
     font-size: 18px;
