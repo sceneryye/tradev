@@ -79,7 +79,7 @@ class MobileController < ApplicationController
 
     @title = "贸威优品商城移动版"
 
-    @galleries = Ecstore::TagExt.order("id desc").limit(10)
+    @galleries = Ecstore::TagExt.order("id desc").limit(11)
 
     @goods=Ecstore::Good.where(:marketable=>"true").order("goods_id DESC").limit(24)
     @brands = []
