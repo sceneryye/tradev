@@ -356,70 +356,62 @@ class VshopController < ApplicationController
   end
 
   def paynotifyurl
-    #========================
-    if params[:temp]=="solution"
 
-      @payment = Ecstore::Payment.find(params[:payment_id])
-      return redirect_to detail_order_path(@payment.pay_bill.order) if @payment&&@payment.paid?
-
-      @order = @payment.pay_bill.order
-      @order.update_attributes(:pay_status=>'1')
-
-      @order.order_items.each do |order_item|
-          if  order_item.good.cat_id==600
-              member_id=@order.member_id
-              @member = Ecstore::Member.find(member_id)
-              @users = Ecstore::User.find(member_id)
-               if @member.advance
-               advance=@member.advance+order_item.good.mktprice
-               else
-                 advance=order_item.good.mktprice
-               end
-
-              advances =  @users.member_advances.order("log_id asc").last
-              if advances
-                shop_advance = advances.shop_advance
-              else
-                shop_advance =@member.advance
-              end
-              shop_advance += order_item.good.mktprice
-              @member.update_attribute(:advance,advance)
-              Ecstore::MemberAdvance.create(:member_id=>member_id,
-                                            :money=>order_item.good.mktprice,
-                                            :message=>"万家预充值:#{order_item.good.name}",
-                                            :mtime=>Time.now.to_i,
-                                            :memo=>"用户本人操作",
-                                            :order_id=>@order.order_id,
-                                            :import_money=>order_item.good.mktprice,
-                                            :explode_money=>0,
-                                            :member_advance=>(advance),
-                                            :shop_advance=>shop_advance,
-                                            :disabled=>'false')
-          end
-      end
-
-
-      return redirect_to "/orders/mobile_show_order?id=#{@order.order_id}&supplier_id=#{params[:id]}"
+    if params[:error_message]
+      return render :text=>"支付不成功。error_message:#{params[:error_message]}"
     end
-    #========================
 
     ModecPay.logger.info "[#{Time.now}][#{request.remote_ip}] #{request.request_method} \"#{request.fullpath}\" params : #{ params.to_s }"
 
-    @payment = Ecstore::Payment.find(params.delete(:payment_id))
+    @payment = Ecstore::Payment.find(params[:payment_id])
+    return redirect_to detail_order_path(@payment.pay_bill.order) if @payment&&@payment.paid?
 
-    return render :nothing=>true, :status=>:forbidden if @payment.paid?
+    @order = @payment.pay_bill.order
+    @order.update_attributes(:pay_status=>'1')
+
+    @order.order_items.each do |order_item|
+        if  order_item.good.cat_id==600
+            member_id=@order.member_id
+            @member = Ecstore::Member.find(member_id)
+            @users = Ecstore::User.find(member_id)
+             if @member.advance
+             advance=@member.advance+order_item.good.mktprice
+             else
+               advance=order_item.good.mktprice
+             end
+
+            advances =  @users.member_advances.order("log_id asc").last
+            if advances
+              shop_advance = advances.shop_advance
+            else
+              shop_advance =@member.advance
+            end
+            shop_advance += order_item.good.mktprice
+            @member.update_attribute(:advance,advance)
+            Ecstore::MemberAdvance.create(:member_id=>member_id,
+                                          :money=>order_item.good.mktprice,
+                                          :message=>"万家预充值:#{order_item.good.name}",
+                                          :mtime=>Time.now.to_i,
+                                          :memo=>"用户本人操作",
+                                          :order_id=>@order.order_id,
+                                          :import_money=>order_item.good.mktprice,
+                                          :explode_money=>0,
+                                          :member_advance=>(advance),
+                                          :shop_advance=>shop_advance,
+                                          :disabled=>'false')
+        end
+    end
 
     adapter  = 'wxpay'
 
-    @order = @payment.pay_bill.order
     @user = @payment.user
 
     result = ModecPay.verify_notify(adapter,params,{:ip=>request.remote_ip })
 
     @payment.payment_log.update_attributes({:notify_ip=>request.remote_ip,
-                                            :notify_params=> params.to_json,
-                                            :notified_at=>Time.now,
-                                            :result=>result.to_json}) if @payment.payment_log
+                                          :notify_params=> params.to_json,
+                                          :notified_at=>Time.now,
+                                          :result=>result.to_json}) if @payment.payment_log
 
     if result.is_a?(Hash) && result.present?
       response = result.delete(:response)
@@ -440,7 +432,8 @@ class VshopController < ApplicationController
       response =  result
     end
 
-    render :text=>response
+    return redirect_to "/orders/mobile_show_order?id=#{@order.order_id}&supplier_id=#{params[:id]}"
+
   end
 
   def notice
