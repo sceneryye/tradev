@@ -114,6 +114,7 @@
 
        <div class="help-block alert">
           <span id="condition_val">
+              商品总额 > <%=f.text_field :amount_big_than,:class=>"input-mini"%>
             <%=link_to "+选择商品","#" if @coupon.condition_type == 'buy_specify_goods'%>
             <%if @coupon.condition_type == 'order_total_ge_x'%>
               输入 X = <%=f.text_field :condition_val,:class=>"input-mini"%>

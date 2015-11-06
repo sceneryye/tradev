@@ -118,18 +118,34 @@ class Ecstore::NewCoupon < Ecstore::Base
 
 	
 	def test_condition(line_items = [])
-		order_amount  = line_items.collect { |line| line.product.price * line.quantity }.inject(:+).to_i
+		# order_amount  = line_items.collect { |line| line.product.price * line.quantity }.inject(:+).to_i
 
-		cart_goods = line_items.collect { |line| line.good.bn }
+		# cart_goods = line_items.collect { |line| line.good.bn }
+
+		# if condition_type == 'order_total_ge_x'
+		# 	return true  if order_amount > condition_val
+		# end
+
+		# if condition_type == 'buy_specify_goods'
+		# 	return (cart_goods & condition_val).present?
+		# end
+		# false
 
 		if condition_type == 'order_total_ge_x'
+			order_amount  = line_items.collect { |line| line.product.price * line.quantity }.inject(:+).to_i
+
 			return true  if order_amount > condition_val
 		end
 
 		if condition_type == 'buy_specify_goods'
-			return (cart_goods & condition_val).present?
+			cart_goods_amount = line_items.select{ |line| condition_val.include? "#{line.good.bn}"}
+										  .collect { |line| line.product.price * line.quantity }.inject(:+).to_i	
+			#cart_goods_amount >300
+			#return (cart_goods & condition_val).present?
+			return cart_goods_amount >=amount_big_than
 		end
 		false
+
 	end
 
 
