@@ -11,6 +11,7 @@ class Weihuo::ShopsController < ApplicationController
   end
 
   def show
+    @shop = Ecstore::WeihuoShop.find(params[:id])
   end
 
   # 申请店铺
@@ -29,7 +30,7 @@ class Weihuo::ShopsController < ApplicationController
     shop_params[:status] = '0'
     @shop = Ecstore::WeihuoShop.new(shop_params)
     if @shop.save
-      redirect_to weihuo_shop_path
+      redirect_to weihuo_shop_path(@shop)
     else
       render 'new'
     end
