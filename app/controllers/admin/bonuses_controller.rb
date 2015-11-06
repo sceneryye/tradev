@@ -36,7 +36,7 @@ class Admin::BonusesController < Admin::BaseController
     total_amount = params[:total_amount].present? ? params[:total_amount].to_i * 100 : ''
     weixin_appid = supplier.weixin_appid
     weixin_appsecret = supplier.weixin_appsecret
-    key = 'nQHdhE6QiPLcfeguqKTdax2ExunyYJpG'
+    key = Ecstore::Supplier.where(:name => '贸威').first.partner_key
     mch_id = supplier.mch_id
     mch_billno = mch_id + Time.now.strftime('%F').split('-').join + rand(10000000000).to_s.rjust(10, '0')
 

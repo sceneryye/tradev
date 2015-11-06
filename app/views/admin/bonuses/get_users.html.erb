@@ -90,10 +90,12 @@
     if(str){
       var reg = /page=\d+/;
       var num = reg.exec(str)[0].match(/\d+/);
-      $('#page_value').val(parseInt(num));
-      $('#page_value').change(function(){
-        $('.select_page').submit();
-      });
     }
+    else {num = 1;}
+    $('#page_value').val(parseInt(num));
+    $('#page_value').change(function(){
+      $('.select_page').submit();
+    });
+    
   })
 </script>

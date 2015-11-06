@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+
+<body>
+
+	<link rel="stylesheet" type="text/css" href="styles.css" />
+
+	<div id="main">
+
+		<div class="sponsorListHolder">
+			<div class="sponsor" title="Click to flip">
+				<div class="img-front">
+					<img src="http://img1.imgtn.bdimg.com/it/u=1536791767,2850910444&fm=21&gp=0.jpg" alt="More about facebook" />
+				</div>
+
+				<div class="sponsorData">
+					<div class="img-back" id="qrcode"></div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+</div>
+
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/Users/killernova/code/jQuery-plugin/qrcodejs/qrcode.min.js"></script>
+<script type="text/javascript" src="js/jquery.flip.min.js"></script>
+<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript">
+	new QRCode(document.getElementById("qrcode"), "http://www.trade-v.com");
+</script>
+</body>
+</html>

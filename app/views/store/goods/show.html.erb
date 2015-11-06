@@ -1,5 +1,11 @@
 <%#= render "shared/metable", :resource=>@good%>
-<h3><a href="/weihuo/pay_with_goods">去付款</a></h3>
+
+<h3 style="margin-left: 100px;">
+<form action="/weihuo/pay_with_goods">
+<input type="hidden" value="<%= params[:id] %>" name="id" />
+<input type="submit" value="去付款" class="btn btn-success" />
+</form>
+</h3>
 <div id="products" class="show">
 
 	<%= render :partial=>"new_single",:locals=>{ :good=>@good } %>
