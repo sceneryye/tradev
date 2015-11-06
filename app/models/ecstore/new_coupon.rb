@@ -100,7 +100,7 @@ class Ecstore::NewCoupon < Ecstore::Base
 
 	def self.check_and_find_by_code(code)
 
-		return nil  unless self.check_code(code)
+		# return nil  unless self.check_code(code)
 		_type = code[0].upcase
 		if _type == "A"
 			_coupon =  self.find_by_coupon_prefix(code)
@@ -109,7 +109,8 @@ class Ecstore::NewCoupon < Ecstore::Base
 		end
 
 		if _type == "B"
-			_coupon =  self.find_by_coupon_prefix(code[0..-11])
+			_coupon =  self.find_by_coupon_prefix(code)
+			#_coupon =  self.find_by_coupon_prefix(code[0..-11])
 			_coupon.current_code = code
 			return _coupon
 		end

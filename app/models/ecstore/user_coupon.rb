@@ -28,7 +28,8 @@ class Ecstore::UserCoupon < Ecstore::Base
 		end
 
 		if self.new_coupon.coupon_type == "B"
-			return valid_code? && used_times.to_i == 0 && used_at.blank?
+			#return valid_code? && used_times.to_i == 0 && used_at.blank?
+			return used_times.to_i == 0 && used_at.blank?
 		end
 		false
 	end
