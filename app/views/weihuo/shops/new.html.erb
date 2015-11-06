@@ -2,8 +2,8 @@
   <div class="col-xs-10">
     <h3 class="center">申请店铺</h3>
     <!--<%# form_for @shop, :url => weihuo_shops_path do |f| %>-->
-    <form action="/weihuo/shops" class="build-store">
-    <input type="hidden" name="member_id" value="<%= @user.login_name %>" />
+    <form action="/weihuo/shops" class="build-store" method="post">
+    <input type="hidden" name="member_id" value="<%= current_account.login_name %>" />
       <div class="row">
         <div class="col-xs-5 right">
           <span class="label-new-shop">
