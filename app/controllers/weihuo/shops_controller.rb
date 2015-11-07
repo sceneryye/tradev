@@ -2,7 +2,7 @@
 
 class Weihuo::ShopsController < ApplicationController
 
-  layout "standard"
+  layout "weihuo2"
 
   # 所有店铺展示
   def index
@@ -26,8 +26,13 @@ class Weihuo::ShopsController < ApplicationController
     shop_params = {}
     shop_params[:member_id] = params[:member_id]
     shop_params[:organisation_id] = Ecstore::WeihuoOrganisation.where(:name => params[:organisation_name]).first.id
-    shop_params[:intro] = "name=#{params[:name]}&mobile=#{params[:mobile]}"
+    shop_params[:employee_name] = params[:employee_name]
+    shop_params[:employee_mobile] = params[:employee_mobile]
     shop_params[:status] = '0'
+    shop = Ecstore::WeihuoShop.where(:mobile => params[:employee_mobile])
+    if shop.present?
+      return render :text => '该店铺已经存在！'
+    end
     @shop = Ecstore::WeihuoShop.new(shop_params)
     if @shop.save
       redirect_to weihuo_shop_path(@shop)

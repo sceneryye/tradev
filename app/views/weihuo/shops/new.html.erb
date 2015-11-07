@@ -45,7 +45,7 @@
           </span>
         </div>
         <div class="col-xs-7">
-          <input name = "employee-mobile" type="text" data-mobile="<%= Ecstore::WeihuoEmployee.where(:name => params[:employee_name]).first.mobile if params[:employee_name].present? %>" />
+          <input name = "employee_mobile" type="text" data-mobile="<%= Ecstore::WeihuoEmployee.where(:name => params[:employee_name]).first.mobile if params[:employee_name].present? %>" />
         </div>
       </div>
       <div class="col-xs-7 col-xs-offset-5">
