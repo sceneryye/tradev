@@ -2,7 +2,7 @@
 
 class Weihuo::ShopsController < ApplicationController
 
-  layout "weihuo2"
+  layout "weihuo"
 
   # 所有店铺展示
   def index
@@ -11,7 +11,8 @@ class Weihuo::ShopsController < ApplicationController
   end
 
   def show
-    @shop = Ecstore::WeihuoShop.find(params[:id])
+    id = params[:id]
+    @shop = Ecstore::WeihuoShop.find(id)
   end
 
   # 申请店铺
