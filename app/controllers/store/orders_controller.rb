@@ -164,6 +164,9 @@ class Store::OrdersController < ApplicationController
 
 
   def create
+    if @user.nil? || @line_items.nil?
+      return redirect_to '/'
+    end
 
     platform = params[:platform]
 
