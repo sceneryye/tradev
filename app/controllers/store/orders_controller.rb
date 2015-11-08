@@ -1,6 +1,6 @@
 #encoding:utf-8
 class Store::OrdersController < ApplicationController
-
+  before_filter :find_user
   layout 'order'
 
   def mancoder_show
