@@ -4,5 +4,6 @@ class Ecstore::WeihuoEmployee < Ecstore::Base
   self.accessible_all_columns
 
   belongs_to :weihuo_organisation,:foreign_key=>"weihuo_organisation_id"
+  has_one :weihuo_shop, :foreign_key => 'shop_id'
 
 end

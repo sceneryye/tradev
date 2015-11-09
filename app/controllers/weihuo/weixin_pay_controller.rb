@@ -3,6 +3,7 @@ require 'digest/md5'
 require 'rest-client'
 require 'uri'
 
+
 class Weihuo::WeixinPayController < ApplicationController
 
   def pay_with_goods
@@ -20,7 +21,7 @@ class Weihuo::WeixinPayController < ApplicationController
       o.createtime = Time.now.to_i
       o.status = 'active'
     end
-    order.save
+    
 
     supplier = Ecstore::Supplier.where(:name => '贸威').first
     weixin_appid = supplier.weixin_appid
@@ -121,12 +122,6 @@ def create_sign hash
  sign = (Digest::MD5.hexdigest string_sing_temp).upcase
 end
 
-def access_token
-  supplier = Ecstore::Supplier.where(:name => '贸威').first
-  weixin_appid = supplier.weixin_appid
-  weixin_appsecret = supplier.weixin_appsecret
-  get_access_token = RestClient.get "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=#{weixin_appid}&secret=#{weixin_appsecret}"
-  ActiveSupport::JSON.decode(get_access_token)['access_token']
-end
+
 
 end

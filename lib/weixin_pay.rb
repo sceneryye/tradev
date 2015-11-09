@@ -1,64 +1,4 @@
-#encoding:utf-8
-require 'rest-client'
-
-class Weihuo::ShopsController < ApplicationController
-
-  layout "weihuo1"
-
-  # 所有店铺展示
-  def index
-
-
-  end
-
-  def show
-    @shop = Ecstore::WeihuoShop.find(params[:id])
-    @shop_goods = @shop.weihuo_shops_good
-
-  end
-
-  # 申请店铺
-  def new
-    @organisations = Ecstore::WeihuoOrganisation.all
-    organisation = Ecstore::WeihuoOrganisation.where(:name => params[:organisation_name])
-    @employees = Ecstore::WeihuoEmployee.where(:weihuo_organisation_id => organisation.first.id) if organisation.present?
-    @shop = Ecstore::WeihuoShop.new
-  end
-
-  def create
-
-    shop_params = {}
-    shop_params[:member_id] = params[:member_id]
-    shop_params[:organisation_id] = Ecstore::WeihuoOrganisation.where(:name => params[:organisation_name]).first.id
-    shop_params[:employee_name] = params[:employee_name]
-    shop_params[:employee_mobile] = params[:employee_mobile]
-    shop_params[:name] = params[:shop_name]
-    shop_params[:status] = '1'
-    get_url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=#{access_token}&openid=#{params[:member_id]}&lang=zh_CN"
-    user_info = RestClient.get get_url
-    shop_params[:logo] = ActiveSupport::JSON.decode(user_info)['headimgurl']
-    shop = Ecstore::WeihuoShop.where(:employee_mobile => params[:employee_mobile])
-    if shop.present?
-      return render :text => '该店铺已经存在！'
-    end
-    @shop = Ecstore::WeihuoShop.new(shop_params)
-    if @shop.save
-      redirect_to weihuo_shop_path(@shop)
-    else
-      render 'new'
-    end
-
-  end
-
-  def edit
-  end
-
-  def update
-  end
-
-helper_method :pay_with_goods
-  private
-
+module WeixinPay
   def pay_with_goods bn
     good = Ecstore::Good.where(:bn => bn).first
     product = good.products.first
@@ -74,7 +14,7 @@ helper_method :pay_with_goods
       o.createtime = Time.now.to_i
       o.status = 'active'
     end
-    
+    order.save
 
     supplier = Ecstore::Supplier.where(:name => '贸威').first
     weixin_appid = supplier.weixin_appid
@@ -125,14 +65,5 @@ def create_sign hash
  string_sing_temp = stringA + "&key=#{key}"
  sign = (Digest::MD5.hexdigest string_sing_temp).upcase
 end
-
-def access_token
-  supplier = Ecstore::Supplier.where(:name => '贸威').first
-  weixin_appid = supplier.weixin_appid
-  weixin_appsecret = supplier.weixin_appsecret
-  get_access_token = RestClient.get "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=#{weixin_appid}&secret=#{weixin_appsecret}"
-  access_token = ActiveSupport::JSON.decode(get_access_token)['access_token']
-end
-
 
 end

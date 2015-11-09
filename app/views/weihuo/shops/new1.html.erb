@@ -1,0 +1,118 @@
+<div class="container">
+  <div class="col-xs-10">
+    <h3 class="center">申请店铺</h3>
+    <!--<%# form_for @shop, :url => weihuo_shops_path do |f| %>-->
+    <form action="/weihuo/shops" class="build-store" method="post">
+      <input type="hidden" name="member_id" value="<%= current_account.login_name %>" />
+      <div class="row">
+        <div class="col-xs-5 right">
+          <span class="label-new-shop">
+            请选择您的节点：
+          </span>
+        </div>
+        <div class="col-xs-7">
+          <select name="organisation_name" class="organisation-name" data-name=''>
+            <option value=''></option>
+            <%= @organisations.each do |o| %>
+            <option value=<%= o.name %>><%= o.name %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-5 right">
+          <span class="label-new-shop">
+            请选择您的姓名：
+          </span>
+        </div>
+        <div class="col-xs-7">
+          <select name="employee_name" class="employee-name">
+            <option value=''></option>
+            <% if @employees.present? %>
+            <%= @employees.each do |employee| %>
+            <option value=<%= employee.name %>><%= employee.name %></option>
+            <% end %>
+          </select>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-group">
+          <span class="input-group-addon" id="basic-addon1">请输入手机号：</span>
+          <input name = "employee_mobile" type="text" data-mobile="<%= Ecstore::WeihuoEmployee.where(:name => params[:employee_name]).first.mobile if params[:employee_name].present? %>" class="form-control" aria-describedby="basic-addon1">
+        </div>
+      </div>
+
+      <div class="col-xs-7 col-xs-offset-5">
+        <div class="errmsg"></div>
+      </div>
+      <input type="button" class="btn btn-success pull-right" value="申请提交">
+      <%#= f.submit "提交申请", :class => 'btn btn-success right' %>
+    </form>
+    <!--<%# end %>-->
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var url = '/weihuo/shops/new';
+    var param = location.search.replace('?', '');
+    $('.organisation-name').on('change', function(){
+      var organisation_name = $(this).val();
+      if(!location.search) {
+        location.href += '?organisation_name=' + organisation_name;
+      }
+    });
+
+    var params = param.split('&');
+    $('.organisation-name').val(decodeURI(params[0].split('=')[1]));
+    $('.employee-name').on('change', function(){
+      var employee_name = $(this).val();
+      if(params.length == 1) {
+        location.href += '&employee_name=' + employee_name;
+      }
+    });
+    $('.employee-name').val(decodeURI(params[1].split('=')[1]));
+
+    $("input[name='employee-mobile']").on('change', function(){
+      var employee_mobile = $(this).attr('data-mobile');
+      var mobile = $(this).val();
+      if(mobile != employee_mobile) {
+        $('.errmsg').text('您输入的姓名与手机号码不一致，请重新填写。');
+        $("input[name='employee-mobile']").val('');
+      }
+    });
+
+    $("input[type='button']").on('click',function(){
+     if($('.organisation-name').val() == '' || $('.employee-name').val() == '' || $("input[name='employee-mobile']").val() == '') {
+      alert('请填写完整信息！');
+    }
+    else {
+      $('.build-store').submit();
+    }
+  });
+  })
+</script>
+
+<style type="text/css">
+  .label-new-shop {
+    color: black;
+
+  }
+  .errmsg {
+    color: red;
+    height: 40px;
+  }
+  .center {
+    text-align: center;
+  }
+  .right {
+    position: relative;
+  }
+  .row {
+    margin-bottom: 20px;
+  }
+</style>
+
