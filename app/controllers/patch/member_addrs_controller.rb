@@ -69,13 +69,13 @@ class Patch::MemberAddrsController < ApplicationController
 
     @addr = Ecstore::MemberAddr.new params[:addr].merge!(:member_id=>@user.member_id)
 
-    return_url= params[:return_url]
+    @return_url= params[:return_url]
 
     if @addr.save
       if return_url
         @ids=@addr.addr_id
         session[:depar]=@ids
-        return redirect_to return_url
+        return redirect_to @return_url
       elsif params[:platform]=='mobile'
         return redirect_to "/member_addrs?platform=#{pramas[:platform]}"
       elsif params[:action_url] == 'member_addrs'

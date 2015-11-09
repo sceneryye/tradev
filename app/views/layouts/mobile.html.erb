@@ -49,18 +49,21 @@
   </div>
   <div class="QQ_fixed_foot">
     <div class="foot_inner">
-      <a href="/mobile" class="" data-link="/mobile" ptag="">
+    <%@homepage ='/mobile'
+      @homepage ='/mobile/48/shop' if @user && (@user.email.include? '@139')%>
+      <a href="<%=@homepage%>" class="" data-link="<%=@homepage%>" ptag="">
         <span class="line">
           <i class="tab_7_icon"></i>
         </span> <span class="text">首页</span>
       </a>
+       <%if @homepage =='/mobile'%>
       <a href="/mobile/categories" data-link="/mobile/categories" ptag="37128.9.2" style="display:" class="">
         <span class="line">
           <i class="tab_8_icon"></i>
         </span>
         <span class="text">搜索</span>
       </a>
-
+      <%end%>
       <%if @user%>
       <a href="/cart/mobile?supplier_id=" data-link="/cart/mobile?supplier_id=" ptag="37128.9.3" class="" needlogin="1">
         <span class="line">
