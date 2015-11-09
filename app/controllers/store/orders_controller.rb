@@ -1,6 +1,6 @@
 #encoding:utf-8
 class Store::OrdersController < ApplicationController
-
+  before_filter :find_user
   layout 'order'
 
   def mancoder_show
@@ -164,6 +164,9 @@ class Store::OrdersController < ApplicationController
 
 
   def create
+    if @user.nil? || @line_items.nil?
+      return redirect_to '/'
+    end
 
     platform = params[:platform]
 

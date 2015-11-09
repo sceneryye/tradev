@@ -3,7 +3,10 @@ require 'rest-client'
 
 class Weihuo::ShopsController < ApplicationController
 
-  layout "weihuo1"
+
+  # layout "weihuo1"
+
+  layout "weihuo"
 
   # 所有店铺展示
   def index
@@ -12,8 +15,13 @@ class Weihuo::ShopsController < ApplicationController
   end
 
   def show
-    @shop = Ecstore::WeihuoShop.find(params[:id])
-    @shop_goods = @shop.weihuo_shops_good
+
+    # @shop = Ecstore::WeihuoShop.find(params[:id])
+    # @shop_goods = @shop.weihuo_shops_good
+
+
+    id = params[:id]
+    @shop = Ecstore::WeihuoShop.find(id)
 
   end
 

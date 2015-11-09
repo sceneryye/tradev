@@ -1,96 +1,101 @@
-<div class="container">
-  <% if @shop.status == '0' %>
-  <h2>请等待审核通过</h2>
-  <% elsif @shop.status == '-1' %>
-  <h2>您的店铺申请失败，请与管理员联系</h2>
-  <% else %>
-  <div class="row title">
-    <div class="col-xs-5">
-      <div class="shop-logo">
-        <img src="<%= @shop.logo %>">
-      </div>
-    </div>
 
-    <div class="col-xs-7">
-      <div class="shop-name">
-        <h3><%= @shop.name %>的店铺</h3>
-      </div>
-    </div>
+
+<div class="main" >
+<div class="get">
+  <div class="am-container">
+    <p>
+      <%=image_tag @user.weixin_headimgurl,:id=>"weixin" ,:style=>"display:block"%>
+    </p>
+
+       <p>
+         <%if @shop.nil?%>
+         <h3 class="get-title">欢迎来到尾货良品<br>
+         <a href="/weihuo/shops/new"class="am-btn am-btn-sm get-btn">请创建您的店铺</a></h3>
+         <%elsif @shop.status=='0'%>
+           <h3 class="get-title">您已成功创建了店铺，店铺正在审核阶段请耐心等待！</h3>
+         <%elsif @shop.status=='1'%>
+            <input type="hidden" id="shopid" value="<%=@shop.shop_id%>">
+            <a href="/weihuo/shops/myshop?shop_id=<%=@shop.shop_id%>" class="am-btn am-btn-sm get-btn">我的店铺</a>
+             <button class="am-btn am-btn-sm  am-btn-danger look" data-am-modal="{target: '#my-popup'}">二维码查看</button>
+
+             <div class="am-popup" id="my-popup">
+               <div class="am-popup-inner">
+                 <div class="am-popup-hd">
+                   <h4 class="am-popup-title"><%=@shop_title%></h4>
+      <span data-am-modal-close class="am-close">&times;</span>
+                 </div>
+                 <div class="am-popup-bd"style="text-align: center">
+                   <div id="qrcodeCanvas" style="display: block" ></div>
+                   <div id="qrcodeimg"></div>
+                   <div >欢迎关注</div>
+
+                 </div>
+               </div>
+             </div>
+             <div class="am-modal am-modal-confirm" tabindex="1" id="my-confirm" style="color: #000000">
+               <div class="am-modal-dialog">
+                 <div class="am-modal-hd"><%=@shop_title%></div>
+                 <div class="am-modal-bd" id="url">
+                    前往店铺查看
+                 </div>
+                 <div class="am-modal-footer">
+                   <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                   <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+                 </div>
+               </div>
+             </div>
+       <%end%>
+    </p>
   </div>
-
-  <% @shop_goods.each do |shop_goods| %>
-  <% goods = Ecstore::Good.where(:goods_id => shop_goods.goods_id).first %>
-  <div class="col-xs-12 products">
-    <div class="col-xs-10 col-xs-offset-1">
-      <div id="main">
-        <div class="sponsorListHolder">
-          <div class="sponsor" title="Click to flip">
-            <div class="img-front">
-              <img src="<%= goods.medium_pic %>" />
-            </div>
-
-            <div class="sponsorData">
-              <div class="img-back" id="qrcode" data-url="<%= pay_with_goods goods.bn  %>" ></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="goods-name">
-        <h4><%= goods.name %></h4>
-      </div>
-      <div class="goods-price">
-        <span class="price">
-          <h4>尾货价：</h4>
-        </span>
-        <h4><%= goods.price %></h4>
-      </div>
-    </div>
+ 
   </div>
-  <% end %>
+ 
+
+<%= javascript_include_tag "qrcode/kaelQrcode.min.js"%>
+<%= javascript_include_tag "shop/urlqrcode.js"%>
 
 
-  <% end %>
+<script>
+
+
+  var shop_id= $("#shopid").val();
+     var host=window.location.host;
+
+    var url="http://"+host+"/shop/?shop_id="+shop_id;
+    var imag=$("#weixin").attr("src");
+  window.onload = function(){
+      var kaelBase = new KaelQrcode();
+      kaelBase.init(document.getElementById("qrcodeCanvas"), {
+          text :url,
+          size: 300,
+          img: {
+              src : imag
+
+          }
+      });
+
+
+  }
+
+
+$(document).ready(function(){
+    $(".fendian").click(function(){
+        $.ajax(
+                {  type:"post",
+                   url:"/weihuo/shops/fendian?shop_id="+shop_id,
+                    success:function(data){
+
+                        window.location.href=window.location.href;
+                    }
+
+                }
+        )
+
+
+    })
+})
 
 
 
-  <style type="text/css">
-    .title {
-      margin: 0 auto;
-      margin-top: 20px;
-      color: #ea7500;
-    }
-    .shop-logo img {
-      width: 100%;
-      margin: 0 auto;
-    }
-    .shop-name {
-      font-size: 1.2em;
-      text-align: center;
-    }
-    .sponsor img{
-      width: 100%;
-      margin: 0 auto;
-    }
-    .goods-price {
-      
-      font-size: 1.4em;
-    }
-    .price {
-      color: red;
-    }
-    .products {
-      margin-top: 20px;
-      padding-bottom: 20px;
-      border-bottom: solid 2px black;
-    }
-  </style>
+</script>
 
-  <link rel="stylesheet" type="text/css" href="/assets/styles.css" />
-
-  <script type="text/javascript" src="/assets/qrcodejs/qrcode.min.js"></script>
-  <script type="text/javascript" src="/assets/sponsor/js/jquery.flip.min.js"></script>
-  <script type="text/javascript" src="/assets/sponsor/js/script.js"></script>
-  <script type="text/javascript">
-    var url = $('#qrcode').attr('data-url');
-    new QRCode(document.getElementById("qrcode"), url);
-  </script>

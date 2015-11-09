@@ -1,0 +1,96 @@
+<div class="container">
+  <% if @shop.status == '0' %>
+  <h2>请等待审核通过</h2>
+  <% elsif @shop.status == '-1' %>
+  <h2>您的店铺申请失败，请与管理员联系</h2>
+  <% else %>
+  <div class="row title">
+    <div class="col-xs-5">
+      <div class="shop-logo">
+        <img src="<%= @shop.logo %>">
+      </div>
+    </div>
+
+    <div class="col-xs-7">
+      <div class="shop-name">
+        <h3><%= @shop.name %>的店铺</h3>
+      </div>
+    </div>
+  </div>
+
+  <% @shop_goods.each do |shop_goods| %>
+  <% goods = Ecstore::Good.where(:goods_id => shop_goods.goods_id).first %>
+  <div class="col-xs-12 products">
+    <div class="col-xs-10 col-xs-offset-1">
+      <div id="main">
+        <div class="sponsorListHolder">
+          <div class="sponsor" title="Click to flip">
+            <div class="img-front">
+              <img src="<%= goods.medium_pic %>" />
+            </div>
+
+            <div class="sponsorData">
+              <div class="img-back" id="qrcode" data-url="<%= pay_with_goods goods.bn  %>" ></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="goods-name">
+        <h4><%= goods.name %></h4>
+      </div>
+      <div class="goods-price">
+        <span class="price">
+          <h4>尾货价：</h4>
+        </span>
+        <h4><%= goods.price %></h4>
+      </div>
+    </div>
+  </div>
+  <% end %>
+
+
+  <% end %>
+
+
+
+  <style type="text/css">
+    .title {
+      margin: 0 auto;
+      margin-top: 20px;
+      color: #ea7500;
+    }
+    .shop-logo img {
+      width: 100%;
+      margin: 0 auto;
+    }
+    .shop-name {
+      font-size: 1.2em;
+      text-align: center;
+    }
+    .sponsor img{
+      width: 100%;
+      margin: 0 auto;
+    }
+    .goods-price {
+      
+      font-size: 1.4em;
+    }
+    .price {
+      color: red;
+    }
+    .products {
+      margin-top: 20px;
+      padding-bottom: 20px;
+      border-bottom: solid 2px black;
+    }
+  </style>
+
+  <link rel="stylesheet" type="text/css" href="/assets/styles.css" />
+
+  <script type="text/javascript" src="/assets/qrcodejs/qrcode.min.js"></script>
+  <script type="text/javascript" src="/assets/sponsor/js/jquery.flip.min.js"></script>
+  <script type="text/javascript" src="/assets/sponsor/js/script.js"></script>
+  <script type="text/javascript">
+    var url = $('#qrcode').attr('data-url');
+    new QRCode(document.getElementById("qrcode"), url);
+  </script>

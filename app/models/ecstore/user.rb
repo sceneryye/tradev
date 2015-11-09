@@ -10,6 +10,8 @@ class Ecstore::User < Ecstore::Base
   self.accessible_all_columns
   has_one :mlm, :foreign_key=>"member_id"
 
+  has_one :weihuo_shop, :foreign_key=>"member_id"
+
   belongs_to :account,:foreign_key=>"member_id"
 
   has_many :line_items,:class_name=>"Cart",:foreign_key=>"member_id",:conditions=>{ :obj_type=>"goods" }
