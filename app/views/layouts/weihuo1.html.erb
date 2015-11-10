@@ -34,10 +34,10 @@
     <%if @user # && @user.account.supplier_id%>
    //   if ('<%=@user.account.supplier_id %>'!=supplier_id){
      if ('78'!=supplier_id){
-      location.href = auto_login_url;
+      location.href = shop_login_url;
     }
     <%elsif @no_need_login.nil?%>
-    location.href = auto_login_url;
+    location.href = shop_login_url;
     <%end%>
   </script>
 
