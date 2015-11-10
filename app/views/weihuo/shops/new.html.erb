@@ -98,7 +98,7 @@
       });
 
       $("input[type='button']").on('click',function(){
-       if($('.organisation-name').val() == '' || $('.employee-name').val() == '' || $("input[name='employee_mobile']").val() == undefined) {
+       if($('.organisation-name').val() == '' || $('.employee-name').val() == '' || $("input[name='employee_mobile']").val() == undefined || $("input[name='employee_mobile']").val() == '') {
         alert('请填写完整信息！');
       }
       else {

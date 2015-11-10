@@ -21,7 +21,7 @@ class Weihuo::WeixinPayController < ApplicationController
       o.createtime = Time.now.to_i
       o.status = 'active'
     end
-    
+
 
     supplier = Ecstore::Supplier.where(:name => '贸威').first
     weixin_appid = supplier.weixin_appid
@@ -48,7 +48,51 @@ class Weihuo::WeixinPayController < ApplicationController
  end
 
  def notify_page
-  return render :text => 'SUCCESS'
+  if params["xml"]["result_code"] == 'SUCCESS'
+
+    order_params = {}
+    order_params[:order_id] = params["xml"]["out_trade_no"][0..19]
+    order_params[:total_amount] = params["xml"]["total_fee"].to_f / 100
+    order_params[:final_amount] = params["xml"]["total_fee"].to_f / 100
+    order_params[:pay_status] = '1'
+    order_params[:createtime] = Time.now.to_i
+    order_params[:status] = 'active'
+    order_params[:member_id] = Ecstore::Account.where(:login_name => params["xml"]["openid"]).first.user.member_id
+    order_params[:shop_id] = Ecstore::Account.where(:login_name => params["xml"]["openid"]).first.shop_id
+    # url = "http://www.trade-v.com/orders"
+    # RestClient.post url, order_params
+
+    shop_id = order_params[:shop_id]
+
+
+    supplier_id = Ecstore::Account.where(:login_name => params["xml"]["openid"]).first.supplier_id
+    @order = Ecstore::Order.new order_params
+
+    if supplier_id == nil
+      supplier_id =78
+    end
+
+
+
+    order_params.merge!(:ip=>request.remote_ip, :supplier_id=>supplier_id)
+
+    
+
+  if @order.save
+
+    Ecstore::OrderLog.new do |order_log|
+      order_log.rel_id = @order.order_id
+      order_log.op_id = @order.member_id
+      order_log.op_name = params["xml"]['openid']
+      order_log.alttime = @order.createtime
+      order_log.behavior = 'creates'
+      order_log.result = "SUCCESS"
+      order_log.log_text = "订单创建成功！"
+    end.save
+
+    return render :text => 'SUCCESS'
+  end
+end
 end
 
 def template_information

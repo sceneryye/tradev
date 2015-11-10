@@ -58,20 +58,21 @@
       </a>
 
       <%if @user%>
-      <% if Ecstore::WeihuoShop.find(params[:id]).present? %>
+      <% if params[:id].present? %>
       <a href="/weihuo/shops/share?shop_id=<%= params[:id] %>" data-link="/cart/mobile?supplier_id=" ptag="37128.9.3" class="" needlogin="1">
         <span class="line">
           <i class="tab_9_icon"></i>
         </span>
         <span class="text">分享店铺</span>
       </a>
-      <% end %>
+      
       <% if current_account.account_id == Ecstore::WeihuoShop.find(params[:id]).member_id %>
       <a href="/weihuo/shops/add" data-link="#" ptag="37128.9.4" class=" on" needlogin="1">
         <span class="line">
         </span>
         <span class="text">添加商品</span>
       </a>
+      <% end %>
       <% end %>
       <%end%>
     </div>
