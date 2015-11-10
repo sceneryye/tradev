@@ -188,10 +188,10 @@ class Auth::WeixinController < ApplicationController
 
 	    redirect = return_url
 
-	    if redirect.empty?
-	    	
+	    if redirect.blank?
+	    	ship_id ||= params[:id]
 	    	if shop_id
-	    		redirect ="/weihuo/shops?shop_id=#{shop_id}"	    		
+	    		redirect ="/weihuo/shops/#{shop_id}"	    		
 	    	elsif supplier_id == '78'
 	    		redirect  = "/mobile"          		
           	else
