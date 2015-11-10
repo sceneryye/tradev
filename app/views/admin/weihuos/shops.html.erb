@@ -2,25 +2,33 @@
 <table class="table table-bordered table-striped table-hover">
   <thead>
   <tr>
-    <th>member_id</th>
-    <th>open_id</th>
-    <th>姓名</th>
-    <th>注册时间</th>
-    <th>店铺</th>
+    <th>shop_id</th>
+    <th>店名</th>
+    <th>店标二维码</th>
+    <th>店长ID</th>    
+    <th>店长姓名</th>
+    <th>店长电话</th>
+    <th>所属部门</th>
+    <th>状态</th>
+    <th>开店时间</th>
   </tr>
   </thead>
   <tbody>
-  <%@clients.each do |client|%>
+  <%@shops.each do |shop|%>
   <tr>
-    <td><%=client.account_id%></td>
-    <td><%=client.login_name.split('_')[0]%></td>
-    <td><%=client.member.name%>
-    <td><%=client.createtime%></td>
-    <td><%=client.shop_id%></td>
+    <td><%=shop.shop_id%></td>
+    <td><%=shop.name%></td>
+    <td><%=image_tag shop.logo, :size => "50x50"%>
+    <td><%=shop.member_id%></td>
+    <td><%=shop.employee_name%></td>
+    <td><%=shop.employee_mobile%></td>
+    <td><%=shop.organisation_id%></td>
+    <td><%=shop.status%></td>
+    <td><%=shop.created_at%></td>
   </tr>
-  <%end if @clients%>
+  <%end if @shops%>
   </tbody>
 </table>
 <div class="paginations">
-  <%=will_paginate @clients,:container=>false if @clients%>
+  <%=will_paginate @shops,:container=>false if @shops%>
 </div>
