@@ -89,6 +89,7 @@ class Weihuo::ShopsController < ApplicationController
 
   def share
     @url = "http://www.trade-v.com/weihuo/shops/#{params[:shop_id]}"
+    @shop = Ecstore::WeihuoShop.where(:shop_id => params[:shop_id]).first
     render :layout => 'mobile'
   end
 
