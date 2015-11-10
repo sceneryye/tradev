@@ -8,10 +8,10 @@ module Admin
       def index
 
        
-        @orders_nw = Ecstore::Order.where("shop_id>0").order("createtime desc")
+        @orders_nw = Ecstore::Order.where("shop_id>0 and shop_id<>48 and order_id>=20151110174181").order("createtime desc")
         @order_ids = @orders_nw.pluck(:order_id)
 
-        @ordders = @orders_nw.paginate(:page=>params[:page],:per_page=>20)
+        @orders = @orders_nw.paginate(:page=>params[:page],:per_page=>20)
       end
      
       def goods
