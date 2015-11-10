@@ -182,11 +182,7 @@
             </li>
             <%end%>
 
-            <%if current_admin.has_right_of("members","index")%>
-            <li class="<%='active' if controller_name=='members'%>">
-              <%=link_to "发送红包",admin_get_users_path%>
-            </li>
-            <%end%>
+           
 
             <%if current_admin.has_right_of("cards","index")%>
             <li class="<%='active' if controller_name=='cards'%>">
@@ -282,6 +278,33 @@
 
                 </li>
 
+              </ul>
+            </li>
+
+             <li class="<%='active' if controller_name=='weihuo'%>">
+              <a href="#">尾货管理</a>
+              <ul class="dropdown-menu " aria-labelledby="dropdownMenu">
+                <li>
+                  <%=link_to "订单管理",admin_weihuo_path%>
+                </li>
+                <li>
+                  <%=link_to "商品管理",admin_goods_weihuo_path%>
+                </li>
+                <li>
+                  <%=link_to "客户管理",admin_clients_weihuo_path%>
+                </li>
+                <li>
+                  <%=link_to "店铺管理",admin_shops_weihuo_path%>
+                </li>
+                <li>
+                  <%=link_to "组织架构理",admin_organisations_weihuo_path%>
+                </li>
+                <li>
+                  <%=link_to "发红包记录",admin_share_logs_weihuo_path%>
+                </li>
+                <li>
+                  <%=link_to "发送红包",admin_get_users_path%>
+                </li>
               </ul>
             </li>
 
