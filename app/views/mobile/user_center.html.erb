@@ -16,13 +16,15 @@
     .msgbox{position:fixed;display:none;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,.4);color:#333;z-index:4}.msgbox .box{position:absolute;min-width:220px;max-width:400px;width:70%;height:auto;left:50%;top:50%;background-color:#FBF7F2;border-radius:4px;-webkit-transform:translate3d(-50%,-50%,0);-moz-transform:translate3d(-50%,-50%,0);-o-transform:translate3d(-50%,-50%,0);-ms-transform:translate3d(-50%,-50%,0);transform:translate3d(-50%,-50%,0)}.msgbox .gift_wrp{position:relative;margin:5% auto;text-align:center}.msgbox .box h2{font-size:14px;margin:0;padding:0;text-align:center}.msgbox .box h5{font-size:12px;margin:5px 0;text-align:center;font-weight:normal;color:#666;line-height:20px}.msgbox .box a.btn,.msgbox .box a.btn:active,.msgbox .box a.btn:visited{display:block;width:80%;height:30px;line-height:30px;text-align:center;text-decoration:none;font-size:12px;margin:15px auto 20px;background-color:#F53F3F;border-radius:3px;text-align:center;color:#fff}.msgbox a.rule{display:block;width:70px;margin:auto}.popup_con{position:absolute;top:0;left:0;right:0;bottom:0;padding:10px;z-index:100;max-width:640px;margin:0 auto;margin-top:10px}.popup_con .inner{position:relative;padding:10px;background:#fff}.popup_con .close{display:block;width:40px;height:40px;position:absolute;right:0;top:0;background:transparent url(images/popClose.png) no-repeat center center;background-size:20px 20px}.popup_con .title em{font-size:12px;color:#fff;background:#ff5c36;padding:2px 10px}.popup_con ol.text{list-style-type:decimal;margin-left:20px}.popup_con .text{font-size:12px;margin:5px 0}.popup_con ol.text li{margin-bottom:5px}.red{color:#e4393c;}
 </style>
 <script type="text/javascript">
+
     speedTimePoint[1]=new Date();
 </script><style type="text/css"></style>
 <script charset="utf-8" async="" src="./个人中心_files/wg.my2.201507021339.js"></script></head>
 <body>
-   
+
 
     <script>
+        
 window.closeSearchEntrance = false;  //控制smartbox是否展示(容灾用)
 window.smartboxGrayStrategy = 99;  //smartbox灰度百份比(灰度到直出版,99全量)
 window._useStaticItemLink = false;  //true切换商详静态版
@@ -53,7 +55,7 @@ function getItemLink(str, ptag){
 <div class="qq_menu_layer_v2" style="display:none" id="__mqqmenu">
     <div class="qq_menu_v2" id="_divqqmenu">
         <ul id="__ulqqmenu">
-           <li>
+         <li>
             <a href="javascript:;" ptag="37128.1.2" id="__homepage">
                 <i class="icon_home"></i>
                 <span>购物</span>
@@ -220,16 +222,15 @@ function getItemLink(str, ptag){
         <!--  <li class="tiao" data-url="http://mm.wanggou.com/service/myOrder.shtml"><a href="javascript:;">返修/退换货</a></li> -->
         <li class="tiao" id="msgListItem" data-url="#" style="display:none"><a href="javascript:;">消息中心</a></li>
         <li class="tiao" id="helpCenter" data-url="#"><a href="javascript:;">帮助中心</a></li>
-        <% shop = Ecstore::WeihuoShop.where(:member_id => current_account.login_name) %>
-        <% if shop.present? %>
-        <li class="tiao" id="build-store" data-url="#"><a href="/weihuo/shops/<%= shop.first.shop_id %>">我的店铺</a></li>
+        <% if current_account.shop_id.present? %>
+        <li class="tiao" id="build-store" data-url="#"><a href="/weihuo/shops/<%= current_account.shop_id %>">我的店铺</a></li>
         <% else %>
         <li class="tiao" id="build-store" data-url="#"><a href="/weihuo/shops/new">我要开店</a></li>
         <% end %>
     </ul>
     <!-- E 入口列表 -->
     <div class="my_links" style="display:none">
-     
+       
         <a href="#" class="link_online">在线客服</a>
     </div>
 </div><!-- wx_wrap -->

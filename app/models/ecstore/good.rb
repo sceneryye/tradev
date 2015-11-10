@@ -60,6 +60,8 @@ class Ecstore::Good < Ecstore::Base
 
   has_many :tagables, :foreign_key=>"rel_id"
   has_many :tegs, :through=>:tagables
+  has_many :weihuo_shops_good
+  has_many :weihuo_shop, :through => :weihuo_shops_good
 
   def  self.export_xls(fields, goods)
 

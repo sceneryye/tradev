@@ -1,0 +1,91 @@
+<div class="container-fluid">
+  <h3>添加商品</h3>
+  <form name="shop" action="/weihuo/shops/goods_added" method="post">
+    <input type="hidden" name="shop_id" value="<%= @shop.shop_id %>" />
+    <input type="hidden" name="goods_ids" value="" />
+    <div class="row">
+
+      <% @goods.each_with_index do |goods, index| %>
+      <div class="col-xs-5 <%= 'col-xs-offset-1' if index % 2 == 0 %>">
+        <div class="goods">
+          <div class="goods-pic">
+            <img src="<%= goods.medium_pic %>" />
+          </div>
+          <div class="goods-info">
+            <%= goods.name %>
+          </div>
+          <div class="goods-price">
+            尾货价：
+            <span class="price">
+              <%= goods.price %>
+            </span>
+          </div>
+
+          <label><input name="goods_id" type="checkbox" value="<%=goods.goods_id %>" /><span class="click-choose">点击选择商品</span></label> 
+        </div>
+      </div>
+      <% end %>
+    </div>
+    <div class="row buttons">
+      <div class="col-xs-4 col-xs-offset-2">
+        <%= link_to "取消", weihuo_shop_path(@shop), :class => 'btn btn-danger' %>
+      </div>
+      <div class="col-xs-4">
+        <input type="button" value="提交" class="btn btn-success" />
+      </div>
+    </div>
+  </form>
+</div>
+
+<style type="text/css">
+  .buttons {
+    margin-bottom: 40px;
+  }
+  .goods-pic img {
+    width: 100%;
+  }
+</style>
+
+
+
+
+<script type="text/javascript">
+  $('.goods').on('click', function(){
+    var $checkbox = $(this).find("input[type='checkbox']");
+    if($checkbox.prop('checked') == false ) {
+      $checkbox.prop('checked', true);
+      $(this).find('.click-choose').text('已选择该商品');
+    }
+    else {
+      $checkbox.prop('checked', false);
+      $(this).find('.click-choose').text('点击选择商品');
+    }
+  })
+
+  $("input[type='button']").on('click', function(){
+    var num = $("input[type='checkbox']:checked").length;
+    var goods_ids = new Array();
+    $("input[type='checkbox']:checked").each(function(index, element){
+      goods_ids[index] = $(element).val();
+    });
+    goods_ids = goods_ids.join();
+    $("input[name='goods_ids']").val(goods_ids);
+    $('form').submit();
+    //var shop_id = $("input[name='shop_id']").val();
+    // var url = 'http://www.trade-v.com/weihuo/shops/goods_added';
+    // $.ajax({
+//       url: url,
+//       type: 'post',
+//       data: {shop_id: shop_id,
+//               goods_ids: goods_ids},
+//       success: function(e){
+// if(e == 'success') {
+//   location.pathname = '/weihuo/shops/' + shop_id;
+// }
+//       }
+  //  });
+});
+
+
+</script>
+

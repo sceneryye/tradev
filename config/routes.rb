@@ -7,7 +7,8 @@ Modengke::Application.routes.draw do
     get 'qrcode' => 'weixin_pay#qrcode'
     post 'notify_page' => 'weixin_pay#notify_page'
     post 'template_information' => 'weixin_pay#template_information'
-    post 'shops/new' => 'shops#new'
+    get 'shops/add' => 'shops#add'
+    post 'shops/goods_added' => 'shops#goods_added'
     resources :orgnizations
     resources :orders
 
