@@ -1,0 +1,34 @@
+  <h1>尾货良品- 店铺管理</h1>
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+  <tr>
+    <th>shop_id</th>
+    <th>店名</th>
+    <th>店标二维码</th>
+    <th>店长ID</th>    
+    <th>店长姓名</th>
+    <th>店长电话</th>
+    <th>所属部门</th>
+    <th>状态</th>
+    <th>开店时间</th>
+  </tr>
+  </thead>
+  <tbody>
+  <%@shops.each do |shop|%>
+  <tr>
+    <td><%=shop.shop_id%></td>
+    <td><%=shop.name%></td>
+    <td><%=image_tag shop.logo, :size => "50x50"%>
+    <td><%=shop.member_id%></td>
+    <td><%=shop.employee_name%></td>
+    <td><%=shop.employee_mobile%></td>
+    <td><%=shop.organisation_id%></td>
+    <td><%=shop.status%></td>
+    <td><%=shop.created_at%></td>
+  </tr>
+  <%end if @shops%>
+  </tbody>
+</table>
+<div class="paginations">
+  <%=will_paginate @shops,:container=>false if @shops%>
+</div>

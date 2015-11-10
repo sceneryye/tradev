@@ -3,6 +3,7 @@ require 'csv'
 class Ecstore::Order < Ecstore::Base
 
   self.table_name = "sdb_b2c_orders"
+  has_many :weihuo_share , :foreign_key =>"order_id"
   has_many :order_dining , :foreign_key=>"order_id"
   has_many  :order_items, :foreign_key=>"order_id"
   has_many :order_pmts, :foreign_key=>"order_id"

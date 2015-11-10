@@ -8,7 +8,9 @@ class Ecstore::User < Ecstore::Base
                             :interests,:voc, :job, :income, :height, :weight, :shoesize,:price,:places,:colors,:edu,
                             :province,:city,:district,:login_count,:sms_validate,:email_validate,:custom_values,:sent_sms_at,:wechat_num,:user_desc
   self.accessible_all_columns
+  has_many :weihuo_share, :foreign_key=>"member_id"
   has_one :mlm, :foreign_key=>"member_id"
+  has_one :weihuo_employee, :foreign_key=>"member_id"
 
   has_one :weihuo_shop, :foreign_key=>"member_id"
 

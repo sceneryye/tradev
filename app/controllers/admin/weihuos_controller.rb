@@ -2,35 +2,41 @@
 
 module Admin
     class WeihuosController < Admin::BaseController
+      before_filter :authorize_admin!
 
       #orders list
       def index
-        @orders = Ecstore::Order.where("shop_id>0")
+
+       
+        @orders_nw = Ecstore::Order.where("shop_id>0").order("createtime desc")
+        @order_ids = @orders_nw.pluck(:order_id)
+
+        @ordders = @orders_nw.paginate(:page=>params[:page],:per_page=>20)
       end
      
       def goods
-        @goods = Ecstore::Good.where(:supplier_id=>10)
+        @goods = Ecstore::Good.where(:supplier_id=>10).paginate(:page=>params[:page],:per_page=>20)
       end
 
       def organisations
-        @organisations = Ecstore::WeihuoOrganisation.all
+        @organisations = Ecstore::WeihuoOrganisation.paginate(:page=>params[:page],:per_page=>20)
 
       end
 
       def employees
-        @employees = Ecstore::WeihuoEmployee.all
+        @employees = Ecstore::WeihuoEmployee.paginate(:page=>params[:page],:per_page=>20)
       end
 
       def shops
-        @shops = Ecstore::WeihuoShop.all
+        @shops = Ecstore::WeihuoShop.paginate(:page=>params[:page],:per_page=>20)
       end
 
       def shares
-        @shares = Ecstore::WeihuoShare.all
+        @shares = Ecstore::WeihuoShare.paginate(:page=>params[:page],:per_page=>20)
       end
 
       def clients
-        @clients = Ecstore::User.where("shop_id>0")
+        @clients = Ecstore::Account.where("shop_id>0").paginate(:page=>params[:page],:per_page=>20)
 
       end
 
