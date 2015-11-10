@@ -23,10 +23,10 @@
     <% @goods_ids.each_with_index do |goods_id, index| %>
     <% goods = Ecstore::Good.where(:goods_id => goods_id).first %>
     <div class="col-xs-5 <%= 'col-xs-offset-1' if index % 2 == 0 %>">
-      <a style="display:block;width:50%;overflow:hidden; " href="/weihuo/goods_detail/<%=goods.goods_id%>">
+      <a style="width:50%" href="/weihuo/goods_detail/<%=goods.goods_id%>">
         <div class="goods">
           <div class="goods-pic">
-            <img src="<%= goods.medium_pic %>" style="height:200px"/>
+            <img src="<%= goods.medium_pic %>" style="height:150px"/>
           </div>
         </div>
 
@@ -38,7 +38,7 @@
           <span class="price">
             <%= goods.price %>
           </span>
-          </br>
+          </hr>
         </div>
 
       </div>
