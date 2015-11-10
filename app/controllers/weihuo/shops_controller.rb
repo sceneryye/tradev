@@ -68,7 +68,7 @@ class Weihuo::ShopsController < ApplicationController
   end
 
   def add
-    @goods = Ecstore::Good.limit(30)
+    @goods = Ecstore::Good.where(:supplier_id => 10)
     member_id = current_account.account_id
     @shop = Ecstore::WeihuoShop.where(:member_id => member_id).first
   end

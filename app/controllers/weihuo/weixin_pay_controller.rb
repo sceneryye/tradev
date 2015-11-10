@@ -71,28 +71,41 @@ class Weihuo::WeixinPayController < ApplicationController
     if supplier_id == nil
       supplier_id =78
     end
+    goods = Ecstore::Good.where(:goods_id => order_params[:order_id][0..4]).first
+    product = goods.products.first
+
+    @order.order_items << Ecstore::OrderItem.new do |order_item|
+      order_item.product_id = product.product_id
+      order_item.bn = product.bn
+      order_item.name = product.name
+      order_item.price = order_params[:total_amount]
+      order_item.nums = 1
+      order_item.item_type = "product"
+      order_item.amount = order_params[:total_amount]
+      order_item.goods_id = goods.goods_id
+    end
 
 
 
     order_params.merge!(:ip=>request.remote_ip, :supplier_id=>supplier_id)
 
-    
 
-  if @order.save
 
-    Ecstore::OrderLog.new do |order_log|
-      order_log.rel_id = @order.order_id
-      order_log.op_id = @order.member_id
-      order_log.op_name = params["xml"]['openid']
-      order_log.alttime = @order.createtime
-      order_log.behavior = 'creates'
-      order_log.result = "SUCCESS"
-      order_log.log_text = "订单创建成功！"
-    end.save
+    if @order.save
 
-    return render :text => 'SUCCESS'
+      Ecstore::OrderLog.new do |order_log|
+        order_log.rel_id = @order.order_id
+        order_log.op_id = @order.member_id
+        order_log.op_name = params["xml"]['openid']
+        order_log.alttime = @order.createtime
+        order_log.behavior = 'creates'
+        order_log.result = "SUCCESS"
+        order_log.log_text = "订单创建成功！"
+      end.save
+
+      return render :text => 'SUCCESS'
+    end
   end
-end
 end
 
 def template_information

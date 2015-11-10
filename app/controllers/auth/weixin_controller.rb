@@ -188,7 +188,7 @@ class Auth::WeixinController < ApplicationController
 
 	    redirect = return_url
 
-	    if redirect.empty?
+	    if redirect.blank?
 	    	
 	    	if shop_id
 	    		redirect ="/weihuo/shops?shop_id=#{shop_id}"	    		
