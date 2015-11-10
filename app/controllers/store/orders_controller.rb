@@ -170,7 +170,8 @@ class Store::OrdersController < ApplicationController
 
     platform = params[:platform]
 
-    shop_id = params[:order][:shop_id]
+    
+    shop_id = params[:order][:shop_id] 
 
     addr = Ecstore::MemberAddr.find_by_addr_id(params[:member_addr])
     supplier_id = @user.account.supplier_id
@@ -353,6 +354,13 @@ class Store::OrdersController < ApplicationController
 
       end
 
+#测试尾货良品用 ---开始
+    if @user.member_id == 4403
+
+       @order.update_attributes(:shop_id=>38)
+
+    end
+#测试尾货良品用 ----结束
       @line_items.delete_all
 
       Ecstore::OrderLog.new do |order_log|
@@ -368,6 +376,25 @@ class Store::OrdersController < ApplicationController
         order_log.result = "SUCCESS"
         order_log.log_text = "订单创建成功！"
       end.save
+
+       #计算快递员分润
+
+      if @order.shop_id>0 and @order.shop_id!=48
+          share_for_weihuo_shop = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
+            .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f)*@order.weihuo_shop.weihuo_organisation.share
+
+            Ecstore::WeihuoShare.new do |weihuo|
+              weihuo.order_id = @order.order_id
+              weihuo.amount = share_for_weihuo_shop
+              weihuo.member_id = @order.weihuo_shop.user.member_id
+              weihuo.open_id = @order.weihuo_shop.user.account.login_name.split('_')[0]
+              weihuo.wishing ='恭喜发财'
+              weihuo.act_name = '销售红包'
+              weihuo.remark = "订单#{@order.order_id}"
+            end.save
+      end
+
+
       if return_url.nil?
         if platform=="mobile"
           redirect_to "/orders/mobile_show?id=#{@order.order_id}&supplier_id=#{supplier_id}"

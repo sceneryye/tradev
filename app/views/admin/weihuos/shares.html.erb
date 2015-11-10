@@ -2,25 +2,41 @@
 <table class="table table-bordered table-striped table-hover">
   <thead>
   <tr>
-    <th>member_id</th>
+    <th>id</th>
+    <th>订单号</th>
+    <th>店长</th>
+    <th>分润</th>
+    <th>祝福语</th>
+    <th>活动名称</th>
+    <th>备注</th>
     <th>open_id</th>
-    <th>姓名</th>
-    <th>注册时间</th>
-    <th>店铺</th>
+    <th>订单时间</th> 
+    <th>发红包</th>
   </tr>
   </thead>
   <tbody>
-  <%@clients.each do |client|%>
+  <%@shares.each do |share|%>
   <tr>
-    <td><%=client.account_id%></td>
-    <td><%=client.login_name.split('_')[0]%></td>
-    <td><%=client.member.name%>
-    <td><%=client.createtime%></td>
-    <td><%=client.shop_id%></td>
+    <td><%=share.id%></td>
+    <td><%=share.order_id%></td>
+    <td><%=share.member_id%></td>
+    <td><%=share.amount%></td>
+    <td><%=share.wishing%></td>
+    <td><%=share.act_name%></td>
+    <td><%=share.remark%></td>
+    <td><%=share.open_id%></td>
+    <td><%=share.created_at%></td>
+    <td>
+    <%if share.status==0%>
+      <%=link_to "发送红包",admin_get_users_path(:order_id=>share.order_id)%>
+    <%else%>
+      <%=share.updted_at%>
+    <%end%>
+    </td>
   </tr>
-  <%end if @clients%>
+  <%end if @shares%>
   </tbody>
 </table>
 <div class="paginations">
-  <%=will_paginate @clients,:container=>false if @clients%>
+  <%=will_paginate @shares,:container=>false if @shares%>
 </div>

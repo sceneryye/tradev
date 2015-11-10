@@ -11,7 +11,8 @@ class Ecstore::Order < Ecstore::Base
   has_many :deliveries, :foreign_key=>"order_id"
   has_many :order_attachments, :foreign_key=>"order_id"
 
-  belongs_to :shop,:foreign_key=>"order_id"
+  belongs_to :weihuo_shop, :foreign_key =>"shop_id"
+ # belongs_to :shop,:foreign_key=>"shop_id"
   belongs_to :manager,:foreign_key=>"desktop_user_id"
   belongs_to :user,:foreign_key=>"member_id"
   belongs_to :wechat_follower, :foreign_key=>"recommend_user"
