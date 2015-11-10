@@ -1,0 +1,11 @@
+<h3 style="text-align:center;">请扫描二维码收藏店铺</h3>
+<div id="qrcode" style="width:100px; height:100px; margin-top:15px;" data-url="<%= "http://www.trade-v.com/weihuo/shops/#{params[:shop_id]}" %>"></div>
+<%= @url %>
+<script type="text/javascript">
+  var url = $('#qrcode').attr('data-url');
+  var qrcode = new QRCode(document.getElementById("qrcode"), 'qq.com');
+  alert(url);
+</script>
+
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>

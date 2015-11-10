@@ -9,6 +9,8 @@ Modengke::Application.routes.draw do
     post 'template_information' => 'weixin_pay#template_information'
     get 'shops/add' => 'shops#add'
     post 'shops/goods_added' => 'shops#goods_added'
+    get 'goods_detail/:id' => 'shops#goods_detail'
+    get 'shops/share' => 'shops#share'
     resources :orgnizations
     resources :orders
 

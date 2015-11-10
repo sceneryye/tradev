@@ -18,11 +18,11 @@
     </div>
   </div>
   <% if @goods_ids.present? %>
-  <div class="row">
+  <div class="row all-goods">
     <% @goods_ids.each_with_index do |goods_id, index| %>
     <% goods = Ecstore::Good.where(:goods_id => goods_id).first %>
     <div class="col-xs-5 <%= 'col-xs-offset-1' if index % 2 == 0 %>">
-      <a href="/mobile/<%=good.goods_id%>">
+      <a href="/weihuo/goods_detail/<%=goods.goods_id%>">
         <div class="goods">
           <div class="goods-pic">
             <img src="<%= goods.medium_pic %>" />
@@ -65,22 +65,16 @@
       font-size: 1.2em;
       text-align: center;
     }
-    .sponsor img{
+    .goods-pic img {
       width: 100%;
-      margin: 0 auto;
     }
-    .goods-price {
-
-      font-size: 1.4em;
+    .goods {
+      margin: 10px 2px;
     }
-    .price {
-      color: red;
+    .all-goods {
+      margin-bottom: 40px;
     }
-    .products {
-      margin-top: 20px;
-      padding-bottom: 20px;
-      border-bottom: solid 2px black;
-    }
+    
   </style>
 
   <link rel="stylesheet" type="text/css" href="/assets/styles.css" />

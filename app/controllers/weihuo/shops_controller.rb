@@ -59,6 +59,11 @@ class Weihuo::ShopsController < ApplicationController
 
   end
 
+  def goods_detail
+    @goods = Ecstore::Good.find(params[:id])
+    render :layout => 'mobile'
+  end
+
   def edit
   end
 
@@ -80,6 +85,11 @@ class Weihuo::ShopsController < ApplicationController
   end
 
   def update
+  end
+
+  def share
+    @url = "http://www.trade-v.com/weihuo/shops/#{params[:shop_id]}"
+    render :layout => 'mobile'
   end
 
   helper_method :pay_with_goods

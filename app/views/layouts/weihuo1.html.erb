@@ -8,6 +8,7 @@
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script type="text/javascript" src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 <script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/assets/qrcodejs/qrcode.min.js"></script>
 
 
 <script>
@@ -57,17 +58,21 @@
       </a>
 
       <%if @user%>
-      <a href="/cart/mobile?supplier_id=" data-link="/cart/mobile?supplier_id=" ptag="37128.9.3" class="" needlogin="1">
+      <% if Ecstore::WeihuoShop.find(params[:id]).present? %>
+      <a href="/weihuo/shops/share?shop_id=<%= params[:id] %>" data-link="/cart/mobile?supplier_id=" ptag="37128.9.3" class="" needlogin="1">
         <span class="line">
           <i class="tab_9_icon"></i>
         </span>
-        <span class="text">购物车</span>
+        <span class="text">分享店铺</span>
       </a>
+      <% end %>
+      <% if current_account.account_id == Ecstore::WeihuoShop.find(params[:id]).member_id %>
       <a href="/weihuo/shops/add" data-link="#" ptag="37128.9.4" class=" on" needlogin="1">
         <span class="line">
         </span>
         <span class="text">添加商品</span>
       </a>
+      <% end %>
       <%end%>
     </div>
   </div>
@@ -78,6 +83,6 @@
 
   span .text {
     font-size: 12px;
-    
+
   }
 </style>
