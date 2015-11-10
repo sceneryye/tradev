@@ -37,7 +37,7 @@ class Weihuo::ShopsController < ApplicationController
     shop_params = {}
     shop_params[:member_id] = params[:member_id]
     openid = Ecstore::Account.where(:account_id => params[:member_id]).first.login_name
-    shop_params[:organisation_id] = Ecstore::WeihuoOrganisation.where(:name => params[:organisation_name]).first.id
+    shop_params[:weihuo_organisation_id] = Ecstore::WeihuoOrganisation.where(:name => params[:organisation_name]).first.id
     shop_params[:employee_name] = params[:employee_name]
     shop_params[:employee_mobile] = params[:employee_mobile]
     shop_params[:name] = params[:shop_name]

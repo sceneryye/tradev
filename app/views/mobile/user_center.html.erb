@@ -224,7 +224,7 @@ function getItemLink(str, ptag){
         <!--  <li class="tiao" data-url="http://mm.wanggou.com/service/myOrder.shtml"><a href="javascript:;">返修/退换货</a></li> -->
         <li class="tiao" id="msgListItem" data-url="#" style="display:none"><a href="javascript:;">消息中心</a></li>
         <li class="tiao" id="helpCenter" data-url="#"><a href="javascript:;">帮助中心</a></li>
-        <% if current_account.shop_id.present? %>
+        <% if (current_account.shop_id == current_account.login_name.split('_')[2] && current_account.shop_id != nil) || (current_account.login_name.split('_')[0].length == current_account.login_name.length && current_account.shop_id != nil) %>
         <li class="tiao" id="build-store" data-url="#"><a href="/weihuo/shops/<%= current_account.shop_id %>">我的店铺</a></li>
         <% else %>
         <li class="tiao" id="build-store" data-url="#"><a href="/weihuo/shops/new">我要开店</a></li>

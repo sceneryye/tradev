@@ -28,7 +28,7 @@
     <%end%>
     if(is_weixin_browser){
 
-      auto_login_url= '/shop_login?id='+ params[:id]+ '&<%=return_url%>&platform=mobile';
+      shop_login_url= '/shop_login?id='+ <%= params[:id] %>+ '&<%=return_url%>&platform=mobile';
     }
 
     <%if @user # && @user.account.supplier_id%>

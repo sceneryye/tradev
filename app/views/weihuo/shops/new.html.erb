@@ -7,7 +7,7 @@
 
         <div class="col-xs-10 col-xs-offset-1">
           <select name="organisation_name" class="organisation-name" data-name=''>
-            <option value=''>情选择您的节点</option>
+            <option value=''>请选择您的网点</option>
             <%= @organisations.each do |o| %>
             <option value="<%= o.name %>"><%= o.name %></option>
             <% end %>

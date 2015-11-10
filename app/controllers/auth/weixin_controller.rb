@@ -26,7 +26,7 @@ class Auth::WeixinController < ApplicationController
 
 		
 		id =  params[:id] 
-		id_type = id.split('shop')
+		id_type = id.split('shops')
 
 		if id_type[1]
 			shop_id = id_type[1]
@@ -88,7 +88,7 @@ class Auth::WeixinController < ApplicationController
 		  		ac.createtime = now.to_i
 		  		ac.auth_ext = auth_ext
         		ac.supplier_id = supplier_id
-        		ac.shop_id = shop_id
+        		
 	  		end
 
 	  		Ecstore::Account.transaction do
@@ -191,7 +191,7 @@ class Auth::WeixinController < ApplicationController
 	    if redirect.blank?
 	    	
 	    	if shop_id
-	    		redirect ="/weihuo/shops?shop_id=#{shop_id}"	    		
+	    		redirect ="/weihuo/shops/#{shop_id}"	    		
 	    	elsif supplier_id == '78'
 	    		redirect  = "/mobile"          		
           	else
