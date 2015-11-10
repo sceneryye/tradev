@@ -8,9 +8,8 @@ class Ecstore::WeihuoShop < Ecstore::Base
 
   has_many :weihuo_shops_good
   has_many :good, :through => :weihuo_shops_good
-  has_one :weihuo_employee, :foreign_key => 'member_id'
-
-  #belongs_to :user, :foreign_key=>"member_id"
+  has_one :weihuo_employee, :foreign_key => 'shop_id'
+  belongs_to :user, :foreign_key=>"member_id"
 
 
 end

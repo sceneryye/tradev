@@ -1,0 +1,30 @@
+  <h1>尾货良品- 员工管理</h1>
+<table class="table table-bordered table-striped table-hover">
+  <thead>
+  <tr>
+    <th>id</th>
+    <th>姓名</th>
+    <th>手机</th>
+    <th>所属机构</th>
+    <th>店铺</th>
+    <th>会员号</th>
+    <th>创建时间</th>
+  </tr>
+  </thead>
+  <tbody>
+  <%@employees.each do |employee|%>
+  <tr>
+    <td><%=employee.id%></td>
+    <td><%=employee.name%></td>
+    <td><%=employee.mobile%></td>    
+    <td><%=employee.weihuo_organisation.name if employee.weihuo_organisation_id%></td>
+    <td><%=employee.member_id%></td>
+    <td><%=employee.shop_id%></td>    
+    <td><%=employee.created_at%></td>
+  </tr>
+  <%end if @employees%>
+  </tbody>
+</table>
+<div class="paginations">
+  <%=will_paginate @employees,:container=>false if @employees%>
+</div>
