@@ -390,6 +390,17 @@ Modengke::Application.routes.draw do
 
   namespace :admin do
 
+    resources :weihuos do
+      collection do 
+        get :goods
+        get :organisations
+        get :employees
+        get :shops
+        get :clients
+        get :shares        
+      end
+    end
+
     # subdomain = nil
     # subdomain = "www" if Rails.env == "production"
     # constraints :subdomain => subdomain do
