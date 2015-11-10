@@ -13,19 +13,20 @@
 
     <div class="col-xs-7">
       <div class="shop-name">
-        <h3><%= @shop.name %>的店铺</h3>
+        <h4><%= @shop.name %>的店铺</h4>
       </div>
     </div>
   </div>
-  <% if @goods_ids.present? %>
+
+ <% if @goods_ids.present? %>
   <div class="row all-goods">
     <% @goods_ids.each_with_index do |goods_id, index| %>
     <% goods = Ecstore::Good.where(:goods_id => goods_id).first %>
     <div class="col-xs-5 <%= 'col-xs-offset-1' if index % 2 == 0 %>">
-      <a href="/weihuo/goods_detail/<%=goods.goods_id%>">
+      <a style="display:block;width:50%;overflow:hidden; " href="/weihuo/goods_detail/<%=goods.goods_id%>">
         <div class="goods">
           <div class="goods-pic">
-            <img src="<%= goods.medium_pic %>" />
+            <img src="<%= goods.medium_pic %>" style="height:200px"/>
           </div>
         </div>
 
@@ -37,6 +38,7 @@
           <span class="price">
             <%= goods.price %>
           </span>
+          </br>
         </div>
 
       </div>
