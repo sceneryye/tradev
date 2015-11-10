@@ -390,14 +390,14 @@ Modengke::Application.routes.draw do
 
   namespace :admin do
 
-    resources :weihuo do
+    resources :weihuos do
       collection do 
         get :goods
         get :organisations
         get :employees
         get :shops
         get :clients
-        get :share_logs        
+        get :shares        
       end
     end
 
