@@ -30,11 +30,11 @@ class Store::CartController < ApplicationController
       @supplier = Ecstore::Supplier.find(supplier_id)
       render :layout=>@supplier.layout
     else
-     redirect_to  "/auto_login?id=#{supplier_id}&platform=mobile&return_url=/cart/mobile?id=#{supplier_id}"
+     redirect_to  "/auto_login?id=#{supplier_id}&platform=mobile&return_url=/cart/mobile%3Fid=#{supplier_id}"
        #redirect_to "/mlogin?return_url=/cart/mobile"
-     end
+    end
 
-   end
+  end
 
 
    def add

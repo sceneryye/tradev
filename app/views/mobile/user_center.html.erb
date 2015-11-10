@@ -183,8 +183,8 @@ function getItemLink(str, ptag){
     <!-- E 信息导航 -->
 
     <!-- S 入口菜单 -->
-    <div class="my_menu">
-        <ul>
+    <div class="my_menu" >
+        <ul style="margin:0; padding:0;">
             <li class="tiao" data-url="#">
                 <a href="/mobile/orderlist" class="menu_1">全部订单</a>
             </li>
@@ -202,7 +202,9 @@ function getItemLink(str, ptag){
     <!-- E 入口菜单 -->
 
     <!-- S 入口列表 -->
-    <ul class="my_list"> 
+      <!-- 个人中心模块 -->
+
+    <ul class="my_list" style="margin:0; padding:0;"> 
         <li class="tiao" data-url="#" id="goodCart"><a href="/cart/mobile?supplier_id=78">我的购物车<em id="cartNum"></em><span></span></a></li>
         <li class="tiao" data-url="#" id="goodFav"><a href="/member/favorites?platform=mobile">我的收藏<span id="favText"></span></a></li>
         <li style="display:none"><a href="javascript:;">我关注的品牌</a></li>

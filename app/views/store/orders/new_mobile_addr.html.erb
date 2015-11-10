@@ -59,7 +59,7 @@
     <%else%>
     <div class="am-panel am-panel-warning" style="text-align: center">
       <div class="am-panel-hd"><%=I18n.t "new_addr"%></div>
-      <%=render :partial=>"patch/member_addrs/form_mobile",:locals=>{ :display=>( @addrs.size == 0 ), :@addr=>Ecstore::MemberAddr.new }%>
+      <%=render :partial=>"patch/member_addrs/form",:locals=>{ :display=>( @addrs.size == 0 ), :@addr=>Ecstore::MemberAddr.new }%>
 
     </div>
 
