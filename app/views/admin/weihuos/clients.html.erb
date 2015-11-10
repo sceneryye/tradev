@@ -2,9 +2,11 @@
 <table class="table table-bordered table-striped table-hover">
   <thead>
   <tr>
-    <th>member_id</th>
+    <th>account_id</th>
     <th>open_id</th>
     <th>姓名</th>
+    <th>微信昵称</th>
+    <th>微信头像</th>
     <th>注册时间</th>
     <th>店铺</th>
   </tr>
@@ -14,7 +16,9 @@
   <tr>
     <td><%=client.account_id%></td>
     <td><%=client.login_name.split('_')[0]%></td>
-    <td><%=client.member.name%>
+    <td><%=client.member.name%></td>
+    <td><%=client.member.weixin_nickname%></td>
+    <td><%=image_tag client.member.weixin_headimgurl,:size=>"50x50"%></td>
     <td><%=client.createtime%></td>
     <td><%=client.shop_id%></td>
   </tr>
