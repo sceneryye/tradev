@@ -1,42 +1,104 @@
   <h1>尾货良品- 发红包记录</h1>
-<table class="table table-bordered table-striped table-hover">
-  <thead>
-  <tr>
-    <th>id</th>
-    <th>订单号</th>
-    <th>店长</th>
-    <th>分润</th>
-    <th>祝福语</th>
-    <th>活动名称</th>
-    <th>备注</th>
-    <th>open_id</th>
-    <th>订单时间</th> 
-    <th>发红包</th>
-  </tr>
-  </thead>
-  <tbody>
-  <%@shares.each do |share|%>
-  <tr>
-    <td><%=share.id%></td>
-    <td><%=share.order_id%></td>
-    <td><%=share.member_id%></td>
-    <td><%=share.amount%></td>
-    <td><%=share.wishing%></td>
-    <td><%=share.act_name%></td>
-    <td><%=share.remark%></td>
-    <td><%=share.open_id%></td>
-    <td><%=share.created_at%></td>
-    <td>
-    <%if share.status==0%>
-      <%=link_to "发送红包",admin_get_users_path(:order_id=>share.order_id)%>
-    <%else%>
-      <%=share.updted_at%>
-    <%end%>
-    </td>
-  </tr>
-  <%end if @shares%>
-  </tbody>
-</table>
-<div class="paginations">
-  <%=will_paginate @shares,:container=>false if @shares%>
-</div>
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>订单号</th>
+        <th>店长</th>
+        <th>分润</th>
+        <th>祝福语</th>
+        <th>活动名称</th>
+        <th>备注</th>
+        <th>open_id</th>
+        <th>订单时间</th> 
+        <th>发红包</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%@shares.each do |share|%>
+      <tr>
+        <td class="id"><%=share.id%></td>
+        <td class="order-id"><%=share.order_id%></td>
+        <td class="member-id"><%=share.member_id%></td>
+        <td class="amount"><%=share.amount%></td>
+        <td class="wishing"><%=share.wishing%></td>
+        <td class="act-name"><%=share.act_name%></td>
+        <td class="remark"><%=share.remark%></td>
+        <td class="open-id"><%=share.open_id%></td>
+        <td class="created-at"><%=share.created_at%></td>
+        <td class="status">
+          <%if share.status==0%>
+          <input type='button' class='' value="发送红包" />
+          <%else%>
+          <div class='sent'>
+          </div>
+          <%=share.updted_at%>
+          <%end%>
+        </td>
+      </tr>
+      <%end if @shares%>
+    </tbody>
+  </table>
+  <div class="paginations">
+    <%=will_paginate @shares,:container=>false if @shares%>
+  </div>
+
+  <script type="text/javascript">
+    $("input[type='input']").on('click', function(){
+      var $data = $(this).parent().parent();
+      var total_amount = $data.find('.amount').text();
+      var wishing = $data.find('.wishing').text();
+      var act_name = $data.find('.act-name').text();
+      var remark = $data.find('.remark').text();
+      var re_openid = $data.find('.open-id').text();
+      var order_id = $data.find('.order-id').text();
+      var from = 'weihuo_shares';
+      $.ajax({
+        url: '/admin/send_bouns',
+        type: 'post',
+        data: {
+          total_amount: total_amount,
+          wishing: wishing,
+          act_name: act_name,
+          remark: remark,
+          re_openid: re_openid,
+          from: from,
+        },
+        success: function(data) {
+          if(data['xml']['result_code'] == 'SUCCESS') {
+            $.ajax({
+              url: '/admin/weihuos/shares',
+              type: 'get',
+              data: {
+                code: 'success',
+                order_id: order_id,
+              },
+              success: function(e){
+                if(e == 'success'){
+                  $data.find('.sent').text('红包已发送')
+                },
+              },
+            });
+            var msg = "红包发送成功，共计" + total_amount + '元';
+            alert(msg );
+          }
+          else(){
+            $.ajax({
+              url: '/admin/weihuos/shares',
+              type: 'get',
+              data: {
+                code: 'fail',
+                order_id: order_id,
+                return_message: data['xml']
+              },
+              success: function(e){
+                
+              },
+            });
+            var msg = "红包发送失败，请查看纪录";
+            alert(msg );
+          }
+        },
+      });
+})
+</script>

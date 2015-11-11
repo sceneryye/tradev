@@ -54,7 +54,7 @@
         <span class="line">
           <i class="tab_8_icon"></i>
         </span>
-        <span class="text">搜索</span>
+        <span class="text">店铺管理</span>
       </a>
 
       <%if @user%>
@@ -66,7 +66,7 @@
         <span class="text">分享店铺</span>
       </a>
       
-      <% if current_account.account_id == Ecstore::WeihuoShop.find(params[:id]).member_id %>
+      <% if current_account.login_name.split('_')[0] == Ecstore::WeihuoShop.find(params[:id]).openid %>
       <a href="/weihuo/shops/add" data-link="#" ptag="37128.9.4" class=" on" needlogin="1">
         <span class="line">
         </span>

@@ -70,8 +70,8 @@ class Weihuo::ShopsController < ApplicationController
 
   def add
     @goods = Ecstore::Good.where(:supplier_id => 10)
-    member_id = current_account.account_id
-    @shop = Ecstore::WeihuoShop.where(:member_id => member_id).first
+    openid = current_account.login_name.split('_')[0]
+    @shop = Ecstore::WeihuoShop.where(:openid => openid).first
   end
 
   def goods_added

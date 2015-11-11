@@ -7,6 +7,7 @@ include ERB::Util
 class Admin::BonusesController < Admin::BaseController
   before_filter :authorize_admin!
   def get_users
+
     supplier = Ecstore::Supplier.where(:name => '贸威').first
     weixin_appid = supplier.weixin_appid
     weixin_appsecret = supplier.weixin_appsecret
@@ -87,25 +88,24 @@ class Admin::BonusesController < Admin::BaseController
     res_data = ''
 
     http.start { http.request_post(uri.path, params_xml) { |res| res_data = res.body } }
-
-
-    # @a = res_data = RestClient::Request.execute(method: :post, url: url,
-      # timeout: 10, headers: {:params => params_xml})
-@res_data_hash = Hash.from_xml res_data
-render 'send_bonus'
-end
-
-private
-
-def arr_paginate arr, per_page = 50
-  page_numbers = per_page
-  pages_count = arr.length % page_numbers == 0 ? arr.length / page_numbers : arr.length / page_numbers + 1
-  pages = []
-  pages_count.times do |num|
-    pages << arr.slice((page_numbers * num)...(page_numbers * (num + 1)))
+    @res_data_hash = Hash.from_xml res_data
+    if params[:from] == 'weihuo_shares'
+      return :json => @res_data_hash.to_json
+    end
+    render 'send_bonus'
   end
-  return [pages, pages_count]
-end
+
+  private
+
+  def arr_paginate arr, per_page = 50
+    page_numbers = per_page
+    pages_count = arr.length % page_numbers == 0 ? arr.length / page_numbers : arr.length / page_numbers + 1
+    pages = []
+    pages_count.times do |num|
+      pages << arr.slice((page_numbers * num)...(page_numbers * (num + 1)))
+    end
+    return [pages, pages_count]
+  end
 
 end
 

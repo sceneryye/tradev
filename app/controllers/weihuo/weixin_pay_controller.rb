@@ -103,6 +103,21 @@ class Weihuo::WeixinPayController < ApplicationController
         order_log.log_text = "订单创建成功！"
       end.save
 
+      if @order.shop_id>0 and @order.shop_id!=48
+        share_for_weihuo_shop = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
+          .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f)*@order.weihuo_shop.weihuo_organisation.share
+
+        Ecstore::WeihuoShare.new do |weihuo|
+          weihuo.order_id = @order.order_id
+          weihuo.amount = share_for_weihuo_shop
+          weihuo.member_id = @order.weihuo_shop.user.member_id
+          weihuo.open_id = @order.weihuo_shop.user.account.login_name.split('_')[0]
+          weihuo.wishing ='恭喜发财'
+          weihuo.act_name = '尾货良品'
+          weihuo.remark = "订单#{@order.order_id}"
+        end.save
+      end
+
       return render :text => 'SUCCESS'
     end
   end
