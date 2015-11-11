@@ -26,7 +26,7 @@
       <a style="width:50%" href="/weihuo/goods_detail/<%=goods.goods_id%>">
         <div class="goods">
           <div class="goods-pic">
-            <img src="<%= goods.medium_pic %>" style="height:150px"/>
+            <img src="<%= goods.medium_pic %>" />
           </div>
         </div>
 
@@ -87,4 +87,10 @@
   <script type="text/javascript">
     var url = $('#qrcode').attr('data-url');
     new QRCode(document.getElementById("qrcode"), url);
+    $(document).ready(function(){
+      $('.goods-pic').each(function(index, e){
+        var width = $(this).offsetWidth;
+        $(this).style.height = width + 'px';
+      });
+    });
   </script>

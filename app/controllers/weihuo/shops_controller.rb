@@ -33,7 +33,7 @@ class Weihuo::ShopsController < ApplicationController
   end
 
   def create
-    return render :text => '该店铺已经存在！' if Ecstore::Account.where(:account_id => params[:member_id]).first.shop_id.present?
+    return render :text => '该店铺已经存在！' if Ecstore::WeihuoShop.where(:member_id => params[:member_id]).present?
     shop_params = {}
     shop_params[:member_id] = params[:member_id]
     openid = Ecstore::Account.where(:account_id => params[:member_id]).first.login_name
@@ -45,6 +45,7 @@ class Weihuo::ShopsController < ApplicationController
     get_url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=#{access_token}&openid=#{openid}&lang=zh_CN"
     user_info = RestClient.get get_url
     shop_params[:logo] = ActiveSupport::JSON.decode(user_info)['headimgurl']
+    shop_params[:openid] = ActiveSupport::JSON.decode(user_info)['openid']
     
     @shop = Ecstore::WeihuoShop.new(shop_params)
     if @shop.save!

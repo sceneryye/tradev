@@ -88,7 +88,7 @@ class Auth::WeixinController < ApplicationController
 		  		ac.createtime = now.to_i
 		  		ac.auth_ext = auth_ext
         		ac.supplier_id = supplier_id
-        		
+        		ac.shop_id = shop_id
 	  		end
 
 	  		Ecstore::Account.transaction do
