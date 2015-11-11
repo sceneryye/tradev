@@ -75,14 +75,15 @@
               },
               success: function(e){
                 if(e == 'success'){
-                  $data.find('.sent').text('红包已发送')
-                },
+                  $data.find("input[type='input']").hide();
+                  $data.find('.sent').text('红包已发送');
+                }
               },
             });
             var msg = "红包发送成功，共计" + total_amount + '元';
             alert(msg );
           }
-          else(){
+          else{
             $.ajax({
               url: '/admin/weihuos/shares',
               type: 'get',
@@ -92,7 +93,7 @@
                 return_message: data['xml']
               },
               success: function(e){
-                
+
               },
             });
             var msg = "红包发送失败，请查看纪录";

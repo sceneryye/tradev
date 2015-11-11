@@ -36,6 +36,7 @@ class Weihuo::ShopsController < ApplicationController
     return render :text => '该店铺已经存在！' if Ecstore::WeihuoShop.where(:member_id => params[:member_id]).present?
     shop_params = {}
     shop_params[:member_id] = params[:member_id]
+    shop_params[:intro] = params[:intro]
     openid = Ecstore::Account.where(:account_id => params[:member_id]).first.login_name
     shop_params[:weihuo_organisation_id] = Ecstore::WeihuoOrganisation.where(:name => params[:organisation_name]).first.id
     shop_params[:employee_name] = params[:employee_name]

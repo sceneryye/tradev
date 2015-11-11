@@ -18,7 +18,18 @@
     </div>
   </div>
 
- <% if @goods_ids.present? %>
+  <div class="col-xs-12">
+    <div class="shop-intro">
+      <span class="title">
+        店铺简介：
+      </span>
+      <span class="intro">
+        <%= @shop.intro %>
+      </span>
+    </div>
+  </div>
+
+  <% if @goods_ids.present? %>
   <div class="row all-goods">
     <% @goods_ids.each_with_index do |goods_id, index| %>
     <% goods = Ecstore::Good.where(:goods_id => goods_id).first %>
@@ -38,59 +49,74 @@
           <span class="price">
             <%= goods.price %>
           </span>
-          </hr>
-        </div>
-
+        </hr>
       </div>
-    </a>
 
-    <% end %>
-  </div>
-  <% end %>
+    </div>
+  </a>
 
   <% end %>
+</div>
+<% end %>
+
+<% end %>
 
 
 
-  <style type="text/css">
+<style type="text/css">
 
-    .title {
-      margin: 0 auto;
-      margin-top: 20px;
-      color: #ea7500;
-    }
-    .shop-logo img {
-      width: 100%;
-      margin: 0 auto;
-    }
-    .shop-name {
-      font-size: 1.2em;
-      text-align: center;
-    }
-    .goods-pic img {
-      width: 100%;
-    }
-    .goods {
-      margin: 10px 2px;
-    }
-    .all-goods {
-      margin-bottom: 40px;
-    }
+  .title {
+    margin: 0 auto;
+    margin-top: 20px;
+    color: #ea7500;
+  }
+  .shop-logo img {
+    width: 100%;
+    margin: 0 auto;
+  }
+  .shop-name {
+    font-size: 1.2em;
+    text-align: center;
+  }
+  .shop-intro {
+    margin: 15px 0;
+    padding: 0 10px;
+  }
+  .shop-intro .title {
+    font-weight: 600;
+    text-indent: 2em;
+    font-size: 1.5em;
+    color: #3c3c3c;
+  }
+  .shop-intro .intro {
+    font-size: 1.4em;
+    color: black;
     
-  </style>
+  }
+  .goods-pic img {
+    width: 100%;
+  }
+  .goods {
+    margin: 10px 2px;
+  }
+  .all-goods {
+    margin-bottom: 40px;
+  }
 
-  <link rel="stylesheet" type="text/css" href="/assets/styles.css" />
+</style>
 
-  <script type="text/javascript" src="/assets/qrcodejs/qrcode.min.js"></script>
-  <script type="text/javascript" src="/assets/sponsor/js/jquery.flip.min.js"></script>
-  <script type="text/javascript" src="/assets/sponsor/js/script.js"></script>
-  <script type="text/javascript">
-    var url = $('#qrcode').attr('data-url');
-    new QRCode(document.getElementById("qrcode"), url);
-    $(document).ready(function(){
-      $('.goods-pic').each(function(index, e){
-        var width = $(this).offsetWidth;
-        $(this).style.height = width + 'px';
-      });
+<link rel="stylesheet" type="text/css" href="/assets/styles.css" />
+
+<script type="text/javascript" src="/assets/qrcodejs/qrcode.min.js"></script>
+<script type="text/javascript" src="/assets/sponsor/js/jquery.flip.min.js"></script>
+<script type="text/javascript" src="/assets/sponsor/js/script.js"></script>
+<script type="text/javascript">
+  var url = $('#qrcode').attr('data-url');
+  new QRCode(document.getElementById("qrcode"), url);
+  $(document).ready(function(){
+    $('.goods-pic').each(function(index, e){
+      var width = $(this).offsetWidth;
+      $(this).style.height = width + 'px';
     });
-  </script>
+  });
+</script>
