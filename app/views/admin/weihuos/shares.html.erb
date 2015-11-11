@@ -29,10 +29,11 @@
         <td class="status">
           <%if share.status==0%>
           <input type='button' class='' value="发送红包" />
-          <%else%>
           <div class='sent'>
           </div>
-          <%=share.updted_at%>
+          <%else%>
+          
+          <%=share.updated_at.strftime('%F %H:%m:%S')%>
           <%end%>
         </td>
       </tr>
@@ -54,18 +55,22 @@
       var order_id = $data.find('.order-id').text();
       var from = 'weihuo_shares';
       $.ajax({
-        url: '/admin/send_bouns',
+        url: '/admin/send_bonus',
         type: 'post',
         data: {
           total_amount: total_amount,
           wishing: wishing,
           act_name: act_name,
           remark: remark,
+          dataType: "json", 
           re_openid: re_openid,
           from: from,
         },
         success: function(data) {
-          if(data['xml']['result_code'] == 'SUCCESS') {
+          var values = $.parseJSON(data);
+          
+          if(values.result_code == 'SUCCESS') {
+
             $.ajax({
               url: '/admin/weihuos/shares',
               type: 'get',
@@ -75,25 +80,27 @@
               },
               success: function(e){
                 if(e == 'success'){
-                  $data.find("input[type='input']").hide();
+                  $data.find("input[type='button']").hide();
                   $data.find('.sent').text('红包已发送');
                 }
-              },
+              }
             });
             var msg = "红包发送成功，共计" + total_amount + '元';
-            alert(msg );
+            alert(msg);
           }
+
           else{
+            var k = $.parseJSON(data);
+            alert(k.return_code);
             $.ajax({
               url: '/admin/weihuos/shares',
               type: 'get',
               data: {
                 code: 'fail',
                 order_id: order_id,
-                return_message: data['xml']
+                return_message: data
               },
               success: function(e){
-
               },
             });
             var msg = "红包发送失败，请查看纪录";

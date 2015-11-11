@@ -35,11 +35,11 @@ module Admin
         @shares = Ecstore::WeihuoShare.paginate(:page=>params[:page],:per_page=>20)
         if params[:code] == 'success'
           share = Ecstore::WeihuoShare.where(:order_id => params[:order_id]).first
-          share.update(:status, 1)
+          share.update_attribute(:status, 1)
           return render :text => 'success'
         elsif params[:code] == 'fail'
           share = Ecstore::WeihuoShare.where(:order_id => params[:order_id]).first
-          share.update(:return_message, params[:return_message])
+          share.update_attribute(:return_message, ActiveSupport::JSON.decode(params[:return_message]))
         end
       end
       def clients

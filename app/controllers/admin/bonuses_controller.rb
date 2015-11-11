@@ -90,7 +90,7 @@ class Admin::BonusesController < Admin::BaseController
     http.start { http.request_post(uri.path, params_xml) { |res| res_data = res.body } }
     @res_data_hash = Hash.from_xml res_data
     if params[:from] == 'weihuo_shares'
-      return :json => @res_data_hash.to_json
+      return render :text => @res_data_hash['xml'].to_json
     end
     render 'send_bonus'
   end
