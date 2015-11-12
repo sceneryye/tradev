@@ -91,7 +91,6 @@
 
           else{
             var k = $.parseJSON(data);
-            alert(k.return_code);
             $.ajax({
               url: '/admin/weihuos/shares',
               type: 'get',
@@ -103,7 +102,7 @@
               success: function(e){
               },
             });
-            var msg = "红包发送失败，请查看纪录";
+            var msg = k.err_code_des + "\n红包发送失败，请查看纪录";
             alert(msg );
           }
         },
