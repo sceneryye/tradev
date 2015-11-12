@@ -5,29 +5,13 @@
   <h2>您的店铺申请失败，请与管理员联系</h2>
   <% else %>
   <div class="row title">
-    <div class="col-xs-5">
+    <div class="col-xs-6 col-xs-offset-3">
       <div class="shop-logo">
         <img style="border-radius:50px;"src="<%= @shop.logo %>">
       </div>
     </div>
-
-    <div class="col-xs-7">
-      <div class="shop-name">
-        <h4><%= @shop.name %>的店铺</h4>
-      </div>
-    </div>
   </div>
 
-  <div class="col-xs-12">
-    <div class="shop-intro">
-      <span class="title">
-        店铺简介：
-      </span>
-      <span class="intro">
-        <%= @shop.intro %>
-      </span>
-    </div>
-  </div>
 
   <% if @goods_ids.present? %>
   <div class="row all-goods">

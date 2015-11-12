@@ -562,6 +562,9 @@
 <script type="text/javascript">
   var url = $('#qrcode').attr('data-url');
   new QRCode(document.getElementById("qrcode"), url);
+  $('.add_to_cart').on('click',function(){
+    $('#add_product_to_cart').submit();
+  })
 </script>
 
 </body></html>

@@ -48,6 +48,7 @@ class Weihuo::WeixinPayController < ApplicationController
  end
 
  def notify_page
+  return render :text => 'SUCCESS' if Ecstore::WeihuoShare.where(:remark => params["xml"]["out_trade_no"]).present?
   if params["xml"]["result_code"] == 'SUCCESS'
 
     order_params = {}
@@ -59,8 +60,7 @@ class Weihuo::WeixinPayController < ApplicationController
     order_params[:status] = 'active'
     order_params[:member_id] = Ecstore::Account.where(:login_name => params["xml"]["openid"]).first.user.member_id
     order_params[:shop_id] = Ecstore::Account.where(:login_name => params["xml"]["openid"]).first.shop_id
-    # url = "http://www.trade-v.com/orders"
-    # RestClient.post url, order_params
+    
 
     shop_id = order_params[:shop_id]
 
@@ -106,21 +106,82 @@ class Weihuo::WeixinPayController < ApplicationController
       if @order.shop_id>0 and @order.shop_id!=48
         share_for_weihuo_shop = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
           .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f)*@order.weihuo_shop.weihuo_organisation.share
-
+        auto_send = {}
         Ecstore::WeihuoShare.new do |weihuo|
-          weihuo.order_id = @order.order_id
-          weihuo.amount = share_for_weihuo_shop
-          weihuo.member_id = @order.weihuo_shop.user.member_id
-          weihuo.open_id = @order.weihuo_shop.user.account.login_name.split('_')[0]
-          weihuo.wishing ='恭喜发财'
-          weihuo.act_name = '尾货良品'
-          weihuo.remark = "订单#{@order.order_id}"
+          auto_send[:order_id] = weihuo.order_id = @order.order_id
+          auto_send[:amount] = weihuo.amount = share_for_weihuo_shop
+          auto_send[:member_id] = weihuo.member_id = @order.weihuo_shop.user.member_id
+          auto_send[:re_openid] = weihuo.open_id = @order.weihuo_shop.user.account.login_name.split('_')[0]
+          auto_send[:wishing] = weihuo.wishing ='恭喜发财'
+          auto_send[:act_name] = weihuo.act_name = '尾货良品'
+          auto_send[:remark] = weihuo.remark = params["xml"]["out_trade_no"]
         end.save
       end
 
-      return render :text => 'SUCCESS'
+
+      supplier = Ecstore::Supplier.where(:id => supplier_id).first
+      arr = ('0'..'9').to_a + ('a'..'z').to_a
+      nonce_str = ''
+      32.times do
+        nonce_str += arr[rand(36)].upcase
+      end
+
+      re_openid = auto_send[:re_openid]
+      total_amount = auto_send[:amount].present? ? auto_send[:amount].to_i * 100 : ''
+      weixin_appid = supplier.weixin_appid
+      weixin_appsecret = supplier.weixin_appsecret
+      key = supplier.partner_key
+      mch_id = supplier.mch_id
+      mch_billno = mch_id + Time.now.strftime('%F').split('-').join + rand(10000000000).to_s.rjust(10, '0')
+      parameter = {
+        :nonce_str => nonce_str, :mch_billno => mch_billno, :mch_id => mch_id, :wxappid => weixin_appid, :send_name =>'贸威',
+        :re_openid => re_openid, :total_amount => total_amount, :total_num => 1, :wishing => auto_send[:wishing],
+        :client_ip => '182.254.138.119', :act_name => auto_send[:act_name], :remark => auto_send[:remark]
+      }
+      stringA = parameter.select{|key, value|value.present?}.sort.map do |arr|
+        arr.map(&:to_s).join('=')
+      end
+      stringA = stringA.join("&")
+      @b = string_sing_temp = stringA + "&key=#{key}"
+      sign = (Digest::MD5.hexdigest string_sing_temp).upcase
+      parameter[:sign] = sign
+      parameter
+      params_str = ''
+      parameter.each do |key, value|
+       params_str += "<#{key}>" + "<![CDATA[#{value}]]>" + "</#{key}>"
+     end
+     @a = params_xml = '<xml>' + params_str + '</xml>'
+     uri = URI.parse('https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack')
+
+     cert = File.read("#{ Rails.root }/lib/maowei_cert/apiclient_cert.pem")
+
+     key = File.read("#{ Rails.root }/lib/maowei_cert/apiclient_key.pem")
+
+     http = Net::HTTP.new(uri.host, uri.port)
+
+     http.use_ssl = true if uri.scheme == 'https'
+
+     http.cert = OpenSSL::X509::Certificate.new(cert)
+
+     http.key = OpenSSL::PKey::RSA.new(key, '商户编号')
+
+     http.ca_file = File.join("#{ Rails.root }/lib/maowei_cert/rootca.pem")
+
+     http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+     res_data = ''
+
+     http.start { http.request_post(uri.path, params_xml) { |res| res_data = res.body } }
+     res_data_hash = Hash.from_xml res_data
+     share = Ecstore::WeihuoShare.where(:order_id => auto_send[:order_id]).first
+     if res_data_hash[:return_code] == 'SUCCESS'
+      share.update_attribute(:status, 1)
+    else
+      share.update_attribute(:return_message, res_data_hash)
     end
+
+    return render :text => 'SUCCESS'
   end
+end
 end
 
 def template_information

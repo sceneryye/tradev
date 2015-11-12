@@ -25,6 +25,12 @@ class Admin::BonusesController < Admin::BaseController
   end
 
   def send_bonus
+    if params[:order_id].present?
+      share = Ecstore::WeihuoShare.where(:order_id => params[:order_id]).first
+      if share.status != 0
+        return render :text => {:status => share.status}.to_json
+      end
+    end
     supplier = Ecstore::Supplier.where(:name => '贸威').first
 
     arr = ('0'..'9').to_a + ('a'..'z').to_a
@@ -91,6 +97,8 @@ class Admin::BonusesController < Admin::BaseController
     @res_data_hash = Hash.from_xml res_data
     if params[:from] == 'weihuo_shares'
       return render :text => @res_data_hash['xml'].to_json
+    elsif params[:from] == 'auto_send_bouns'
+      return render :text => @res_data_hash['xml']
     end
     render 'send_bonus'
   end

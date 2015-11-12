@@ -90,6 +90,10 @@
           }
 
           else{
+            if(values.status){
+              msg = '该订单已经发送过红包，请勿重复发送';
+              return alert(msg);
+            }
             var k = $.parseJSON(data);
             $.ajax({
               url: '/admin/weihuos/shares',
