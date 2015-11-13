@@ -12,6 +12,14 @@ class Weihuo::ShopsController < ApplicationController
   def index
   end
 
+  def manage
+    # @shop = Ecstore::WeihuoShop.find(params[:id])
+    open_id = current_account.login_name.split('_')[0]
+    shop_id = Ecstore::WeihuoShop.where(:openid => open_id).first.shop_id
+    @member = Ecstore::Account.all.select{|member|member.login_name.split('_')[2] == shop_id.to_s}
+    @bonus = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0])
+  end
+
   def show
 
     @shop = Ecstore::WeihuoShop.find(params[:id])

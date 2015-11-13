@@ -50,7 +50,7 @@
           <i class="tab_7_icon"></i>
         </span> <span class="text">首页</span>
       </a>
-      <a href="/mobile/categories" data-link="/mobile/categories" ptag="37128.9.2" style="display:" class="">
+      <a href="/weihuo/shops/manage?shop_id=params[:id]" data-link="/weihuo/shops/manage" ptag="37128.9.2" style="display:" class="">
         <span class="line">
           <i class="tab_8_icon"></i>
         </span>
@@ -58,8 +58,8 @@
       </a>
 
       <%if @user%>
-      <% if params[:id].present? %>
-      <a href="/weihuo/shops/share?shop_id=<%= params[:id] %>" data-link="/cart/mobile?supplier_id=" ptag="37128.9.3" class="" needlogin="1">
+      <% if params[:id].present? || params[:shop_id].present? %>
+      <a href="/weihuo/shops/share?shop_id=<%= params[:id] || params[:shop_id] %>" data-link="/cart/mobile?supplier_id=" ptag="37128.9.3" class="" needlogin="1">
         <span class="line">
           <i class="tab_9_icon"></i>
         </span>
