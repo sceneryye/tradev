@@ -72,7 +72,7 @@ class Patch::MemberAddrsController < ApplicationController
     @return_url= params[:return_url]
 
     if @addr.save
-      if return_url
+      if @return_url
         @ids=@addr.addr_id
         session[:depar]=@ids
         return redirect_to @return_url

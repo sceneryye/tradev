@@ -10,7 +10,6 @@
     <th>
       <%= check_box_tag nil, nil ,false,:id=>"select_page"%>
     </th>
-    <th>操作</th>
     <th>订单号</th>
     <th>会员</th>
     <th>收货人</th>
@@ -19,7 +18,7 @@
     <th>付款状态</th>
     <th>发货状态</th>
     <th>订单金额</th>    
-    <th>店铺佣金</th>
+    <!-- <th>店铺佣金</th> -->
     <th>店铺</th>
   </tr>
   </thead>
@@ -30,9 +29,9 @@
     <td>
       <%=check_box_tag nil, order.order_id, false,:id=>"check_#{order.order_id}",:class=>"order"%>
     </td>
-    <td>
+    <!-- <td>
       <%=link_to "发送红包",admin_get_users_path(:order_id=>order.order_id)%>
-    </td>
+    </td> -->
     <td><%=link_to order.order_id,detail_admin_order_path(order),:target=>"_blank"%></td>        
     <td><%=order.member_id%></td>
     <td><%=order.ship_name%></td>
@@ -41,7 +40,7 @@
     <td><%=order.pay_status_text%></td>
     <td><%=order.ship_status_text%></td>
     <td><%=number_to_currency order.final_amount,:unit=>"&yen;",:precision=>2%></td>
-    <td><%=number_to_currency order.share_for_shop,:unit=>"&yen;",:precision=>2%></td>
+    <!-- <td><%#=number_to_currency order.weihuo_share.amount,:unit=>"&yen;",:precision=>2%></td> -->
     <td><%=order.shop_id%><%#=order.weihuo_shop.name if order.shop_id%></td>
     <td><%#=order.weihuo_shop.member_id if order.shop_id%></td>
   </tr>
