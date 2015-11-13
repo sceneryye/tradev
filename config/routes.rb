@@ -12,6 +12,7 @@ Modengke::Application.routes.draw do
     get 'goods_detail/:id' => 'shops#goods_detail'
     get 'shops/share' => 'shops#share'
     get 'shops/manage' => 'shops#manage'
+    get 'shops/show_members' => 'shops#show_members'
     resources :orgnizations
     resources :orders
 

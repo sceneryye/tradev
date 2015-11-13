@@ -45,17 +45,28 @@
 
   <div class="QQ_fixed_foot">
     <div class="foot_inner">
-      <a href="/mobile" class="" data-link="/mobile" ptag="">
+
+      <% shop_id = current_account.login_name.split('_')[2].present? ? current_account.login_name.split('_')[2] : Ecstore::WeihuoShop.where(:openid => current_account.login_name).first.shop_id %>
+      <a href="/weihuo/shops/<%= shop_id %>" class="" data-link="/mobile" ptag="">
         <span class="line">
           <i class="tab_7_icon"></i>
         </span> <span class="text">首页</span>
       </a>
-      <a href="/weihuo/shops/manage?shop_id=params[:id]" data-link="/weihuo/shops/manage" ptag="37128.9.2" style="display:" class="">
+      <% if current_account.login_name.split('_')[0] == Ecstore::WeihuoShop.where(:shop_id => (params[:id] || params[:shop_id])).first.openid %>
+      <a href="/weihuo/shops/manage?shop_id=<%=params[:id]%>" data-link="/weihuo/shops/manage" ptag="37128.9.2" style="display:" class="">
         <span class="line">
           <i class="tab_8_icon"></i>
         </span>
         <span class="text">店铺管理</span>
       </a>
+      <% else %>
+      <a href="#" data-link="/weihuo/shops/manage" ptag="37128.9.2" style="display:" class="">
+        <span class="line">
+          <i class="tab_8_icon"></i>
+        </span>
+        <span class="text">个人中心</span>
+      </a>
+      <% end %>
 
       <%if @user%>
       <% if params[:id].present? || params[:shop_id].present? %>
@@ -68,9 +79,9 @@
       
       <%# if current_account.login_name.split('_')[0] == Ecstore::WeihuoShop.find(params[:id]).openid %>
       <!-- <a href="/weihuo/shops/add" data-link="#" ptag="37128.9.4" class=" on" needlogin="1"> -->
-        <!-- <span class="line"> -->
-        <!-- </span> -->
-        <!-- <span class="text">添加商品</span> -->
+      <!-- <span class="line"> -->
+      <!-- </span> -->
+      <!-- <span class="text">添加商品</span> -->
       <!-- </a> -->
       <!-- <%# end %> -->
       <% end %>

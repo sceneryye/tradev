@@ -13,11 +13,12 @@ class Weihuo::ShopsController < ApplicationController
   end
 
   def manage
-    # @shop = Ecstore::WeihuoShop.find(params[:id])
-    open_id = current_account.login_name.split('_')[0]
-    shop_id = Ecstore::WeihuoShop.where(:openid => open_id).first.shop_id
-    @member = Ecstore::Account.all.select{|member|member.login_name.split('_')[2] == shop_id.to_s}
+    @members = Ecstore::Account.all.select{|member|member.login_name.split('_')[2] == params[:shop_id]}
     @bonus = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0])
+  end
+
+  def show_members
+    @members = Ecstore::Account.order(:account_id).select{|member|member.login_name.split('_')[2] == params[:shop_id]}
   end
 
   def show
@@ -103,7 +104,7 @@ class Weihuo::ShopsController < ApplicationController
     render :layout => 'mobile'
   end
 
-  helper_method :pay_with_goods
+  helper_method :pay_with_goods, :total_profit
   private
 
   def pay_with_goods bn
@@ -179,6 +180,10 @@ def access_token
   weixin_appsecret = supplier.weixin_appsecret
   get_access_token = RestClient.get "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=#{weixin_appid}&secret=#{weixin_appsecret}"
   access_token = ActiveSupport::JSON.decode(get_access_token)['access_token']
+end
+
+def total_profit weihuoshare
+  weihuoshare.inject(0){|sum, item| sum + item.amount}
 end
 
 

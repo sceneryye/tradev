@@ -66,8 +66,8 @@
 <script>
     if(((JD.cookie.get('wq_graytag') & 8)==0 && !JD.cookie.get('wq_oldversion')) ||JD.url.getUrlParam("title")  ){
 
-     document.getElementById("topsearchbar").dataset.switchstyle="0";
- }
+       document.getElementById("topsearchbar").dataset.switchstyle="0";
+   }
 </script>
 <script type="text/javascript">
 window.speedTimePoint&&(speedTimePoint[9]=new Date());//342
@@ -207,19 +207,19 @@ menu_list.find(".item").on(clickEvent, function(e) {
         var mask = wx_side_menu.find(".mod_alert_mask"),
         fold = wx_side_menu.find(".fold"),
         on_click = function(e) {
-           if(e&&$(e.target).attr("class")=="icon_cate"){
-              JD.report.rd($(e.target).attr("ptag"));
-          }
-          e && (e.preventDefault(), e.stopPropagation());
-          showMenu(false);
+         if(e&&$(e.target).attr("class")=="icon_cate"){
+          JD.report.rd($(e.target).attr("ptag"));
+      }
+      e && (e.preventDefault(), e.stopPropagation());
+      showMenu(false);
 
-      },
-      on_menu = function(e) {
-        var elm = $(e.target).closest(".menu_list");
-        elm.length > 0 || on_click();
-    };
-    wx_search_chanel_mode.find(".wx_bar_cate").on(clickEvent, on_click), mask.on(clickEvent, on_click), fold.on(clickEvent, on_click),
-    wx_side_menu.on(clickEvent, on_menu);
+  },
+  on_menu = function(e) {
+    var elm = $(e.target).closest(".menu_list");
+    elm.length > 0 || on_click();
+};
+wx_search_chanel_mode.find(".wx_bar_cate").on(clickEvent, on_click), mask.on(clickEvent, on_click), fold.on(clickEvent, on_click),
+wx_side_menu.on(clickEvent, on_menu);
 },
 init_guide: function() {
     var on_clear = function() {
@@ -244,7 +244,7 @@ window.speedTimePoint&&(speedTimePoint[11]=new Date());//342
 
 </div>
 
-<div class="WX_tab Top_tab WX_tab_fixed" id="toolbarHead">
+<!--<div class="WX_tab Top_tab WX_tab_fixed" id="toolbarHead">
     <div class="WX_tab_wrap">
         <span class="WX_tab_inner">
             <a id="__xinTab" ptag="37035.8.3" href="/mobile">首发</a>
@@ -253,7 +253,7 @@ window.speedTimePoint&&(speedTimePoint[11]=new Date());//342
             <a id="__weiTab" href="/mobile">商品馆</a>
         </span>
     </div>
-</div>
+</div>-->
 <script type="text/javascript">
     window.getMicroStoreRedPoint=function(cb){
         if(typeof(cb)!='function'){return}
@@ -339,8 +339,8 @@ window.speedTimePoint&&(speedTimePoint[11]=new Date());//342
                             if( curAd.check && !curtainAdShow  ){
                                 showBigPic();
                                 window.setTimeout(function() {
-                                 ( bigShow.className !== "wx_bar_window")&& on_click();
-                             }, 10000);
+                                   ( bigShow.className !== "wx_bar_window")&& on_click();
+                               }, 10000);
                                 on_click();
                                 JD.cookie.set("curtainAdShow", 1, Math.round((new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1) - now) / 6e4), "/", "jd.com");
                             }
@@ -769,74 +769,74 @@ window.speedTimePoint&&(speedTimePoint[11]=new Date());//342
                 <span>热门主题 精选微店</span>
             </div>
             <div class="wei_tag_box" id="divThemeTabList">
-             <%@categories.each  do |category|%>
-             <a href="/mobile/<%=category.cat_id%>/category_goods" dindex="99<%=category.cat_id%>" ptag="37773.1.<%=category.cat_id%>" class="cur">
-              <span><%=category.cat_name%></span>
-          </a>
-          <%end%>
-      </div>
-      <div id="divThemeShopGroup">
-        <!--99是一个特殊的混合排列-->
+               <%@categories.each  do |category|%>
+               <a href="/mobile/<%=category.cat_id%>/category_goods" dindex="99<%=category.cat_id%>" ptag="37773.1.<%=category.cat_id%>" class="cur">
+                  <span><%=category.cat_name%></span>
+              </a>
+              <%end%>
+          </div>
+          <div id="divThemeShopGroup">
+            <!--99是一个特殊的混合排列-->
 
-        <%@categories.each  do |category|%>
-        <div class="wei_shop_list jsfilter99<%=category.cat_id%>" style="background-color:white;margin-bottom:20px;margin-right:2px;">
-        <div class="category-name" style="padding:2px 5px;background-color:red;color:white"><%= category.cat_name %>:</div>
-          <%@goods=Ecstore::Good.where(:cat_id=>category.cat_id,:marketable=>"true").order("p_order ASC , goods_id DESC")%>
-          <% @goods.each_with_index do |good, index|%>
-          <div class="item" dpos="1|0" ptag="37790.1.165">
-             <a href="/mobile/<%=good.goods_id%>" class="url">
-                 <% if index < 3 %>
-                 <div class="sign">NEW</div>
-                 <% end %>
-                 <div class="img">                 <img src="<%=good.medium_pic%>">             </div>
-                 <div class="info">
-                   <div class="name"><%=good.name%></div>
-                   <div class="gift"><%=good.price%> &nbsp;
-                    <span class="" style="text-decoration:line-through">¥<%=good.mktprice%></span> </div>
+            <%@categories.each  do |category|%>
+            <div class="wei_shop_list jsfilter99<%=category.cat_id%>" style="background-color:white;margin-bottom:20px;margin-right:2px;">
+                <div class="category-name" style="padding:2px 5px;background-color:red;color:white"><%= category.cat_name %>:</div>
+                <%@goods=Ecstore::Good.where(:cat_id=>category.cat_id,:marketable=>"true").order("p_order ASC , goods_id DESC")%>
+                <% @goods.each_with_index do |good, index|%>
+                <div class="item" dpos="1|0" ptag="37790.1.165">
+                   <a href="/mobile/<%=good.goods_id%>" class="url">
+                       <% if index < 3 %>
+                       <div class="sign">NEW</div>
+                       <% end %>
+                       <div class="img">                 <img src="<%=good.medium_pic%>">             </div>
+                       <div class="info">
+                         <div class="name"><%=good.name%></div>
+                         <div class="gift"><%=good.price%> &nbsp;
+                            <span class="" style="text-decoration:line-through">¥<%=good.mktprice%></span> </div>
+                        </div>
+                    </a>
                 </div>
-            </a>
+                <%end%>
+            </div>
+            <%end%>
         </div>
-        <%end%>
+    </section>
+    <!-- E 主题微店 -->
+
+    <!-- S 本日上新 -->
+    <!--上一版的内容 已废弃-->
+    <section id="" class="wei_section hide">
+        <h2 id="" class="wei_title"><span></span><small></small></h2>
+        <div id=""></div>
+    </section>
+    <!-- E 本日上新 -->
+
+    <!-- S 粉丝福利-->
+    <section id="section3" class="wei_section" style="display:none">
+        <div class="wei_section_title">
+            <h2>粉丝福利</h2>
+            <span>关注公众号，福利领不停</span>
+        </div>
+        <div class="wei_shop_pro_list" id="divInSection3">          <div class="item">         <a href="/mshop/gethomepage?venderid=38339&mid=726143&DAP=5509753876895542484:1689135655987771709:4:726143&pps=focus.00000004030002%3A000b147f0000097b%3A%3A630016" class="url" ptag="37773.7.1">             <div class="sign sign_3">抽奖</div>             <div class="img">                 <img src="./微店_files/5588c37fNa5be6f14.jpg.webp" alt="">             </div>             <div class="info">                 <div class="name">ZK官方旗舰店</div>                 <div class="desc">欧美大牌简约；用心细节，专注品质！</div>                 <div class="fav">                     <span class="btn" durl="http://mp.weixin.qq.com/s?__biz=MzA4NTU3NTc2NA==&amp;mid=205695961&amp;idx=1&amp;sn=86674d4410d987b5a1d0f12f7ff9ce64&amp;ptlang=2052&amp;ADUIN=518800538&amp;ADSESSION=1435124570&amp;ADTAG=CLIENT.QQ.5389_.0&amp;ADPUBNO=26466#rd" dvender="38339" ptag="37773.7.2">去逛逛</span>                     <span class="tip">进店关注服务号</span>                     <span class="gift">有机会抽连衣裙</span>                 </div>             </div>         </a>     </div>          <div class="item">         <a href="/mshop/gethomepage?venderid=14306&mid=726423&DAP=5509753876895542484:1689135655987771709:4:726423&pps=focus.00000004030002%3A000b15970000097b%3A%3A630016" class="url" ptag="37773.7.3">             <div class="sign sign_3">抽奖</div>             <div class="img">                 <img src="./微店_files/558a14d7Nf9ab9d9a.jpg.webp" alt="">             </div>             <div class="info">                 <div class="name">camel骆驼户外旗舰店</div>                 <div class="desc">camel骆驼户外，以打造专业户外品牌为目标，是以户外功能性体验为中心的户外越野领导品牌。</div>                 <div class="fav">                     <span class="btn" durl="http://mp.weixin.qq.com/s?__biz=MzA4OTEyMzE5Nw==&amp;mid=204926230&amp;idx=1&amp;sn=5ffad266c7063fd6cbdffb5a86245569#rd" dvender="14306" ptag="37773.7.4">去逛逛</span>                     <span class="tip">进店关注服务号</span>                     <span class="gift">有机会抽50元红包</span>                 </div>             </div>         </a>     </div>          <div class="item">         <a href="/mshop/gethomepage?venderid=14036&mid=726345&DAP=5509753876895542484:1689135655987771709:4:726345&pps=focus.00000004030002%3A000b15490000097b%3A%3A630016" class="url" ptag="37773.7.5">             <div class="sign sign_2">送礼</div>             <div class="img">                 <img src="./微店_files/55890f33N07e3126f.jpg.webp" alt="">             </div>             <div class="info">                 <div class="name">CAMSSOO美骆世家官方旗舰店</div>                 <div class="desc">美骆世家年轻人的户外，以倡导“品质、个性、乐活”三位一体的运动理念</div>                 <div class="fav">                     <span class="btn" durl="http://mp.weixin.qq.com/s?__biz=MzA4OTc4NzEwNw==&amp;mid=204335808&amp;idx=1&amp;sn=6d1f080b605aaaa3dbb5fe0597158d09#rd" dvender="14036" ptag="37773.7.6">去逛逛</span>                     <span class="tip">进店关注服务号</span>                     <span class="gift">下单送户外头巾</span>                 </div>             </div>         </a>     </div>          <div class="item">         <a href="/mshop/gethomepage?venderid=18845&mid=726191&DAP=5509753876895542484:1689135655987771709:4:726191&pps=focus.00000004030002%3A000b14af0000097b%3A%3A630016" class="url" ptag="37773.7.7">             <div class="sign sign_3">抽奖</div>             <div class="img">                 <img src="./微店_files/5588ff67N31399305.jpg.webp" alt="">             </div>             <div class="info">                 <div class="name">小猪班纳官方旗舰店</div>                 <div class="desc">小猪班纳专注童装20年，品质好就是不一样</div>                 <div class="fav">                     <span class="btn" durl="http://mp.weixin.qq.com/s?__biz=MjM5OTMyMjIwOA==&amp;mid=207139291&amp;idx=1&amp;sn=e93f68d1c0c4b9eff861116bf08acb22&amp;ptlang=2052&amp;ADUIN=518800538&amp;ADSESSION=1435038984&amp;ADTAG=CLIENT.QQ.5389_.0&amp;ADPUBNO=26466#rd" dvender="18845" ptag="37773.7.8">去逛逛</span>                     <span class="tip">进店关注服务号</span>                     <span class="gift">有机会抽书包</span>                 </div>             </div>         </a>     </div>          <div class="item">         <a href="/mshop/gethomepage?venderid=17649&mid=725545&DAP=5509753876895542484:1689135655987771709:4:725545&pps=focus.00000004030002%3A000b12290000097b%3A%3A630016" class="url" ptag="37773.7.9">             <div class="sign sign_3">抽奖</div>             <div class="img">                 <img src="./微店_files/5583d334N1fed028c.jpg.webp" alt="">             </div>             <div class="info">                 <div class="name">帕森官方旗舰店</div>                 <div class="desc">帕森与优雅、自信、自由于一体，致力打造时尚生活</div>                 <div class="fav">                     <span class="btn" durl="http://mp.weixin.qq.com/s?__biz=MzA4MDY3MTYwMQ==&amp;mid=221775599&amp;idx=1&amp;sn=ba28e2b03c89128aeb022e43e9c5938e#rd" dvender="17649" ptag="37773.7.10">去逛逛</span>                     <span class="tip">进店关注服务号</span>                     <span class="gift">有机会抽取iPad</span>                 </div>             </div>         </a>     </div>      </div>
+    </section>
+    <!-- E 粉丝福利-->
+
+    <!-- S 热门微店 -->
+    <section id="divInSection4" class="wei_section" style="display:none">
+     <div class="wei_section_title">
+        <h2>热门微店</h2>
+        <span>最受粉丝热捧TOP好店</span>
     </div>
-    <%end%>
-</div>
-</section>
-<!-- E 主题微店 -->
 
-<!-- S 本日上新 -->
-<!--上一版的内容 已废弃-->
-<section id="" class="wei_section hide">
-    <h2 id="" class="wei_title"><span></span><small></small></h2>
-    <div id=""></div>
-</section>
-<!-- E 本日上新 -->
-
-<!-- S 粉丝福利-->
-<section id="section3" class="wei_section" style="display:none">
-    <div class="wei_section_title">
-        <h2>粉丝福利</h2>
-        <span>关注公众号，福利领不停</span>
-    </div>
-    <div class="wei_shop_pro_list" id="divInSection3">          <div class="item">         <a href="/mshop/gethomepage?venderid=38339&mid=726143&DAP=5509753876895542484:1689135655987771709:4:726143&pps=focus.00000004030002%3A000b147f0000097b%3A%3A630016" class="url" ptag="37773.7.1">             <div class="sign sign_3">抽奖</div>             <div class="img">                 <img src="./微店_files/5588c37fNa5be6f14.jpg.webp" alt="">             </div>             <div class="info">                 <div class="name">ZK官方旗舰店</div>                 <div class="desc">欧美大牌简约；用心细节，专注品质！</div>                 <div class="fav">                     <span class="btn" durl="http://mp.weixin.qq.com/s?__biz=MzA4NTU3NTc2NA==&amp;mid=205695961&amp;idx=1&amp;sn=86674d4410d987b5a1d0f12f7ff9ce64&amp;ptlang=2052&amp;ADUIN=518800538&amp;ADSESSION=1435124570&amp;ADTAG=CLIENT.QQ.5389_.0&amp;ADPUBNO=26466#rd" dvender="38339" ptag="37773.7.2">去逛逛</span>                     <span class="tip">进店关注服务号</span>                     <span class="gift">有机会抽连衣裙</span>                 </div>             </div>         </a>     </div>          <div class="item">         <a href="/mshop/gethomepage?venderid=14306&mid=726423&DAP=5509753876895542484:1689135655987771709:4:726423&pps=focus.00000004030002%3A000b15970000097b%3A%3A630016" class="url" ptag="37773.7.3">             <div class="sign sign_3">抽奖</div>             <div class="img">                 <img src="./微店_files/558a14d7Nf9ab9d9a.jpg.webp" alt="">             </div>             <div class="info">                 <div class="name">camel骆驼户外旗舰店</div>                 <div class="desc">camel骆驼户外，以打造专业户外品牌为目标，是以户外功能性体验为中心的户外越野领导品牌。</div>                 <div class="fav">                     <span class="btn" durl="http://mp.weixin.qq.com/s?__biz=MzA4OTEyMzE5Nw==&amp;mid=204926230&amp;idx=1&amp;sn=5ffad266c7063fd6cbdffb5a86245569#rd" dvender="14306" ptag="37773.7.4">去逛逛</span>                     <span class="tip">进店关注服务号</span>                     <span class="gift">有机会抽50元红包</span>                 </div>             </div>         </a>     </div>          <div class="item">         <a href="/mshop/gethomepage?venderid=14036&mid=726345&DAP=5509753876895542484:1689135655987771709:4:726345&pps=focus.00000004030002%3A000b15490000097b%3A%3A630016" class="url" ptag="37773.7.5">             <div class="sign sign_2">送礼</div>             <div class="img">                 <img src="./微店_files/55890f33N07e3126f.jpg.webp" alt="">             </div>             <div class="info">                 <div class="name">CAMSSOO美骆世家官方旗舰店</div>                 <div class="desc">美骆世家年轻人的户外，以倡导“品质、个性、乐活”三位一体的运动理念</div>                 <div class="fav">                     <span class="btn" durl="http://mp.weixin.qq.com/s?__biz=MzA4OTc4NzEwNw==&amp;mid=204335808&amp;idx=1&amp;sn=6d1f080b605aaaa3dbb5fe0597158d09#rd" dvender="14036" ptag="37773.7.6">去逛逛</span>                     <span class="tip">进店关注服务号</span>                     <span class="gift">下单送户外头巾</span>                 </div>             </div>         </a>     </div>          <div class="item">         <a href="/mshop/gethomepage?venderid=18845&mid=726191&DAP=5509753876895542484:1689135655987771709:4:726191&pps=focus.00000004030002%3A000b14af0000097b%3A%3A630016" class="url" ptag="37773.7.7">             <div class="sign sign_3">抽奖</div>             <div class="img">                 <img src="./微店_files/5588ff67N31399305.jpg.webp" alt="">             </div>             <div class="info">                 <div class="name">小猪班纳官方旗舰店</div>                 <div class="desc">小猪班纳专注童装20年，品质好就是不一样</div>                 <div class="fav">                     <span class="btn" durl="http://mp.weixin.qq.com/s?__biz=MjM5OTMyMjIwOA==&amp;mid=207139291&amp;idx=1&amp;sn=e93f68d1c0c4b9eff861116bf08acb22&amp;ptlang=2052&amp;ADUIN=518800538&amp;ADSESSION=1435038984&amp;ADTAG=CLIENT.QQ.5389_.0&amp;ADPUBNO=26466#rd" dvender="18845" ptag="37773.7.8">去逛逛</span>                     <span class="tip">进店关注服务号</span>                     <span class="gift">有机会抽书包</span>                 </div>             </div>         </a>     </div>          <div class="item">         <a href="/mshop/gethomepage?venderid=17649&mid=725545&DAP=5509753876895542484:1689135655987771709:4:725545&pps=focus.00000004030002%3A000b12290000097b%3A%3A630016" class="url" ptag="37773.7.9">             <div class="sign sign_3">抽奖</div>             <div class="img">                 <img src="./微店_files/5583d334N1fed028c.jpg.webp" alt="">             </div>             <div class="info">                 <div class="name">帕森官方旗舰店</div>                 <div class="desc">帕森与优雅、自信、自由于一体，致力打造时尚生活</div>                 <div class="fav">                     <span class="btn" durl="http://mp.weixin.qq.com/s?__biz=MzA4MDY3MTYwMQ==&amp;mid=221775599&amp;idx=1&amp;sn=ba28e2b03c89128aeb022e43e9c5938e#rd" dvender="17649" ptag="37773.7.10">去逛逛</span>                     <span class="tip">进店关注服务号</span>                     <span class="gift">有机会抽取iPad</span>                 </div>             </div>         </a>     </div>      </div>
-</section>
-<!-- E 粉丝福利-->
-
-<!-- S 热门微店 -->
-<section id="divInSection4" class="wei_section" style="display:none">
-   <div class="wei_section_title">
-    <h2>热门微店</h2>
-    <span>最受粉丝热捧TOP好店</span>
-</div>
-
-<div class="wei_item">             <div class="wei_item_sign">TOP 1</div>                  <a href="/mshop/gethomepage?venderid=40713&ptag=37773.8.1" class="wei_logo">                     <img src="./微店_files/549cf9a1Ne212a4de.jpg" width="90" height="30">                     <p>北极绒品牌官方旗舰店</p>                 </a>                 <a href="/mshop/gethomepage?venderid=40713&ptag=37773.8.1" class="btn_enter">去逛逛</a>                  <div class="wei_cm_list">                                      <div class="item">                         <a class="url" href="/item/view?sku=1610478645&ptag=37773.8.6">                             <div class="img"><img src="./微店_files/552640f2Ndc9c55ea.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 北极绒夏季性感女生超薄透明超弹15D包芯丝连裤袜加档打底袜子【10双装】 5双肤色+5双黑色</div>                                 <div class="cost" id="sku_1610478645">                                     <span class="price">¥69.00</span>                                     <span class="price_old">¥298.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1604977775&ptag=37773.8.6">                             <div class="img"><img src="./微店_files/5582673eN43515ae0.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 北极绒欧美风女士性感蕾丝透气镂空诱惑低腰三角裤102 3条随机色 M/1.8-2.1尺</div>                                 <div class="cost" id="sku_1604977775">                                     <span class="price">¥39.90</span>                                     <span class="price_old">¥169.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1603989652&ptag=37773.8.6">                             <div class="img"><img src="./微店_files/54f55034N07d09209.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 北极绒女士内裤【3条装】 3条装随机色 均码</div>                                 <div class="cost" id="sku_1603989652">                                     <span class="price">¥9.90</span>                                     <span class="price_old">¥99.00</span>                                 </div>                             </div>                         </a>                     </div>                               </div>                    </div>              <div class="wei_item">             <div class="wei_item_sign">TOP 2</div>                  <a href="/mshop/gethomepage?venderid=16874&ptag=37773.8.2" class="wei_logo">                     <img src="./微店_files/rBEDik_RkJcIAAAAAABADz89rXQAAAe_AHoXaIAAEAn906.jpg" width="90" height="30">                     <p>韩都衣舍旗舰店</p>                 </a>                 <a href="/mshop/gethomepage?venderid=16874&ptag=37773.8.2" class="btn_enter">去逛逛</a>                  <div class="wei_cm_list">                                      <div class="item">                         <a class="url" href="/item/view?sku=1610405055&ptag=37773.8.7">                             <div class="img"><img src="./微店_files/558a0b04Nd8fc1878.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 韩都衣舍 韩版2015夏装新款女装蓝色青年时尚修身浅色磨白印花铅笔裤牛仔裤AA4063肆 蓝色 L</div>                                 <div class="cost" id="sku_1610405055">                                     <span class="price">¥318.00</span>                                     <span class="price_old">¥658.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1610395611&ptag=37773.8.7">                             <div class="img"><img src="./微店_files/558a0957N41131a54.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 韩都衣舍 韩版2015夏装女韩版时尚舒适通勤宽松拼接印花五分袖圆领T恤AA4064柒 白色 L</div>                                 <div class="cost" id="sku_1610395611">                                     <span class="price">¥248.00</span>                                     <span class="price_old">¥528.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1606192742&ptag=37773.8.7">                             <div class="img"><img src="./微店_files/5583d4b2N5dad83c7.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 韩都衣舍 韩版2015夏装新款女装青年黑色时尚休闲显瘦短袖圆领连衣裙YK5137② 黑色 L</div>                                 <div class="cost" id="sku_1606192742">                                     <span class="price">¥103.00</span>                                     <span class="price_old">¥558.00</span>                                 </div>                             </div>                         </a>                     </div>                               </div>                    </div>              <div class="wei_item">             <div class="wei_item_sign">TOP 3</div>                  <a href="/mshop/gethomepage?venderid=17964&ptag=37773.8.3" class="wei_logo">                     <img src="./微店_files/549cfd0dNf2932cdd.jpg" width="90" height="30">                     <p>Aisaly艾莎莉旗舰店</p>                 </a>                 <a href="/mshop/gethomepage?venderid=17964&ptag=37773.8.3" class="btn_enter">去逛逛</a>                  <div class="wei_cm_list">                                      <div class="item">                         <a class="url" href="/item/view?sku=1594162464&ptag=37773.8.8">                             <div class="img"><img src="./微店_files/5576870cN6d82e974.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> aisaly天然彩棉女内裤糖果色女士内裤女式纯棉腰窝蕾丝透明性感三角裤 糖果5色 均码</div>                                 <div class="cost" id="sku_1594162464">                                     <span class="price">¥49.00</span>                                     <span class="price_old">¥159.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1594144690&ptag=37773.8.8">                             <div class="img"><img src="./微店_files/55795093Ne2bfea81.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> aisaly天然彩色纯棉女士内裤5条糖果色内裤蕾丝包臀三角裤纯棉女内裤 经典5色 均码(高弹力)</div>                                 <div class="cost" id="sku_1594144690">                                     <span class="price">¥49.00</span>                                     <span class="price_old">¥159.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1579585288&ptag=37773.8.8">                             <div class="img"><img src="./微店_files/556911f8Na186c064.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> AISALY田园风女内裤5条小碎花印花女士内裤性感蕾丝中腰莫代尔女士三角内裤 印花5色 均码(高弹力)</div>                                 <div class="cost" id="sku_1579585288">                                     <span class="price">¥59.00</span>                                     <span class="price_old">¥159.00</span>                                 </div>                             </div>                         </a>                     </div>                               </div>                    </div>              <div class="wei_item">             <div class="wei_item_sign">TOP 4</div>                  <a href="/mshop/gethomepage?venderid=44754&ptag=37773.8.4" class="wei_logo">                     <img src="./微店_files/5566857dN56f670ea.jpg" width="90" height="30">                     <p>名人瑞裳旗舰店</p>                 </a>                 <a href="/mshop/gethomepage?venderid=44754&ptag=37773.8.4" class="btn_enter">去逛逛</a>                  <div class="wei_cm_list">                                      <div class="item">                         <a class="url" href="/item/view?sku=1610982800&ptag=37773.8.9">                             <div class="img"><img src="./微店_files/558a5ff6N8b163ff3.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 名人瑞裳 2015夏季新款女装女装 欧美风千鸟格中长款修身雪纺连衣裙 千鸟格 M</div>                                 <div class="cost" id="sku_1610982800">                                     <span class="price">¥458.00</span>                                     <span class="price_old">¥1598.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1610961240&ptag=37773.8.9">                             <div class="img"><img src="./微店_files/558a5d6aN83a39de8.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 名人瑞裳 2015夏季新款女装两件套 欧美风高端印花雪纺休闲套装 黑色 M</div>                                 <div class="cost" id="sku_1610961240">                                     <span class="price">¥428.00</span>                                     <span class="price_old">¥1598.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1610928267&ptag=37773.8.9">                             <div class="img"><img src="./微店_files/558a5956Nf1f99835.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 名人瑞裳 2015夏季新款女装 修身中长款不对称宽摆印花雪纺连衣裙 印花色 M</div>                                 <div class="cost" id="sku_1610928267">                                     <span class="price">¥428.00</span>                                     <span class="price_old">¥1498.00</span>                                 </div>                             </div>                         </a>                     </div>                               </div>                    </div>              <div class="wei_item">             <div class="wei_item_sign">TOP 5</div>                  <a href="/mshop/gethomepage?venderid=36681&ptag=37773.8.5" class="wei_logo">                     <img src="./微店_files/5477e004N14409bc3.gif" width="90" height="30">                     <p>旅行之家箱包旗舰店</p>                 </a>                 <a href="/mshop/gethomepage?venderid=36681&ptag=37773.8.5" class="btn_enter">去逛逛</a>                  <div class="wei_cm_list">                                      <div class="item">                         <a class="url" href="/item/view?sku=1590587411&ptag=37773.8.10">                             <div class="img"><img src="./微店_files/5572899dNb2c0ffb6.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 旅行之家（Travelhouse）铝框万向轮拉杆箱子男/女托运行李箱登机箱 紫色 24寸推荐尺寸</div>                                 <div class="cost" id="sku_1590587411">                                     <span class="price">¥398.00</span>                                     <span class="price_old">¥2290.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1588284180&ptag=37773.8.10">                             <div class="img"><img src="./微店_files/556ff136N43bff30a.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 旅行之家（Travelhouse）铝框20/24寸万向轮拉杆箱旅行箱T1182 金色拉丝 24寸</div>                                 <div class="cost" id="sku_1588284180">                                     <span class="price">¥588.00</span>                                     <span class="price_old">¥2015.00</span>                                 </div>                             </div>                         </a>                     </div>                               </div>                    </div>      </section>
-<!-- E 热门微店 -->
-<section id="sectionBottomActivity" class="wei_section" style="display: none;">
-    <div class="wei_section_title">
-        <h2>精选热门微店</h2>
-        <span></span>
-    </div>
-    <div id="divBottomActivity"></div>
-</section>
+    <div class="wei_item">             <div class="wei_item_sign">TOP 1</div>                  <a href="/mshop/gethomepage?venderid=40713&ptag=37773.8.1" class="wei_logo">                     <img src="./微店_files/549cf9a1Ne212a4de.jpg" width="90" height="30">                     <p>北极绒品牌官方旗舰店</p>                 </a>                 <a href="/mshop/gethomepage?venderid=40713&ptag=37773.8.1" class="btn_enter">去逛逛</a>                  <div class="wei_cm_list">                                      <div class="item">                         <a class="url" href="/item/view?sku=1610478645&ptag=37773.8.6">                             <div class="img"><img src="./微店_files/552640f2Ndc9c55ea.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 北极绒夏季性感女生超薄透明超弹15D包芯丝连裤袜加档打底袜子【10双装】 5双肤色+5双黑色</div>                                 <div class="cost" id="sku_1610478645">                                     <span class="price">¥69.00</span>                                     <span class="price_old">¥298.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1604977775&ptag=37773.8.6">                             <div class="img"><img src="./微店_files/5582673eN43515ae0.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 北极绒欧美风女士性感蕾丝透气镂空诱惑低腰三角裤102 3条随机色 M/1.8-2.1尺</div>                                 <div class="cost" id="sku_1604977775">                                     <span class="price">¥39.90</span>                                     <span class="price_old">¥169.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1603989652&ptag=37773.8.6">                             <div class="img"><img src="./微店_files/54f55034N07d09209.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 北极绒女士内裤【3条装】 3条装随机色 均码</div>                                 <div class="cost" id="sku_1603989652">                                     <span class="price">¥9.90</span>                                     <span class="price_old">¥99.00</span>                                 </div>                             </div>                         </a>                     </div>                               </div>                    </div>              <div class="wei_item">             <div class="wei_item_sign">TOP 2</div>                  <a href="/mshop/gethomepage?venderid=16874&ptag=37773.8.2" class="wei_logo">                     <img src="./微店_files/rBEDik_RkJcIAAAAAABADz89rXQAAAe_AHoXaIAAEAn906.jpg" width="90" height="30">                     <p>韩都衣舍旗舰店</p>                 </a>                 <a href="/mshop/gethomepage?venderid=16874&ptag=37773.8.2" class="btn_enter">去逛逛</a>                  <div class="wei_cm_list">                                      <div class="item">                         <a class="url" href="/item/view?sku=1610405055&ptag=37773.8.7">                             <div class="img"><img src="./微店_files/558a0b04Nd8fc1878.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 韩都衣舍 韩版2015夏装新款女装蓝色青年时尚修身浅色磨白印花铅笔裤牛仔裤AA4063肆 蓝色 L</div>                                 <div class="cost" id="sku_1610405055">                                     <span class="price">¥318.00</span>                                     <span class="price_old">¥658.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1610395611&ptag=37773.8.7">                             <div class="img"><img src="./微店_files/558a0957N41131a54.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 韩都衣舍 韩版2015夏装女韩版时尚舒适通勤宽松拼接印花五分袖圆领T恤AA4064柒 白色 L</div>                                 <div class="cost" id="sku_1610395611">                                     <span class="price">¥248.00</span>                                     <span class="price_old">¥528.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1606192742&ptag=37773.8.7">                             <div class="img"><img src="./微店_files/5583d4b2N5dad83c7.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 韩都衣舍 韩版2015夏装新款女装青年黑色时尚休闲显瘦短袖圆领连衣裙YK5137② 黑色 L</div>                                 <div class="cost" id="sku_1606192742">                                     <span class="price">¥103.00</span>                                     <span class="price_old">¥558.00</span>                                 </div>                             </div>                         </a>                     </div>                               </div>                    </div>              <div class="wei_item">             <div class="wei_item_sign">TOP 3</div>                  <a href="/mshop/gethomepage?venderid=17964&ptag=37773.8.3" class="wei_logo">                     <img src="./微店_files/549cfd0dNf2932cdd.jpg" width="90" height="30">                     <p>Aisaly艾莎莉旗舰店</p>                 </a>                 <a href="/mshop/gethomepage?venderid=17964&ptag=37773.8.3" class="btn_enter">去逛逛</a>                  <div class="wei_cm_list">                                      <div class="item">                         <a class="url" href="/item/view?sku=1594162464&ptag=37773.8.8">                             <div class="img"><img src="./微店_files/5576870cN6d82e974.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> aisaly天然彩棉女内裤糖果色女士内裤女式纯棉腰窝蕾丝透明性感三角裤 糖果5色 均码</div>                                 <div class="cost" id="sku_1594162464">                                     <span class="price">¥49.00</span>                                     <span class="price_old">¥159.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1594144690&ptag=37773.8.8">                             <div class="img"><img src="./微店_files/55795093Ne2bfea81.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> aisaly天然彩色纯棉女士内裤5条糖果色内裤蕾丝包臀三角裤纯棉女内裤 经典5色 均码(高弹力)</div>                                 <div class="cost" id="sku_1594144690">                                     <span class="price">¥49.00</span>                                     <span class="price_old">¥159.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1579585288&ptag=37773.8.8">                             <div class="img"><img src="./微店_files/556911f8Na186c064.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> AISALY田园风女内裤5条小碎花印花女士内裤性感蕾丝中腰莫代尔女士三角内裤 印花5色 均码(高弹力)</div>                                 <div class="cost" id="sku_1579585288">                                     <span class="price">¥59.00</span>                                     <span class="price_old">¥159.00</span>                                 </div>                             </div>                         </a>                     </div>                               </div>                    </div>              <div class="wei_item">             <div class="wei_item_sign">TOP 4</div>                  <a href="/mshop/gethomepage?venderid=44754&ptag=37773.8.4" class="wei_logo">                     <img src="./微店_files/5566857dN56f670ea.jpg" width="90" height="30">                     <p>名人瑞裳旗舰店</p>                 </a>                 <a href="/mshop/gethomepage?venderid=44754&ptag=37773.8.4" class="btn_enter">去逛逛</a>                  <div class="wei_cm_list">                                      <div class="item">                         <a class="url" href="/item/view?sku=1610982800&ptag=37773.8.9">                             <div class="img"><img src="./微店_files/558a5ff6N8b163ff3.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 名人瑞裳 2015夏季新款女装女装 欧美风千鸟格中长款修身雪纺连衣裙 千鸟格 M</div>                                 <div class="cost" id="sku_1610982800">                                     <span class="price">¥458.00</span>                                     <span class="price_old">¥1598.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1610961240&ptag=37773.8.9">                             <div class="img"><img src="./微店_files/558a5d6aN83a39de8.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 名人瑞裳 2015夏季新款女装两件套 欧美风高端印花雪纺休闲套装 黑色 M</div>                                 <div class="cost" id="sku_1610961240">                                     <span class="price">¥428.00</span>                                     <span class="price_old">¥1598.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1610928267&ptag=37773.8.9">                             <div class="img"><img src="./微店_files/558a5956Nf1f99835.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 名人瑞裳 2015夏季新款女装 修身中长款不对称宽摆印花雪纺连衣裙 印花色 M</div>                                 <div class="cost" id="sku_1610928267">                                     <span class="price">¥428.00</span>                                     <span class="price_old">¥1498.00</span>                                 </div>                             </div>                         </a>                     </div>                               </div>                    </div>              <div class="wei_item">             <div class="wei_item_sign">TOP 5</div>                  <a href="/mshop/gethomepage?venderid=36681&ptag=37773.8.5" class="wei_logo">                     <img src="./微店_files/5477e004N14409bc3.gif" width="90" height="30">                     <p>旅行之家箱包旗舰店</p>                 </a>                 <a href="/mshop/gethomepage?venderid=36681&ptag=37773.8.5" class="btn_enter">去逛逛</a>                  <div class="wei_cm_list">                                      <div class="item">                         <a class="url" href="/item/view?sku=1590587411&ptag=37773.8.10">                             <div class="img"><img src="./微店_files/5572899dNb2c0ffb6.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 旅行之家（Travelhouse）铝框万向轮拉杆箱子男/女托运行李箱登机箱 紫色 24寸推荐尺寸</div>                                 <div class="cost" id="sku_1590587411">                                     <span class="price">¥398.00</span>                                     <span class="price_old">¥2290.00</span>                                 </div>                             </div>                         </a>                     </div>                                      <div class="item">                         <a class="url" href="/item/view?sku=1588284180&ptag=37773.8.10">                             <div class="img"><img src="./微店_files/556ff136N43bff30a.jpg.webp" alt=""></div>                             <div class="info">                                 <div class="name"><span class="tag hide">满减</span> 旅行之家（Travelhouse）铝框20/24寸万向轮拉杆箱旅行箱T1182 金色拉丝 24寸</div>                                 <div class="cost" id="sku_1588284180">                                     <span class="price">¥588.00</span>                                     <span class="price_old">¥2015.00</span>                                 </div>                             </div>                         </a>                     </div>                               </div>                    </div>      </section>
+    <!-- E 热门微店 -->
+    <section id="sectionBottomActivity" class="wei_section" style="display: none;">
+        <div class="wei_section_title">
+            <h2>精选热门微店</h2>
+            <span></span>
+        </div>
+        <div id="divBottomActivity"></div>
+    </section>
 </div>
 <!-- E tab容器 : 推荐微店  -->
 
@@ -982,7 +982,7 @@ window.speedTimePoint&&(speedTimePoint[11]=new Date());//342
                                         </script>
                                         <!--热门微店-->
                                         <script type="text/template" id="tplMicstoreHot">
-                                         <%#for(var i=0;i<model.length;i++){var item=model[i];%>
+                                           <%#for(var i=0;i<model.length;i++){var item=model[i];%>
                                             <div class="wei_item">
                                                 <div class="wei_item_sign">TOP <%#=i+1%></div>
                                                 <a href="<%#=item.shop_url%>&ptag=37773.8.<%#=i+1%>" class="wei_logo">
@@ -1047,23 +1047,23 @@ window.speedTimePoint&&(speedTimePoint[11]=new Date());//342
     g["0"]=["\/js\/version\/201505\/zepto.201505191506.js"];
     c = [['cookie',1,0],['formatJson',1,1],['iscroll',2,0],['lazyLoad',1,2],['loadJs',1,3],['login',1,4],['speedtime',1,5],['ui',1,6],['wg.speedtime',1,7],['wq.microstore',1,8],['wq.wx.menu',2,1],['zepto',0,0]];
     if(typeof(JSON)!="undefined" && window.localStorage){
-     for(var key in localStorage){
-      if(/^_m_/.test(key)){
-       var store = JSON.parse(localStorage.getItem(key));
-       var i = key.substr(3);
-       if((new Date()).getTime()>store.cacheTime){
-           continue;
-       }
-       var _m=getModuleMap(i);
-       if(!_m || _m.group==0){continue;}
-       var curPath=g[_m.group][_m.groupid];
-       if((d+curPath)==store.path){
-        g[0].push(curPath);
-        g[_m.group][_m.groupid]=blankjs;
-        c[_m.index]=[_m.id,0,g[0].length-1];
+       for(var key in localStorage){
+          if(/^_m_/.test(key)){
+             var store = JSON.parse(localStorage.getItem(key));
+             var i = key.substr(3);
+             if((new Date()).getTime()>store.cacheTime){
+                 continue;
+             }
+             var _m=getModuleMap(i);
+             if(!_m || _m.group==0){continue;}
+             var curPath=g[_m.group][_m.groupid];
+             if((d+curPath)==store.path){
+                g[0].push(curPath);
+                g[_m.group][_m.groupid]=blankjs;
+                c[_m.index]=[_m.id,0,g[0].length-1];
+            }
+        }
     }
-}
-}
 }
 function getModuleMap(id){
 	for(var i=0;i<c.length;i++){
