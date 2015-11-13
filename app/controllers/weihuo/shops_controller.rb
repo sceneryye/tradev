@@ -14,21 +14,21 @@ class Weihuo::ShopsController < ApplicationController
 
   def manage
     @members = Ecstore::Account.all.select{|member|member.login_name.split('_')[2] == params[:shop_id]}
-    @bonus = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0])
+    @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0])
   end
 
   def show_members
     @members = Ecstore::Account.order(:account_id).select{|member|member.login_name.split('_')[2] == params[:shop_id]}
   end
 
+  def show_bonuses
+    @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0])
+  end
+
   def show
 
     @shop = Ecstore::WeihuoShop.find(params[:id])
-    @goods_ids =[]
-    Ecstore::WeihuoShopsGood.where(:shop_id => params[:id]).all.each do |w|
-      @goods_ids << w.goods_id
-    end
-    
+    @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:per_page => 30, :page => params[:page]).order(:name)
   end
 
   # 申请店铺
@@ -45,22 +45,22 @@ class Weihuo::ShopsController < ApplicationController
     return render :text => '该店铺已经存在！' if Ecstore::WeihuoShop.where(:openid => open_id).present?
     shop_params = {}
     shop_params[:member_id] = params[:member_id]
-    
+
     openid = Ecstore::Account.where(:account_id => params[:member_id]).first.login_name
     shop_params[:weihuo_organisation_id] = Ecstore::WeihuoOrganisation.where(:name => params[:organisation_name]).first.id
     shop_params[:employee_name] = params[:employee_name]
     shop_params[:employee_mobile] = params[:employee_mobile]
-    
+
     shop_params[:status] = '1'
     get_url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=#{access_token}&openid=#{open_id}&lang=zh_CN"
     user_info = RestClient.get get_url
     shop_params[:logo] = ActiveSupport::JSON.decode(user_info)['headimgurl']
     shop_params[:openid] = open_id
-    
+
     @shop = Ecstore::WeihuoShop.new(shop_params)
     if @shop.save!
       account = Ecstore::Account.where(:account_id => params[:member_id]).first
-      
+
       account.update_column(:shop_id, @shop.shop_id)
 
       redirect_to weihuo_shop_path(@shop)
@@ -101,7 +101,7 @@ class Weihuo::ShopsController < ApplicationController
   def share
     @url = "http://www.trade-v.com/weihuo/shops/#{params[:shop_id]}"
     @shop = Ecstore::WeihuoShop.where(:shop_id => params[:shop_id]).first
-    render :layout => 'mobile'
+
   end
 
   helper_method :pay_with_goods, :total_profit
@@ -109,7 +109,7 @@ class Weihuo::ShopsController < ApplicationController
 
   def pay_with_goods bn
     goods = Ecstore::Good.where(:bn => bn).first
-    
+
     @img_url = goods.medium_pic
     total_fee = (goods.price * 100).to_i
     out_trade_no = goods.goods_id.to_s + Time.new.to_i.to_s + rand(10 ** 10).to_s.rjust(10, '0')
@@ -122,7 +122,7 @@ class Weihuo::ShopsController < ApplicationController
       o.createtime = Time.now.to_i
       o.status = 'active'
     end
-    
+
 
     supplier = Ecstore::Supplier.where(:name => '贸威').first
     weixin_appid = supplier.weixin_appid
@@ -183,7 +183,7 @@ def access_token
 end
 
 def total_profit weihuoshare
-  weihuoshare.inject(0){|sum, item| sum + item.amount}
+  weihuoshare.inject(0){|sum, item| sum + item.try(:amount).to_f}
 end
 
 

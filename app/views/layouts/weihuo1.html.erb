@@ -53,7 +53,7 @@
         </span> <span class="text">首页</span>
       </a>
       <% if current_account.login_name.split('_')[0] == Ecstore::WeihuoShop.where(:shop_id => (params[:id] || params[:shop_id])).first.openid %>
-      <a href="/weihuo/shops/manage?shop_id=<%=params[:id]%>" data-link="/weihuo/shops/manage" ptag="37128.9.2" style="display:" class="">
+      <a href="/weihuo/shops/manage?shop_id=<%= params[:id] || params[:shop_id] %>" data-link="/weihuo/shops/manage" ptag="37128.9.2" style="display:" class="">
         <span class="line">
           <i class="tab_8_icon"></i>
         </span>

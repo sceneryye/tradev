@@ -1,36 +1,37 @@
 <div class="container">
   <div class="title">
-    <h3>店铺管理</h3>
+    <h3>我的红包</h3>
   </div>
   
   <table class="table table-striped table-hover table-responsive">
     <tr class="">
 
-      <th class="headimg">
+      <th class="">
         <div>
-          <h4>客户头像</h4>
+          <h4>红包金额</h4>
         </div>
       </th>
       <th>
         <div class="">
-          <h4>客户名称</h4>
+          <h4>来源</h4>
         </div>
       </th>
       <th>
         <div class="">
-          <h4>消费总额</h4>
+          <h4>状态</h4>
         </div>
       </th>
     </tr>
 
-    <% @members.each_with_index do |member, index| %>
-    <% user = Ecstore::User.where(:member_id => member.account_id).first %>
+    <% @bonuses.each_with_index do |bonus, index| %>
+    <% member_id = Ecstore::Order.where(:order_id => bonus.order_id).first.member_id %>
+    <% user = Ecstore::User.where(:member_id => member_id).first %>
 
     <tr class="<%= 'info' if index % 2 == 0 %>">
 
-      <td class="headimg">
+      <td class="">
         <div>
-          <img src="<%= user.weixin_headimgurl %>" />
+          <%= bonus.amount %> 元
         </div>
       </td>
 
@@ -42,7 +43,7 @@
 
       <td>
         <div class="">
-          <h4><%= total_profit Ecstore::WeihuoShare.where(:open_id => member.login_name.split('_')[0]) %> 元</h4>
+          <h4><%= bonus.status == 1 ? '已发送' : '未发送' %></h4>
         </div>
       </td>
     </tr>
@@ -60,14 +61,8 @@
   .info {
     background-color: #d9edf7;
   }
-  .headimg img {
-    width: 60%;
-    display: block;
-    margin: 0 auto;
-  }
-.headimg {
-  width: 35%;
-}
+  
+
 th, td {
   text-align: center;
 }

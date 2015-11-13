@@ -97,7 +97,7 @@ class Admin::BonusesController < Admin::BaseController
     @res_data_hash = Hash.from_xml res_data
     if params[:from] == 'weihuo_shares'
       return render :text => @res_data_hash['xml'].to_json
-    elsif params[:from] == 'auto_send_bouns'
+    elsif params[:from] == 'auto_send_bonus'
       return render :text => @res_data_hash['xml']
     end
     render 'send_bonus'
