@@ -6,7 +6,8 @@
 <div class="am-panel am-panel-warning "style="margin: 0px;padding: 0px">
   <div class="am-panel-hd" style="text-align: center"><%= I18n.t "shopping-basket"%>
   <%@homepage ='/mobile'
-      @homepage ='/mobile/48/shop' if @user && (@user.email.include? '@139')%>
+      @homepage ='/mobile/48/shop' if @user && (@user.email.include? '@139')
+      @homepage = "/weihuo/shops/#{params[:shop_id]}" if params[:shop_id].present? %>
     <a href="<%=@homepage%>" style="float: right"> <%= I18n.t "continue_shopping"%></a>
   </div>
 </div>

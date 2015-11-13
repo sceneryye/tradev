@@ -90,6 +90,7 @@
   <%=form_for :product,:url=>add_cart_index_path, :html => {:id => 'add_product_to_cart'} do |f|%>
   <%=f.hidden_field :goods_id,:value=>@goods.goods_id%>
   <%=f.hidden_field :type_id,:value=>@goods.type_id%>
+  <input name="shop_id" value="<%= params[:shop_id] %>" type="hidden">
   <input type="hidden" name="platform" value="new_mobile">
   <div class="buy_area">
     <div class="fn_wrap">
