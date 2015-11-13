@@ -109,7 +109,7 @@ class Weihuo::ShopsController < ApplicationController
 
   end
 
-  helper_method :pay_with_goods, :total_profit
+  helper_method :pay_with_goods, :total_profit, :goods_profit
   private
 
   def pay_with_goods bn
@@ -179,6 +179,12 @@ end
 
 def total_profit weihuoshare
   weihuoshare.inject(0){|sum, item| sum + item.try(:amount).to_f}
+end
+
+def goods_profit goods
+  organisation_id = Ecstore::WeihuoShop.where(:shop_id => params[:shop_id]).first.weihuo_organisation_id
+  share = Ecstore::WeihuoOrganisation.find(organisation_id).share
+  (goods.price - goods.cost) * share
 end
 
 
