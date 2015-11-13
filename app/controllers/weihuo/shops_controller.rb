@@ -10,8 +10,6 @@ class Weihuo::ShopsController < ApplicationController
 
   # 所有店铺展示
   def index
-
-
   end
 
   def show

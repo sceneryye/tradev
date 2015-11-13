@@ -55,7 +55,7 @@ function getItemLink(str, ptag){
 <div class="qq_menu_layer_v2" style="display:none" id="__mqqmenu">
     <div class="qq_menu_v2" id="_divqqmenu">
         <ul id="__ulqqmenu">
-         <li>
+           <li>
             <a href="javascript:;" ptag="37128.1.2" id="__homepage">
                 <i class="icon_home"></i>
                 <span>购物</span>
@@ -225,10 +225,10 @@ function getItemLink(str, ptag){
         <li class="tiao" id="msgListItem" data-url="#" style="display:none"><a href="javascript:;">消息中心</a></li>
         <li class="tiao" id="helpCenter" data-url="#"><a href="javascript:;">帮助中心</a></li>
         <% shop = Ecstore::WeihuoShop.where(:openid => current_account.login_name.split('_')[0]) %>
-        <li class="tiao" id="build-store" data-url="#"><%= shop.present? %>=> <%= current_account.login_name %></li>
+        <!-- <li class="tiao" id="build-store" data-url="#"><%#= shop.present? %>=> <%#= current_account.login_name %></li> -->
 
         <% if shop.present? %>
-        <li><%= shop.openid %> => <%= shop.openid == current_account.login_name.split('_')[0] %></li>
+        <!-- <li><%#= shop.first.openid %> => <%#= shop.first.openid == current_account.login_name.split('_')[0] %></li> -->
         <li class="tiao" id="build-store" data-url="#"><a href="/weihuo/shops/<%= shop.first.shop_id %>">我的店铺</a></li>
         
         <% else %>
