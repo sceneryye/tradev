@@ -229,10 +229,10 @@ function getItemLink(str, ptag){
 
         <% if shop.present? %>
         <!-- <li><%#= shop.first.openid %> => <%#= shop.first.openid == current_account.login_name.split('_')[0] %></li> -->
-        <li class="tiao" id="build-store" data-url="#"><a href="/weihuo/shops/<%= shop.first.shop_id %>">我的店铺</a></li>
+        <li class="tiao" id="build-store" data-url="#"><a href="/weihuo/shops/<%= shop.first.shop_id %>">我的代理商铺</a></li>
         
         <% else %>
-        <li class="tiao" id="build-store" data-url="#"><a href="/weihuo/shops/new">我要开店</a></li>
+        <li class="tiao" id="build-store" data-url="#"><a href="/weihuo/shops/new">我要代理</a></li>
         
         <% end %>
     </ul>

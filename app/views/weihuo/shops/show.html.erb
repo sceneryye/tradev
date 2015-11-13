@@ -1,18 +1,25 @@
-<div class="container" style=" background-color:#87CEFA">
-  <% if @shop.status == '0' %>
+<% if @shop.status == '0' %>
   <h2>请等待审核通过</h2>
   <% elsif @shop.status == '-1' %>
-  <h2>您的店铺申请失败，请与管理员联系</h2>
+  <h2>您的代理商资格申请失败，请与管理员联系</h2>
   <% else %>
 
-  <div class="row title" style="background: url(/images/homepage/weihuoground.jpg) repeat-x">
+  <div class="row title" style="height:100px;background: url(/images/homepage/weihuoground.jpg) repeat-x">
     <div class="col-xs-5">
 
-      <div class="shop-logo">
-        <img style="width:100px;height:100px;border-radius:100px"src="<%= @shop.logo %>">
+      <div class="shop-name">
+        <div style="font-weight:bold;font-size:25px;margin-top:35px;"><span style="font-family:" Microsoft Yahei In-Bold Font";">尾货良品</span></div> 
       </div>
     </div>
+    <div class="col-xs-7">
+<div class="shop-logo">
+        <img style="float:right;margin-top:25px;width:50px;height:50px;border-radius:50px"src="<%= @shop.logo %>">
+      </div>
+      
+    </div>
   </div>
+<div class="container" >
+  
 
 
   <% if @goods_ids.present? %>
@@ -53,8 +60,8 @@
 
   .title {
     margin: 0 auto;
-    margin-top: 20px;
-    color: #ea7500;
+    margin-top:0px;
+    color: #000000;
   }
   .shop-logo img {
     width: 100%;
