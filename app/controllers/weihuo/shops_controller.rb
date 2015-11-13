@@ -113,21 +113,11 @@ class Weihuo::ShopsController < ApplicationController
     @img_url = goods.medium_pic
     total_fee = (goods.price * 100).to_i
     out_trade_no = goods.goods_id.to_s + Time.new.to_i.to_s + rand(10 ** 10).to_s.rjust(10, '0')
-    order = Ecstore::Order.new do |o|
-      o.order_id = out_trade_no
-      o.total_amount = total_fee
-      o.final_amount = total_fee
-      o.pay_status = '0'
-      o.ship_status = '0'
-      o.createtime = Time.now.to_i
-      o.status = 'active'
-    end
-
-
     supplier = Ecstore::Supplier.where(:name => '贸威').first
     weixin_appid = supplier.weixin_appid
     weixin_appsecret = supplier.weixin_appsecret
     mch_id = supplier.mch_id
+    attach = "shop_#{params[:shop_id]}"
     nonce_str = random_str 32
     body = goods.name
     spbill_create_ip = '182.254.138.119'

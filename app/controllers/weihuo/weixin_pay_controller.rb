@@ -58,8 +58,8 @@ class Weihuo::WeixinPayController < ApplicationController
     order_params[:pay_status] = '1'
     order_params[:createtime] = Time.now.to_i
     order_params[:status] = 'active'
-    order_params[:member_id] = Ecstore::Account.where(:login_name => params["xml"]["openid"]).first.user.member_id
-    order_params[:shop_id] = Ecstore::Account.where(:login_name => params["xml"]["openid"]).first.shop_id
+    order_params[:member_id] = Ecstore::Account.where(:login_name => params["xml"]["openid"]).first.account_id
+    order_params[:shop_id] = params["xml"]["attach"].split('_')[1]
     
 
     shop_id = order_params[:shop_id]

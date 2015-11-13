@@ -46,8 +46,8 @@
   <div class="QQ_fixed_foot">
     <div class="foot_inner">
 
-      <% shop_id = current_account.login_name.split('_')[2].present? ? current_account.login_name.split('_')[2] : Ecstore::WeihuoShop.where(:openid => current_account.login_name).first.shop_id %>
-      <a href="/weihuo/shops/<%= shop_id %>" class="" data-link="/mobile" ptag="">
+      
+      <a href="/weihuo/shops/<%= params[:id] || params[:shop_id] %>" class="" data-link="/mobile" ptag="">
         <span class="line">
           <i class="tab_7_icon"></i>
         </span> <span class="text">首页</span>
