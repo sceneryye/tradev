@@ -8,18 +8,18 @@
       <div class="row">
         <div class="col-xs-5">
           <td>
-          <h4>我的客户</h4>
-        </td>
+            <h4>我的客户</h4>
+          </td>
         </div>
         <div class="col-xs-3">
           <td>
-          <h4><%= @members.length %></h4>
-        </td>
+            <h4><%= @members.length %></h4>
+          </td>
         </div>
         <div class="col-xs-4">
           <td>
-          <h4><a href="/weihuo/shops/show_members?shop_id=<%= params[:shop_id] %>">查看详情</a></h4>
-        </td>
+            <h4><a href="/weihuo/shops/show_members?shop_id=<%= params[:shop_id] %>">查看详情</a></h4>
+          </td>
         </div>
       </tr>
 
@@ -27,18 +27,18 @@
         <div class="row">
           <div class="col-xs-5">
             <td>
-            <h4>我的红包</h4>
+              <h4>我的红包</h4>
             </td>
           </div>
           <div class="col-xs-3">
             <td>
-            <h4><%= @bonuses.length %></h4>
-          </td>
+              <h4><%= @bonuses.length %></h4>
+            </td>
           </div>
           <div class="col-xs-4">
             <td>
-            <h4><a href="/weihuo/shops/show_bonuses?shop_id=params[:shop_id]">查看详情</a></h4>
-          </td>
+              <h4><a href="/weihuo/shops/show_bonuses?shop_id=<%= params[:shop_id] %>">查看详情</a></h4>
+            </td>
           </div>
         </tr>
 
@@ -46,29 +46,48 @@
           <div class="row">
             <div class="col-xs-5">
               <td>
-              <h4>客户订单</h4>
-            </td>
+                <h4>客户订单</h4>
+              </td>
             </div>
             <div class="col-xs-3">
               <td>
-              <h4><%= @bonuses.length %></h4>
-            </td>
+                <h4><%= @bonuses.length %></h4>
+              </td>
             </div>
             <div class="col-xs-4">
               <td>
-              <h4><a href="#">查看详情</a></h4>
-            </td>
+                <h4><a href="#">查看详情</a></h4>
+              </td>
             </div>
           </tr>
-        </table>
-      </div>
 
-      <style type="text/css">
-  .title {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .info {
-    background-color: #d9edf7;
-  }
-      </style>
+          <tr>
+            <div class="row">
+              <div class="col-xs-5">
+                <td>
+                <h4>商品详情</h4>
+                </td>
+              </div>
+              <div class="col-xs-3">
+                <td>
+                  <h4><%= .length %></h4>
+                </td>
+              </div>
+              <div class="col-xs-4">
+                <td>
+                  <h4><a href="/weihuo/shops/show_goods?shop_id=<%= params[:shop_id] %>">查看详情</a></h4>
+                </td>
+              </div>
+            </tr>
+          </table>
+        </div>
+
+        <style type="text/css">
+          .title {
+            text-align: center;
+            margin-bottom: 20px;
+          }
+          .info {
+            background-color: #d9edf7;
+          }
+        </style>
