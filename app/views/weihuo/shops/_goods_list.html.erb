@@ -17,9 +17,17 @@
         <span class="price">
           <%= goods.price %>
         </span>
-        <%= yield :profit %>
+
       </hr>
     </div>
+    <% if params[:shop_id].present? %>
+    <div>
+      <span class="profit">
+        我的分红：
+      </span>
+      <%= goods_profit goods %>
+    </div>
+    <% end if params[:shop_id].present? %>
 
   </div>
 </a>

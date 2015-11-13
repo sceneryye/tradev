@@ -22,39 +22,9 @@
 
 
 
-<<<<<<< HEAD
-  <% if @goods.present? %>
-  <div class="row all-goods">
-    <% @goods.each_with_index do |goods, index| %>
-  <div class="col-xs-5 <%= 'col-xs-offset-1' if index % 2 == 0 %>">
-      <a style="width:50%" href="/weihuo/goods_detail/<%=goods.goods_id%>?shop_id=<%= params[:id] || params[:shop_id] %>">
-        <div class="goods" >
-          <div class="goods-pic" style="position: relative;">
-          <div style="position: absolute;"><img src="/images/homepage/weihuoimg.png" /></div>
-            <img src="<%= goods.medium_pic %>" /> 
-          </div> 
-        </div>
-        <div class="goods-info" >
-          <%= goods.name %>
-        </div>
-        <div class="goods-price">
-          尾货价：
-          <span class="price">
-            <%= goods.price %>
-          </span>
-        </hr>
-      </div>
 
-    </div>
-  </a>
-
-  <% end %>
-</div>
-
-<% end %>
-=======
   <%= render 'goods_list' %>
->>>>>>> origin/master
+
 
 <% end %>
 
