@@ -15,6 +15,7 @@ class Weihuo::ShopsController < ApplicationController
   def manage
     @members = Ecstore::Account.all.select{|member|member.login_name.split('_')[2] == params[:shop_id]}
     @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0])
+    @goods = Ecstore::Good.where(:supplier_id => 10)
   end
 
   def show_members
@@ -22,7 +23,11 @@ class Weihuo::ShopsController < ApplicationController
   end
 
   def show_bonuses
-    @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0])
+    @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0]).paginate(:page => params[:page], :per_page => 20).order(:id => 'DESC')
+  end
+
+  def show_goods
+    @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:page => params[:page], :per_page => 20).order(:name => 'ASC')
   end
 
   def show
@@ -104,7 +109,7 @@ class Weihuo::ShopsController < ApplicationController
 
   end
 
-  helper_method :pay_with_goods, :total_profit
+  helper_method :pay_with_goods, :total_profit, :goods_profit
   private
 
   def pay_with_goods bn
@@ -123,7 +128,7 @@ class Weihuo::ShopsController < ApplicationController
     spbill_create_ip = '182.254.138.119'
     trade_type = 'NATIVE'
     notify_url = 'http://www.trade-v.com/weihuo/notify_page'
-    post_data_hash = {:appid => weixin_appid, :mch_id => mch_id, :nonce_str => nonce_str, :body => body, :out_trade_no => out_trade_no, :total_fee => total_fee, :spbill_create_ip => spbill_create_ip, :notify_url => notify_url, :trade_type => trade_type}
+    post_data_hash = {:appid => weixin_appid, :mch_id => mch_id, :nonce_str => nonce_str, :body => body, :out_trade_no => out_trade_no, :total_fee => total_fee, :spbill_create_ip => spbill_create_ip, :notify_url => notify_url, :trade_type => trade_type, :attach => attach}
     sign = create_sign post_data_hash
     post_data_hash[:sign] = sign
     post_data_xml = to_label_xml post_data_hash
@@ -174,6 +179,12 @@ end
 
 def total_profit weihuoshare
   weihuoshare.inject(0){|sum, item| sum + item.try(:amount).to_f}
+end
+
+def goods_profit goods
+  organisation_id = Ecstore::WeihuoShop.where(:shop_id => params[:shop_id]).first.weihuo_organisation_id
+  share = Ecstore::WeihuoOrganisation.find(organisation_id).share
+  (goods.price - goods.cost) * share
 end
 
 

@@ -31,7 +31,7 @@
 
       <td class="">
         <div>
-          <%= bonus.amount %> 元
+          <%= bonus.amount.to_f %> 元
         </div>
       </td>
 
@@ -51,6 +51,7 @@
     <% end %>
 
   </table>
+  <%= will_paginate @bonuses %>
 </div>
 
 <style type="text/css">
@@ -65,6 +66,9 @@
 
 th, td {
   text-align: center;
+}
+.container {
+  margin-bottom: 40px;
 }
 
 </style>
