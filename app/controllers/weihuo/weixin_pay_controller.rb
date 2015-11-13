@@ -59,14 +59,20 @@ class Weihuo::WeixinPayController < ApplicationController
     order_params[:pay_status] = '1'
     order_params[:createtime] = Time.now.to_i
     order_params[:status] = 'active'
-    order_params[:member_id] = Ecstore::Account.where(:login_name => params["xml"]["openid"]).first.account_id
     order_params[:shop_id] = params["xml"]["attach"].split('_')[1]
+    client = Ecstore::Account.where(:login_name => params["xml"]["openid"])
+    if client.present?
+      order_params[:member_id] = client.first.account_id
+    else
+      order_params[:member_id] = Ecstore::WeihuoShop.where(:shop_id => order_params[:shop_id]).first.member_id
+    end
+    
     
 
     shop_id = order_params[:shop_id]
 
 
-    supplier_id = Ecstore::Account.where(:login_name => params["xml"]["openid"]).first.supplier_id
+    supplier_id = Ecstore::Account.where(:login_name => params["xml"]["openid"]).try(:first).try(:supplier_id) || 78
     @order = Ecstore::Order.new order_params
 
     if supplier_id == nil
@@ -174,7 +180,8 @@ class Weihuo::WeixinPayController < ApplicationController
      http.start { http.request_post(uri.path, params_xml) { |res| res_data = res.body } }
      res_data_hash = Hash.from_xml res_data
      share = Ecstore::WeihuoShare.where(:order_id => auto_send[:order_id]).first
-     if res_data_hash[:return_code] == 'SUCCESS'
+
+     if res_data_hash["xml"]["return_code"] == 'SUCCESS'
       share.update_attribute(:status, 1)
     else
       share.update_attribute(:return_message, res_data_hash)

@@ -32,7 +32,7 @@ class Weihuo::ShopsController < ApplicationController
 
   def show
 
-    @shop = Ecstore::WeihuoShop.find(params[:id])
+    @shop = Ecstore::WeihuoShop.find(params[:shop_id] || params[:id])
     @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:per_page => 30, :page => params[:page]).order(:name)
   end
 

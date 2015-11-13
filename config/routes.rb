@@ -15,6 +15,7 @@ Modengke::Application.routes.draw do
     get 'shops/show_members' => 'shops#show_members'
     get 'shops/show_bonuses' => 'shops#show_bonuses'
     get 'shops/show_goods' => 'shops#show_goods'
+    
     resources :orgnizations
     resources :orders
 

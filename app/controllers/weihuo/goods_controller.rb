@@ -9,6 +9,11 @@ class Weihuo::GoodsController < ApplicationController
     
   end
 
+  def try
+    @data = params[:res_data_hash]
+    render :layout => 'standard'
+  end
+
   def show
   end
 
