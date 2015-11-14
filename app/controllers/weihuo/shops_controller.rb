@@ -30,6 +30,9 @@ class Weihuo::ShopsController < ApplicationController
     @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:page => params[:page], :per_page => 20).order(:name => 'ASC')
   end
 
+  def show_notice
+  end
+
   def show
 
     @shop = Ecstore::WeihuoShop.find(params[:shop_id] || params[:id])
@@ -38,6 +41,9 @@ class Weihuo::ShopsController < ApplicationController
 
   # 申请店铺
   def new
+    if current_account.blank?
+      redirect_to "/auto_login2?return_url=#{URI.escape 'http://www.trade-v.com/weihuo/shops/new'}&platform=mobile&from=new"
+    end
     @organisations = Ecstore::WeihuoOrganisation.all
     organisation = Ecstore::WeihuoOrganisation.where(:name => params[:organisation_name])
     @employees = Ecstore::WeihuoEmployee.where(:weihuo_organisation_id => organisation.first.id) if organisation.present?

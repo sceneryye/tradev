@@ -4,10 +4,10 @@ require 'pp'
 class Auth::WeixinController < ApplicationController
 	skip_before_filter :authorize_user!
 
-	def index 
+	def index
 		auth_ext = Ecstore::AuthExt.find_by_id(cookies.signed[:_auth_ext].to_i) if cookies.signed[:_auth_ext]
 		session[:from] = "external_auth"
-		
+
 		if auth_ext&&!auth_ext.expired?&&auth_ext.provider == 'weixin'
 			if auth_ext.account.nil?
 				cookies.delete :_auth_ext
@@ -24,8 +24,8 @@ class Auth::WeixinController < ApplicationController
 	def callback
 		return redirect_to(site_path) if params[:error].present?
 
-		
-		id =  params[:id] 
+
+		id =  params[:id]
 		id_type = id.split('shops')
 
 		if id_type[1]
@@ -33,7 +33,7 @@ class Auth::WeixinController < ApplicationController
 		else
 			supplier_id = id
 		end
-	    
+
 	    if params[:supplier_id]
 	        supplier_id=params[:supplier_id]
 	    end
@@ -75,8 +75,8 @@ class Auth::WeixinController < ApplicationController
 	        end
 	    	#  return render :text=>login_name
 			check_user = Ecstore::Account.find_by_login_name(login_name)
-			
-			login_name = "#{login_name}_#{rand(9999)}" if check_user
+
+			login_name = "#{login_name}_#{rand(9999)}" if check_user && session[:from] != 'new'
 
 			now = Time.now
 
@@ -131,7 +131,7 @@ class Auth::WeixinController < ApplicationController
 			# @key = session[:key]
 			# @url = session[:url]
 			# if @key　#如果是从推荐页面进来的用户
-				
+
 			# 	@mlm = Ecstore::Mlm.where(:member_id=>auth_ext.account_id) #判断是否已经有上级
 			# 	if @mlm.new_record?
 			# 		@mlm = Ecstore::Mlm.new do |m|
@@ -182,26 +182,141 @@ class Auth::WeixinController < ApplicationController
 			# 	end
 
 			# end
-=end		   
+=end
 		end
 #return render :text=>"return_url:#{return_url.empty?}"
+			if params[:followers_import].present?
+				redirect_to '/weihuo/shops/new'
+			end
 
 	    redirect = return_url
 
 	    if redirect.blank?
-	    	
+
 	    	if shop_id
-	    		redirect ="/weihuo/shops/#{shop_id}"	    		
+	    		if shop_id = '0'
+	    			redirect = '/weihuo/shops/new'
+	    		else
+	    		redirect ="/weihuo/shops/#{shop_id}"
+	    	end
 	    	elsif supplier_id == '78'
-	    		redirect  = "/mobile"          		
-          	else
+	    		redirect  = "/mobile"
+	    		
+         else
           		redirect = "/vshop/#{supplier_id}"
-          	end
+         end
 	    end
-	    
+
 
 	    redirect_to redirect
 	end
+
+def callback2
+		return redirect_to(site_path) if params[:error].present?
+
+
+		
+
+	    
+	    if supplier_id.nil?
+	    	supplier_id = 78
+	    end
+
+	    
+	    @supplier =Ecstore::Supplier.find(supplier_id)
+	    appid = @supplier.weixin_appid
+	    secret = @supplier.weixin_appsecret
+		# return render :text=>params[:code]
+		#token = Weixin.request_token(params[:code])
+	    token = Weixin.request_token_multi(params[:code],appid,secret)
+	    user_info = Weixin.get_userinfo_multi(token.openid,token.access_token)
+	  	# return  render :text=>user_info.nickname
+
+		auth_ext = Ecstore::AuthExt.where(:provider=>"weixin",
+						:shop_id =>shop_id,
+						:uid=>token.openid).first_or_initialize(
+						:access_token=>token.access_token,
+		   #            :refresh_token=>token.refresh_token,
+						:expires_at=>token.expires_at,
+						:expires_in=>token.expires_in)
+
+		if auth_ext.new_record? || auth_ext.account.nil? || auth_ext.account.user.nil?
+			client = Weixin.new(:access_token=>token.access_token,:expires_at=>token.expires_at)
+			auth_user = client.get('users/show.json',:uid=>token.uid)
+
+			logger.info auth_user.inspect
+
+			#login_name = auth_user.screen_name
+	        login_name = token.openid
+	        if shop_id
+	        	login_name +="_shop_#{shop_id}"
+	        end
+	    	#  return render :text=>login_name
+			check_user = Ecstore::Account.find_by_login_name(login_name)
+
+			login_name = "#{login_name}_#{rand(9999)}" if check_user && session[:from] != 'new'
+
+			now = Time.now
+
+			@account = Ecstore::Account.new  do |ac|
+				#account
+				ac.login_name = login_name
+				ac.login_password = '123456'
+		  		ac.account_type ="member"
+		  		ac.createtime = now.to_i
+		  		ac.auth_ext = auth_ext
+        		ac.supplier_id = supplier_id
+        		ac.shop_id = shop_id
+	  		end
+
+	  		Ecstore::Account.transaction do
+  				if @account.save!(:validate => false)
+		  			@user = Ecstore::User.new do |u|
+			  			u.member_id = @account.account_id
+			  			u.email = "weixin_user#{rand(9999)}@anonymous.com"
+			  			u.source = "weixin"
+			  			#u.sex = case auth_user.gender when 'f'; '0'; when 'm'; '1'; else '2'; end if auth_user
+			  			u.sex = user_info.sex
+			  			u.member_lv_id = 1
+			  			u.cur = "CNY"
+			  			u.reg_ip = request.remote_ip
+			  			#u.addr = auth_user.location || auth_user.loc_name if auth_user
+			  			u.addr = user_info.country+':'+user_info.province+'/'+user_info.city
+			  			u.name = user_info.nickname
+			  			u.weixin_nickname = user_info.nickname
+			  			u.weixin_area = user_info.country+':'+user_info.province+'/'+user_info.city
+			  			u.weixin_headimgurl = user_info.headimgurl
+			  			u.weixin_privilege = user_info.privilege
+			  			u.weixin_unionid = user_info.unionid
+			  			u.regtime = now.to_i
+			  		end
+		  			@user.save!(:validate=>false)
+
+		  			sign_in(@account,'1')
+		  		end
+	  		end
+		else
+			@user = Ecstore::User.where(:member_id=>auth_ext.account_id).first
+				@user.weixin_nickname = user_info.nickname
+	  			@user.sex = user_info.sex
+	  			@user.weixin_area = user_info.country+'/'+user_info.province+'/'+user_info.city
+	  			@user.weixin_headimgurl = user_info.headimgurl
+	  			@user.weixin_privilege = user_info.privilege
+	  			@user.weixin_unionid = user_info.unionid
+  			@user.save!(:validate=>false)
+			sign_in(auth_ext.account,'1')
+
+		end
+			
+	    
+
+
+	    redirect_to '/weihuo/shops/new'
+	end
+
+
+
+
 
 	def cancel
 	end

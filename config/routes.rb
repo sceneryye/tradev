@@ -15,7 +15,8 @@ Modengke::Application.routes.draw do
     get 'shops/show_members' => 'shops#show_members'
     get 'shops/show_bonuses' => 'shops#show_bonuses'
     get 'shops/show_goods' => 'shops#show_goods'
-    
+    get 'shops/show_notice' => 'shops#show_notice'
+
     resources :orgnizations
     resources :orders
 
@@ -225,6 +226,7 @@ Modengke::Application.routes.draw do
 
     resources :weixin do
       get 'callback',:on=>:member
+      
     end
     resources :weibo do
       get 'callback',:on=>:collection
@@ -293,6 +295,7 @@ Modengke::Application.routes.draw do
   end
 
   get 'auto_login'=>"sessions#auto_login"
+  get 'auto_login2'=>"sessions#auto_login2"
   get 'shop_login'=>"sessions#shop_login"
   get 'autologin1'=>"sessions#auto_login1"
   get 'login'=>"sessions#new"

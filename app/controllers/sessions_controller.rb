@@ -7,17 +7,32 @@ class SessionsController < ApplicationController
 
 
 
-   def shop_login
+  def shop_login
     shop_id = params[:id]
 
-    if shop_id.empty?
+    if shop_id.blank? && prams[:from].blank?
       return render :text=>'店铺不存在'
     end
 
     supplier_id = 78
     @supplier = Ecstore::Supplier.find(supplier_id)
 
-    redirect_uri="http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2fshops#{shop_id}%2fcallback"
+    redirect_uri = "http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2fshops#{shop_id}%2fcallback"
+    @oauth_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+
+    session[:return_url] =  params[:return_url]
+    session[:shop_id] = shop_id
+
+    redirect_to  @oauth_url
+  end
+
+  def auto_login2
+    
+    shop_id = 0
+    supplier_id = 78
+    @supplier = Ecstore::Supplier.find(supplier_id)
+
+    redirect_uri = "http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2fshops#{shop_id}%2fcallback"
     @oauth_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
 
     session[:return_url] =  params[:return_url]
@@ -41,7 +56,7 @@ class SessionsController < ApplicationController
     #redirect_uri = "http://vshop.trade-v.com/auth/weixin/callback?supplier_id=#{@supplier.id}"
     #redirect_uri= URI::escape(redirect_uri)
     #redirect_uri="http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2f#{supplier_id}%2fcallback"
-    redirect_uri="http%3a%2f%2fvshop.trade-v.com%2fm"
+    redirect_uri = params[:return_url] || "http%3a%2f%2fvshop.trade-v.com%2fm"
 
     #@oauth2_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
     @oauth2_url = "https://open.weixin.qq.com/connect/qrconnect?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri}&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect"
@@ -58,57 +73,62 @@ class SessionsController < ApplicationController
     # @article.save!
 # return render :text=>res_data_xml#.gsub('<','||')  #res_data.code
 return render :text =>@oauth2_url
-    return_url  = params[:return_url]
-    session[:return_url] =  return_url
-    redirect_to  @oauth2_url
+return_url  = params[:return_url]
+session[:return_url] =  return_url
+redirect_to  @oauth2_url
 
+end
+
+def auto_login
+  supplier_id = params[:id]
+  if params[:supplier_id]
+    supplier_id  = params[:supplier_id]
   end
-
-  def auto_login
-    supplier_id = params[:id]
-    if params[:supplier_id]
-      supplier_id  = params[:supplier_id]
-    end
-    if supplier_id.empty?
-      supplier_id =78
-    end
-    @supplier = Ecstore::Supplier.find(supplier_id)
+  if supplier_id.blank?
+    supplier_id =78
+  end
+  @supplier = Ecstore::Supplier.find(supplier_id)
 
     #redirect_uri = "http://vshop.trade-v.com/auth/weixin/callback?supplier_id=#{@supplier.id}"
     #redirect_uri= URI::escape(redirect_uri)
-    redirect_uri="http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2f#{supplier_id}%2fcallback"
+    redirect_uri = "http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2f#{supplier_id}%2fcallback"
+    if params[:form].present?
+      redirect_uri = "http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2f#{supplier_id}%2fcallback2"
+      redirect_to "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri + '?from=new'}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+    end
 
    # @oauth2_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
-     @oauth2_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+   @oauth2_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
 
-    return_url  = params[:return_url]
-    session[:return_url] =  return_url
-    redirect_to  @oauth2_url
+   return_url  = params[:return_url]
+   session[:return_url] =  return_url
+   redirect_to  @oauth2_url
 
+ end
+
+ def new_mobile
+  @no_need_login = 1
+  supplier_id = params[:id]
+  if params[:supplier_id]
+    supplier_id  = params[:supplier_id]
   end
-
-  def new_mobile
-    @no_need_login = 1
-    supplier_id = params[:id]
-    if params[:supplier_id]
-      supplier_id  = params[:supplier_id]
-    end
-    if supplier_id.nil?
-      supplier_id =78
-    end
-    @supplier = Ecstore::Supplier.find(supplier_id)
+  if supplier_id.nil?
+    supplier_id =78
+  end
+  @supplier = Ecstore::Supplier.find(supplier_id)
 
     #redirect_uri = "http://vshop.trade-v.com/auth/weixin/callback?supplier_id=#{@supplier.id}"
     #redirect_uri= URI::escape(redirect_uri)
-    redirect_uri="http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2f#{supplier_id}%2fcallback"
+    redirect_uri="http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2f#{supplier_id}%2fcallback?return_url=#{params[:return_url]}"
 
     @oauth2_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
-     return_url  =params[:return_url]
+    return_url  =params[:return_url]
 
     session[:return_url] =  return_url
+    session[:from] = params[:from]
 
     # return redirect_to(after_user_sign_in_path) if signed_in?
-     @no_need_login = 1
+    @no_need_login = 1
     render :layout=>@supplier.layout
   end
 
@@ -116,7 +136,7 @@ return render :text =>@oauth2_url
 
   def register_mobile
     @no_need_login = 1
-     supplier_id = params[:id]
+    supplier_id = params[:id]
     if params[:supplier_id]
       supplier_id  = params[:supplier_id]
     end
@@ -133,70 +153,70 @@ return render :text =>@oauth2_url
 
   def create
 
-     if params[:supplier_id]
-       @supplier_id= params[:supplier_id]
+   if params[:supplier_id]
+     @supplier_id= params[:supplier_id]
 
-     else
-       @supplier_id = params[:id]
-     end
+   else
+     @supplier_id = params[:id]
+   end
 
-     if @supplier_id.nil?
-        @supplier_id = 78
-     end
+   if @supplier_id.nil?
+    @supplier_id = 78
+  end
 
-      if @supplier_id =="78"
-         @return_url=params[:return_url].to_s+"&id=78"
-      else
-        @return_url=params[:return_url]
-      end
+  if @supplier_id =="78"
+   @return_url=params[:return_url].to_s+"&id=78"
+ else
+  @return_url=params[:return_url]
+end
 
-    @platform = params[:platform]
+@platform = params[:platform]
 
 
 
-    if @platform =='mobile' && @supplier_id.length>0
-  	  @account = Ecstore::Account.user_authenticate_mobile(params[:session][:username],params[:session][:password],@supplier_id)
-      
-    elsif @platform == 'vshop'
-      @account = Ecstore::Account.admin_authenticate(params[:session][:username],params[:session][:password])
-    else
-      @account = Ecstore::Account.user_authenticate(params[:session][:username],params[:session][:password])
-    end
-    if @account
-  		sign_in(@account,params[:remember_me])
+if @platform =='mobile' && @supplier_id.length>0
+ @account = Ecstore::Account.user_authenticate_mobile(params[:session][:username],params[:session][:password],@supplier_id)
+
+elsif @platform == 'vshop'
+  @account = Ecstore::Account.admin_authenticate(params[:session][:username],params[:session][:password])
+else
+  @account = Ecstore::Account.user_authenticate(params[:session][:username],params[:session][:password])
+end
+if @account
+  sign_in(@account,params[:remember_me])
              #update cart
              # @line_items.update_all(:member_id=>@account.account_id,
              #                                       :member_ident=>Digest::MD5.hexdigest(@account.account_id.to_s))
 
-  		render "create"
-  	else
+render "create"
+else
 
-  		render "error"
+  render "error"
       #  render js: '$("#login_msg").text("帐号或密码错误!").addClass("error").fadeOut(300).fadeIn(300);'
-  	end
+    end
   end
 
   def destroy
-      sign_out
+    sign_out
       # refer_url = request.env["HTTP_REFERER"]
       # refer_url = "/" unless refer_url
       supplier_id=
 
       if params[:platform]=="mobile"
 
-                 return_url=params[:return_url].to_s+"&id=#{supplier_id}"
+       return_url=params[:return_url].to_s+"&id=#{supplier_id}"
 
-         redirect_to "/mlogin?id=#{params[:id]}&supplier_id=#{params[:id]}&return_url=#{return_url}"
+       redirect_to "/mlogin?id=#{params[:id]}&supplier_id=#{params[:id]}&return_url=#{return_url}"
 
 
-      elsif params[:platform]=="vshop"
-           redirect_to "/vshop"
-      elsif params[:platform]=="mobile_admin"
-        redirect_to "/mobile/admin"
-      else
+     elsif params[:platform]=="vshop"
+       redirect_to "/vshop"
+     elsif params[:platform]=="mobile_admin"
+      redirect_to "/mobile/admin"
+    else
 
-        redirect_to "/"
-      end
+      redirect_to "/"
+    end
 
   end
 
