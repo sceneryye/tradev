@@ -2,7 +2,7 @@
   <div class="title">
     <h3>店铺管理</h3>
   </div>
-  
+
   <table class="table table-striped table-hover table-responsive">
     <tr class="info">
       <div class="row">
@@ -89,7 +89,7 @@
                 </div>
                 <div class="col-xs-3">
                   <td>
-                    
+
                   </td>
                 </div>
                 <div class="col-xs-4">
@@ -99,6 +99,11 @@
                 </div>
               </tr>
             </table>
+            <div class="qrcode">
+              <h3 style="text-align:center;">申请代理二维码</h3>
+              <div id="qrcode" style="margin: 0 auto%;margin-top:15px;width:180px;height:180px;" data-url="http://www.trade-v.com/weihuo/shops/new">
+              </div>
+            </div>
           </div>
 
           <style type="text/css">
@@ -108,5 +113,28 @@
             }
             .info {
               background-color: #d9edf7;
+            }
+          </style>
+
+          <script type="text/javascript">
+            var url = $('#qrcode').attr('data-url');
+
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+              text: url,
+              width: 180,
+              height: 180,
+              colorDark : "#000000",
+              colorLight : "#ffffff",
+              correctLevel : QRCode.CorrectLevel.H
+            });
+
+          </script>
+
+          <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+          <script type="text/javascript" src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+          <style type="text/css">
+            #qrcode {
+              display: block;
+              margin: 0 auto;
             }
           </style>
