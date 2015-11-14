@@ -13,10 +13,11 @@
         <%= goods.name %>
       </div>
       <div class="goods-price">
-        尾货价：
-        <span class="price">
-          <%= goods.price %>
-        </span>
+          <div> <span class="product-price-old">正品价：￥<%=goods.mktprice%></span></div>
+       <div>
+        <span class="price"> 尾货价：
+          ￥<%= goods.price %>
+        </span></div>       
 
       </hr>
     </div>
@@ -36,3 +37,34 @@
 </div>
 
 <% end %>
+<style type="text/css">
+
+    .title {
+      margin: 0 auto;
+      margin-top: 20px;
+      color: #ea7500;
+    }
+    .shop-logo img {
+      width: 100%;
+      margin: 0 auto;
+    }
+    .shop-name {
+      font-size: 1.2em;
+      text-align: center;
+    }
+    .goods-pic img {
+      width: 100%;
+    }
+    .goods {
+      margin: 10px 2px;
+    }
+    .all-goods {
+      margin-bottom: 40px;
+    }
+    
+    .goods-price{
+font-size: 14px;
+color:red;
+
+    }
+  </style>
