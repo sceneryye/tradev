@@ -61,7 +61,7 @@ module Admin
            members = Ecstore::Member.find(:all,:conditions => ["member_id in (?)",params[:ids]])
         end
         content = Ecstore::Member.export(fields,members)  #调用export方法
-        send_data(content, :type => 'text/csv',:filename => "member_#{Time.now.strftime('%Y%m%d%H%M%S')}.csv")
+        send_data(content, :type => 'text/csv',:filename => "member_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.csv")
       end
 
    

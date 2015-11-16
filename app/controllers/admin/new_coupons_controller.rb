@@ -55,7 +55,7 @@ class Admin::NewCouponsController < Admin::BaseController
 		@coupon =  Ecstore::NewCoupon.find(params[:id])
 		count = (params[:count] || 50).to_i
 
-		file_name = "coupons_#{Time.now.to_i}.csv"
+		file_name = "coupons_#{Time.zone.now.to_i}.csv"
 		download_file = "#{Rails.root}/public/tmp/#{file_name}"
 
 		CSV.open(download_file,"wb") do |csv|

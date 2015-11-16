@@ -29,7 +29,7 @@ class Admin::TopicsController < Admin::BaseController
     @topic = Imodec::Topic.new(params[:imodec_topic])
 
     if @topic.published
-      @topic.published_at = Time.now
+      @topic.published_at = Time.zone.now
     end
 
     respond_to do |format|
@@ -46,7 +46,7 @@ class Admin::TopicsController < Admin::BaseController
   def update
     @topic = Imodec::Topic.find(params[:id])
     if params[:imodec_topic] && params[:imodec_topic][:published] && @topic.published_at == nil
-      @topic.published_at = Time.now
+      @topic.published_at = Time.zone.now
     end
 
     respond_to do |format|

@@ -22,7 +22,7 @@ group by left(FROM_UNIXTIME(alttime),7),recommend_user,supplier_id"
 
     yeah_month =params[:yearmonth]
    if yeah_month==nil
-     yeah_month=Time.now.strftime('%Y-%m')
+     yeah_month=Time.zone.now.strftime('%Y-%m')
    end
     @commission = Ecstore::Commission.new
   end

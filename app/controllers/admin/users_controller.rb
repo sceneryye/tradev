@@ -35,7 +35,7 @@ class Admin::UsersController < Admin::BaseController
 		account.account_type = "shopadmin"
 		account.login_name = params[:manager][:name]
 		account.login_password = params[:manager][:password]
-		account.createtime = Time.now.to_i
+		account.createtime = Time.zone.now.to_i
 		account.login_password_confirmation = params[:manager][:password]
 		account.email = params[:manager][:email]
 		account.mobile = params[:manager][:mobile]
@@ -61,7 +61,7 @@ class Admin::UsersController < Admin::BaseController
 		
 		@sms_log ||= Logger.new('log/sms.log')
 		if Sms.send(tel,text)
-			@sms_log.info("[#{current_admin.login_name}][#{Time.now}][#{tel}]发送手机验证码: #{sms_code}")
+			@sms_log.info("[#{current_admin.login_name}][#{Time.zone.now}][#{tel}]发送手机验证码: #{sms_code}")
 			@user.update_attribute :mobile, tel if @user.mobile.blank?
 			@user.update_attribute :sms_code, sms_code
 
@@ -69,7 +69,7 @@ class Admin::UsersController < Admin::BaseController
 		end
 
 	rescue Exception=> e
-		@sms_log.info("[#{current_admin.login_name}][#{Time.now}][#{tel}]发送手机验证码失败:#{e}")
+		@sms_log.info("[#{current_admin.login_name}][#{Time.zone.now}][#{tel}]发送手机验证码失败:#{e}")
 		render :json=>{ :code=>'f',:msg=>e }.to_json
 	end
 
@@ -207,7 +207,7 @@ class Admin::UsersController < Admin::BaseController
 			Ecstore::MemberAdvance.create(:member_id=>@user.member_id,
 											  :money=>@card.value,
 											  :message=>"会员卡激活,卡号:#{@card.no}",
-											  :mtime=>Time.now.to_i,
+											  :mtime=>Time.zone.now.to_i,
 											  :memo=>"管理操作",
 											  :import_money=>@card.value,
 											  :explode_money=>0,
@@ -216,7 +216,7 @@ class Admin::UsersController < Admin::BaseController
 											  :disabled=>'false')
 			@user.update_attribute :advance, @card.value + @user.advance
 			@card.update_attribute :use_status, true
-			@card.update_attribute :used_at, Time.now
+			@card.update_attribute :used_at, Time.zone.now
 			@card.member_card.update_attributes(params[:member_card])
 
 			params[:member_card].delete :card_id

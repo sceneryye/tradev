@@ -201,7 +201,7 @@ class VshopController < ApplicationController
   end
 
   def create
-    now  = Time.now
+    now  = Time.zone.now
     @account = Ecstore::Account.new(params[:users]) do |ac|
       ac.account_type ="member"
       ac.createtime = now.to_i
@@ -277,7 +277,7 @@ class VshopController < ApplicationController
       if signed_in?
         member_id = @user.member_id
       end
-      now  = Time.now.to_i
+      now  = Time.zone.now.to_i
       Ecstore::RecommendLog.new do |rl|
         rl.wechat_id = @recommend_user
         #  rl.goods_id = @good.goods_id
@@ -318,7 +318,7 @@ class VshopController < ApplicationController
        
         pay.pay_id = @payment.payment_id
         pay.pay_amount = @payment.cur_money.to_f
-        pay.pay_time = Time.now
+        pay.pay_time = Time.zone.now
         pay.subject = "#{@supplier_pay.name}订单(#{order_id})"
         pay.installment = @payment.pay_bill.order.installment if @payment.pay_bill.order
        
@@ -348,7 +348,7 @@ class VshopController < ApplicationController
         log.pay_name = adapter
         log.request_ip = request.remote_ip
         log.request_params = @modec_pay.fields.to_json
-        log.requested_at = Time.now
+        log.requested_at = Time.zone.now
       end.save
     else
       flash[:msg] = '不能支付,请查看订单状态'
@@ -361,7 +361,7 @@ class VshopController < ApplicationController
       return render :text=>"支付不成功。error_message:#{params[:error_message]}"
     end
 
-    ModecPay.logger.info "[#{Time.now}][#{request.remote_ip}] #{request.request_method} \"#{request.fullpath}\" params : #{ params.to_s }"
+    ModecPay.logger.info "[#{Time.zone.now}][#{request.remote_ip}] #{request.request_method} \"#{request.fullpath}\" params : #{ params.to_s }"
 
     @payment = Ecstore::Payment.find(params[:payment_id])
     return redirect_to detail_order_path(@payment.pay_bill.order) if @payment&&@payment.paid?
@@ -391,7 +391,7 @@ class VshopController < ApplicationController
             Ecstore::MemberAdvance.create(:member_id=>member_id,
                                           :money=>order_item.good.mktprice,
                                           :message=>"万家预充值:#{order_item.good.name}",
-                                          :mtime=>Time.now.to_i,
+                                          :mtime=>Time.zone.now.to_i,
                                           :memo=>"用户本人操作",
                                           :order_id=>@order.order_id,
                                           :import_money=>order_item.good.mktprice,
@@ -410,7 +410,7 @@ class VshopController < ApplicationController
 
     @payment.payment_log.update_attributes({:notify_ip=>request.remote_ip,
                                           :notify_params=> params.to_json,
-                                          :notified_at=>Time.now,
+                                          :notified_at=>Time.zone.now,
                                           :result=>result.to_json}) if @payment.payment_log
 
     if result.is_a?(Hash) && result.present?

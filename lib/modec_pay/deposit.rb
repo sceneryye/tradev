@@ -27,7 +27,7 @@ module ModecPay
 				result = {  :payment_id=>params['payment_id'],
 						    :trade_no=>nil,
 						    :status=>'succ',
-						    :t_payed=>Time.now.to_i,
+						    :t_payed=>Time.zone.now.to_i,
 						    :response => 'success'
 						}
 			end

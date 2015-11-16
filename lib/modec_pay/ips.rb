@@ -54,7 +54,7 @@ module ModecPay
 		end
 
 		def pay_time=(val)
-			val = Time.now unless val.is_a?(Time)
+			val = Time.zone.now unless val.is_a?(Time)
 			self.fields['Date'] = val.strftime("%Y%m%d")
 		end
 
@@ -88,7 +88,7 @@ module ModecPay
         if verify_sign(params)
           case params['succ']
             when 'Y'
-              t_payed = Time.now.to_i
+              t_payed = Time.zone.now.to_i
               t_payed = Time.parse(params['data'].to_s).to_i  if params['dealTime'].present?
               result = {  :payment_id=>params['billno'],
                           :trade_no=>params['ipsbillno'],

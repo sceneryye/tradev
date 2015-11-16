@@ -172,7 +172,7 @@ class Admin::CardsController < Admin::BaseController
       end
       fields = ["卡号","面值","类型","销售状态","使用状态","卡状态","购卡人手机","用卡人手机","标签"]
       content =content_generate(fields,@cards)  #调用export方法
-      send_data(content, :type => 'text/csv',:filename => "card_#{Time.now.strftime('%Y%m%d%H%M%S')}.csv")
+      send_data(content, :type => 'text/csv',:filename => "card_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.csv")
   end
 
   def content_generate(fields,cards)

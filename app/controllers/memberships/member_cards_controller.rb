@@ -85,7 +85,7 @@ class Memberships::MemberCardsController < ApplicationController
 	#                    	end
 	#                    card.sale_status = true
 	#                    card.pay_status = true
-	#                    card.sold_at = Time.now
+	#                    card.sold_at = Time.zone.now
 	#                    card.save(:validate=>false)
 
 	#                    @bought_cards << card

@@ -32,7 +32,7 @@ class Imodec::Topic < ActiveRecord::Base
   end
 
   def self.published
-    self.where(:published=>true).where("published_at <= :now", {:now=>Time.now} )
+    self.where(:published=>true).where("published_at <= :now", {:now=>Time.zone.now} )
   end
 
   def pages=(inner_pages)

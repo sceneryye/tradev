@@ -18,7 +18,7 @@ class Weihuo::WeixinPayController < ApplicationController
       o.final_amount = total_fee
       o.pay_status = '0'
       o.ship_status = '0'
-      o.createtime = Time.now.to_i
+      o.createtime = Time.zone.now.to_i
       o.status = 'active'
     end
 
@@ -57,7 +57,7 @@ class Weihuo::WeixinPayController < ApplicationController
     order_params[:total_amount] = params["xml"]["total_fee"].to_f / 100
     order_params[:final_amount] = params["xml"]["total_fee"].to_f / 100
     order_params[:pay_status] = '1'
-    order_params[:createtime] = Time.now.to_i
+    order_params[:createtime] = Time.zone.now.to_i
     order_params[:status] = 'active'
     order_params[:shop_id] = params["xml"]["attach"].split('_')[1]
     client = Ecstore::Account.where(:login_name => params["xml"]["openid"])
@@ -139,7 +139,7 @@ class Weihuo::WeixinPayController < ApplicationController
       weixin_appsecret = supplier.weixin_appsecret
       key = supplier.partner_key
       mch_id = supplier.mch_id
-      mch_billno = mch_id + Time.now.strftime('%F').split('-').join + rand(10000000000).to_s.rjust(10, '0')
+      mch_billno = mch_id + Time.zone.now.strftime('%F').split('-').join + rand(10000000000).to_s.rjust(10, '0')
       parameter = {
         :nonce_str => nonce_str, :mch_billno => mch_billno, :mch_id => mch_id, :wxappid => weixin_appid, :send_name =>'贸威',
         :re_openid => re_openid, :total_amount => total_amount, :total_num => 1, :wishing => auto_send[:wishing],

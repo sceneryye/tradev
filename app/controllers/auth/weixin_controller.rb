@@ -78,7 +78,7 @@ class Auth::WeixinController < ApplicationController
 
 			login_name = "#{login_name}_#{rand(9999)}" if check_user && session[:from] != 'new'
 
-			now = Time.now
+			now = Time.zone.now
 
 			@account = Ecstore::Account.new  do |ac|
 				#account
@@ -256,7 +256,7 @@ def callback2
 
 			login_name = "#{login_name}_#{rand(9999)}" if check_user && session[:from] != 'new'
 
-			now = Time.now
+			now = Time.zone.now
 
 			@account = Ecstore::Account.new  do |ac|
 				#account

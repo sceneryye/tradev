@@ -91,7 +91,7 @@ class Patch::MembersController < ApplicationController
       end
     end
 
-    send_data package.to_stream.read,:filename=>"inventory_#{Time.now.strftime('%Y%m%d%H%M%S')}.xlsx"
+    send_data package.to_stream.read,:filename=>"inventory_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
   end
 
 	def advance

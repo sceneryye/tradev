@@ -38,7 +38,7 @@ class Patch::AftersalesController < ApplicationController
 
 	def create
 		params[:aftersale].merge!(:member_id=>@user.member_id)
-		params[:aftersale].merge!(:add_time=>Time.now.to_i)
+		params[:aftersale].merge!(:add_time=>Time.zone.now.to_i)
 		@aftersale = Ecstore::Aftersale.new(params[:aftersale])
 		if @aftersale.save
 			render :text=>"售后服务申请已发送！", :layout=>"patch"

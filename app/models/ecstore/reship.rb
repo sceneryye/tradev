@@ -45,7 +45,7 @@ class Ecstore::Reship < Ecstore::Base
 	end
 
 	def self.generate_reship_id
-	    _time = "9#{Time.now.strftime('%Y%m%d%H%M%S')}"
+	    _time = "9#{Time.zone.now.strftime('%Y%m%d%H%M%S')}"
 	    seq = rand(10000)
           loop do
           	  _reship_id = "#{_time}#{seq}"

@@ -130,11 +130,11 @@ module ModecPay
       def verify_notify(params,options)
         if verify_sign(params)
 
-          ModecPay.logger.info "[wxpay][#{Time.now}] payment=#{params['out_trade_no']} verify notify successfully."
+          ModecPay.logger.info "[wxpay][#{Time.zone.now}] payment=#{params['out_trade_no']} verify notify successfully."
 
           case params['return_code']
             when 'SUCCESS'
-              t_payed = Time.now.to_i
+              t_payed = Time.zone.now.to_i
               t_payed = Time.parse(params['time_end']).to_i  if params['time_end'].present?
               result = {  :payment_id=>params['out_trade_no'],
                           :trade_no=>params['trade_no'],
@@ -154,10 +154,10 @@ module ModecPay
 
       def verify_return(params,options)
         if verify_sign(params)
-          ModecPay.logger.info "[wxpay][#{Time.now}] verify return successfully."
+          ModecPay.logger.info "[wxpay][#{Time.zone.now}] verify return successfully."
           case params['return_code']
             when 'SUCCESS'
-              t_payed = Time.now
+              t_payed = Time.zone.now
               result = {  :payment_id=>params['out_trade_no'],
                           :trade_no=>params['transaction_id']
               }
@@ -187,7 +187,7 @@ module ModecPay
     def pre_pay
         make_sign
         self.fields['pre_pay_xml'] =  self.fields.to_xml(:root=>"xml",:skip_instruct=>true,:indent=>0,:dasherize => false)
-        self.fields['time_stamp'] = Time.now.to_i
+        self.fields['time_stamp'] = Time.zone.now.to_i
         self.fields['sign_type'] ='MD5' #微信签名方式:1.sha1;2.md5
     end
 

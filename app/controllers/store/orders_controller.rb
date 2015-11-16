@@ -58,7 +58,7 @@ class Store::OrdersController < ApplicationController
       inventory_log.name =@inventory.name
       inventory_log.bn = @inventory.bn
       inventory_log.barcode = @inventory.barcode
-      inventory_log.createtime = Time.now.to_i
+      inventory_log.createtime = Time.zone.now.to_i
     end.save
 
 
@@ -103,7 +103,7 @@ class Store::OrdersController < ApplicationController
       inventory_log.name =@order_item.name
       inventory_log.bn = @order_item.bn
       inventory_log.barcode = @order_item.product.barcode
-      inventory_log.createtime = Time.now.to_i
+      inventory_log.createtime = Time.zone.now.to_i
     end.save
 
 

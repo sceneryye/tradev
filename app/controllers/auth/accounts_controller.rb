@@ -11,7 +11,7 @@ class Auth::AccountsController < ApplicationController
   	auth_user = session[:_auth_user]
   	auth_ext = session[:_auth_ext]
 
-  	now = Time.now
+  	now = Time.zone.now
   	@account = Ecstore::Account.new(params[:ecstore_account]) do |ac|
   		ac.account_type ="member"
   		ac.createtime = now.to_i

@@ -7,7 +7,7 @@ class Ecstore::Visitor< Ecstore::Base
 
     md5_login_name = Digest::MD5.hexdigest(self.visitor_name)
     md5_password = Digest::MD5.hexdigest(self.visitor_password)
-    "#{self.id}-#{md5_login_name}-#{md5_password}-#{Time.now.to_i}-#{self.shop_id}"
+    "#{self.id}-#{md5_login_name}-#{md5_password}-#{Time.zone.now.to_i}-#{self.shop_id}"
   end
 
 

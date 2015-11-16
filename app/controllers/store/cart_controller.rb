@@ -110,7 +110,7 @@ class Store::CartController < ApplicationController
      cart.obj_type = "goods"
      cart.quantity = quantity
      cart.goods_supplier = @good.supplier_id
-     cart.time = Time.now.to_i
+     cart.time = Time.zone.now.to_i
      cart.member_id = member_id
      cart.supplier_id=supplier_id
      cart.ref_id=ref_id
@@ -124,7 +124,7 @@ class Store::CartController < ApplicationController
    end
 
 		# if @product.semi_custom?
-		# 	ident = "#{@user.member_id}#{@product.product_id}#{Time.now.to_i}"
+		# 	ident = "#{@user.member_id}#{@product.product_id}#{Time.zone.now.to_i}"
 		# 	customs.each do |cus_val|
 		# 		cus_val.merge!(:product_id=>@product.product_id,
 		# 						:member_id=>@user.member_id,
@@ -283,7 +283,7 @@ end
   :member_ident=>member_ident).first_or_initialize do |cart|
   cart.obj_type = "goods"
   cart.quantity = 1
-  cart.time = Time.now.to_i
+  cart.time = Time.zone.now.to_i
   cart.member_id = member_id
 end
 
@@ -332,7 +332,7 @@ end
   :member_ident=>member_ident).first_or_initialize do |cart|
   cart.obj_type = "goods"
   cart.quantity = 1
-  cart.time = Time.now.to_i
+  cart.time = Time.zone.now.to_i
   cart.member_id = member_id
 end
 

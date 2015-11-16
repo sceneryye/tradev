@@ -12,7 +12,7 @@
       uploaded_io = params[:file]
       if !uploaded_io.blank?
         extension = uploaded_io.original_filename.split('.')
-        filename = "#{Time.now.strftime('%Y%m%d%H%M%S')}.#{extension[-1]}"
+        filename = "#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.#{extension[-1]}"
         #filepath = "#{PIC_PATH}/user_photos/#{filename}"
         filepath = "/root/pics/images/order_attachment/#{filename}"
         File.open(filepath, 'wb') do |file|

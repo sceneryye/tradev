@@ -19,7 +19,7 @@ class Store::PaymentsController < ApplicationController
 		end
 
 		#  update order payment
-		@order.update_attributes :payment=>pay_app_id,:last_modified=>Time.now.to_i,:installment=>installment,:part_pay=>part_pay if pay_app_id.to_s != @order.payment.to_s
+		@order.update_attributes :payment=>pay_app_id,:last_modified=>Time.zone.now.to_i,:installment=>installment,:part_pay=>part_pay if pay_app_id.to_s != @order.payment.to_s
 
 		params[:payment].merge! Ecstore::Payment::PAYMENTS[pay_app_id.to_sym]
 
@@ -35,7 +35,7 @@ class Store::PaymentsController < ApplicationController
 
 			payment.ip = request.remote_ip
 
-			payment.t_begin = payment.t_confirm = Time.now.to_i
+			payment.t_begin = payment.t_confirm = Time.zone.now.to_i
 
 			payment.memo = nil  if pay_app_id == 'bcom'
 			
@@ -88,7 +88,7 @@ class Store::PaymentsController < ApplicationController
 		        pay.notify_url = "#{site}/payments/#{@payment.payment_id}/#{adapter}/notify"
 				pay.pay_id = @payment.payment_id
 				pay.pay_amount = @payment.cur_money.to_f
-				pay.pay_time = Time.now
+				pay.pay_time = Time.zone.now
 				pay.subject = "贸威订单(#{order_id})"
 				pay.installment = @payment.pay_bill.order.installment if @payment.pay_bill.order
 		        pay.openid = @user.account.login_name
@@ -109,7 +109,7 @@ class Store::PaymentsController < ApplicationController
 				log.pay_name = adapter
 				log.request_ip = request.remote_ip
 				log.request_params = @modec_pay.fields.to_json
-				log.requested_at = Time.now
+				log.requested_at = Time.zone.now
 			end.save
 
 		else
@@ -118,7 +118,7 @@ class Store::PaymentsController < ApplicationController
 	end
 
 	def callback
-		ModecPay.logger.info "[#{Time.now}][#{request.remote_ip}] #{request.request_method} \"#{request.fullpath}\""
+		ModecPay.logger.info "[#{Time.zone.now}][#{request.remote_ip}] #{request.request_method} \"#{request.fullpath}\""
 
 		@payment = Ecstore::Payment.find(params.delete(:id))
 		return redirect_to detail_order_path(@payment.pay_bill.order) if @payment&&@payment.paid?
@@ -127,7 +127,7 @@ class Store::PaymentsController < ApplicationController
 		params.delete :controller
 		params.delete :action
 
-		@payment.payment_log.update_attributes({:return_ip=>request.remote_ip,:return_params=> params,:returned_at=>Time.now}) if @payment.payment_log
+		@payment.payment_log.update_attributes({:return_ip=>request.remote_ip,:return_params=> params,:returned_at=>Time.zone.now}) if @payment.payment_log
 
 		@order = @payment.pay_bill.order
 		@user = @payment.user
@@ -174,7 +174,7 @@ class Store::PaymentsController < ApplicationController
         Ecstore::MemberAdvance.create(:member_id=>member_id,
                                       :money=>@order.final_pay,
                                       :message=>"预充值消费:#{@order.final_pay}",
-                                      :mtime=>Time.now.to_i,
+                                      :mtime=>Time.zone.now.to_i,
                                       :memo=>"用户本人操作",
                                       :order_id=>@order.order_id,
                                       :import_money=>0,
@@ -221,7 +221,7 @@ class Store::PaymentsController < ApplicationController
 
 				pay.fields = {}
 
-				time = Time.now
+				time = Time.zone.now
         if adapter == "ips"
           # ===Ips
           pay.fields["Mer_code"] = "000015"
@@ -361,7 +361,7 @@ class Store::PaymentsController < ApplicationController
 	end
 
 	def notify
-		ModecPay.logger.info "[#{Time.now}][#{request.remote_ip}] #{request.request_method} \"#{request.fullpath}\" params : #{ params.to_s }"
+		ModecPay.logger.info "[#{Time.zone.now}][#{request.remote_ip}] #{request.request_method} \"#{request.fullpath}\" params : #{ params.to_s }"
 
 		@payment = Ecstore::Payment.find(params.delete(:id))
 
@@ -378,7 +378,7 @@ class Store::PaymentsController < ApplicationController
 
 		@payment.payment_log.update_attributes({:notify_ip=>request.remote_ip,
 			                                                                           :notify_params=> params.to_json,
-			                                                                           :notified_at=>Time.now,
+			                                                                           :notified_at=>Time.zone.now,
 			                                                                           :result=>result.to_json}) if @payment.payment_log
 
 		if result.is_a?(Hash) && result.present?

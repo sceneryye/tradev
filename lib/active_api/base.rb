@@ -25,7 +25,7 @@ module ActiveApi
           :grant_type=>'authorization_code',
           :code=>code
       }
-      request_time = Time.now.to_i
+      request_time = Time.zone.now.to_i
 
       res = Faraday.new(config.access_token_uri,:ssl=>config.ssl, :params => params).post
 
@@ -44,7 +44,7 @@ module ActiveApi
 				:grant_type=>'authorization_code',
 				:code=>code
 			}
-			request_time = Time.now.to_i
+			request_time = Time.zone.now.to_i
 
 			res = Faraday.new(config.access_token_uri,:ssl=>config.ssl, :params => params).post
 			

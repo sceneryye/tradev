@@ -26,7 +26,7 @@ class Admin::ArticlesController < Admin::BaseController
     @article = Imodec::Article.new(params[:imodec_article])
 
     if @article.published
-      @article.published_at = Time.now
+      @article.published_at = Time.zone.now
     end
     respond_to do |format|
       if @article.save

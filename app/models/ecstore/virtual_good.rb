@@ -23,9 +23,9 @@ class Ecstore::VirtualGood < Ecstore::Base
 	def set_marketing_time
 		if self.changes[:marketable].present?
 			if self.marketable
-				self.uptime = Time.now.to_i  
+				self.uptime = Time.zone.now.to_i  
 			else
-              self.downtime = Time.now.to_i  
+              self.downtime = Time.zone.now.to_i  
 			end
 		end
 	end

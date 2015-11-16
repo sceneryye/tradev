@@ -49,7 +49,7 @@ class Store::GoodsController < ApplicationController
       if signed_in?
         member_id = @user.member_id
       end
-      now  = Time.now.to_i
+      now  = Time.zone.now.to_i
       Ecstore::RecommendLog.new do |rl|
         rl.wechat_id = @recommend_user
         rl.goods_id = @good.goods_id
@@ -116,7 +116,7 @@ class Store::GoodsController < ApplicationController
      if signed_in?
        member_id = @user.member_id
      end
-     now  = Time.now.to_i
+     now  = Time.zone.now.to_i
       Ecstore::RecommendLog.new do |rl|
        rl.wechat_id = @recommend_user
        rl.goods_id = @good.goods_id
@@ -310,7 +310,7 @@ class Store::GoodsController < ApplicationController
           fav.goods_id = params[:id]
           fav.member_id = @user.member_id
           fav.status = 'ready'
-          fav.create_time = Time.now.to_i
+          fav.create_time = Time.zone.now.to_i
           fav.disabled =  'false'
           fav.type = 'fav'
           fav.object_type = "goods"

@@ -18,7 +18,7 @@ class UsersController < ApplicationController
       supplier_id = params[:supplier_id]
     end
 
-  	now  = Time.now
+  	now  = Time.zone.now
 	  @account = Ecstore::Account.new(params[:user]) do |ac|
   		ac.account_type ="member"
   		ac.createtime = now.to_i

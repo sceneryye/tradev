@@ -76,7 +76,7 @@ class Shop:: ShopinfosController < ApplicationController
     if @shop.save
 
       @shop_log =Ecstore::ShopLog.new do |log|
-        log.datetime=Time.now
+        log.datetime=Time.zone.now
         log.shop_id=@shop.shop_id
         log.shop_ip=request.remote_ip
       end.save
@@ -162,7 +162,7 @@ class Shop:: ShopinfosController < ApplicationController
                 goo.shop_id=shop_id
                 goo.goods_id=@goods_id
                 goo.supplier_id=supplier_id
-                goo.uptime=Time.now
+                goo.uptime=Time.zone.now
                end.save
       end
    elsif  Ecstore::ShopsGood.where(:supplier_id=>supplier_id ).count>0
@@ -171,7 +171,7 @@ class Shop:: ShopinfosController < ApplicationController
            goo.shop_id=shop_id
            goo.goods_id=@goods_id
            goo.supplier_id=supplier_id
-           goo.uptime=Time.now
+           goo.uptime=Time.zone.now
          end.save
        end
 
@@ -235,7 +235,7 @@ class Shop:: ShopinfosController < ApplicationController
       if signed_in?
         member_id = @user.member_id
       end
-      now  = Time.now.to_i
+      now  = Time.zone.now.to_i
       Ecstore::RecommendLog.new do |rl|
         rl.wechat_id = @recommend_user
         rl.goods_id = @good.goods_id
@@ -284,7 +284,7 @@ class Shop:: ShopinfosController < ApplicationController
       if signed_in?
         member_id = @user.member_id
       end
-      now  = Time.now.to_i
+      now  = Time.zone.now.to_i
       Ecstore::RecommendLog.new do |rl|
         rl.wechat_id = @recommend_user
         rl.goods_id = @good.goods_id

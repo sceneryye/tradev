@@ -77,11 +77,11 @@ module ModecPay
 			def verify_notify(params,options)
 				if verify_sign(params)
 					
-					ModecPay.logger.info "[alipaywap][#{Time.now}] payment=#{params['out_trade_no']} verify notify successfully."
+					ModecPay.logger.info "[alipaywap][#{Time.zone.now}] payment=#{params['out_trade_no']} verify notify successfully."
 
           case params['result']
             when 'success'
-							t_payed = Time.now.to_i
+							t_payed = Time.zone.now.to_i
 							t_payed = Time.parse(params['gmt_payment']).to_i  if params['gmt_payment'].present?
 							result = {  :payment_id=>params['out_trade_no'],
 								   :trade_no=>params['trade_no'],
@@ -101,10 +101,10 @@ module ModecPay
 
 			def verify_return(params,options)
 				if verify_sign(params)
-					ModecPay.logger.info "[alipaywap][#{Time.now}] verify return successfully."
+					ModecPay.logger.info "[alipaywap][#{Time.zone.now}] verify return successfully."
 					case params['result']
 						when 'success'
-							t_payed = Time.now
+							t_payed = Time.zone.now
 							result = {  :payment_id=>params['out_trade_no'],
 								   :trade_no=>params['trade_no']
 							}

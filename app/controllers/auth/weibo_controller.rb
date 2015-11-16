@@ -44,7 +44,7 @@ class Auth::WeiboController < ApplicationController
 			
 			login_name = "#{login_name}_#{rand(9999)}" if check_user
 
-			now = Time.now
+			now = Time.zone.now
 			@account = Ecstore::Account.new  do |ac|
 				#account
 				ac.login_name = login_name

@@ -14,7 +14,7 @@ module Admin
 
   def create
     @rules = Ecstore::Rule.new(params[:rules]) do  |ru|
-      ru.create_time=Time.now
+      ru.create_time=Time.zone.now
       ru.from_time=Time.parse(params[:rules][:from_time]).to_i
       ru.to_time=Time.parse(params[:rules][:to_time]).to_i
 

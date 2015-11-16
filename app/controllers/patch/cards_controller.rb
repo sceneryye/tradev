@@ -46,12 +46,12 @@ class Patch::CardsController < ApplicationController
 					text = "您购买的摩登客VIP卡#{@card.no}已锁定,如有疑问请致电客服18917937822[I-Modec摩登客]"
 					if Sms.send(@card.member_card.buyer_tel,text)
 						tel = @card.member_card.buyer_tel
-						@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]#{text}")
+						@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]#{text}")
 					end
 					text = "您的摩登客VIP卡#{@card.no}已被锁定,如有疑问请致电客服18917937822[I-Modec摩登客]"
 					if Sms.send(@card.member_card.user_tel,text)
 						tel = @card.member_card.user_tel
-						@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]#{text}")
+						@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]#{text}")
 					end
 				rescue
 				end
@@ -63,12 +63,12 @@ class Patch::CardsController < ApplicationController
 					text = "您购买的摩登客VIP卡#{@card.no}已被#{mask(@card.member_card.user_tel)}挂失,如有疑问请致电18917937822[I-Modec摩登客]"
 					if Sms.send(@card.member_card.buyer_tel,text)
 						tel = @card.member_card.buyer_tel
-						@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]#{text}")
+						@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]#{text}")
 					end
 					text = "您的摩登客VIP卡#{@card.no}已锁定,如有疑问请致电客服18917937822[I-Modec摩登客]"
 					if Sms.send(@card.member_card.user_tel,text)
 						tel = @card.member_card.user_tel
-						@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]#{text}")
+						@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]#{text}")
 					end
 				rescue
 				end
@@ -101,12 +101,12 @@ class Patch::CardsController < ApplicationController
 					text = "您购买的摩登客VIP卡#{@card.no}已被重新启用,如有疑问请致电客服18917937822[I-Modec摩登客]"
 					if Sms.send(@card.member_card.buyer_tel,text)
 						tel = @card.member_card.buyer_tel
-						@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]#{text}")
+						@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]#{text}")
 					end
 					text = "您的摩登客VIP卡#{@card.no}已被重新启用,如有疑问请致电客服18917937822[I-Modec摩登客]"
 					if Sms.send(@card.member_card.user_tel,text)
 						tel = @card.member_card.user_tel
-						@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]#{text}")
+						@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]#{text}")
 					end
 				rescue
 				end
@@ -118,12 +118,12 @@ class Patch::CardsController < ApplicationController
 					text = "您购买的摩登客VIP卡#{@card.no}已被#{mask(@card.member_card.buyer_tel)}启用,如有疑问请致电18917937822[I-Modec摩登客]"
 					if Sms.send(@card.member_card.buyer_tel,text)
 						tel = @card.member_card.buyer_tel
-						@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]#{text}")
+						@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]#{text}")
 					end
 					text = "您的摩登客VIP卡#{@card.no}已被重新启用,如有疑问请致电客服18917937822[I-Modec摩登客]"
 					if Sms.send(@card.member_card.user_tel,text)
 						tel = @card.member_card.user_tel
-						@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]#{text}")
+						@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]#{text}")
 					end
 				rescue
 				end
@@ -170,7 +170,7 @@ class Patch::CardsController < ApplicationController
 				text = "您购买的摩登客VIP卡#{@card.no}已更改购卡人的联系方式,如有疑问请致电18917937822[I-Modec摩登客]"
 				if Sms.send(@buyer_tel,text)
 					tel = @buyer_tel
-					@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]#{text}")
+					@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]#{text}")
 				end
 			rescue
 			end
@@ -212,7 +212,7 @@ class Patch::CardsController < ApplicationController
 					text = "您的摩登客VIP卡#{@card.no}联系方式已改为#{mask(@user_tel)}如有疑问请致电18917937822[I-Modec摩登客]"
 					if Sms.send(@user_tel,text)
 						tel =@user_tel
-						@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]#{text}")
+						@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]#{text}")
 					end
 				rescue
 				end
@@ -222,7 +222,7 @@ class Patch::CardsController < ApplicationController
 					text = "您购买的摩登客VIP卡#{@card.no}已更改指定用卡人的联系方式,如有疑问请致电18917937822[I-Modec摩登客]"
 					if Sms.send(@card.member_card.buyer_tel,text)
 						tel = @card.member_card.buyer_tel
-						@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]#{text}")
+						@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]#{text}")
 					end
 				rescue
 				end

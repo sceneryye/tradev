@@ -75,7 +75,7 @@ module Admin
                         country.save
                       end
                     end
-                    @good.uptime=Time.now
+                    @good.uptime=Time.zone.now
                     @good.place = row[11]
                     @good.cost = row[13]
                     @good.wholesale = row[14]
@@ -262,14 +262,14 @@ module Admin
           end
         end
 
-        send_data package.to_stream.read,:filename=>"goods_#{Time.now.strftime('%Y%m%d%H%M%S')}.xlsx"
+        send_data package.to_stream.read,:filename=>"goods_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
 
         #content = Ecstore::Good.export_cvs(fields,goods) #导出cvs
         # MS Office 需要转码
-        # send_data(content, :type => 'text/csv',:filename => "goods_#{Time.now.strftime('%Y%m%d%H%M%S')}.csv")
+        # send_data(content, :type => 'text/csv',:filename => "goods_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.csv")
 
         # content = Ecstore::Good.export_xls(fields,goods) #导出excel
-        # send_data(content, :type => "text/excel;charset=utf-8; header=present",:filename => "goods_#{Time.now.strftime('%Y%m%d%H%M%S')}.xls")
+        # send_data(content, :type => "text/excel;charset=utf-8; header=present",:filename => "goods_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xls")
       end
 
       def batch
@@ -283,7 +283,7 @@ module Admin
           goods = Ecstore::Good.where(conditions).includes(:good_type,:brand,:cat,:products)
           file = Ecstore::Good.exporttmp(goods)
           return render :json=>{:csv=>"/tmp/goods.csv"}
-          #return send_file file, :filename=>"goods_#{Time.now.strftime('%Y%m%d%H%M%S')}.csv", :type=>"text/csv"
+          #return send_file file, :filename=>"goods_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.csv", :type=>"text/csv"
 
         end
 
@@ -292,11 +292,11 @@ module Admin
         end
 
         if act == "up"
-          Ecstore::Good.where(conditions).update_all(:marketable=>'true',:uptime=>Time.now.to_i)
+          Ecstore::Good.where(conditions).update_all(:marketable=>'true',:uptime=>Time.zone.now.to_i)
         end
 
         if act == "down"
-          Ecstore::Good.where(conditions).update_all(:marketable=>'false',:downtime=>Time.now.to_i)
+          Ecstore::Good.where(conditions).update_all(:marketable=>'false',:downtime=>Time.zone.now.to_i)
         end
 
         if act=="tag"
@@ -467,7 +467,7 @@ module Admin
       def black_good_new
         @blackgood=Ecstore::BlackGood.new(params[:black_good]) do |sv|
 
-          sv.uptime=Time.now
+          sv.uptime=Time.zone.now
         #  sv.downtime=Time.parse(params[:black_good][:downtime]).to_i+(hour.to_i)*3600
 
         end.save

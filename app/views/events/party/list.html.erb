@@ -17,7 +17,7 @@
           </div>
           <div class="am-u-sm-10 am-list-main">
             <h4 class="clearstyle evenfont"> <%=event.name%>  </h4>
-            <%if (Time.at(event.endtime).to_s(:db))<Time.at(Time.now).to_s(:db)%>
+            <%if (Time.at(event.endtime).to_s(:db))<Time.at(Time.zone.now).to_s(:db)%>
             <span style="font-size: 13px;color: #000000">报名已经结束</span>
 
                 <%else%>

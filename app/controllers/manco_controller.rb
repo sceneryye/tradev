@@ -102,7 +102,7 @@ class MancoController < ApplicationController
     goodsname=departure+"-"+arrival;
     @blackgood=Ecstore::BlackGood.new(params[:black_good]) do |sv|
        sv.name= goodsname
-      sv.uptime=Time.now
+      sv.uptime=Time.zone.now
        sv.downtime=Time.parse(params[:black_good][:downtime]).to_i+(hour.to_i)*3600
 
     end.save
@@ -229,9 +229,9 @@ end
     @manco_title="发布车源信息"
     hour=params[:hour]
     @good = Ecstore::Good.new(params[:good]) do |ac|
-            ac.bn="a098"+Time.now.strftime('%Y%m%d%H%M%S')
+            ac.bn="a098"+Time.zone.now.strftime('%Y%m%d%H%M%S')
             ac.unit= "吨"
-            ac.uptime=Time.now
+            ac.uptime=Time.zone.now
             ac.downtime=Time.parse(params[:good][:downtime]).to_i+(hour.to_i)*3600
 
     end

@@ -66,7 +66,7 @@ class Admin::OrdersController < Admin::BaseController
  #        end
  #        pp @orders
  #        content = export_order(@orders)  #调用export方法
- #        send_data(content, :type => 'text/csv',:filename => "order_#{Time.now.strftime('%Y%m%d%H%M%S')}.csv")
+ #        send_data(content, :type => 'text/csv',:filename => "order_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.csv")
 	# end
 
 	# def export_order(orders)
@@ -217,10 +217,10 @@ class Admin::OrdersController < Admin::BaseController
 			payment.member_id = payment.op_id = @user.member_id
 			payment.pay_account = @user.login_name
 			payment.ip = request.remote_ip
-			payment.t_begin = payment.t_confirm = Time.now.to_i
+			payment.t_begin = payment.t_confirm = Time.zone.now.to_i
 			payment.cur_money = params[:payment][:money].to_i
 			payment.status = 'succ'
-			payment.t_payed = Time.now.to_i
+			payment.t_payed = Time.zone.now.to_i
 
 			payment.pay_bill = Ecstore::Bill.new do |bill|
 				bill.rel_id  = @order.order_id
@@ -273,7 +273,7 @@ class Admin::OrdersController < Admin::BaseController
 		end
 
 		@delivery = Ecstore::Delivery.new params[:delivery] do |delivery|
-			delivery.t_begin = Time.now.to_i
+			delivery.t_begin = Time.zone.now.to_i
 			delivery.status = "succ"
 		end
 		if @delivery.save
@@ -311,7 +311,7 @@ class Admin::OrdersController < Admin::BaseController
 		end
 
 		@reship = Ecstore::Reship.new params[:reship] do |reship|
-			reship.t_begin = Time.now.to_i
+			reship.t_begin = Time.zone.now.to_i
 			reship.status = "succ"
 		end
 		if @reship.save
@@ -339,10 +339,10 @@ class Admin::OrdersController < Admin::BaseController
 			refund.pay_ver = '1.0'
 			refund.currency = "CNY"
 			refund.paycost = 0
-			refund.t_begin = refund.t_confirm = Time.now.to_i
+			refund.t_begin = refund.t_confirm = Time.zone.now.to_i
 			refund.cur_money = params[:refund][:money].to_i
 			refund.status = 'succ'
-			refund.t_payed = Time.now.to_i
+			refund.t_payed = Time.zone.now.to_i
 
 			refund.bill = Ecstore::Bill.new do |bill|
 				bill.rel_id  = @order.order_id
@@ -389,7 +389,7 @@ class Admin::OrdersController < Admin::BaseController
 	                order_log.rel_id = @order.order_id
 	                order_log.op_id = current_admin.account_id
 	                order_log.op_name = current_admin.login_name
-	                order_log.alttime = Time.now.to_i
+	                order_log.alttime = Time.zone.now.to_i
 	                order_log.behavior = 'finish'
 	                order_log.result = "SUCCESS"
 	                order_log.log_text = "订单完成 !"
@@ -401,7 +401,7 @@ class Admin::OrdersController < Admin::BaseController
 	                order_log.rel_id = @order.order_id
 	                order_log.op_id = current_admin.account_id
 	                order_log.op_name = current_admin.login_name
-	                order_log.alttime = Time.now.to_i
+	                order_log.alttime = Time.zone.now.to_i
 	                order_log.behavior = 'cancel'
 	                order_log.result = "SUCCESS"
 	                order_log.log_text = "取消订单 !"
@@ -426,7 +426,7 @@ class Admin::OrdersController < Admin::BaseController
 	                order_log.rel_id = @order.order_id
 	                order_log.op_id = current_admin.account_id
 	                order_log.op_name = current_admin.login_name
-	                order_log.alttime = Time.now.to_i
+	                order_log.alttime = Time.zone.now.to_i
 	                order_log.behavior = "memo"
 	                order_log.result = "SUCCESS"
 	                order_log.log_text = "memo info:#{params[:ecstore_order][:memo]}"

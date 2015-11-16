@@ -29,7 +29,7 @@ class Ecstore::Payment < Ecstore::Base
           seq = rand(0..9999)
           loop do
               seq = 1 if seq == 9999
-              _payment_id = Time.now.to_i.to_s + ( "%04d" % seq.to_s )
+              _payment_id = Time.zone.now.to_i.to_s + ( "%04d" % seq.to_s )
               return _payment_id unless  Ecstore::Payment.find_by_payment_id(_payment_id)
               seq += 1
           end

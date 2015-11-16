@@ -56,7 +56,7 @@ module ModecPay
 		end
 
 		def pay_time=(val)
-			val = Time.now unless val.is_a?(Time)
+			val = Time.zone.now unless val.is_a?(Time)
 			self.fields['orderTime'] = val.strftime('%Y%m%d%H%M%S')
 		end
 
@@ -107,11 +107,11 @@ module ModecPay
 				bill99_redirect_url = options.delete(:bill99_redirect_url)
 
 				if verify_sign(params)
-					ModecPay.logger.info "[bill99][#{Time.now}] payment=#{params['orderId']} verify notify successfully."
+					ModecPay.logger.info "[bill99][#{Time.zone.now}] payment=#{params['orderId']} verify notify successfully."
 					
 					case params['payResult']
 						when '10'
-							t_payed = Time.now.to_i
+							t_payed = Time.zone.now.to_i
 							t_payed = Time.parse(params['dealTime'].to_s).to_i  if params['dealTime'].present?
 							result = {  :payment_id=>params['orderId'],
 								   :trade_no=>params['dealId'],

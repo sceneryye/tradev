@@ -64,7 +64,7 @@
 
         }">
 
-  <%if (Time.at(@event.endtime).to_s(:db))>Time.at(Time.now).to_s(:db)%>
+  <%if (Time.at(@event.endtime).to_s(:db))>Time.at(Time.zone.now).to_s(:db)%>
   <a href="/events/foodie/new?id=<%=@event.id%>&supplier_id=78"class="am-btn am-btn-block am-btn-warning">我要报名</a>
   <%else%>
       <a href="javascript:void (0)"class="am-btn am-btn-block am-btn-default">报名已经结束</a>

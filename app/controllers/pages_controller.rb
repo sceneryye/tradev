@@ -14,7 +14,7 @@ class PagesController < ApplicationController
       if signed_in?
         member_id = @user.member_id
       end
-      now  = Time.now.to_i
+      now  = Time.zone.now.to_i
       Ecstore::RecommendLog.new do |rl|
         rl.wechat_id = @recommend_user
         #rl.goods_id = @good.goods_id

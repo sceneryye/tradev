@@ -55,7 +55,7 @@ def my_add_shopping
 									  :member_ident=>member_ident).first_or_initialize do |cart|
 			cart.obj_type = "goods"
 			cart.quantity = quantity
-			cart.time = Time.now.to_i
+			cart.time = Time.zone.now.to_i
 			cart.member_id = @user.member_id
       cart.shop_id = shop_id
 		end

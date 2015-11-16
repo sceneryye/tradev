@@ -107,7 +107,7 @@ class Memberships::CardsController < ApplicationController
 							  :member_id=>@user.member_id).first_or_initialize do |cart|
 				cart.obj_type = "goods"
 				cart.quantity = 1
-				cart.time = Time.now.to_i
+				cart.time = Time.zone.now.to_i
 			end
 			if @cart.new_record?
 				@cart.save
@@ -120,10 +120,10 @@ class Memberships::CardsController < ApplicationController
 			# 	text = "您已成功购买摩登客VIP卡,感谢您对我们的支持，如需帮助可致电客服18917937822[I-Modec摩登客]"
 			# 	tel = @card.member_card.buyer_tel
 			# 	if Sms.send(@card.member_card.buyer_tel,text)
-			# 		@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]#{text}")
+			# 		@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]#{text}")
 			# 	end
 			# rescue
-			# 	@sms_log.info("[#{@user.login_name}][#{Time.now}]购买VIP卡,发送短信失败")
+			# 	@sms_log.info("[#{@user.login_name}][#{Time.zone.now}]购买VIP卡,发送短信失败")
 			# end
 			
 
@@ -270,10 +270,10 @@ class Memberships::CardsController < ApplicationController
 			begin
 				if Sms.send(tel,text)
 					@user.update_attribute :sms_code, sms_code
-					@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]发送手机验证码: #{sms_code}")
+					@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]发送手机验证码: #{sms_code}")
 				end
 			rescue Exception => e
-				@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]发送手机验证码失败:#{e}")
+				@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]发送手机验证码失败:#{e}")
 			end
 			
 			render "memberships/cards/activation/validate"
@@ -313,7 +313,7 @@ class Memberships::CardsController < ApplicationController
 			Ecstore::MemberAdvance.create(:member_id=>@user.member_id,
 											  :money=>@card.value,
 											  :message=>"会员卡激活,卡号:#{@card.no}",
-											  :mtime=>Time.now.to_i,
+											  :mtime=>Time.zone.now.to_i,
 											  :memo=>"用户本人操作",
 											  :import_money=>@card.value,
 											  :explode_money=>0,
@@ -322,7 +322,7 @@ class Memberships::CardsController < ApplicationController
 											  :disabled=>'false')
 			@user.update_attribute :advance, (@card.value + @user.advance)
 			@card.update_attribute :use_status,true
-			@card.update_attribute :used_at,Time.now
+			@card.update_attribute :used_at,Time.zone.now
 			@card.member_card.update_attribute :user_id,@user.member_id
 
 			
@@ -331,17 +331,17 @@ class Memberships::CardsController < ApplicationController
 				text = "您购买的摩登客VIP卡#{@card.no}已被#{mask @card.member_card.user_tel}激活,如有疑问请致电18917937822[I-Modec摩登客]"
 				if Sms.send(@card.member_card.buyer_tel,text)
 					tel = @card.member_card.buyer_tel
-					@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]#{text}")
+					@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]#{text}")
 				end
 
 				text = "您的摩登客VIP卡#{@card.no}已激活,如有疑问请致电客服18917937822[I-Modec摩登客]"
 				if Sms.send(@card.member_card.user_tel,text)
 					tel = @card.member_card.user_tel
-					@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]#{text}")
+					@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]#{text}")
 				end
 
 			rescue
-				@sms_log.info("[#{@user.login_name}][#{Time.now}]激活VIP卡,发送短信失败")
+				@sms_log.info("[#{@user.login_name}][#{Time.zone.now}]激活VIP卡,发送短信失败")
 			end
 
 			Ecstore::CardLog.create(:member_id=>@user.member_id,
@@ -364,14 +364,14 @@ class Memberships::CardsController < ApplicationController
 		@sms_log ||= Logger.new('log/sms.log')
 		if Sms.send(tel,text)
 			@user.update_attribute :sms_code, sms_code
-			@user.update_attribute :sent_sms_at, Time.now
-			@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]发送手机验证码: #{sms_code}")
+			@user.update_attribute :sent_sms_at, Time.zone.now
+			@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]发送手机验证码: #{sms_code}")
 
 			render :json=>{:code=>'t',:msg=>'验证码已发送'}.to_json
 		end
 
 	rescue Exception=> e
-		@sms_log.info("[#{@user.login_name}][#{Time.now}][#{tel}]发送手机验证码失败:#{e}")
+		@sms_log.info("[#{@user.login_name}][#{Time.zone.now}][#{tel}]发送手机验证码失败:#{e}")
 		render :json=>{ :code=>'f',:msg=>e }.to_json
 	end
 

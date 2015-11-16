@@ -32,7 +32,7 @@ module Admin
       end
 
       def shares
-        @shares = Ecstore::WeihuoShare.paginate(:page=>params[:page],:per_page=>20)
+        @shares = Ecstore::WeihuoShare.paginate(:page=>params[:page],:per_page=>20).order('id desc')
         if params[:code] == 'success'
           share = Ecstore::WeihuoShare.where(:order_id => params[:order_id]).first
           share.update_attribute(:status, 1)

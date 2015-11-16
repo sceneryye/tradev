@@ -21,7 +21,7 @@ class Ecstore::Coupon < Ecstore::Base
 	end
 
 	def expired?
-		now = Time.now.to_i
+		now = Time.zone.now.to_i
 		!(self.rule_order.from_time <= now && self.rule_order.to_time >= now)
 	end
 end

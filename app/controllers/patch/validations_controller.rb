@@ -33,7 +33,7 @@ class Patch::ValidationsController < ApplicationController
 			if Sms.send(mobile,text)
 				@user.update_attribute(:mobile, mobile)
 				@user.update_attribute(:sms_code, sms_code)
-				@user.update_attribute(:sent_sms_at, Time.now)
+				@user.update_attribute(:sent_sms_at, Time.zone.now)
 				@result = true
 				@msg = "手机验证码已经发送"
 			else
@@ -58,7 +58,7 @@ class Patch::ValidationsController < ApplicationController
 	def verify
 		sms_code = params[:validation] && params[:validation][:sms_code]
 
-		if sms_code.to_s == @user.sms_code.to_s && @user.sent_sms_at + 30.minutes > Time.now
+		if sms_code.to_s == @user.sms_code.to_s && @user.sent_sms_at + 30.minutes > Time.zone.now
 			@user.update_attribute(:sms_validate, 'true')
 			@user.update_attribute(:sms_code, nil)
 			@msg = "手机验证成功"

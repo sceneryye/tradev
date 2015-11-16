@@ -32,7 +32,7 @@ class Ecstore::NewCoupon < Ecstore::Base
 
 	def enable?
 	      return false  unless  self.enable
-	  	now =  Time.now
+	  	now =  Time.zone.now
 	       if self.begin_at.blank? && self.end_at.blank?
 	          return true
 	       end

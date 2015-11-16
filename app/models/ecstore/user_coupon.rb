@@ -38,7 +38,7 @@ class Ecstore::UserCoupon < Ecstore::Base
 		state = "有效"
 		if self.coupon_code[0] == "B"
 			state = "已使用" if self.used_at.present? && self.used_times.to_i > 0
-			state = "已过期" unless  self.new_coupon.end_at > Time.now  && self.new_coupon.enable
+			state = "已过期" unless  self.new_coupon.end_at > Time.zone.now  && self.new_coupon.enable
 		end
 
 		if self.coupon_code[0] == "A"

@@ -16,7 +16,7 @@
       <div class="left"><span><%=@good.brand.brand_name if @good.brand%></span></div>
       <div class="right">
         <!--时间显示-->
-        <input type="hidden"id="date" value=" <%=(@tuan.to_time)-(Time.now).to_i%>">
+        <input type="hidden"id="date" value=" <%=(@tuan.to_time)-(Time.zone.now).to_i%>">
         <p><span style="color: rgb(0, 0, 0); font-size: 14px;"><span id="day_show">0</span><span id="hour_show">0:</span><span id="minute_show">0:</span><span id="second_show">0</span></span></p>
       </div>
     </div>
@@ -24,7 +24,7 @@
     <div class="threefloor">
       <div class="left"><span class="s1">￥<%=@tuan.promotionsprice%></span><span class="s2">￥<%=@good.price%></span></div>
       <div class="right">
-        <%if (@tuan.to_time)-(Time.now).to_i<2%>
+        <%if (@tuan.to_time)-(Time.zone.now).to_i<2%>
             <div href="javascript:;" id="orderbuy2">活动结束</div>
             <%else%>
         <a data-role="button" href="/mproducts?id=<%=@good.bn%>&supplier_id=<%=@supplier.id%>&fp=category&ref_id=<%=@tuan.ref_id%>" id="orderbuy">立即抢购</a>

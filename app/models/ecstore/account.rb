@@ -293,7 +293,7 @@ class Ecstore::Account < Ecstore::Base
 	def gen_secret_string_for_cookie
 		md5_login_name = Digest::MD5.hexdigest(self.login_name)
 		md5_password = Digest::MD5.hexdigest(self.login_password)
-		"#{self.account_id}-#{md5_login_name}-#{md5_password}-#{Time.now.to_i}"
+		"#{self.account_id}-#{md5_login_name}-#{md5_password}-#{Time.zone.now.to_i}"
 	end
 
 	def super?

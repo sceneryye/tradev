@@ -142,7 +142,7 @@ module SessionsHelper
 	  	token = params[:token]
 	  	if token.present?
 		  	@access_log ||=  Logger.new("log/access.log")
-		  	@access_log.info("[#{Time.now}] : #{request.url}")
+		  	@access_log.info("[#{Time.zone.now}] : #{request.url}")
 		  	return true
 		end
 

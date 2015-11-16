@@ -11,7 +11,7 @@ module WeixinPay
       o.final_amount = total_fee
       o.pay_status = '0'
       o.ship_status = '0'
-      o.createtime = Time.now.to_i
+      o.createtime = Time.zone.now.to_i
       o.status = 'active'
     end
     order.save

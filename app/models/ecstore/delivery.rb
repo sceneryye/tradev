@@ -72,7 +72,7 @@ class Ecstore::Delivery < Ecstore::Base
 	end
 
 	def self.generate_delivery_id
-	    _time = "1#{Time.now.strftime('%Y%m%d%H%M%S')}"
+	    _time = "1#{Time.zone.now.strftime('%Y%m%d%H%M%S')}"
 	    seq = rand(10000)
           loop do
           	  _dly_id = "#{_time}#{seq}"

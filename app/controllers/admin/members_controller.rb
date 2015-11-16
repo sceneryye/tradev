@@ -68,13 +68,13 @@ module Admin
              while tels.size > 20 do
                  sends = tels.slice!(0,20).join(";")
                  if Sms.send(sends,text)
-                    @sms_log.info("[#{current_admin.login_name}][#{Time.now}][#{sends}]短信群发:#{text}")
+                    @sms_log.info("[#{current_admin.login_name}][#{Time.zone.now}][#{sends}]短信群发:#{text}")
                  end
              end
              if tels.size > 0
                 sends = tels.slice!(0,20).join(";")
                 if Sms.send(sends,text)
-                  @sms_log.info("[#{current_admin.login_name}][#{Time.now}][#{sends}]短信群发:#{text}")
+                  @sms_log.info("[#{current_admin.login_name}][#{Time.zone.now}][#{sends}]短信群发:#{text}")
                 end
              end
           rescue
@@ -107,10 +107,10 @@ module Admin
         begin
           tels = tels.split(";").select{|x| x.present?&&(/^[1-9][0-9]{10}$/ =~ x)}.join(";")
           if Sms.send(tels,text)
-              @sms_log.info("[#{current_admin.login_name}][#{Time.now}][#{tels}]短信群发:#{text}")
+              @sms_log.info("[#{current_admin.login_name}][#{Time.zone.now}][#{tels}]短信群发:#{text}")
           end
         rescue Exception => e
-              @sms_log.info("[#{current_admin.login_name}][#{Time.now}]错误:#{e}")
+              @sms_log.info("[#{current_admin.login_name}][#{Time.zone.now}]错误:#{e}")
         end
 
         respond_to do |format|
@@ -131,7 +131,7 @@ module Admin
            members = Ecstore::Member.find(:all,:conditions => ["member_id in (?)",params[:ids]])
         end
         content = Ecstore::Member.export(fields,members)  #调用export方法
-        send_data(content, :type => 'text/csv',:filename => "member_#{Time.now.strftime('%Y%m%d%H%M%S')}.csv")
+        send_data(content, :type => 'text/csv',:filename => "member_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.csv")
       end
 
       def column_reload

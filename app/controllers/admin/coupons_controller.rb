@@ -11,7 +11,7 @@ module Admin
       	else
       		@users = Ecstore::User.order("regtime DESC").paginate(:page=>params[:page],:per_page=>15)
       	end
-      	current_time = Time.now.to_i
+      	current_time = Time.zone.now.to_i
       	@coupons = Ecstore::Coupon.where(:cpns_status=>"1").select do |coupon|
           rule = Ecstore::RuleOrder.find_by_rule_id(coupon.rule_id)
       					if rule.from_time <= current_time && rule.to_time >= current_time
@@ -32,14 +32,14 @@ module Admin
                 mc.member_id = @user.member_id
                 mc.memc_source = coupon.cpns_type == "1" ? "b" : (coupon.cpns_type == "0" ? "a" : "c")
                 mc.memc_enabled  = "true"
-                mc.memc_gen_time = Time.now.to_i
+                mc.memc_gen_time = Time.zone.now.to_i
                 mc.disabled = "false"
                 mc.memc_isvalid = "true"
             end
             @memc.transaction do
               @memc.save
               coupon.increment!(:cpns_gen_quantity) if @memc
-              coupon_logger.info("[#{current_admin.login_name}][#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}][IP:#{request.remote_ip}]:添加优惠券#{coupon_code}(#{coupon.cpns_name}[#{coupon.cpns_id}])给用户[#{@user.account.login_name}]")
+              coupon_logger.info("[#{current_admin.login_name}][#{Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")}][IP:#{request.remote_ip}]:添加优惠券#{coupon_code}(#{coupon.cpns_name}[#{coupon.cpns_id}])给用户[#{@user.account.login_name}]")
             end
             render "create"
         else
@@ -56,7 +56,7 @@ module Admin
                       :member_id=>params[:member_id],
                       :memc_code=>params[:memc_code]).destroy_all #update_all({:memc_enabled=>'false',:disabled=>'true'})
 
-            coupon_logger.info("[#{current_admin.login_name}][#{Time.now.strftime("%Y-%m-%d %H:%M:%S")}][IP:#{request.remote_ip}]:删除用户[#{user.account.login_name}]优惠券#{params[:memc_code]}(#{coupon.cpns_name}[#{params[:cpns_id]}])")
+            coupon_logger.info("[#{current_admin.login_name}][#{Time.zone.now.strftime("%Y-%m-%d %H:%M:%S")}][IP:#{request.remote_ip}]:删除用户[#{user.account.login_name}]优惠券#{params[:memc_code]}(#{coupon.cpns_name}[#{params[:cpns_id]}])")
             
             render "destroy"
           rescue

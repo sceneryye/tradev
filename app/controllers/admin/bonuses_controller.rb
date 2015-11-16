@@ -45,7 +45,7 @@ class Admin::BonusesController < Admin::BaseController
     weixin_appsecret = supplier.weixin_appsecret
     key = Ecstore::Supplier.where(:name => '贸威').first.partner_key
     mch_id = supplier.mch_id
-    mch_billno = mch_id + Time.now.strftime('%F').split('-').join + rand(10000000000).to_s.rjust(10, '0')
+    mch_billno = mch_id + Time.zone.now.strftime('%F').split('-').join + rand(10000000000).to_s.rjust(10, '0')
 
     parameter = {
       :nonce_str => nonce_str, :mch_billno => mch_billno, :mch_id => mch_id, :wxappid => weixin_appid, :send_name =>'贸威',

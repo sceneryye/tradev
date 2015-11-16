@@ -7,7 +7,7 @@ class Store::PaymentsControllerTest < ActionController::TestCase
 
 		post :notify, :id=>'20130606105700',
 		                    :adapter=>'alipay',
-		                    :notify_time=>Time.now.strftime("%Y-%m-%d %H:%S:%M"),
+		                    :notify_time=>Time.zone.now.strftime("%Y-%m-%d %H:%S:%M"),
 		                    :notify_type=>'trade_status_sync',
 		                    :notify_id=>'70fec0c2730b27528665af4517c27b95',
 		                    :sign_type=>"MD5",

@@ -83,7 +83,7 @@ module ModecPay
 		end
 
 		def pay_time=(val)
-			val = Time.now unless val.is_a?(Time)
+			val = Time.zone.now unless val.is_a?(Time)
 			@order_info['orderDate'] = val.strftime("%Y%m%d%H%M%S")
 		end
 
@@ -111,9 +111,9 @@ module ModecPay
 					data_hash = Hash.from_xml(xml)
 					return false unless data_hash.is_a?(Hash)
 
-					ModecPay.logger.info "[icbc][#{Time.now}] payment=#{data_hash['B2CRes']['orderInfo']['subOrderInfoList']['subOrderInfo']['orderid']} verify notify successfully."
+					ModecPay.logger.info "[icbc][#{Time.zone.now}] payment=#{data_hash['B2CRes']['orderInfo']['subOrderInfoList']['subOrderInfo']['orderid']} verify notify successfully."
 
-					t_payed = Time.now.to_i
+					t_payed = Time.zone.now.to_i
 					notify_time = data_hash['B2CRes']['bank']['notifyDate']
 					t_payed = Time.parse(notify_time).to_i if  /^\d{14}$/ =~ notify_time
 

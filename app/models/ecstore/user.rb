@@ -57,7 +57,7 @@ class Ecstore::User < Ecstore::Base
   has_many :imodec_applicants, :class_name => 'Imodec::applicants'  , :foreign_key=>"member_id"
 
   def aftersale_orders
-      self.orders.includes(:order_logs).joins(:order_logs).where("behavior = ?  and  result = ? and alttime >= ? and status = ? ","finish","SUCCESS",(Time.now - 7.days).to_i,"finish")
+      self.orders.includes(:order_logs).joins(:order_logs).where("behavior = ?  and  result = ? and alttime >= ? and status = ? ","finish","SUCCESS",(Time.zone.now - 7.days).to_i,"finish")
   end
 
   # def usable_coupons
@@ -252,7 +252,7 @@ class Ecstore::User < Ecstore::Base
 		mc.member_id = self.member_id
 		mc.memc_source = coupon.cpns_type == "1" ? "b" : (coupon.cpns_type == "0" ? "a" : "c")
 		mc.memc_enabled  = "true"
-		mc.memc_gen_time = Time.now.to_i
+		mc.memc_gen_time = Time.zone.now.to_i
 		mc.disabled = "false"
 		mc.memc_isvalid = "true"
 	end.save if coupon
@@ -307,7 +307,7 @@ class Ecstore::User < Ecstore::Base
 
  def send_reset_password_email
     self.reset_password_token = self.class.generate_reset_password_token
-    self.reset_password_sent_at = Time.now
+    self.reset_password_sent_at = Time.zone.now
     save(:validate=>false)
     begin
       ResetPasswordMailer.reset_password_email(self).deliver
@@ -342,7 +342,7 @@ class Ecstore::User < Ecstore::Base
 
   def check_sms(sms_code)
     return false if sms_code.blank?
-    if self.sms_code == sms_code && ( self.sent_sms_at + 60*30 > Time.now ) 
+    if self.sms_code == sms_code && ( self.sent_sms_at + 60*30 > Time.zone.now ) 
             self.update_attribute :sms_code,nil
             return true
     else
@@ -361,7 +361,7 @@ class Ecstore::User < Ecstore::Base
 
  def send_reset_password_email
     self.reset_password_token = self.class.generate_reset_password_token
-    self.reset_password_sent_at = Time.now
+    self.reset_password_sent_at = Time.zone.now
     save(:validate=>false)
     begin
       ResetPasswordMailer.reset_password_email(self).deliver
@@ -375,7 +375,7 @@ class Ecstore::User < Ecstore::Base
  def send_reset_password_sms
     sms_code = self.class.generate_sms_token
     self.reset_password_token = sms_code
-    self.reset_password_sent_at = Time.now
+    self.reset_password_sent_at = Time.zone.now
     save(:validate=>false)
     template = Ecstore::Config.get(:reset_password_sms_template)
     text = template.gsub('#{code}',sms_code)
@@ -395,7 +395,7 @@ class Ecstore::User < Ecstore::Base
  
  def reset_password_token_expired?
     return true if self.reset_password_sent_at.blank?
-    self.reset_password_sent_at  + 2.hours < Time.now
+    self.reset_password_sent_at  + 2.hours < Time.zone.now
  end
 
  def clear_reset_password_token

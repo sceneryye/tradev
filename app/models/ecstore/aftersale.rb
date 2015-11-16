@@ -42,7 +42,7 @@ class Ecstore::Aftersale < Ecstore::Base
           seq = rand(0..9999)
           loop do
               seq = 1 if seq == 9999
-              _order_id = Time.now.strftime("%Y%m%d%H") + ( "%04d" % seq.to_s )
+              _order_id = Time.zone.now.strftime("%Y%m%d%H") + ( "%04d" % seq.to_s )
               return _order_id unless  Ecstore::Aftersale.find_by_return_id(_order_id)
               seq += 1
           end

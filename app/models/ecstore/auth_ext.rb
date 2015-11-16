@@ -5,6 +5,6 @@ class Ecstore::AuthExt < Ecstore::Base
 	attr_accessible :account_id,:access_token,:expires_at,:expires_in,:uid,:provider
 
 	def expired?
-		expires_at < Time.now.to_i
+		expires_at < Time.zone.now.to_i
 	end
 end

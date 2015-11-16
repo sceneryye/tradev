@@ -44,7 +44,7 @@ class Ecstore::Order < Ecstore::Base
     self.order_id = Ecstore::Order.generate_order_id
     # self.total_amount = 1
     # self.final_amount = 1
-    self.createtime = self.last_modified = Time.now.to_i
+    self.createtime = self.last_modified = Time.zone.now.to_i
     self.status = "active"
     self.cost_item = 0
     self.discount = 0
@@ -243,7 +243,7 @@ class Ecstore::Order < Ecstore::Base
     seq = rand(0..9999)
     loop do
       seq = 1 if seq == 9999
-      _order_id = Time.now.strftime("%Y%m%d%H") + ( "%04d" % seq.to_s )
+      _order_id = Time.zone.now.strftime("%Y%m%d%H") + ( "%04d" % seq.to_s )
       return _order_id unless  Ecstore::Order.find_by_order_id(_order_id)
       seq += 1
     end

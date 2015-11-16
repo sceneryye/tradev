@@ -38,7 +38,7 @@ class Auth::DoubanController < ApplicationController
 			check_user = Ecstore::Account.find_by_login_name(auth_user.name)
 			login_name = "#{login_name}_#{rand(9999)}" if check_user
 
-			now = Time.now
+			now = Time.zone.now
 			@account = Ecstore::Account.new  do |ac|
 				#account
 				ac.login_name = login_name

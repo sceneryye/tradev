@@ -27,7 +27,7 @@ class Store::OfflineCouponsController < ApplicationController
 		  Ecstore::CouponDownload.new({
 		  	  :member_id=>@user.member_id,
 		  	  :offline_coupon_id=>@coupon.id,
-		  	  :downloaded_at=>Time.now
+		  	  :downloaded_at=>Time.zone.now
 		  }).save
 
 		  render "download"

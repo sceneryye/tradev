@@ -28,7 +28,7 @@ class Ecstore::Promotion < Ecstore::Base
 
   def enable?
       return false  unless  self.enable
-  	now =  Time.now
+  	now =  Time.zone.now
        if self.begin_at.blank? && self.end_at.blank?
           return true
        end
@@ -43,7 +43,7 @@ class Ecstore::Promotion < Ecstore::Base
 
 
   def self.matched_promotions(line_items = [])
-       now = Time.now
+       now = Time.zone.now
        pmts = []
        where("begin_at < ? and end_at > ? and promotion_type = ? and enable = true", now, now,"order").order("priority desc").each do |promotion|
           if promotion.test_condition(line_items)
@@ -92,7 +92,7 @@ class Ecstore::Promotion < Ecstore::Base
 
 
   def self.matched_goods_promotions(line_items = [])
-      now = Time.now
+      now = Time.zone.now
       pmts = []
       where("begin_at < ? and end_at > ? and promotion_type = ? and enable = true", now, now, "goods" ).order("priority desc").each do |promotion|
           if promotion.test_goods_condition(line_items)

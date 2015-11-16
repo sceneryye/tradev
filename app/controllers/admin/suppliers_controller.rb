@@ -27,7 +27,7 @@ class Admin::SuppliersController < ApplicationController
     uploaded_io = params[:license_file]
     if !uploaded_io.blank?
       extension = uploaded_io.original_filename.split('.')
-      filename = "#{Time.now.strftime('%Y%m%d%H%M%S')}.#{extension[-1]}"
+      filename = "#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.#{extension[-1]}"
       filepath = "#{PIC_PATH}/vshop_docs/#{filename}"
       File.open(filepath, 'wb') do |file|
         file.write(uploaded_io.read)

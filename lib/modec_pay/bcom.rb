@@ -53,7 +53,7 @@ module ModecPay
 		end
 
 		def pay_time=(val)
-			val = Time.now unless val.is_a?(Time)
+			val = Time.zone.now unless val.is_a?(Time)
 			self.fields['orderDate'] = val.strftime("%Y%m%d")
 			self.fields['orderTime'] = val.strftime("%H%M%S")
 		end
@@ -76,9 +76,9 @@ module ModecPay
 
 					tran_arr = params['notifyMsg'].split("|")
 
-					ModecPay.logger.info "[bcom][#{Time.now}] payment=#{tran_arr[1]} verify notify successfully."
+					ModecPay.logger.info "[bcom][#{Time.zone.now}] payment=#{tran_arr[1]} verify notify successfully."
 
-					t_payed = Time.now.to_i
+					t_payed = Time.zone.now.to_i
 					trade_time = tran_arr[6] + tran_arr[7]
 					t_payed = Time.parse(trade_time).to_i  if trade_time.present?
 

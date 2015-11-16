@@ -21,15 +21,15 @@ class Ecstore::OfflineCoupon < Ecstore::Base
 		_member_id = user.is_a?(Object) ? user.member_id : user 
 		_last = coupon_downloads.where(:member_id=>_member_id).last
 		return  true if _last.blank?
-		return _last&&(_last.downloaded_at + 30.minutes) < Time.now
+		return _last&&(_last.downloaded_at + 30.minutes) < Time.zone.now
 	end
 
 	def expired?
-		self.end_at&&Time.now > self.end_at
+		self.end_at&&Time.zone.now > self.end_at
 	end
 
 	def start?
-		self.begin_at && Time.now < self.begin_at
+		self.begin_at && Time.zone.now < self.begin_at
 	end
 
 end

@@ -23,7 +23,7 @@ class Auth::Email139Controller < ApplicationController
 		sid = params[:sid] 
 		#return :text=>sid
 
-		timestamp = Time.now.to_i - Time.parse('2000-01-01').to_i + 10
+		timestamp = Time.zone.now.to_i - Time.parse('2000-01-01').to_i + 10
 
 		xml_hash={}
 		xml_hash[:SessionKey] = sid
@@ -101,20 +101,20 @@ class Auth::Email139Controller < ApplicationController
 		#token = Email139.request_token(params[:code])
 		sid = params[:id]
 		user_number = params[:user_number]
-		request_time = Time.now.to_i
+		request_time = Time.zone.now.to_i
 		expires_in = 7200
 		       
 
 		auth_ext = Ecstore::AuthExt.where(:provider=>"email139",
 						:uid=>sid).first_or_initialize(
 						:access_token=>sid,
-						:expires_at=>expires_in + Time.now.to_i,
+						:expires_at=>expires_in + Time.zone.now.to_i,
 						:expires_in=>expires_in)
 
 
 
 		if auth_ext.new_record? || auth_ext.account.nil? || auth_ext.account.user.nil?
-			# client = Email139.new(:access_token=>sid,:expires_at=>expires_in + Time.now.to_i)
+			# client = Email139.new(:access_token=>sid,:expires_at=>expires_in + Time.zone.now.to_i)
 			# auth_user = client.get('users/show.json',:uid=>sid)
 
 			# logger.info auth_user.inspect
@@ -123,7 +123,7 @@ class Auth::Email139Controller < ApplicationController
 			
 			login_name = "#{login_name}_#{rand(9999)}" if check_user
 
-			now = Time.now
+			now = Time.zone.now
 
 			@account = Ecstore::Account.new  do |ac|
 				#account
