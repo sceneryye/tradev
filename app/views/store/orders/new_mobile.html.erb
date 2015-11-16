@@ -90,13 +90,18 @@
         </div>
       </div>
 
-      <%if @pmtable%>
-        <div class="section promotions">
-          <h5>优惠:</h5>
-          <%=render "promotions"%>
-          <%=render "coupons"%>
-        </div>
-      <%end%>
+     
+<%if @user.email.include? '@139' %>
+<div>
+<%if @pmtable%>
+<div class="section promotions">
+  <h5>优惠:</h5>
+  <%=render "promotions"%>
+  <%=render "coupons"%>
+</div>
+<%end%>
+</div>
+<%end%>
 
       <div class="am-panel am-panel-warning"  data-collapse="true" data-style="arrow" style="display:none">
         <div class="am-panel-hd"><%= I18n.t "invoice"%></div>
