@@ -226,7 +226,7 @@ function getItemLink(str, ptag){
         <li class="tiao" id="helpCenter" data-url="#"><a href="javascript:;">帮助中心</a></li>
         <% shop = Ecstore::WeihuoShop.where(:openid => current_account.login_name.split('_')[0]) %>
         <!-- <li class="tiao" id="build-store" data-url="#"><%#= shop.present? %>=> <%#= current_account.login_name %></li> -->
-
+        <%#= [current_account.login_name, current_account.account_id] %>
         <% if shop.present? %>
         <!-- <li><%#= shop.first.openid %> => <%#= shop.first.openid == current_account.login_name.split('_')[0] %></li> -->
         <li class="tiao" id="build-store" data-url="#"><a href="/weihuo/shops/<%= shop.first.shop_id %>">我的尾货良品</a></li>
