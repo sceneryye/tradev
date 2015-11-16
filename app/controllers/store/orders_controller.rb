@@ -357,7 +357,7 @@ class Store::OrdersController < ApplicationController
 #测试尾货良品用 ---开始
     if @user.member_id == 4403
 
-       @order.update_attributes(:shop_id=>38)
+       @order.update_attributes(:shop_id=>59)
 
     end
 #测试尾货良品用 ----结束
@@ -378,10 +378,12 @@ class Store::OrdersController < ApplicationController
       end.save
 
        #计算快递员分润
-
-      if @order.shop_id && @order.shop_id>0 && @order.shop_id!=48
+      if !@order.shop_id.nil? && @order.shop_id>0 && @order.shop_id!=48
           share_for_weihuo_shop = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
-            .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f)*@order.weihuo_shop.weihuo_organisation.share
+            .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f)
+          if @order.weihuo_shop
+            share_for_weihuo_shop *= @order.weihuo_shop.weihuo_organisation.share
+          end
 
             Ecstore::WeihuoShare.new do |weihuo|
               weihuo.order_id = @order.order_id

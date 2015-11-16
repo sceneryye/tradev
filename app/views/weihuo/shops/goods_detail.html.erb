@@ -104,9 +104,9 @@
     </div>
 
     <div class="price_wrap" id="priceBlock">
-      <span class="tit" id="priceTitle">优惠价：</span>
+      <span class="tit" id="priceTitle">尾货价：</span>
       <span class="price price-sale" id="priceSale"><%=@goods.price%></span>
-      <span class="tit" id="priceTitle">市场价：</span>
+      <span class="tit" id="priceTitle">正品价：</span>
       <span class="price price-market"  id="priceMarket" style="text-decoration:line-through"><%=@goods.mktprice%></span>
       <span class="group" id="priceGroupStyle" style="display: none"></span>
       <span class="tip_red" id="priceDis" style="display: none"></span>
@@ -309,7 +309,9 @@
     <!-- 商品介绍 -->
     <div class="detail_item1 p_desc1" id="detail11" style="position:static;width:100%">
 
-      <div id="commDesc1" class="detail_pc1 col-xs-12" style="width:100%" >
+  
+                            <p style="color:#006000;font-weight:bold">特别申明：此尾货良品，系物流仓库积压处理品的环保再利用，保障正品无假货，即使略有瑕疵，不影响功能使用。一旦购买，概不退货。请知悉。</p>
+                     
         <!--<%#=raw @goods.intro%>-->
         <%=raw @goods.intro.gsub(/width/,'widthh').gsub(/height/,'heightt/') if @goods.intro%>
       </div>

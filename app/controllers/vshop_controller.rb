@@ -322,7 +322,7 @@ class VshopController < ApplicationController
         pay.subject = "#{@supplier_pay.name}订单(#{order_id})"
         pay.installment = @payment.pay_bill.order.installment if @payment.pay_bill.order
        
-        pay.openid = @user.account.login_name
+        pay.openid = @user.account.login_name.split('_')[0]
         pay.spbill_create_ip = request.remote_ip
         pay.supplier_id = supplier_pay_id
         pay.appid = @supplier_pay.weixin_appid
