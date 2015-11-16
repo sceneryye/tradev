@@ -12,6 +12,18 @@ class Weihuo::ShopsController < ApplicationController
   def index
   end
 
+  def user_center
+    user = Ecstore::Account.where('login_name like ?', "#{current_account.login_name}%")
+    account_id = user.map(&:account_id)
+    @orders = Ecstore::Order.where(:member_id => account_id)
+  end
+
+  def my_orders
+    user = Ecstore::Account.where('login_name like ?', "#{current_account.login_name}%")
+    account_id = user.map(&:account_id)
+    @orders = Ecstore::Order.where(:member_id => account_id)
+  end
+
   def manage
     @members = Ecstore::Account.all.select{|member|member.login_name.split('_')[2] == params[:shop_id]}
     @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0])

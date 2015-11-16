@@ -48,6 +48,7 @@ class Auth::WeixinController < ApplicationController
 	    @supplier =Ecstore::Supplier.find(supplier_id)
 	    appid = @supplier.weixin_appid
 	    secret = @supplier.weixin_appsecret
+	    return render :text => [@supplier.id, apppid]
 		# return render :text=>params[:code]
 		#token = Weixin.request_token(params[:code])
 	    token = Weixin.request_token_multi(params[:code],appid,secret)

@@ -92,7 +92,7 @@ def auto_login
     #redirect_uri = "http://vshop.trade-v.com/auth/weixin/callback?supplier_id=#{@supplier.id}"
     #redirect_uri= URI::escape(redirect_uri)
     redirect_uri = "http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2f#{supplier_id}%2fcallback"
-    if params[:form].present?
+    if params[:from].present?
       redirect_uri = "http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2f#{supplier_id}%2fcallback2"
       redirect_to "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri + '?from=new'}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
     end
