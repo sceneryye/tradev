@@ -49,6 +49,10 @@ class Weihuo::WeixinPayController < ApplicationController
  end
 
  def notify_page
+  Employee_share_ratio = 0.2
+  Network_share_ratio = 0.2
+  Company_share_ratio = 0.3
+  Platform_share_ratio = 0.3
   return render :text => 'SUCCESS' if Ecstore::WeihuoShare.where(:remark => params["xml"]["out_trade_no"]).present?
   if params["xml"]["result_code"] == 'SUCCESS'
 
@@ -99,7 +103,8 @@ class Weihuo::WeixinPayController < ApplicationController
 
 
     if @order.save
-
+      store = product.store - 1
+      product.update_attribute(:store, store)
       Ecstore::OrderLog.new do |order_log|
         order_log.rel_id = @order.order_id
         order_log.op_id = @order.member_id
@@ -111,17 +116,27 @@ class Weihuo::WeixinPayController < ApplicationController
       end.save
 
       if @order.shop_id>0 and @order.shop_id!=48
-        share_for_weihuo_shop = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
-          .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f)*@order.weihuo_shop.weihuo_organisation.share
+        share_for_employee = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
+          .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Employee_share_ratio
+        share_for_network = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
+          .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Network_share_ratio
+        share_for_company = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
+          .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Company_share_ratio
+        share_for_platform = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
+          .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Platform_share_ratio
         auto_send = {}
         Ecstore::WeihuoShare.new do |weihuo|
           auto_send[:order_id] = weihuo.order_id = @order.order_id
-          auto_send[:amount] = weihuo.amount = share_for_weihuo_shop
+          auto_send[:amount] = weihuo.amount = share_for_employee
           auto_send[:member_id] = weihuo.member_id = @order.weihuo_shop.user.member_id
           auto_send[:re_openid] = weihuo.open_id = @order.weihuo_shop.user.account.login_name.split('_')[0]
           auto_send[:wishing] = weihuo.wishing ='恭喜发财'
           auto_send[:act_name] = weihuo.act_name = '尾货良品'
           auto_send[:remark] = weihuo.remark = params["xml"]["out_trade_no"]
+          weihuo.share_for_employee = share_for_employee
+          weihuo.share_for_company = share_for_company
+          weihuo.share_for_network = share_for_network
+          weihuo.share_for_platform = share_for_platform
         end.save
       end
 
@@ -232,6 +247,11 @@ def qrcode
   # @a = @qrcode_img.Content_type
   render :layout => 'standard'
 end
+
+def test_qrcode
+  render :layout => 'mobile'
+end
+
 
 
 

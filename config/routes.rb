@@ -5,6 +5,7 @@ Modengke::Application.routes.draw do
   namespace :weihuo do
     get 'pay_with_goods' => 'weixin_pay#pay_with_goods'
     get 'qrcode' => 'weixin_pay#qrcode'
+    get 'test_qrcode' => 'weixin_pay#test_qrcode'
     post 'notify_page' => 'weixin_pay#notify_page'
     post 'template_information' => 'weixin_pay#template_information'
     get 'shops/add' => 'shops#add'

@@ -101,6 +101,7 @@ def auto_login
    @oauth2_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
 
    return_url  = params[:return_url]
+   # return render :text => supplier_id
    session[:return_url] =  return_url
    redirect_to  @oauth2_url
 

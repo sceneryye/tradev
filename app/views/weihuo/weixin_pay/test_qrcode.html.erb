@@ -1,5 +1,4 @@
-<h3 style="text-align:center;">尾货良品商城</h3>
-<div id="qrcode" style="margin: 0 auto%;margin-top:15px;position:relative;width:180px;height:180px;" data-url="<%= "http://www.trade-v.com/weihuo/shops/#{params[:shop_id]}" %>" data-img="<%= @shop.logo %>">
+<div id="qrcode" style="margin: 0 auto%;margin-top:15px;position:relative;width:180px;height:180px;" >
 </div>
 <script type="text/javascript" src="/assets/kael-Qrcode/build/kaelQrcode.min.js"></script>
 <script type="text/javascript">
@@ -8,11 +7,11 @@
   
   var kaelPic = new KaelQrcode();
   kaelPic.init(document.getElementById("qrcode"), {
-    text : url,
+    text : 'www.qq.com',
     size: 200,
     
     img: {
-      src : img,
+      src : 'http://img0.bdstatic.com/img/image/shouye/bizhi1109.jpg',
       border: "#fff"
     },
   })

@@ -70,7 +70,8 @@ class MobileController < ApplicationController
   end
 
   def user_center
-    if @user.nil?
+    Rails.logger.info(current_account.login_name)
+    if current_account.supplier_id != 78
       redirect_to '/auto_login?id=78&return_url=/mobile/user_center&platform=mobile'
     end
   end
