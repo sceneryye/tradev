@@ -1,0 +1,76 @@
+<div class="container-fluid">
+  <h3>订单详情</h3>
+  <hr />
+
+  <h4>订单号：<%= @order.order_id %></h4>
+  <hr />
+
+  <div class="info">
+    <div class="row">
+      <div class="col-xs-4">
+        <div class="user-info">
+          <span class="nickname">
+            <%= @user.weixin_nickname %>
+          </span class="nickname">
+        </div>
+        <div class="col-xs-8">
+          <span class="mobile">
+            <%= @user.mobile || '暂无信息' %>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12">
+      <div class="user-addr">
+        <%= (@user.area.to_s + @user.addr.to_s).present? : (@user.area.to_s + @user.addr.to_s) ? '暂无信息' %>
+      </div>
+    </div>
+  </div>
+  <hr />
+
+  <div class="goods-detail">
+    <div class="row">
+      <div class="col-xs-3">
+        <img src="<%= @product.medium_pic %>" />
+      </div>
+      <div class="col-xs-7">
+        <%= @product.name %>
+      </div>
+      <div class="col-xs-2">
+        ¥<%= @product.price %>
+      </div>
+    </div>
+  </div>
+
+  <% if @order.ship_status == '0' %>
+  <div class="btn btn-success">
+    <input type="button" class="success" value="发货" data-orderid="<%= @order.order_id %>" />
+  </div>
+  <% end %>
+
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('button').on('click', function(){
+      if(confirm("确定已经发货？")) {
+        var url = '/weihuo/shops/modify_ship_status';
+        var order_id = $(this).attr('data-orderid');
+        $.ajax({
+          url: url,
+          type: 'post',
+          data: {
+            order_id: order_id,
+            ship_status: '1',
+          },
+          success: function(e) {
+            if(e == 'success') {
+              alert('商品发货完成！')
+            };
+          },
+        });
+      };
+    });
+  });
+</script>

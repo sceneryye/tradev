@@ -73,6 +73,7 @@ class Weihuo::WeixinPayController < ApplicationController
     order_params[:pay_status] = '1'
     order_params[:createtime] = Time.zone.now.to_i
     order_params[:status] = 'active'
+    order_params[:ship_status] = '0'
     order_params[:shop_id] = params["xml"]["attach"].split('_')[1]
     order_params[:share_for_employee] = share_for_employee
     order_params[:share_for_network] = share_for_network

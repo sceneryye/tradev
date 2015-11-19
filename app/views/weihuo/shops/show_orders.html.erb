@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="title">
+    <h3>所有订单</h3>
+  </div>
+  
+  <table class="table table-striped table-hover table-responsive">
+    <tr class="">
+
+      <th class="">
+        <div>
+          <h4>买家昵称</h4>
+        </div>
+      </th>
+      <th>
+        <div class="">
+          <h4>订单时间</h4>
+        </div>
+      </th>
+    </tr>
+
+    <% @orders.each_with_index do |order, index| %>
+    <% member_id = Ecstore::WeihuoShare.where(:order_id => order.order_id).first.member_id %>
+    <% user = Ecstore::User.where(:member_id => member_id).first %>
+    <a href="/weihuo/shops/order_detail?shop_id=<%= params[:shop_id] %>&order_id=<%= order.order_id %>">
+      <tr class="<%= order.ship_status == '1' ? 'success' : 'active' %>">
+        <td class="">
+          <div>
+            <%= Ecstore::Member.where(:member_id => member_id).first.weixin_nickname %>
+          </div>
+        </td>
+
+        <td>
+          <div class="">
+          <%= Time.at(order.last_modified).strftime('%F %H:%m:%S') %>
+          </div>
+        </td>
+      </tr>
+    </a>
+
+    <% end %>
+
+  </table>
+  <%= will_paginate @bonuses %>
+</div>
+
+<style type="text/css">
+  .title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  th, td {
+    text-align: center;
+  }
+  .container {
+    margin-bottom: 40px;
+  }
+
+</style>

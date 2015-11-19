@@ -28,6 +28,7 @@ class Weihuo::ShopsController < ApplicationController
     @members = Ecstore::Account.all.select{|member|member.login_name.split('_')[2] == params[:shop_id]}
     @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0])
     @goods = Ecstore::Good.where(:supplier_id => 10)
+    @orders = Ecstore::Order.where(:shop_id => params[:shop_id])
   end
 
   def show_members
@@ -40,6 +41,26 @@ class Weihuo::ShopsController < ApplicationController
 
   def show_goods
     @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:page => params[:page], :per_page => 20).order(:name => 'ASC')
+  end
+
+  def show_orders
+    @orders = Ecstore::Order.where(:shop_id => params[:shop_id])
+  end
+
+  def order_detail
+    @order = Ecstore::Order.where(:order_id => params[:order_id]).first
+    @user = Ecstore::Member.where(:member_id => @order.member_id).first
+    product_id = Ecstore::OrderItem.where(:order_id => params[:order_id]).first.product_id
+    @product = Ecstore::Product.where(:product_id => product_id).first
+  end
+
+  def modify_ship_status
+    if params[:ship_status] == '1'
+      order = Ecstore::Order.where(:order_id => params[:order_id]).first
+      order.update_attribute(:ship_status, '1')
+      order.update_attribute(:stauts, 'finished')
+    end
+    return render :text => 'success'
   end
 
   def show_notice
