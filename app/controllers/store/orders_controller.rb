@@ -164,9 +164,23 @@ class Store::OrdersController < ApplicationController
 
 
   def create
+
     if @user.nil? || @line_items.nil?
       return redirect_to '/'
     end
+
+    Employee_share_ratio = 0.2
+    Network_share_ratio = 0.2
+    Company_share_ratio = 0.3
+    Platform_share_ratio = 0.3
+
+    profit = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
+      .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f)
+
+    share_for_employee = profit * Employee_share_ratio
+    share_for_network = profit * Network_share_ratio
+    share_for_company = profit * Company_share_ratio
+    share_for_platform = profit * Platform_share_ratio
 
     platform = params[:platform]
 
@@ -183,21 +197,21 @@ class Store::OrdersController < ApplicationController
 
        ship_riqi=Time.parse(ship_day).to_i;       ###大渔饭店订餐日期
      end
-    end
-    return_url=params[:return_url]
+   end
+   return_url=params[:return_url]
 
 
-    if supplier_id == nil
+   if supplier_id == nil
     supplier_id =78
-    end
+  end
 
-    unless supplier_id ==98
-      ["name","area","addr","zip","tel","mobile"].each do |key,val|
-        params[:order].merge!("ship_#{key}"=>addr.attributes[key])
-      end
+  unless supplier_id ==98
+    ["name","area","addr","zip","tel","mobile"].each do |key,val|
+      params[:order].merge!("ship_#{key}"=>addr.attributes[key])
     end
+  end
 
-    params[:order].merge!(:ip=>request.remote_ip, :member_id=>@user.member_id,:supplier_id=>supplier_id,:ship_day=>ship_riqi.to_s, :ship_time=>hour.to_s)
+  params[:order].merge!(:ip=>request.remote_ip, :member_id=>@user.member_id,:supplier_id=>supplier_id,:ship_day=>ship_riqi.to_s, :ship_time=>hour.to_s, :share_for_employee => share_for_employee, :share_for_network => share_for_network, :share_for_company => share_for_company, :share_for_platform => share_for_platform)
 
     #=====推广佣金计算=======
     recommend_user = session[:recommend_user]
@@ -263,12 +277,15 @@ class Store::OrdersController < ApplicationController
       order_item.nums = line_item.quantity.to_i
       order_item.item_type = "product"
 
+      
+
       order_item.amount = order_item.price * order_item.nums
 
 
-      order_item.share_for_promotion = order_item.amount* good.share
-      order_item.share_for_sale = order_item.amount * good.share_for_sale
-      order_item.share_for_shop = order_item.amount * good.share_for_shop
+      order_item.share_for_platform = share_for_platform
+      order_item.share_for_employee = share_for_employee
+      order_item.share_for_company = share_for_company
+      order_item.share_for_network = share_for_network
 
       product_attr = {}
         # product.spec_desc["spec_value"].each  do |spec_id,spec_value|
@@ -355,17 +372,17 @@ class Store::OrdersController < ApplicationController
       end
 
 #测试尾货良品用 ---开始
-    if @user.member_id == 4403
+if @user.member_id == 4403
 
-       @order.update_attributes(:shop_id=>59)
+ @order.update_attributes(:shop_id=>59)
 
-    end
+end
 #测试尾货良品用 ----结束
-      @line_items.delete_all
+@line_items.delete_all
 
-      Ecstore::OrderLog.new do |order_log|
-        order_log.rel_id = @order.order_id
-        order_log.op_id = @order.member_id
+Ecstore::OrderLog.new do |order_log|
+  order_log.rel_id = @order.order_id
+  order_log.op_id = @order.member_id
         # if platform=="shop"
         #   order_log.op_name =Ecstore::Shop.find_by_shop_id(supplier_id).shop_name
         # else
@@ -378,23 +395,23 @@ class Store::OrdersController < ApplicationController
       end.save
 
        #计算快递员分润
-      if !@order.shop_id.nil? && @order.shop_id>0 && @order.shop_id!=48
-          share_for_weihuo_shop = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
-            .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f)
-          if @order.weihuo_shop
-            share_for_weihuo_shop *= @order.weihuo_shop.weihuo_organisation.share
-          end
-
-            Ecstore::WeihuoShare.new do |weihuo|
-              weihuo.order_id = @order.order_id
-              weihuo.amount = share_for_weihuo_shop
-              weihuo.member_id = @order.weihuo_shop.user.member_id
-              weihuo.open_id = @order.weihuo_shop.user.account.login_name.split('_')[0]
-              weihuo.wishing ='恭喜发财'
-              weihuo.act_name = '销售红包'
-              weihuo.remark = "订单#{@order.order_id}"
-            end.save
+       if !@order.shop_id.nil? && @order.shop_id>0 && @order.shop_id!=48
+        share_for_weihuo_shop = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
+          .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f)
+        if @order.weihuo_shop
+          share_for_weihuo_shop *= @order.weihuo_shop.weihuo_organisation.share
         end
+
+        Ecstore::WeihuoShare.new do |weihuo|
+          weihuo.order_id = @order.order_id
+          weihuo.amount = share_for_weihuo_shop
+          weihuo.member_id = @order.weihuo_shop.user.member_id
+          weihuo.open_id = @order.weihuo_shop.user.account.login_name.split('_')[0]
+          weihuo.wishing ='恭喜发财'
+          weihuo.act_name = '销售红包'
+          weihuo.remark = "订单#{@order.order_id}"
+        end.save
+      end
 
 
       if return_url.nil?

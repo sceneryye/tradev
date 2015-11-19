@@ -53,6 +53,16 @@ class Weihuo::WeixinPayController < ApplicationController
   Network_share_ratio = 0.2
   Company_share_ratio = 0.3
   Platform_share_ratio = 0.3
+
+  share_for_employee = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
+    .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Employee_share_ratio
+  share_for_network = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
+    .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Network_share_ratio
+  share_for_company = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
+    .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Company_share_ratio
+  share_for_platform = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
+    .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Platform_share_ratio
+  
   return render :text => 'SUCCESS' if Ecstore::WeihuoShare.where(:remark => params["xml"]["out_trade_no"]).present?
   if params["xml"]["result_code"] == 'SUCCESS'
 
@@ -64,6 +74,10 @@ class Weihuo::WeixinPayController < ApplicationController
     order_params[:createtime] = Time.zone.now.to_i
     order_params[:status] = 'active'
     order_params[:shop_id] = params["xml"]["attach"].split('_')[1]
+    order_params[:share_for_employee] = share_for_employee
+    order_params[:share_for_network] = share_for_network
+    order_params[:share_for_company] = share_for_company
+    order_params[:share_for_platform] = share_for_platform
     client = Ecstore::Account.where(:login_name => params["xml"]["openid"])
     if client.present?
       order_params[:member_id] = client.first.account_id
@@ -116,14 +130,6 @@ class Weihuo::WeixinPayController < ApplicationController
       end.save
 
       if @order.shop_id>0 and @order.shop_id!=48
-        share_for_employee = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
-          .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Employee_share_ratio
-        share_for_network = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
-          .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Network_share_ratio
-        share_for_company = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
-          .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Company_share_ratio
-        share_for_platform = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
-          .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Platform_share_ratio
         auto_send = {}
         Ecstore::WeihuoShare.new do |weihuo|
           auto_send[:order_id] = weihuo.order_id = @order.order_id
