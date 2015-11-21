@@ -67,6 +67,7 @@ class Weihuo::WeixinPayController < ApplicationController
     order_params[:pay_status] = '1'
     order_params[:createtime] = Time.zone.now.to_i
     order_params[:status] = 'active'
+    order_params[:payment] = 'wxpay'
     order_params[:ship_status] = '0'
     order_params[:shop_id] = params["xml"]["attach"].split('_')[1]
     
@@ -155,8 +156,12 @@ class Weihuo::WeixinPayController < ApplicationController
       end
 
       re_openid = auto_send[:re_openid]
-      re_openid = ['oVxC9uA1tLfpb7OafJauUm-RgzQ8', 'oVxC9uDhsiNDxWV4u7KdukRjceQM'][rand(2)] if order_params[:shop_id] = 99999
-      auto_send[:act_name] = '贸威官网随机红包' if order_params[:shop_id] = 99999
+      re_openid = ['oVxC9uA1tLfpb7OafJauUm-RgzQ8', 'oVxC9uDhsiNDxWV4u7KdukRjceQM'][rand(2)] if params["xml"]["attach"].split('_')[1] == '99999'
+      auto_send[:act_name] = '贸威官网随机红包' if params["xml"]["attach"].split('_')[1] =='99999'
+      Rails.logger.info params["xml"]["attach"].split('_')[1]
+      Rails.logger.info params["xml"]["attach"].split('_')[1] == '99999'
+      Rails.logger.info re_openid
+
       total_amount = auto_send[:amount].present? ? (auto_send[:amount].to_f * 100).to_i : ''
       weixin_appid = supplier.weixin_appid
       weixin_appsecret = supplier.weixin_appsecret
