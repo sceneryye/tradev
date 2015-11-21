@@ -6,6 +6,12 @@ require 'uri'
 
 class Weihuo::WeixinPayController < ApplicationController
 
+  Employee_share_ratio = 1
+  Network_share_ratio = 0.2
+  Company_share_ratio = 0.3
+  Platform_share_ratio = 0.3
+
+
   def pay_with_goods
     good = Ecstore::Good.where(:bn => params[:id]).first
     product = good.products.first
@@ -49,20 +55,8 @@ class Weihuo::WeixinPayController < ApplicationController
  end
 
  def notify_page
-  Employee_share_ratio = 0.2
-  Network_share_ratio = 0.2
-  Company_share_ratio = 0.3
-  Platform_share_ratio = 0.3
 
-  share_for_employee = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
-    .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Employee_share_ratio
-  share_for_network = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
-    .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Network_share_ratio
-  share_for_company = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
-    .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Company_share_ratio
-  share_for_platform = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
-    .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f) * Platform_share_ratio
-  
+
   return render :text => 'SUCCESS' if Ecstore::WeihuoShare.where(:remark => params["xml"]["out_trade_no"]).present?
   if params["xml"]["result_code"] == 'SUCCESS'
 
@@ -75,10 +69,7 @@ class Weihuo::WeixinPayController < ApplicationController
     order_params[:status] = 'active'
     order_params[:ship_status] = '0'
     order_params[:shop_id] = params["xml"]["attach"].split('_')[1]
-    order_params[:share_for_employee] = share_for_employee
-    order_params[:share_for_network] = share_for_network
-    order_params[:share_for_company] = share_for_company
-    order_params[:share_for_platform] = share_for_platform
+    
     client = Ecstore::Account.where(:login_name => params["xml"]["openid"])
     if client.present?
       order_params[:member_id] = client.first.account_id
@@ -94,10 +85,18 @@ class Weihuo::WeixinPayController < ApplicationController
     supplier_id = Ecstore::Account.where(:login_name => params["xml"]["openid"]).try(:first).try(:supplier_id) || 78
     @order = Ecstore::Order.new order_params
 
+    goods = Ecstore::Good.where(:goods_id => params[:xml][:out_trade_no][0..4].to_i).first
+    profit = order_params[:final_amount] - goods.cost
+    share_for_employee = profit * Employee_share_ratio
+    share_for_network = profit * Network_share_ratio
+    share_for_company = profit * Company_share_ratio
+    share_for_platform = profit * Platform_share_ratio
+
+
     if supplier_id == nil
       supplier_id =78
     end
-    goods = Ecstore::Good.where(:goods_id => order_params[:order_id][0..4]).first
+    
     product = goods.products.first
 
     @order.order_items << Ecstore::OrderItem.new do |order_item|
@@ -118,7 +117,7 @@ class Weihuo::WeixinPayController < ApplicationController
 
 
     if @order.save
-      store = product.store - 1
+      store = goods.store - 1
       product.update_attribute(:store, store)
       Ecstore::OrderLog.new do |order_log|
         order_log.rel_id = @order.order_id
@@ -156,7 +155,9 @@ class Weihuo::WeixinPayController < ApplicationController
       end
 
       re_openid = auto_send[:re_openid]
-      total_amount = auto_send[:amount].present? ? auto_send[:amount].to_i * 100 : ''
+      re_openid = ['oVxC9uA1tLfpb7OafJauUm-RgzQ8', 'oVxC9uDhsiNDxWV4u7KdukRjceQM'][rand(2)] if order_params[:shop_id] = 99999
+      auto_send[:act_name] = '贸威官网随机红包' if order_params[:shop_id] = 99999
+      total_amount = auto_send[:amount].present? ? (auto_send[:amount].to_f * 100).to_i : ''
       weixin_appid = supplier.weixin_appid
       weixin_appsecret = supplier.weixin_appsecret
       key = supplier.partner_key
@@ -205,6 +206,7 @@ class Weihuo::WeixinPayController < ApplicationController
 
      if res_data_hash["xml"]["return_code"] == 'SUCCESS'
       share.update_attribute(:status, 1)
+      share.update_attribute(:return_message, res_data_hash["xml"]["return_code"])
     else
       share.update_attribute(:return_message, res_data_hash)
     end
@@ -278,6 +280,7 @@ def random_str str_length
   str_length.times do
     nonce_str += arr[rand(36)].upcase
   end
+  nonce_str
 end
 
 def create_sign hash

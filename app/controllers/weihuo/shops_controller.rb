@@ -36,15 +36,18 @@ class Weihuo::ShopsController < ApplicationController
   end
 
   def show_bonuses
-    @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0]).paginate(:page => params[:page], :per_page => 20).order(:id => 'DESC')
+    @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0]).paginate(:page => params[:page], :per_page => 20).order('id DESC')
   end
 
   def show_goods
-    @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:page => params[:page], :per_page => 20).order(:name => 'ASC')
+    @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:page => params[:page], :per_page => 20).order('name ASC')
   end
 
   def show_orders
-    @orders = Ecstore::Order.where(:shop_id => params[:shop_id])
+    @orders = Ecstore::Order.where(:shop_id => params[:shop_id]).paginate(:page => params[:page], :per_page => 20).order('createtime DESC')
+  end
+
+  def show_qrcode
   end
 
   def order_detail
@@ -58,7 +61,7 @@ class Weihuo::ShopsController < ApplicationController
     if params[:ship_status] == '1'
       order = Ecstore::Order.where(:order_id => params[:order_id]).first
       order.update_attribute(:ship_status, '1')
-      order.update_attribute(:stauts, 'finished')
+      order.update_attribute(:status, 'finish')
     end
     return render :text => 'success'
   end
@@ -67,9 +70,20 @@ class Weihuo::ShopsController < ApplicationController
   end
 
   def show
+    shop_id = params[:shop_id] || params[:id]
+    if !current_account.present? || current_account.supplier_id != 78
 
+      return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile"
+    end
+    # return render :text => shop_id == '99999'
+    if current_account.present?
+      open_id = current_account.login_name.split('_')[0]
+      if shop_id == '99999' && Ecstore::WeihuoShop.where(:openid => open_id).present?
+        return redirect_to "/weihuo/shops/#{Ecstore::WeihuoShop.where(:openid => open_id).first.shop_id}"
+      end
+    end
     @shop = Ecstore::WeihuoShop.find(params[:shop_id] || params[:id])
-    @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:per_page => 30, :page => params[:page]).order(:name)
+    @goods = Ecstore::Good.where(:supplier_id => 10, :marketable => 'true').paginate(:per_page => 30, :page => params[:page]).order(:name)
   end
 
   # 申请店铺
@@ -196,6 +210,7 @@ def random_str str_length
   str_length.times do
     nonce_str += arr[rand(36)].upcase
   end
+  nonce_str
 end
 
 def create_sign hash

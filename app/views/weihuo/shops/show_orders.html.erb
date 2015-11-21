@@ -19,28 +19,32 @@
     </tr>
 
     <% @orders.each_with_index do |order, index| %>
-    <% member_id = Ecstore::WeihuoShare.where(:order_id => order.order_id).first.member_id %>
-    <% user = Ecstore::User.where(:member_id => member_id).first %>
-    <a href="/weihuo/shops/order_detail?shop_id=<%= params[:shop_id] %>&order_id=<%= order.order_id %>">
-      <tr class="<%= order.ship_status == '1' ? 'success' : 'active' %>">
-        <td class="">
-          <div>
-            <%= Ecstore::Member.where(:member_id => member_id).first.weixin_nickname %>
-          </div>
-        </td>
+    <% member_id = Ecstore::Order.where(:order_id => order.order_id).first.member_id %>
+    <% user = Ecstore::Member.where(:member_id => member_id) %>
+    <tr class="<%= order.ship_status == '1' ? 'success' : 'active' %>">
 
-        <td>
-          <div class="">
-          <%= Time.at(order.last_modified).strftime('%F %H:%m:%S') %>
-          </div>
-        </td>
-      </tr>
-    </a>
+      <td class="">
+        <div>
+          <% if user.present? %>
+          <%= user.first.weixin_nickname %>
+          <% end %>
+        </div>
+      </td>
+
+      <td>
+        <div class="">
+          <a href="/weihuo/shops/order_detail?shop_id=<%= params[:shop_id] %>&order_id=<%= order.order_id %>">
+            <%= Time.at(order.last_modified).strftime('%F %H:%m:%S') %>
+          </a>
+        </div>
+      </td>
+      
+    </tr>
 
     <% end %>
 
   </table>
-  <%= will_paginate @bonuses %>
+  <%= will_paginate @orders %>
 </div>
 
 <style type="text/css">

@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="title">
+    <h3>扫描二维码注册商店</h4>
+  </div>
+  
+    <div class="qrcode">
+      
+      <div id="qrcode" style="margin: 0 auto%;margin-top:15px;width:180px;height:180px;" data-url="http://www.trade-v.com/weihuo/shops/new">
+      </div>
+    </div>
+  
+</div>
+
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/assets/qrcodejs/qrcode.min.js"></script>
+
+
+<style type="text/css">
+  .title {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .qrcode {
+    margin: 10px auto 40px auto;
+    background-color: #d9edf7;
+    padding: 20px 0;
+  }
+</style>
+
+<script type="text/javascript">
+  var url = $('#qrcode').attr('data-url');
+
+  var qrcode = new QRCode(document.getElementById("qrcode"), {
+    text: url,
+    width: 180,
+    height: 180,
+    colorDark : "#0020c2",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.H
+  });
+
+</script>
+
+
+<style type="text/css">
+  #qrcode {
+    display: block;
+    margin: 0 auto;
+  }
+</style>

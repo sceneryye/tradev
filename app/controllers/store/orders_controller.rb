@@ -3,6 +3,11 @@ class Store::OrdersController < ApplicationController
   before_filter :find_user
   layout 'order'
 
+  Employee_share_ratio = 0.2
+  Network_share_ratio = 0.2
+  Company_share_ratio = 0.3
+  Platform_share_ratio = 0.3
+
   def mancoder_show
     supplier_id = @user.account.supplier_id
     if  @user
@@ -169,18 +174,9 @@ class Store::OrdersController < ApplicationController
       return redirect_to '/'
     end
 
-    Employee_share_ratio = 0.2
-    Network_share_ratio = 0.2
-    Company_share_ratio = 0.3
-    Platform_share_ratio = 0.3
+    
 
-    profit = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
-      .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f)
 
-    share_for_employee = profit * Employee_share_ratio
-    share_for_network = profit * Network_share_ratio
-    share_for_company = profit * Company_share_ratio
-    share_for_platform = profit * Platform_share_ratio
 
     platform = params[:platform]
 
@@ -211,7 +207,7 @@ class Store::OrdersController < ApplicationController
     end
   end
 
-  params[:order].merge!(:ip=>request.remote_ip, :member_id=>@user.member_id,:supplier_id=>supplier_id,:ship_day=>ship_riqi.to_s, :ship_time=>hour.to_s, :share_for_employee => share_for_employee, :share_for_network => share_for_network, :share_for_company => share_for_company, :share_for_platform => share_for_platform)
+  params[:order].merge!(:ip=>request.remote_ip, :member_id=>@user.member_id,:supplier_id=>supplier_id,:ship_day=>ship_riqi.to_s, :ship_time=>hour.to_s)
 
     #=====推广佣金计算=======
     recommend_user = session[:recommend_user]
@@ -277,6 +273,13 @@ class Store::OrdersController < ApplicationController
       order_item.nums = line_item.quantity.to_i
       order_item.item_type = "product"
 
+      profit = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
+        .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f)
+
+      share_for_employee = profit * Employee_share_ratio
+      share_for_network = profit * Network_share_ratio
+      share_for_company = profit * Company_share_ratio
+      share_for_platform = profit * Platform_share_ratio
       
 
       order_item.amount = order_item.price * order_item.nums
@@ -286,6 +289,10 @@ class Store::OrdersController < ApplicationController
       order_item.share_for_employee = share_for_employee
       order_item.share_for_company = share_for_company
       order_item.share_for_network = share_for_network
+
+      order_item.share_for_promotion = order_item.amount* good.share
+      order_item.share_for_sale = order_item.amount * good.share_for_sale
+      order_item.share_for_shop = order_item.amount * good.share_for_shop
 
       product_attr = {}
         # product.spec_desc["spec_value"].each  do |spec_id,spec_value|

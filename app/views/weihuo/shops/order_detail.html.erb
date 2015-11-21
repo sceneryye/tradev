@@ -1,62 +1,106 @@
 <div class="container-fluid">
-  <h3>订单详情</h3>
+  <h3 class="title">订单详情</h3>
   <hr />
 
   <h4>订单号：<%= @order.order_id %></h4>
   <hr />
 
   <div class="info">
-    <div class="row">
-      <div class="col-xs-4">
-        <div class="user-info">
-          <span class="nickname">
-            <%= @user.weixin_nickname %>
-          </span class="nickname">
-        </div>
-        <div class="col-xs-8">
-          <span class="mobile">
-            <%= @user.mobile || '暂无信息' %>
-          </span>
-        </div>
-      </div>
+    <div class="user-info">
+      <span class="nickname">
+        <%= @user.weixin_nickname %>
+      </span class="nickname">
     </div>
-    <div class="col-xs-12">
-      <div class="user-addr">
-        <%= (@user.area.to_s + @user.addr.to_s).present? : (@user.area.to_s + @user.addr.to_s) ? '暂无信息' %>
-      </div>
+    <span class="mobile">
+      <%= @user.mobile || '暂无手机信息' %>
+    </span>
+    <div class="clear"></div>
+    <div class="user-addr">
+      <%= (@user.area.to_s + @user.addr.to_s).present? ? (@user.area.to_s + @user.addr.to_s) : '暂无地址信息' %>
     </div>
   </div>
+
   <hr />
 
   <div class="goods-detail">
-    <div class="row">
-      <div class="col-xs-3">
-        <img src="<%= @product.medium_pic %>" />
-      </div>
-      <div class="col-xs-7">
-        <%= @product.name %>
-      </div>
-      <div class="col-xs-2">
-        ¥<%= @product.price %>
-      </div>
+    <div class="goods-pic">
+      <img src="<%= @product.good.medium_pic %>" />
     </div>
+    <div class="goods-name">
+      <%= @product.name %>
+    </div>
+    <div class="goods-price">
+      ¥<%= @product.price %>
+    </div>
+    <div class="clear"></div>
   </div>
-
   <% if @order.ship_status == '0' %>
-  <div class="btn btn-success">
-    <input type="button" class="success" value="发货" data-orderid="<%= @order.order_id %>" />
+  <div class="button-send">
+    <button class="btn btn-success" id="send" data-orderid="<%= @order.order_id %>" >发货</button>
+    <button class="btn btn-default btn-lg" id="sent" style="display:none;" disabled="disabled">该订单已完成！</button>
+  </div>
+  <% else %>
+  <div class='button-sent'>
+    <button class="btn btn-default btn-lg" id="sent" disabled="disabled">该订单已完成！</button>
   </div>
   <% end %>
 
 </div>
 
+<style type="text/css">
+  .container {
+    width: 100%;
+  }
+  .info{
+    background-color: #cff;
+    padding: 20px 5px;
+  }
+  .user-info {
+    margin-bottom: 10px;
+  }
+  .mobile {
+    padding-left: 10%;
+  }
+  .title {
+    text-align: center;
+  }
+  .nickname, .mobile, .goods-pic, .goods-name, .goods-price {
+    float: left;
+  }
+  .clear {
+    clear: both;
+  }
+  .goods-pic img {
+    width: 20%;
+  }
+  .goods-name {
+    width: 60%;
+  }
+  .button-send, .button-sent {
+    text-align: center;
+    margin: 20px auto;
+    margin-bottom: 40px;
+  }
+</style>
+
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('button').on('click', function(){
-      if(confirm("确定已经发货？")) {
+    $("#send").on('click', function(){
+      swal({
+        title: "发货确认",
+        text: "您确定已经发货？点击确定后不能更改！",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        closeOnConfirm: false,
+        html: false
+      }, 
+      function(){
         var url = '/weihuo/shops/modify_ship_status';
-        var order_id = $(this).attr('data-orderid');
+        var order_id = $('#send').attr('data-orderid');
         $.ajax({
           url: url,
           type: 'post',
@@ -66,11 +110,22 @@
           },
           success: function(e) {
             if(e == 'success') {
-              alert('商品发货完成！')
+              swal({
+                title: '成功！', 
+                text: '商品发货完成！', 
+                type: 'success',
+                timmer: 4000,
+                confirmButtonText: '确定',
+              });
+              $('#send').hide();
+              $('#sent').show();
+
             };
           },
         });
-      };
+        
+      });
     });
   });
+
 </script>

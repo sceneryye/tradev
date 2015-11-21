@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
 
 
   def shop_login
-    shop_id = params[:id]
+    shop_id = params[:shop_id] || params[:id]
 
     if shop_id.blank? && prams[:from].blank?
       return render :text=>'店铺不存在'

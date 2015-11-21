@@ -309,31 +309,31 @@
     <!-- 商品介绍 -->
     <div class="detail_item1 p_desc1" id="detail11" style="position:static;width:100%">
 
-  
-                            <p style="color:#006000;font-weight:bold">特别申明：此尾货良品，系物流仓库积压处理品的环保再利用，保障正品无假货，即使略有瑕疵，不影响功能使用。一旦购买，概不退货。请知悉。</p>
-                     
-        <!--<%#=raw @goods.intro%>-->
-        <%=raw @goods.intro.gsub(/width/,'widthh').gsub(/height/,'heightt/') if @goods.intro%>
-      </div>
-      <div id="pcItemLink" style="display: none" ptag="7001.1.17">
-        <a class="btn btn_full" href="javascript:;">查看电脑版商品详情</a>
-        <div class="detail_full_tip">（ 查看电脑版商品详情，可能会消耗较多流量 ）</div>
-      </div>
+      
+      <p style="color:#006000;font-weight:bold">特别申明：此尾货良品，系物流仓库积压处理品的环保再利用，保障正品无假货，即使略有瑕疵，不影响功能使用。一旦购买，概不退货。请知悉。</p>
+      
+      <!--<%#=raw @goods.intro%>-->
+      <%=raw @goods.intro.gsub(/width/,'widthh').gsub(/height/,'heightt/') if @goods.intro%>
     </div>
-    <!-- 商品参数 -->
-    <div class="detail_item p_prop" id="detail2">
-     <div id="package">
-      <div class="mod_tit_line">
-       <h3>包装清单</h3>
-     </div>
-     <div class="mod_row" id="detPackage"></div>
-   </div>
-   <div>
+    <div id="pcItemLink" style="display: none" ptag="7001.1.17">
+      <a class="btn btn_full" href="javascript:;">查看电脑版商品详情</a>
+      <div class="detail_full_tip">（ 查看电脑版商品详情，可能会消耗较多流量 ）</div>
+    </div>
+  </div>
+  <!-- 商品参数 -->
+  <div class="detail_item p_prop" id="detail2">
+   <div id="package">
     <div class="mod_tit_line">
-     <h3>商品参数</h3>
+     <h3>包装清单</h3>
    </div>
-   <div id="detParam"></div>
+   <div class="mod_row" id="detPackage"></div>
  </div>
+ <div>
+  <div class="mod_tit_line">
+   <h3>商品参数</h3>
+ </div>
+ <div id="detParam"></div>
+</div>
 </div>
 <!-- 评论 -->
 
@@ -527,8 +527,11 @@
   </div>
 </script>
 <style type="text/css">
-  .img-front img, .img-back img {
+  .img-front {
     width: 50%;
+  }
+  .img-front img, .img-back img {
+    width: 100%;
   }
 </style>
 

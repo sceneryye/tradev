@@ -18,21 +18,55 @@
         </div>
         <div class="col-xs-4">
           <td>
-            <h4><a href="/weihuo/shops/show_members?shop_id=<%= params[:shop_id] %>">查看详情</a></h4>
+            <h4><a href="＃">查看详情</a></h4>
           </td>
         </div>
-      </tr>
-    </table>
+      </div>
+    </tr>
 
-  </div>
 
-  <style type="text/css">
-    .title {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .info {
-      background-color: #d9edf7;
-    }
+    <tr class="">
+      <div class="row">
+        <div class="col-xs-5">
+          <td>
+            <h4><a href="/weihuo/shops/show_qrcode?shop_id=<%= params[:shop_id] %>">代理加盟</a></h4>
+          </td>
+        </div>
+        <div class="col-xs-3">
+          <td>
 
-  </style>
+          </td>
+        </div>
+        <div class="col-xs-4">
+          <td>
+            <span class="notice">目前仅面向万家员工</span>
+          </td>
+        </div>
+      </div>
+    </tr>
+  </table>
+</div>
+
+
+
+
+
+
+
+<style type="text/css">
+
+  .title {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .info {
+    background-color: #d9edf7;
+  }
+  .notice {
+    color: #b6b6b4;
+  }
+  td {
+    text-align: center;
+  }
+
+</style>
