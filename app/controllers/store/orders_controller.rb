@@ -182,6 +182,11 @@ class Store::OrdersController < ApplicationController
 
     
     shop_id = params[:order][:shop_id] 
+    if params[:from] == 'weihuo'
+      shop_id = params[:shop_id] 
+      params[:order].delete(:shop_id)
+      params[:order].merge!(:shop_id => shop_id)
+    end
 
     addr = Ecstore::MemberAddr.find_by_addr_id(params[:member_addr])
     supplier_id = @user.account.supplier_id
@@ -422,8 +427,8 @@ Ecstore::OrderLog.new do |order_log|
 
 
       if return_url.nil?
-        if platform=="mobile"
-          redirect_to "/orders/mobile_show?id=#{@order.order_id}&supplier_id=#{supplier_id}"
+        if platform=="mobile" || platform == 'new_mobile'
+          redirect_to "/orders/mobile_show?id=#{@order.order_id}&supplier_id=#{supplier_id}&shop_id=#{params[:shop_id]}&from=#{params[:from]}"
         elsif platform=="wuliu"
           redirect_to "/orders/wuliu_show?id=#{@order.order_id}&supplier_id=#{supplier_id}"
         elsif platform=="shop"

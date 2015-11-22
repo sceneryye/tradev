@@ -52,6 +52,7 @@ class Store::CartController < ApplicationController
     end
 
   @supplier = Ecstore::Supplier.find(supplier_id)
+  @shop_id ||= params[:shop_id]
 
   @line_item  = @line_items.where(:obj_ident=>params[:id],:shop_id=>@shop_id).first
 
@@ -150,7 +151,7 @@ class Store::CartController < ApplicationController
 
     if params[:platform]=="mobile" ||  params[:platform]=="new_mobile"
 
-     redirect_to "/cart/mobile?supplier_id=#{supplier_id}&shop_id=#{params[:shop_id]}"
+     redirect_to "/cart/mobile?supplier_id=#{supplier_id}&shop_id=#{params[:shop_id]}&from=#{params[:from]}"
 
       #render "mobile", :layout=>@supplier.layout
 

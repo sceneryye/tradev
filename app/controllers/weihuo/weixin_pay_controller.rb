@@ -71,19 +71,20 @@ class Weihuo::WeixinPayController < ApplicationController
     order_params[:ship_status] = '0'
     order_params[:shop_id] = params["xml"]["attach"].split('_')[1]
     
-    client = Ecstore::Account.where(:login_name => params["xml"]["openid"])
-    if client.present?
-      order_params[:member_id] = client.first.account_id
-    else
-      order_params[:member_id] = Ecstore::WeihuoShop.where(:shop_id => order_params[:shop_id]).first.member_id
-    end
+    # client = Ecstore::Account.where(:login_name => params["xml"]["openid"])
+    # if client.present?
+      # order_params[:member_id] = client.first.account_id
+    # else
+      # order_params[:member_id] = Ecstore::WeihuoShop.where(:shop_id => order_params[:shop_id]).first.member_id
+    # end
+    order_params[:member_id] = Ecstore::Account.where('login_name like ?', "%#{params["xml"]["openid"]}%").first.account_id
     
     
 
     shop_id = order_params[:shop_id]
 
 
-    supplier_id = Ecstore::Account.where(:login_name => params["xml"]["openid"]).try(:first).try(:supplier_id) || 78
+    supplier_id = Ecstore::Account.where('login_name like ?', "%#{params["xml"]["openid"]}%").try(:first).try(:supplier_id) || 78
     @order = Ecstore::Order.new order_params
 
     goods = Ecstore::Good.where(:goods_id => params[:xml][:out_trade_no][0..4].to_i).first

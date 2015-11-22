@@ -26,21 +26,21 @@ class VshopController < ApplicationController
 
       @supplier =Ecstore::Supplier.find(params[:id])
       if @supplier.id==98
-         @manco_title="个人中心"
-      end
-      render :layout=>@supplier.layout
-    else
-      redirect_to "/auto_login?id=#{params[:id]}&platform=mobile&return_url=/vshop/#{params[:id]}/user?id=#{params[:id]}"
-    end
+       @manco_title="个人中心"
+     end
+     render :layout=>@supplier.layout
+   else
+    redirect_to "/auto_login?id=#{params[:id]}&platform=mobile&return_url=/vshop/#{params[:id]}/user?id=#{params[:id]}"
   end
+end
 
-  def apply
-    if params[:id]
-      @supplier  =  Ecstore::Supplier.find(params[:id])
-      @action_url =  "/admin/suppliers/#{params[:id]}?return_url=/vshop/apply"
-      @method = :put
-    end
+def apply
+  if params[:id]
+    @supplier  =  Ecstore::Supplier.find(params[:id])
+    @action_url =  "/admin/suppliers/#{params[:id]}?return_url=/vshop/apply"
+    @method = :put
   end
+end
 
   #get /vshop/orders
   def orders
@@ -58,7 +58,7 @@ class VshopController < ApplicationController
       if params[:status].nil?
         @orders_nw = @orders_nw
       elsif
-      @orders_nw = @orders_nw.where(:status=>params[:status])
+        @orders_nw = @orders_nw.where(:status=>params[:status])
       end
 
       if !params[:pay_status].nil?
@@ -105,17 +105,17 @@ class VshopController < ApplicationController
   end
 
    #get /vshop/members
-  def clients
+   def clients
 
-       shop_id = 48
+     shop_id = 48
 
-    if @user     
+     if @user     
        @shop_title="客户管理"
        @total_clients = Ecstore::ShopClient.where(:shop_id=>shop_id).count()
 
        @clients=Ecstore::ShopClient.where(:shop_id=>shop_id).paginate(:page => params[:page], :per_page => 20).order("created_at desc")
-    
-    else
+
+     else
       redirect_to '/vshop/login'
     end
   end
@@ -155,21 +155,21 @@ class VshopController < ApplicationController
           @supplier =Ecstore::Supplier.find_by_member_id(@user.id)
           @goods = @goods.where(:supplier_id=>@supplier.id)
         end
-      
+
       end
       if @supplier.id ==Ecstore::Supplier.find_by_name("万家物流").id
         if params[:name]=="货源"
           @goodes=Ecstore::BlackGood.paginate :page=>params[:page],        ###分页语句
                                               :per_page =>20,              ###当前只显示一条
                                               :conditions => ["cat_id=571"]
-        else
-          cat_id=params[:cat_id]
-          if cat_id.nil?
-            cat_id=570
-          end
-          @goods = @goods.paginate(:page=>params[:page],:per_page=>20,:order => 'uptime DESC',:conditions => ["cat_id=#{cat_id}"])
-        end
-      else
+                                            else
+                                              cat_id=params[:cat_id]
+                                              if cat_id.nil?
+                                                cat_id=570
+                                              end
+                                              @goods = @goods.paginate(:page=>params[:page],:per_page=>20,:order => 'uptime DESC',:conditions => ["cat_id=#{cat_id}"])
+                                            end
+                                          else
         @goods = @goods.paginate(:page=>params[:page],:per_page=>20,:order => 'uptime DESC')   #分页
 
       end
@@ -225,11 +225,11 @@ class VshopController < ApplicationController
     @by = params[:users][:by]
     value = params[:users][:value]
     col =  case @by
-             when 'mobile' then '手机号码'
-             when 'email' then '邮箱'
-             when 'login_name' then '用户名'
-             else '用户名'
-           end
+    when 'mobile' then '手机号码'
+    when 'email' then '邮箱'
+    when 'login_name' then '用户名'
+    else '用户名'
+    end
     if value.present?
       @user = Ecstore::User.joins(:account).where("#{@by} = ?",value).first
       if @user
@@ -315,13 +315,13 @@ class VshopController < ApplicationController
       @modec_pay = ModecPay.new adapter do |pay|
         pay.return_url = "#{site}/payments/#{@payment.payment_id}/#{adapter}/callback"
         pay.notify_url = "#{site}/vshop/#{supplier_pay_id}/paynotifyurl?payment_id=#{@payment.payment_id}&supplier_id=#{supplier_id}&shop_id=#{shop_id}"
-       
+        pay.attach = "shop_id=#{params[:shop_id]}&payment_id=#{@payment.payment_id}&from=#{params[:from]}"
         pay.pay_id = @payment.payment_id
         pay.pay_amount = @payment.cur_money.to_f
         pay.pay_time = Time.zone.now
         pay.subject = "#{@supplier_pay.name}订单(#{order_id})"
         pay.installment = @payment.pay_bill.order.installment if @payment.pay_bill.order
-       
+
         pay.openid = @user.account.login_name.split('_')[0]
         pay.spbill_create_ip = request.remote_ip
         pay.supplier_id = supplier_pay_id
@@ -330,7 +330,7 @@ class VshopController < ApplicationController
         pay.partner_key = @supplier_pay.partner_key
         pay.partnerid = @supplier_pay.partnerid
       end
-    
+
 
       @supplier = Ecstore::Supplier.find(supplier_id) 
 
@@ -363,84 +363,84 @@ class VshopController < ApplicationController
 
     ModecPay.logger.info "[#{Time.zone.now}][#{request.remote_ip}] #{request.request_method} \"#{request.fullpath}\" params : #{ params.to_s }"
 
-    @payment = Ecstore::Payment.find(params[:payment_id])
+    @payment = Ecstore::Payment.where(:payment_id => params[:xml][:payment_id]).first
     return redirect_to detail_order_path(@payment.pay_bill.order) if @payment&&@payment.paid?
 
     @order = @payment.pay_bill.order
     @order.update_attributes(:pay_status=>'1')
 
     @order.order_items.each do |order_item|
-        if  order_item.good.cat_id==600
-            member_id=@order.member_id
-            @member = Ecstore::Member.find(member_id)
-            @users = Ecstore::User.find(member_id)
-             if @member.advance
-             advance=@member.advance+order_item.good.mktprice
-             else
-               advance=order_item.good.mktprice
-             end
+      if  order_item.good.cat_id==600
+        member_id=@order.member_id
+        @member = Ecstore::Member.find(member_id)
+        @users = Ecstore::User.find(member_id)
+        if @member.advance
+         advance=@member.advance+order_item.good.mktprice
+       else
+         advance=order_item.good.mktprice
+       end
 
-            advances =  @users.member_advances.order("log_id asc").last
-            if advances
-              shop_advance = advances.shop_advance
-            else
-              shop_advance =@member.advance
-            end
-            shop_advance += order_item.good.mktprice
-            @member.update_attribute(:advance,advance)
-            Ecstore::MemberAdvance.create(:member_id=>member_id,
-                                          :money=>order_item.good.mktprice,
-                                          :message=>"万家预充值:#{order_item.good.name}",
-                                          :mtime=>Time.zone.now.to_i,
-                                          :memo=>"用户本人操作",
-                                          :order_id=>@order.order_id,
-                                          :import_money=>order_item.good.mktprice,
-                                          :explode_money=>0,
-                                          :member_advance=>(advance),
-                                          :shop_advance=>shop_advance,
-                                          :disabled=>'false')
-        end
-    end
-
-    adapter  = 'wxpay'
-
-    @user = @payment.user
-
-    result = ModecPay.verify_notify(adapter,params,{:ip=>request.remote_ip })
-
-    @payment.payment_log.update_attributes({:notify_ip=>request.remote_ip,
-                                          :notify_params=> params.to_json,
-                                          :notified_at=>Time.zone.now,
-                                          :result=>result.to_json}) if @payment.payment_log
-
-    if result.is_a?(Hash) && result.present?
-      response = result.delete(:response)
-      if result.delete(:payment_id) == @payment.payment_id.to_s && !@payment.paid?
-        @payment.update_attributes(result)
-        @order.update_attributes(:pay_status=>'1')
-        Ecstore::OrderLog.new do |order_log|
-          order_log.rel_id = @order.order_id
-          order_log.op_id = @user.member_id
-          order_log.op_name = @user.login_name
-          order_log.alttime = @payment.t_payed
-          order_log.behavior = 'payments'
-          order_log.result = "SUCCESS"
-          order_log.log_text = "订单支付成功！"
-        end.save
+       advances =  @users.member_advances.order("log_id asc").last
+       if advances
+        shop_advance = advances.shop_advance
+      else
+        shop_advance =@member.advance
       end
-    else
-      response =  result
+      shop_advance += order_item.good.mktprice
+      @member.update_attribute(:advance,advance)
+      Ecstore::MemberAdvance.create(:member_id=>member_id,
+        :money=>order_item.good.mktprice,
+        :message=>"万家预充值:#{order_item.good.name}",
+        :mtime=>Time.zone.now.to_i,
+        :memo=>"用户本人操作",
+        :order_id=>@order.order_id,
+        :import_money=>order_item.good.mktprice,
+        :explode_money=>0,
+        :member_advance=>(advance),
+        :shop_advance=>shop_advance,
+        :disabled=>'false')
     end
-
-    return redirect_to "/orders/mobile_show_order?id=#{@order.order_id}&supplier_id=#{params[:id]}"
-
   end
 
-  def notice
-    @supplier=Ecstore::Supplier.find(params[:supplier_id])
+  adapter  = 'wxpay'
 
-    render :layout => @supplier.layout
+  @user = @payment.user
 
+  result = ModecPay.verify_notify(adapter,params,{:ip=>request.remote_ip })
+
+  @payment.payment_log.update_attributes({:notify_ip=>request.remote_ip,
+    :notify_params=> params.to_json,
+    :notified_at=>Time.zone.now,
+    :result=>result.to_json}) if @payment.payment_log
+
+  if result.is_a?(Hash) && result.present?
+    response = result.delete(:response)
+    if result.delete(:payment_id) == @payment.payment_id.to_s && !@payment.paid?
+      @payment.update_attributes(result)
+      @order.update_attributes(:pay_status=>'1')
+      Ecstore::OrderLog.new do |order_log|
+        order_log.rel_id = @order.order_id
+        order_log.op_id = @user.member_id
+        order_log.op_name = @user.login_name
+        order_log.alttime = @payment.t_payed
+        order_log.behavior = 'payments'
+        order_log.result = "SUCCESS"
+        order_log.log_text = "订单支付成功！"
+      end.save
+    end
+  else
+    response =  result
   end
+
+  return redirect_to "/orders/mobile_show_order?id=#{@order.order_id}&supplier_id=#{params[:id]}"
+
+end
+
+def notice
+  @supplier=Ecstore::Supplier.find(params[:supplier_id])
+
+  render :layout => @supplier.layout
+
+end
 
 end
