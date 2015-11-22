@@ -200,11 +200,11 @@ class Store::PaymentsController < ApplicationController
 		end
 		
 		#redirect_to detail_order_path(@payment.pay_bill.order)
-    if @order.supplier_id==98
-      redirect_to  "/orders/wuliu_show_order?id=#{@payment.pay_bill.order.order_id}&supplier_id=#{@order.supplier_id}"
-    else
-    redirect_to  "/orders/mobile_show_order?id=#{@payment.pay_bill.order.order_id}&supplier_id=#{@order.supplier_id}"
-      end
+	    if @order.supplier_id==98
+	      redirect_to  "/orders/wuliu_show_order?id=#{@payment.pay_bill.order.order_id}&supplier_id=#{@order.supplier_id}"
+	    else
+	    redirect_to  "/orders/mobile_show_order?id=#{@payment.pay_bill.order.order_id}&supplier_id=#{@order.supplier_id}"
+	    end
 	end
 
 	def test_notify
