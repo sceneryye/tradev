@@ -174,7 +174,7 @@ module ModecPay
                   error_message = "&error_message="+res.err_desc;                  
                 } 
                // window.location = "/payments/#{self.fields['out_trade_no']}/wxpay/callback"+error_message;
-                window.location ="/vshop/#{self.fields['device_info']}/paynotifyurl?payment_id=payment_id=#{self.fields['out_trade_no']}"+error_message;
+                window.location ="/vshop/#{self.fields['device_info']}/paynotifyurl?payment_id=#{self.fields['out_trade_no']}"+error_message;
              }
          ); 
       }
