@@ -363,7 +363,8 @@ end
 
     ModecPay.logger.info "[#{Time.zone.now}][#{request.remote_ip}] #{request.request_method} \"#{request.fullpath}\" params : #{ params.to_s }"
 
-    @payment = Ecstore::Payment.where(:payment_id => params[:xml][:payment_id]).first
+    
+    @payment = Ecstore::Payment.find(params[:payment_id])
     return redirect_to detail_order_path(@payment.pay_bill.order) if @payment&&@payment.paid?
 
     @order = @payment.pay_bill.order
