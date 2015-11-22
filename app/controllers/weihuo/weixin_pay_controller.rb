@@ -120,6 +120,7 @@ class Weihuo::WeixinPayController < ApplicationController
 
     if @order.save
       store = goods.store - 1
+      goods.update_attribute(:store, store)
       product.update_attribute(:store, store)
       Ecstore::OrderLog.new do |order_log|
         order_log.rel_id = @order.order_id
