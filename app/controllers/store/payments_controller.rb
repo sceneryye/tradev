@@ -59,7 +59,7 @@ class Store::PaymentsController < ApplicationController
 	      		id = 78 #贸威微信支付接口
 	        end
 	      	
-	        redirect_to "/vshop/#{id}/payments?payment_id=#{@payment.payment_id}&supplier_id=#{supplier_id}&shop_id=#{shop_id}&shop_id=&showwxpaytitle=1"
+	        redirect_to "/vshop/#{id}/payments?payment_id=#{@payment.payment_id}&supplier_id=#{supplier_id}&shop_id=#{shop_id}&showwxpaytitle=1"
 	  
 	      else
 	        redirect_to pay_payment_path(@payment.payment_id)

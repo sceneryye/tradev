@@ -25,14 +25,14 @@ class Weihuo::ShopsController < ApplicationController
   end
 
   def manage
-    @members = Ecstore::Account.all.select{|member|member.login_name.split('_')[2] == params[:shop_id]}
+    @members = Ecstore::Account.all.select{|member|member.shop_id == params[:shop_id].to_i}
     @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0])
     @goods = Ecstore::Good.where(:supplier_id => 10)
     @orders = Ecstore::Order.where(:shop_id => params[:shop_id])
   end
 
   def show_members
-    @members = Ecstore::Account.order(:account_id).select{|member|member.login_name.split('_')[2] == params[:shop_id]}
+    @members = Ecstore::Account.order(:account_id).select{|member|member.shop_id == params[:shop_id].to_i}
   end
 
   def show_bonuses
@@ -232,7 +232,7 @@ def access_token
 end
 
 def total_profit weihuoshare
-  weihuoshare.inject(0){|sum, item| sum + item.try(:amount).to_f}
+  weihuoshare.inject(0){|sum, item| sum + item.try(:amount)}
 end
 
 def goods_profit goods

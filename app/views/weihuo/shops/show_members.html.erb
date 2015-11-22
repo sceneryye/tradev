@@ -42,7 +42,7 @@
 
       <td>
         <div class="">
-          <h4><%= total_profit Ecstore::WeihuoShare.where(:open_id => member.login_name.split('_')[0]) %> 元</h4>
+          <h4><%= total_profit Ecstore::WeihuoShare.all.select {|weihuo| Ecstore::Order.where(:order_id => weihuo.order_id).first.shop_id == params[:shop_id].to_i && Ecstore::Order.where(:order_id => weihuo.order_id).first.member_id == member.account_id} %> 元</h4>
         </div>
       </td>
     </tr>
