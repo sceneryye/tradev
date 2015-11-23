@@ -70,7 +70,7 @@ class Weihuo::WeixinPayController < ApplicationController
     order_params[:payment] = 'wxpay'
     order_params[:ship_status] = '0'
     order_params[:shop_id] = params["xml"]["attach"].split('_')[1]
-    
+
     # client = Ecstore::Account.where(:login_name => params["xml"]["openid"])
     # if client.present?
       # order_params[:member_id] = client.first.account_id
@@ -148,6 +148,7 @@ class Weihuo::WeixinPayController < ApplicationController
           weihuo.share_for_platform = share_for_platform
         end.save
       end
+    end
 
 
       supplier = Ecstore::Supplier.where(:id => supplier_id).first
@@ -156,6 +157,7 @@ class Weihuo::WeixinPayController < ApplicationController
       32.times do
         nonce_str += arr[rand(36)].upcase
       end
+      
 
       re_openid = auto_send[:re_openid]
       re_openid = ['oVxC9uA1tLfpb7OafJauUm-RgzQ8', 'oVxC9uDhsiNDxWV4u7KdukRjceQM'][rand(2)] if params["xml"]["attach"].split('_')[1] == '49'

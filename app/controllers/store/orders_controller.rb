@@ -420,8 +420,13 @@ Ecstore::OrderLog.new do |order_log|
           weihuo.member_id = @order.weihuo_shop.user.member_id
           weihuo.open_id = @order.weihuo_shop.user.account.login_name.split('_')[0]
           weihuo.wishing ='恭喜发财'
-          weihuo.act_name = '销售红包'
+          weihuo.act_name = '尾货良品'
           weihuo.remark = "订单#{@order.order_id}"
+          # weihuo.share_for_employee = profit * Employee_share_ratio
+          # weihuo.share_for_company = share_for_company
+          # weihuo.share_for_network = share_for_network
+          # weihuo.share_for_platform = share_for_platform
+
         end.save
       end
 

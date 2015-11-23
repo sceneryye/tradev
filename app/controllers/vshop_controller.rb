@@ -7,14 +7,14 @@ class VshopController < ApplicationController
 
 
     #get /vhsop/id/payments
-  def payments
+    def payments
 
-    supplier_id = params[:supplier_id]
-    shop_id = params[:shop_id]
+      supplier_id = params[:supplier_id]
+      shop_id = params[:shop_id]
 
-    if supplier_id.size==0
-      supplier_id=78
-    end
+      if supplier_id.size==0
+        supplier_id=78
+      end
 
     #获取不同供应商支付接口参数
     supplier_pay_id = params[:id] 
@@ -27,20 +27,22 @@ class VshopController < ApplicationController
       @modec_pay = ModecPay.new adapter do |pay|
         pay.return_url = "#{site}/payments/#{@payment.payment_id}/#{adapter}/callback"
         pay.notify_url = "#{site}/vshop/#{supplier_pay_id}/paynotifyurl?payment_id=#{@payment.payment_id}&supplier_id=#{supplier_id}&shop_id=#{shop_id}"
-        pay.attach = "shop_id=#{params[:shop_id]}&payment_id=#{@payment.payment_id}&from=#{params[:from]}"
         pay.pay_id = @payment.payment_id
         pay.pay_amount = @payment.cur_money.to_f
         pay.pay_time = Time.zone.now
         pay.subject = "#{@supplier_pay.name}订单(#{order_id})"
         pay.installment = @payment.pay_bill.order.installment if @payment.pay_bill.order
-
         pay.openid = @user.account.login_name.split('_')[0]
         pay.spbill_create_ip = request.remote_ip
         pay.supplier_id = supplier_pay_id
         pay.appid = @supplier_pay.weixin_appid
+        pay.attach = "shop_id=#{params[:shop_id]}&payment_id=#{@payment.payment_id}&from=#{params[:from]}"
         pay.mch_id = @supplier_pay.mch_id
         pay.partner_key = @supplier_pay.partner_key
         pay.partnerid = @supplier_pay.partnerid
+
+        
+
       end
 
 
@@ -69,14 +71,95 @@ class VshopController < ApplicationController
 
   def paynotifyurl
 
-    if params[:error_message]
-      return render :text=>"支付不成功。error_message:#{params[:error_message]}"
+    if params["error_message"]
+      return render :text=>"支付不成功。error_message:#{params["error_message"]}"
     end
 
     ModecPay.logger.info "[#{Time.zone.now}][#{request.remote_ip}] #{request.request_method} \"#{request.fullpath}\" params : #{ params.to_s }"
 
     
-    @payment = Ecstore::Payment.find(params[:payment_id])
+    @payment = Ecstore::Payment.where(:payment_id => params["payment_id"] || params["xml"]["payment_id"]).first
+
+    if params["xml"].present?
+      order_id = Ecstore::PaymentLog.where(:payment_id => params["xml"]["payment_id"]).first.order_id
+      return render :text => 'success' if Ecstore::WeihuoShare.where(:order_id => order_id).first.status == 1
+      supplier = Ecstore::Supplier.where(:id => params["xml"]["supplier_id"]).first
+      weixin_appid = supplier.weixin_appid
+      weixin_appsecret = supplier.weixin_appsecret
+      key = supplier.partner_key
+      mch_id = supplier.mch_id
+      mch_billno = mch_id + Time.zone.now.strftime('%F').split('-').join + rand(10000000000).to_s.rjust(10, '0')
+      arr = ('0'..'9').to_a + ('a'..'z').to_a
+      nonce_str = ''
+      32.times do
+        nonce_str += arr[rand(36)].upcase
+      end
+      data = {}
+      payment_id = params["xml"]["payment_id"]
+      order_id = Ecstore::PaymentLog.where(:payment_id => payment_id).first.order_id
+      order = Ecstore::Order.where(:order_id => order_id).first
+      shop_id = order.shop_id
+      data[:re_openid] = shop_id == 49 ? ['oVxC9uA1tLfpb7OafJauUm-RgzQ8', 'oVxC9uDhsiNDxWV4u7KdukRjceQM'][rand(2)] : Ecstore::WeihuoShop.where(:shop_id => shop_id).first.openid
+      data[:wishing] = '恭喜发财'
+      data[:act_name] = shop_id == 49 ? '贸威官网随机红包' : '尾货良品'
+      data[:total_amount] = (Ecstore::WeihuoShare.where(:order_id => order_id).first.amount * 100).to_i
+      data[:nonce_str] = nonce_str
+      data[:mch_billno] = mch_billno
+      data[:mch_id] = mch_id
+      data[:wxappid] = weixin_appid
+      data[:send_name] = '贸威'
+      data[:total_num] = 1
+      data[:client_ip] = '182.254.138.119'
+      data[:remark] = params["xml"]["out_trade_no"]
+      stringA = data.select{|key, value|value.present?}.sort.map do |arr|
+        arr.map(&:to_s).join('=')
+      end
+      stringA = stringA.join("&")
+      @b = string_sing_temp = stringA + "&key=#{key}"
+      sign = (Digest::MD5.hexdigest string_sing_temp).upcase
+      data[:sign] = sign
+      
+      params_str = ''
+      data.each do |key, value|
+       params_str += "<#{key}>" + "<![CDATA[#{value}]]>" + "</#{key}>"
+     end
+     params_xml = '<xml>' + params_str + '</xml>'
+     uri = URI.parse('https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack')
+
+     cert = File.read("#{ Rails.root }/lib/maowei_cert/apiclient_cert.pem")
+
+     key = File.read("#{ Rails.root }/lib/maowei_cert/apiclient_key.pem")
+
+     http = Net::HTTP.new(uri.host, uri.port)
+
+     http.use_ssl = true if uri.scheme == 'https'
+
+     http.cert = OpenSSL::X509::Certificate.new(cert)
+
+     http.key = OpenSSL::PKey::RSA.new(key, '商户编号')
+
+     http.ca_file = File.join("#{ Rails.root }/lib/maowei_cert/rootca.pem")
+
+     http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+     res_data = ''
+
+     http.start { http.request_post(uri.path, params_xml) { |res| res_data = res.body } }
+     res_data_hash = Hash.from_xml res_data
+     share = Ecstore::WeihuoShare.where(:order_id => order_id).first
+
+     if res_data_hash["xml"]["return_code"] == 'SUCCESS'
+      share.update_attribute(:status, 1)
+      share.update_attribute(:return_message, res_data_hash["xml"]["return_code"])
+    else
+      share.update_attribute(:return_message, res_data_hash)
+    end
+
+
+    end
+
+
+
+
     return redirect_to detail_order_path(@payment.pay_bill.order) if @payment&&@payment.paid?
 
     @order = @payment.pay_bill.order
@@ -89,31 +172,31 @@ class VshopController < ApplicationController
         @users = Ecstore::User.find(member_id)
         if @member.advance
          advance=@member.advance+order_item.good.mktprice
-        else
+       else
          advance=order_item.good.mktprice
-        end
+       end
 
-        advances =  @users.member_advances.order("log_id asc").last
-        if advances
-          shop_advance = advances.shop_advance
-        else
-          shop_advance =@member.advance
-        end
-        shop_advance += order_item.good.mktprice
-        @member.update_attribute(:advance,advance)
-        Ecstore::MemberAdvance.create(:member_id=>member_id,
-          :money=>order_item.good.mktprice,
-          :message=>"万家预充值:#{order_item.good.name}",
-          :mtime=>Time.zone.now.to_i,
-          :memo=>"用户本人操作",
-          :order_id=>@order.order_id,
-          :import_money=>order_item.good.mktprice,
-          :explode_money=>0,
-          :member_advance=>(advance),
-          :shop_advance=>shop_advance,
-          :disabled=>'false')
+       advances =  @users.member_advances.order("log_id asc").last
+       if advances
+        shop_advance = advances.shop_advance
+      else
+        shop_advance =@member.advance
       end
+      shop_advance += order_item.good.mktprice
+      @member.update_attribute(:advance,advance)
+      Ecstore::MemberAdvance.create(:member_id=>member_id,
+        :money=>order_item.good.mktprice,
+        :message=>"万家预充值:#{order_item.good.name}",
+        :mtime=>Time.zone.now.to_i,
+        :memo=>"用户本人操作",
+        :order_id=>@order.order_id,
+        :import_money=>order_item.good.mktprice,
+        :explode_money=>0,
+        :member_advance=>(advance),
+        :shop_advance=>shop_advance,
+        :disabled=>'false')
     end
+  end
 
     #adapter  = 'wxpay'
 
@@ -123,6 +206,16 @@ class VshopController < ApplicationController
     params.delete :action
 
     # return render :text=>params
+
+
+
+
+
+    return redirect_to "/orders/mobile_show_order?id=#{@order.order_id}&supplier_id=#{params[:id]}"
+
+  end
+
+  def note_for_paynotifyurl
 =begin
     result = ModecPay.verify_notify(adapter,params,{:ip=>request.remote_ip })
 
@@ -150,16 +243,14 @@ class VshopController < ApplicationController
       response =  result
     end
 =end
-    return redirect_to "/orders/mobile_show_order?id=#{@order.order_id}&supplier_id=#{params[:id]}"
-
   end
 
-def notice
-  @supplier=Ecstore::Supplier.find(params[:supplier_id])
+  def notice
+    @supplier=Ecstore::Supplier.find(params[:supplier_id])
 
-  render :layout => @supplier.layout
+    render :layout => @supplier.layout
 
-end
+  end
 
 
   def new
@@ -190,13 +281,13 @@ end
   end
 end
 
-  def apply
-    if params[:id]
-      @supplier  =  Ecstore::Supplier.find(params[:id])
-      @action_url =  "/admin/suppliers/#{params[:id]}?return_url=/vshop/apply"
-      @method = :put
-    end
+def apply
+  if params[:id]
+    @supplier  =  Ecstore::Supplier.find(params[:id])
+    @action_url =  "/admin/suppliers/#{params[:id]}?return_url=/vshop/apply"
+    @method = :put
   end
+end
 
   #get /vshop/orders
   def orders
@@ -266,15 +357,15 @@ end
     shop_id = 48
 
     if @user     
-       @shop_title="客户管理"
-       @total_clients = Ecstore::ShopClient.where(:shop_id=>shop_id).count()
+     @shop_title="客户管理"
+     @total_clients = Ecstore::ShopClient.where(:shop_id=>shop_id).count()
 
-       @clients=Ecstore::ShopClient.where(:shop_id=>shop_id).paginate(:page => params[:page], :per_page => 20).order("created_at desc")
+     @clients=Ecstore::ShopClient.where(:shop_id=>shop_id).paginate(:page => params[:page], :per_page => 20).order("created_at desc")
 
-    else
-      redirect_to '/vshop/login'
-    end
+   else
+    redirect_to '/vshop/login'
   end
+end
 
   #get /vshop/weixin
   def weixin

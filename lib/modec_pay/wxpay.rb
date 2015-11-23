@@ -64,7 +64,7 @@ module ModecPay
     # end
 
     def partner_key=(val)
-      self.fields['attach'] = val
+      self.fields['partner_key'] = val
     end
 
     # def partnerid=(val)
@@ -123,7 +123,7 @@ module ModecPay
         #unsign = _sorted_hash.collect do |key,val| 	"#{key}=#{val}" end.join("&") + @@private_key #self.private_key
 
         unsign_hash = Hash.send :[],  params.select{ |key,val| val.present? && key != 'sign' && key != 'sign_type' }
-        unsign = unsign_hash.collect do |key,val| 	"#{key}=#{val}" end.join("&") + "&key=#{self.fields['attach']}"
+        unsign = unsign_hash.collect do |key,val| 	"#{key}=#{val}" end.join("&") + "&key=#{self.fields['partner_key']}"
         Digest::MD5.hexdigest(unsign) == sign
       end
 
@@ -180,7 +180,7 @@ module ModecPay
       
       return '' if self.fields.blank?
       _sorted = Hash.send :[],  self.fields.select{ |key,val|  val.present? }.sort_by{ |key,val|  key }
-      unsign = _sorted.collect{ |key,val| "#{key}=#{val}" }.join("&") + "&key=#{self.fields['attach']}"
+      unsign = _sorted.collect{ |key,val| "#{key}=#{val}" }.join("&") + "&key=#{self.fields['partner_key']}"
       self.fields['sign']  = Digest::MD5.hexdigest(unsign).upcase
     end
 
@@ -201,7 +201,7 @@ module ModecPay
                 "signType" => self.fields['sign_type']
       }
       _sorted = Hash.send :[],  unsorted.select{ |key,val|  val.present? && key != 'sign_Type'}.sort_by{ |key,val|  key }
-      unsign = _sorted.collect{ |key,val| "#{key}=#{val}" }.join("&") + "&key=#{self.fields['attach']}"
+      unsign = _sorted.collect{ |key,val| "#{key}=#{val}" }.join("&") + "&key=#{self.fields['partner_key']}"
       self.fields['pay_sign'] = Digest::MD5.hexdigest(unsign).upcase
     end
 
