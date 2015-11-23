@@ -199,14 +199,19 @@
 
   function add() {
     var obj = document.getElementById("buyNum");
+var store = document.getElementById("store");
 
+          if(store.value <= obj.value) {
+             alert("亲，库存不够了") ;
+      return;
+    }
     obj.value = parseInt(obj.value) + 1;
   }
 
   function remov() {
     var obj = document.getElementById("buyNum");
-
     if(obj.value <=1) {
+        alert("亲，不能在减了～") ;
       return;
     }
 
@@ -220,6 +225,7 @@
     <span class="minus minus_disabled" id="minus" ptag="7001.1.11" onclick="remov()"></span>
     <input class="num" id="buyNum" type="tel" value="1" name="product[quantity]" >
     <span class="plus" id="plus" ptag="7001.1.11" onclick="add()"></span>
+   <p hidden>  <input class="store" id="store" style="" value="<%=@goods.store.to_i%>"></span></p>
   </div>
 </div>
 </div>
@@ -560,6 +566,62 @@
   $('.add_to_cart').on('click',function(){
     $('#add_product_to_cart').submit();
   })
+</script>
+
+
+<script>
+
+    $(document).ready(function(){
+
+        $(" .quantity").on("change",function(){
+            var quantity = $(this).val();
+            if(!/\d+/.test(quantity)) return false;
+            var url = $(this).data('url');
+            $.ajax(url,{
+                type: "PUT",
+                data:{ quantity:quantity },
+                success:function(res){
+                }
+            });
+        });
+
+        $("#minus").click(function(){
+            var obj = document.getElementById("buyNum");
+            var quone= $(this);
+            var quantitys = quone.val();
+
+            if (obj<=1){
+                alert("亲，不能在减了～") ;return false;
+            }
+            else{
+                var quantity= quantitys-1;
+                quone.val(quantity) ;
+                var url = quone.data('url');
+                $.ajax(url,{
+                    type: "PUT",
+                    data:{ quantity:quantity },
+                    success:function(res){
+                    }
+                });
+            }
+        });
+        $(".addition").click(function(){
+            var qutwo=  $(this).parents().parents().children(".good_data_num_m").children("#quantity");
+            var quantitys = qutwo.val();
+            var quantity = quantitys * 1 + 1;
+            qutwo.val(quantity);
+
+            var url =qutwo.data('url');
+
+            $.ajax(url, {
+                type: "PUT",
+                data: { quantity: quantity },
+                success: function (res) {
+                }
+            });
+
+        });
+    });
 </script>
 
 </body></html>
