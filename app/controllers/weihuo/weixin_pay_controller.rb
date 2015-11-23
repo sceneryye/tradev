@@ -119,7 +119,7 @@ class Weihuo::WeixinPayController < ApplicationController
 
 
     if @order.save
-      store = goods.store - 1
+      store = product.store - 1
       goods.update_attribute(:store, store)
       product.update_attribute(:store, store)
       Ecstore::OrderLog.new do |order_log|
@@ -158,10 +158,10 @@ class Weihuo::WeixinPayController < ApplicationController
       end
 
       re_openid = auto_send[:re_openid]
-      re_openid = ['oVxC9uA1tLfpb7OafJauUm-RgzQ8', 'oVxC9uDhsiNDxWV4u7KdukRjceQM'][rand(2)] if params["xml"]["attach"].split('_')[1] == '99999'
-      auto_send[:act_name] = '贸威官网随机红包' if params["xml"]["attach"].split('_')[1] =='99999'
+      re_openid = ['oVxC9uA1tLfpb7OafJauUm-RgzQ8', 'oVxC9uDhsiNDxWV4u7KdukRjceQM'][rand(2)] if params["xml"]["attach"].split('_')[1] == '49'
+      auto_send[:act_name] = '贸威官网随机红包' if params["xml"]["attach"].split('_')[1] =='49'
       Rails.logger.info params["xml"]["attach"].split('_')[1]
-      Rails.logger.info params["xml"]["attach"].split('_')[1] == '99999'
+      Rails.logger.info params["xml"]["attach"].split('_')[1] == '49'
       Rails.logger.info re_openid
 
       total_amount = auto_send[:amount].present? ? (auto_send[:amount].to_f * 100).to_i : ''

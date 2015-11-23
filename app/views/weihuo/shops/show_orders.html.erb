@@ -34,7 +34,7 @@
       <td>
         <div class="">
           <a href="/weihuo/shops/order_detail?shop_id=<%= params[:shop_id] %>&order_id=<%= order.order_id %>">
-            <%= Time.at(order.last_modified).strftime('%F %H:%m:%S') %>
+            <%= Time.at(order.last_modified).strftime('%F %T') %>
           </a>
         </div>
       </td>

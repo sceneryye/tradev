@@ -1,3 +1,8 @@
+<% if @exiting_shop.present? %>
+<div class="return">
+<h4>您已经拥有店铺，点击<a href="/weihuo/shops/<%= @exiting_shop.first.shop_id %>">这里</a>前往您的店铺</h4>
+</div>
+<% else %>
 <div class="container">
   <div class="col-xs-12">
     <h3 class="center">申请尾货良品店铺</h3>
@@ -44,6 +49,7 @@
       </form>
     </div>
   </div>
+  <% end %>
 
   <script type="text/javascript">
     $(document).ready(function(){
@@ -104,6 +110,11 @@
 </script>
 
 <style type="text/css">
+  .return {
+    width: 80%;
+    margin: 0 auto;
+    vertical-align: middle;
+  }
   .label-new-shop {
     color: black;
 

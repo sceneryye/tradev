@@ -82,7 +82,7 @@ class MobileController < ApplicationController
 
     @galleries = Ecstore::TagExt.order("id desc").limit(11)
 
-    @goods=Ecstore::Good.where(:marketable=>"true").order("goods_id DESC").limit(24)
+    @goods=Ecstore::Good.where("marketable = 'true' AND supplier_id != 10").order("goods_id DESC").limit(24)
     @brands = []
 
     Ecstore::Brand.where(:disabled => 'false').shuffle.each_with_index do |brand, index|

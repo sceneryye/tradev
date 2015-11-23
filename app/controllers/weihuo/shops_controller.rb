@@ -75,22 +75,27 @@ class Weihuo::ShopsController < ApplicationController
 
       return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile"
     end
-    # return render :text => shop_id == '99999'
+    # return render :text => shop_id == '49'
     if current_account.present?
       open_id = current_account.login_name.split('_')[0]
-      if shop_id == '99999' && Ecstore::WeihuoShop.where(:openid => open_id).present?
+      if shop_id == '49' && Ecstore::WeihuoShop.where(:openid => open_id).present?
         return redirect_to "/weihuo/shops/#{Ecstore::WeihuoShop.where(:openid => open_id).first.shop_id}"
       end
     end
     @shop = Ecstore::WeihuoShop.find(params[:shop_id] || params[:id])
-    @goods = Ecstore::Good.where(:supplier_id => 10, :marketable => 'true').paginate(:per_page => 30, :page => params[:page]).order(:name)
+    @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:per_page => 30, :page => params[:page]).order(:name)
   end
 
   # 申请店铺
   def new
     if current_account.blank?
-      redirect_to "/auto_login2?return_url=#{URI.escape 'http://www.trade-v.com/weihuo/shops/new'}&platform=mobile&from=new"
+      return redirect_to "/auto_login2?return_url=#{URI.escape 'http://www.trade-v.com/weihuo/shops/new'}&platform=mobile&from=new"
     end
+     @exiting_shop = Ecstore::WeihuoShop.where(:openid => current_account.login_name.split('_')[0])
+     Rails.logger.info current_account.login_name
+     Rails.logger.info @exiting_shop.first.shop_id
+      
+    
     @organisations = Ecstore::WeihuoOrganisation.all
     organisation = Ecstore::WeihuoOrganisation.where(:name => params[:organisation_name])
     @employees = Ecstore::WeihuoEmployee.where(:weihuo_organisation_id => organisation.first.id) if organisation.present?
