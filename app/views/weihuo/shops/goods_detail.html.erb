@@ -74,12 +74,12 @@
       <div class="img-front">
         <img src="<%= @goods.medium_pic %>" alt="click to pay" />
       </div>
-
+  <%if @goods.marketable == 'false'|| @goods.store.to_i < 1 %> <%else%>
       <div class="sponsorData">
         <div class="img-back" id="qrcode" data-url="<%= pay_with_goods @goods.bn %>"></div>
 
       </div>
-    </div>
+    </div><%end%>
   </div>
 
 
@@ -347,8 +347,11 @@
 
   <div class="btn_col">
     <!--   <a class="btn btn_buy_exp" href="javascript:;" id="buyBtnExp" style="display: none" manualclick="xxx" pppptag="7001.1.8">立即购买</a>-->
+    <%if @goods.marketable == 'false'|| @goods.store.to_i < 1 %>
+     <h1 style="text-align: center;font-size:22px">商品已售完</h1>
+    <% else %>
     <a class="btn btn_cart add_to_cart" href="javascript:;" manualclick="xxx" pppptag="7001.1.10" id="add_to_cart">加入购物车</a>
-    <a class="btn btn_buy add_to_cart" href="javascript:;" id="buyBtn2" manualclick="xxx" pppptag="7001.1.8">立即购买</a>
+    <a class="btn btn_buy add_to_cart" href="javascript:;" id="buyBtn2" manualclick="xxx" pppptag="7001.1.8">立即购买</a> <% end %>
   </div>
    <!-- <a class="cart_wrap" href="/cart/mobile?supplier_id=">
         <i class="i_cart" id="cartNum"></i>
