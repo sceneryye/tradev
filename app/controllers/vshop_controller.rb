@@ -6,6 +6,162 @@ class VshopController < ApplicationController
   layout "vshop"
 
 
+    #get /vhsop/id/payments
+  def payments
+
+    supplier_id = params[:supplier_id]
+    shop_id = params[:shop_id]
+
+    if supplier_id.size==0
+      supplier_id=78
+    end
+
+    #获取不同供应商支付接口参数
+    supplier_pay_id = params[:id] 
+    @supplier_pay  = Ecstore::Supplier.find(supplier_pay_id)    
+
+    @payment = Ecstore::Payment.find(params[:payment_id])
+    if @payment && @payment.status == 'ready'
+      adapter = @payment.pay_app_id
+      order_id = @payment.pay_bill.rel_id
+      @modec_pay = ModecPay.new adapter do |pay|
+        pay.return_url = "#{site}/payments/#{@payment.payment_id}/#{adapter}/callback"
+        pay.notify_url = "#{site}/vshop/#{supplier_pay_id}/paynotifyurl?payment_id=#{@payment.payment_id}&supplier_id=#{supplier_id}&shop_id=#{shop_id}"
+        pay.attach = "shop_id=#{params[:shop_id]}&payment_id=#{@payment.payment_id}&from=#{params[:from]}"
+        pay.pay_id = @payment.payment_id
+        pay.pay_amount = @payment.cur_money.to_f
+        pay.pay_time = Time.zone.now
+        pay.subject = "#{@supplier_pay.name}订单(#{order_id})"
+        pay.installment = @payment.pay_bill.order.installment if @payment.pay_bill.order
+
+        pay.openid = @user.account.login_name.split('_')[0]
+        pay.spbill_create_ip = request.remote_ip
+        pay.supplier_id = supplier_pay_id
+        pay.appid = @supplier_pay.weixin_appid
+        pay.mch_id = @supplier_pay.mch_id
+        pay.partner_key = @supplier_pay.partner_key
+        pay.partnerid = @supplier_pay.partnerid
+      end
+
+
+      @supplier = Ecstore::Supplier.find(supplier_id) 
+
+      if shop_id
+        layout = "shop"
+      else
+        layout = @supplier.layout
+      end
+
+      render :inline=>@modec_pay.html_form_wxpay, :layout=>layout
+
+      Ecstore::PaymentLog.new do |log|
+        log.payment_id = @payment.payment_id
+        log.order_id = order_id
+        log.pay_name = adapter
+        log.request_ip = request.remote_ip
+        log.request_params = @modec_pay.fields.to_json
+        log.requested_at = Time.zone.now
+      end.save
+    else
+      flash[:msg] = '不能支付,请查看订单状态'
+    end
+  end
+
+  def paynotifyurl
+
+    if params[:error_message]
+      return render :text=>"支付不成功。error_message:#{params[:error_message]}"
+    end
+
+    ModecPay.logger.info "[#{Time.zone.now}][#{request.remote_ip}] #{request.request_method} \"#{request.fullpath}\" params : #{ params.to_s }"
+
+    
+    @payment = Ecstore::Payment.find(params[:payment_id])
+    return redirect_to detail_order_path(@payment.pay_bill.order) if @payment&&@payment.paid?
+
+    @order = @payment.pay_bill.order
+    @order.update_attributes(:pay_status=>'1')
+
+    @order.order_items.each do |order_item|
+      if  order_item.good.cat_id==600
+        member_id=@order.member_id
+        @member = Ecstore::Member.find(member_id)
+        @users = Ecstore::User.find(member_id)
+        if @member.advance
+         advance=@member.advance+order_item.good.mktprice
+        else
+         advance=order_item.good.mktprice
+        end
+
+        advances =  @users.member_advances.order("log_id asc").last
+        if advances
+          shop_advance = advances.shop_advance
+        else
+          shop_advance =@member.advance
+        end
+        shop_advance += order_item.good.mktprice
+        @member.update_attribute(:advance,advance)
+        Ecstore::MemberAdvance.create(:member_id=>member_id,
+          :money=>order_item.good.mktprice,
+          :message=>"万家预充值:#{order_item.good.name}",
+          :mtime=>Time.zone.now.to_i,
+          :memo=>"用户本人操作",
+          :order_id=>@order.order_id,
+          :import_money=>order_item.good.mktprice,
+          :explode_money=>0,
+          :member_advance=>(advance),
+          :shop_advance=>shop_advance,
+          :disabled=>'false')
+      end
+    end
+
+    #adapter  = 'wxpay'
+
+    @user = @payment.user
+    adapter  = params.delete(:adapter)
+    params.delete :controller
+    params.delete :action
+
+    # return render :text=>params
+=begin
+    result = ModecPay.verify_notify(adapter,params,{:ip=>request.remote_ip })
+
+    @payment.payment_log.update_attributes({:notify_ip=>request.remote_ip,
+      :notify_params=> params.to_json,
+      :notified_at=>Time.zone.now,
+      :result=>result.to_json}) if @payment.payment_log
+
+    if result.is_a?(Hash) && result.present?
+      response = result.delete(:response)
+      if result.delete(:payment_id) == @payment.payment_id.to_s && !@payment.paid?
+        @payment.update_attributes(result)
+        @order.update_attributes(:pay_status=>'1')
+        Ecstore::OrderLog.new do |order_log|
+          order_log.rel_id = @order.order_id
+          order_log.op_id = @user.member_id
+          order_log.op_name = @user.login_name
+          order_log.alttime = @payment.t_payed
+          order_log.behavior = 'payments'
+          order_log.result = "SUCCESS"
+          order_log.log_text = "订单支付成功！"
+        end.save
+      end
+    else
+      response =  result
+    end
+=end
+    return redirect_to "/orders/mobile_show_order?id=#{@order.order_id}&supplier_id=#{params[:id]}"
+
+  end
+
+def notice
+  @supplier=Ecstore::Supplier.find(params[:supplier_id])
+
+  render :layout => @supplier.layout
+
+end
+
+
   def new
     @account = Ecstore::Account.new
   end
@@ -34,13 +190,13 @@ class VshopController < ApplicationController
   end
 end
 
-def apply
-  if params[:id]
-    @supplier  =  Ecstore::Supplier.find(params[:id])
-    @action_url =  "/admin/suppliers/#{params[:id]}?return_url=/vshop/apply"
-    @method = :put
+  def apply
+    if params[:id]
+      @supplier  =  Ecstore::Supplier.find(params[:id])
+      @action_url =  "/admin/suppliers/#{params[:id]}?return_url=/vshop/apply"
+      @method = :put
+    end
   end
-end
 
   #get /vshop/orders
   def orders
@@ -104,18 +260,18 @@ end
     end
   end
 
-   #get /vshop/members
-   def clients
+  #get /vshop/members
+  def clients
 
-     shop_id = 48
+    shop_id = 48
 
-     if @user     
+    if @user     
        @shop_title="客户管理"
        @total_clients = Ecstore::ShopClient.where(:shop_id=>shop_id).count()
 
        @clients=Ecstore::ShopClient.where(:shop_id=>shop_id).paginate(:page => params[:page], :per_page => 20).order("created_at desc")
 
-     else
+    else
       redirect_to '/vshop/login'
     end
   end
@@ -292,155 +448,5 @@ end
 
     render :layout=>"#{@supplier.layout}"
   end
-
-  #get /vhsop/id/payments
-
-  def payments
-
-    supplier_id = params[:supplier_id]
-    shop_id = params[:shop_id]
-
-    if supplier_id.size==0
-      supplier_id=78
-    end
-
-    #获取不同供应商支付接口参数
-    supplier_pay_id = params[:id] 
-    @supplier_pay  = Ecstore::Supplier.find(supplier_pay_id)    
-
-    @payment = Ecstore::Payment.find(params[:payment_id])
-    if @payment && @payment.status == 'ready'
-      adapter = @payment.pay_app_id
-      order_id = @payment.pay_bill.rel_id
-      @modec_pay = ModecPay.new adapter do |pay|
-        pay.return_url = "#{site}/payments/#{@payment.payment_id}/#{adapter}/callback"
-        pay.notify_url = "#{site}/vshop/#{supplier_pay_id}/paynotifyurl?payment_id=#{@payment.payment_id}&supplier_id=#{supplier_id}&shop_id=#{shop_id}"
-        pay.attach = "shop_id=#{params[:shop_id]}&payment_id=#{@payment.payment_id}&from=#{params[:from]}"
-        pay.pay_id = @payment.payment_id
-        pay.pay_amount = @payment.cur_money.to_f
-        pay.pay_time = Time.zone.now
-        pay.subject = "#{@supplier_pay.name}订单(#{order_id})"
-        pay.installment = @payment.pay_bill.order.installment if @payment.pay_bill.order
-
-        pay.openid = @user.account.login_name.split('_')[0]
-        pay.spbill_create_ip = request.remote_ip
-        pay.supplier_id = supplier_pay_id
-        pay.appid = @supplier_pay.weixin_appid
-        pay.mch_id = @supplier_pay.mch_id
-        pay.partner_key = @supplier_pay.partner_key
-        pay.partnerid = @supplier_pay.partnerid
-      end
-
-
-      @supplier = Ecstore::Supplier.find(supplier_id) 
-
-      if shop_id
-        layout = "shop"
-      else
-        layout = @supplier.layout
-      end
-
-      render :inline=>@modec_pay.html_form_wxpay, :layout=>layout
-
-      Ecstore::PaymentLog.new do |log|
-        log.payment_id = @payment.payment_id
-        log.order_id = order_id
-        log.pay_name = adapter
-        log.request_ip = request.remote_ip
-        log.request_params = @modec_pay.fields.to_json
-        log.requested_at = Time.zone.now
-      end.save
-    else
-      flash[:msg] = '不能支付,请查看订单状态'
-    end
-  end
-
-  def paynotifyurl
-
-    if params[:error_message]
-      return render :text=>"支付不成功。error_message:#{params[:error_message]}"
-    end
-
-    ModecPay.logger.info "[#{Time.zone.now}][#{request.remote_ip}] #{request.request_method} \"#{request.fullpath}\" params : #{ params.to_s }"
-
-    @payment = Ecstore::Payment.where(:payment_id => params[:xml][:payment_id]).first
-    return redirect_to detail_order_path(@payment.pay_bill.order) if @payment&&@payment.paid?
-
-    @order = @payment.pay_bill.order
-    @order.update_attributes(:pay_status=>'1')
-
-    @order.order_items.each do |order_item|
-      if  order_item.good.cat_id==600
-        member_id=@order.member_id
-        @member = Ecstore::Member.find(member_id)
-        @users = Ecstore::User.find(member_id)
-        if @member.advance
-         advance=@member.advance+order_item.good.mktprice
-       else
-         advance=order_item.good.mktprice
-       end
-
-       advances =  @users.member_advances.order("log_id asc").last
-       if advances
-        shop_advance = advances.shop_advance
-      else
-        shop_advance =@member.advance
-      end
-      shop_advance += order_item.good.mktprice
-      @member.update_attribute(:advance,advance)
-      Ecstore::MemberAdvance.create(:member_id=>member_id,
-        :money=>order_item.good.mktprice,
-        :message=>"万家预充值:#{order_item.good.name}",
-        :mtime=>Time.zone.now.to_i,
-        :memo=>"用户本人操作",
-        :order_id=>@order.order_id,
-        :import_money=>order_item.good.mktprice,
-        :explode_money=>0,
-        :member_advance=>(advance),
-        :shop_advance=>shop_advance,
-        :disabled=>'false')
-    end
-  end
-
-  adapter  = 'wxpay'
-
-  @user = @payment.user
-
-  result = ModecPay.verify_notify(adapter,params,{:ip=>request.remote_ip })
-
-  @payment.payment_log.update_attributes({:notify_ip=>request.remote_ip,
-    :notify_params=> params.to_json,
-    :notified_at=>Time.zone.now,
-    :result=>result.to_json}) if @payment.payment_log
-
-  if result.is_a?(Hash) && result.present?
-    response = result.delete(:response)
-    if result.delete(:payment_id) == @payment.payment_id.to_s && !@payment.paid?
-      @payment.update_attributes(result)
-      @order.update_attributes(:pay_status=>'1')
-      Ecstore::OrderLog.new do |order_log|
-        order_log.rel_id = @order.order_id
-        order_log.op_id = @user.member_id
-        order_log.op_name = @user.login_name
-        order_log.alttime = @payment.t_payed
-        order_log.behavior = 'payments'
-        order_log.result = "SUCCESS"
-        order_log.log_text = "订单支付成功！"
-      end.save
-    end
-  else
-    response =  result
-  end
-
-  return redirect_to "/orders/mobile_show_order?id=#{@order.order_id}&supplier_id=#{params[:id]}"
-
-end
-
-def notice
-  @supplier=Ecstore::Supplier.find(params[:supplier_id])
-
-  render :layout => @supplier.layout
-
-end
 
 end
