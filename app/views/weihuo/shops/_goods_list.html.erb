@@ -5,11 +5,11 @@
       <a style="width:50%" href="/weihuo/goods_detail/<%=goods.goods_id%>?shop_id=<%= params[:id] || params[:shop_id] %>">
         <div class="goods" >
           <div class="goods-pic" style="position: relative;">
-          <% if goods.marketable == 'false' %>
-           <div style="position: absolute;z-index:999;left:10%" > 
-    <img style="filter:alpha(opacity=50); 
--moz-opacity:0.5; 
-opacity:0.5;" src="/images/homepage/sellout.jpg">
+          <% if goods.marketable == 'false'|| goods.store.to_i < 1 %>
+           <div style="position: absolute;z-index:999;" > 
+    <img style="filter:alpha(opacity=80); 
+-moz-opacity:0.8; 
+opacity:0.8;" src="/images/homepage/sellout.jpg">
   </div>    <% end %>
 
           <div style="position: absolute;"><img src="/images/homepage/weihuoimg.png" /></div>
