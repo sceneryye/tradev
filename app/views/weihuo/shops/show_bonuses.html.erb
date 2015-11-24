@@ -45,13 +45,15 @@
       <td>
         <div class="">
           <h4>
-            <% if bonus.status == 1 %>
-            <%= '已发送' %>
-            <% elsif order.ship_status == '1' && order.pay_status == '1' %>
-            <%= '待发送' %>
-            <% else %>
-            <%= '未发送' %>
-            <% end %>
+          <a href="/weihuo/shops/bonus_detail?shop_id=<%= params[:shop_id] %>&order_id=<%= order.order_id %>">
+              <% if bonus.status == 1 %>
+              <%= '已发送' %>
+              <% elsif order.ship_status == '1' && order.pay_status == '1' %>
+              <%= '待发送' %>
+              <% else %>
+              <%= '未发送' %>
+              <% end %>
+            </a>
           </h4>
         </div>
       </td>
@@ -75,6 +77,7 @@
 
   th, td {
     text-align: center;
+    vertical-align: middle;
   }
   .container {
     margin-bottom: 40px;

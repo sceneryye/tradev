@@ -52,12 +52,19 @@ class Weihuo::ShopsController < ApplicationController
   end
 
   def order_detail
-
     @order = Ecstore::Order.where(:order_id => params[:order_id]).first
     @user = Ecstore::Member.where(:member_id => @order.member_id).first
     product_id = Ecstore::OrderItem.where(:order_id => params[:order_id]).first.product_id
     @product = Ecstore::Product.where(:product_id => product_id).first
+  end
 
+  def bonus_detail
+    @bonus = Ecstore::WeihuoShare.where(:order_id => params[:order_id]).first
+    @order = Ecstore::Order.where(:order_id => params[:order_id]).first
+    @user = Ecstore::User.find_by_member_id(@order.member_id)
+    if @bonus.return_message.present? && @bonus.return_message.split(":").length > 2
+      @message = @bonus.return_message.split(":")[3].split(" ")[0]
+    end
   end
 
   def modify_ship_status

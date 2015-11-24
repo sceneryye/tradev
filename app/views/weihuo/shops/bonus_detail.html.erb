@@ -1,0 +1,98 @@
+<div class="container">
+  <h3>红包详情</h3>
+  <div class="bonus-detail">
+    <div class="money main">
+      <span class="bonus-amount left">
+        红包金额：
+      </span>
+      <span class="bonus-amount-number right">
+        <%= @bonus.amount %> 元
+      </span>
+    </div>
+
+    <div class="createtime main">
+      <span class="time left">
+        创建时间：
+      </span>
+      <span class="time-number right">
+        <%= @bonus.created_at.strftime('%F %T') %>
+      </span>
+    </div>
+
+    <div class="order-id main">
+      <span class="order left">
+        订单编号：
+      </span>
+      <span class="order-number right">
+        <%= @bonus.order_id %>
+      </span>
+    </div>
+
+    <div class="client-name main">
+      <span class="name left">
+        客户昵称：
+      </span>
+      <span class="name-description right">
+        <%= @user.weixin_nickname %>
+      </span>
+    </div>
+
+
+    <div class="bonus-status main">
+      <span class="status left">
+        红包状态：
+      </span>
+      <span class="status-description right">
+
+        <% if @bonus.status == 1 %>
+        <%= '已发送' %>
+        <% elsif @order.ship_status == '1' && @order.pay_status == '1' %>
+        <%= '待发送' %>
+        <% else %>
+        <%= '未发送' %>
+        <% end %>
+      </span>
+    </div>
+
+    <div class="description main">
+      <span class="return-code left">
+        返回信息:
+      </span>
+      <span class="return-code-detail right">
+        <% if @bonus.status == 1 %>
+        发送成功
+        <% elsif @message.present? %>
+        <%= @message %>
+        <% else %>
+        暂无信息
+        <% end %>
+      </span>
+    </div>
+
+  </div>
+</div>
+
+<style type="text/css">
+  .bonus-detail {
+    background-color: #d9edf7;
+    margin: 20px auto;
+    position: relative;
+    margin-bottom: 40px;
+  }
+  .left {
+    padding-left: 30px;
+    font-weight: bold;
+  }
+  .right {
+    margin-left: 40px;
+    position: absolute;
+    left: 35%;
+  }
+  .main {
+    padding: 20px 0;
+  }
+  h3 {
+    text-align: center;
+    margin-top: 20px;
+  }
+</style>

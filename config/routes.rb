@@ -23,6 +23,7 @@ Modengke::Application.routes.draw do
     get 'shops/order_detail' => 'shops#order_detail'
     post 'shops/modify_ship_status' => 'shops#modify_ship_status'
     get 'shops/show_qrcode' => 'shops#show_qrcode'
+    get 'shops/bonus_detail' => 'shops#bonus_detail'
 
     resources :orgnizations
     resources :orders
