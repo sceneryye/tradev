@@ -44,6 +44,7 @@ class Weihuo::ShopsController < ApplicationController
   end
 
   def show_orders
+
     @orders = Ecstore::Order.where(:shop_id => params[:shop_id]).paginate(:page => params[:page], :per_page => 20).order('createtime DESC')
   end
 
@@ -51,17 +52,21 @@ class Weihuo::ShopsController < ApplicationController
   end
 
   def order_detail
+
     @order = Ecstore::Order.where(:order_id => params[:order_id]).first
     @user = Ecstore::Member.where(:member_id => @order.member_id).first
     product_id = Ecstore::OrderItem.where(:order_id => params[:order_id]).first.product_id
     @product = Ecstore::Product.where(:product_id => product_id).first
+
   end
 
   def modify_ship_status
     if params[:ship_status] == '1'
       order = Ecstore::Order.where(:order_id => params[:order_id]).first
       order.update_attribute(:ship_status, '1')
-      order.update_attribute(:status, 'finish')
+      if Ecstore::WeihuoShare.where(:order_id => params[:order_id]).first.status == 1
+        order.update_attribute(:status, 'finish')
+      end
     end
     return render :text => 'success'
   end
@@ -91,10 +96,10 @@ class Weihuo::ShopsController < ApplicationController
     if current_account.blank?
       return redirect_to "/auto_login2?return_url=#{URI.escape 'http://www.trade-v.com/weihuo/shops/new'}&platform=mobile&from=new"
     end
-     @exiting_shop = Ecstore::WeihuoShop.where(:openid => current_account.login_name.split('_')[0])
-     Rails.logger.info current_account.login_name
-     Rails.logger.info @exiting_shop.first.shop_id
-      
+    @exiting_shop = Ecstore::WeihuoShop.where(:openid => current_account.login_name.split('_')[0])
+    Rails.logger.info current_account.login_name
+    Rails.logger.info @exiting_shop.first.shop_id
+
     
     @organisations = Ecstore::WeihuoOrganisation.all
     organisation = Ecstore::WeihuoOrganisation.where(:name => params[:organisation_name])

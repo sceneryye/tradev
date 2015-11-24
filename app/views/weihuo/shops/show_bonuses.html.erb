@@ -26,6 +26,7 @@
     <% @bonuses.each_with_index do |bonus, index| %>
     <% member_id = Ecstore::Order.where(:order_id => bonus.order_id).first.member_id %>
     <% user = Ecstore::User.where(:member_id => member_id).first %>
+    <% order = Ecstore::Order.where(:order_id => bonus.order_id).first %>
 
     <tr class="<%= 'info' if index % 2 == 0 %>">
 
@@ -43,7 +44,15 @@
 
       <td>
         <div class="">
-          <h4><%= bonus.status == 1 ? '已发送' : '未发送' %></h4>
+          <h4>
+            <% if bonus.status == 1 %>
+            <%= '已发送' %>
+            <% elsif order.ship_status == '1' && order.pay_status == '1' %>
+            <%= '待发送' %>
+            <% else %>
+            <%= '未发送' %>
+            <% end %>
+          </h4>
         </div>
       </td>
     </tr>
@@ -64,11 +73,11 @@
   }
   
 
-th, td {
-  text-align: center;
-}
-.container {
-  margin-bottom: 40px;
-}
+  th, td {
+    text-align: center;
+  }
+  .container {
+    margin-bottom: 40px;
+  }
 
 </style>

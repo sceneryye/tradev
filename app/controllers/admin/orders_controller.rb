@@ -3,21 +3,21 @@ class Admin::OrdersController < Admin::BaseController
 	before_filter :get_return_url, :only=>[:show,:detail,:pay,:delivery,:reship,:refund]
 	skip_before_filter :verify_authenticity_token,:only=>[:batch]
 
-  def destroy
-    id = params[:id]
-    @order_log = Ecstore::OrderLog.where(:rel_id=>id)
-    @order_log.destroy_all
-    @order_item = Ecstore::OrderItem.where(:order_id=>id)
-    @order_item.destroy_all
-    @order = Ecstore::Order.where(:order_id=>id)
-    @order.destroy_all
+	def destroy
+		id = params[:id]
+		@order_log = Ecstore::OrderLog.where(:rel_id=>id)
+		@order_log.destroy_all
+		@order_item = Ecstore::OrderItem.where(:order_id=>id)
+		@order_item.destroy_all
+		@order = Ecstore::Order.where(:order_id=>id)
+		@order.destroy_all
 
-    respond_to do |format|
-      format.html { redirect_to admin_orders_url }
-      format.json { head :no_content }
-      format.js
-    end
-  end
+		respond_to do |format|
+			format.html { redirect_to admin_orders_url }
+			format.json { head :no_content }
+			format.js
+		end
+	end
 
 	def index
 		if params[:status].nil?
@@ -32,30 +32,30 @@ class Admin::OrdersController < Admin::BaseController
 
 		if !params[:ship_status].nil?
 			@orders_nw = @orders_nw.where(:ship_status=>params[:ship_status])
-    end
+		end
 
 		@order_ids = @orders_nw.pluck(:order_id)
-    role=current_admin.login_name.split( "_")[0]
-    if (role=="sale")
-      @orders = @orders_nw.where(:desktop_user_id=>current_admin.account_id)
+		role=current_admin.login_name.split( "_")[0]
+		if (role=="sale")
+			@orders = @orders_nw.where(:desktop_user_id=>current_admin.account_id)
 
-    elsif (role=="vendor")
-      vendor={'vendor_0001'=>66, 'vendor_0002'=>65,'vendor_ybpx'=>72,'vendor_xss'=>73,'vendor_xgy'=>63,'vendor_xj'=>64}
+		elsif (role=="vendor")
+			vendor={'vendor_0001'=>66, 'vendor_0002'=>65,'vendor_ybpx'=>72,'vendor_xss'=>73,'vendor_xgy'=>63,'vendor_xj'=>64}
      # @orders = @orders_nw.joins(:order_items).where('sdb_b2c_order_items.goods_id in (3466,3467)')
-        @orders = @orders_nw.joins(:order_items)
-        .where("sdb_b2c_order_items.goods_id in (select goods_id from sdb_b2c_goods where supplier=#{vendor[current_admin.login_name]})")
+     @orders = @orders_nw.joins(:order_items)
+     .where("sdb_b2c_order_items.goods_id in (select goods_id from sdb_b2c_goods where supplier=#{vendor[current_admin.login_name]})")
 
-    elsif (current_admin.login_name=="admin")
-      @orders = @orders_nw
-  else
-  	  @orders = @orders_nw.where(:member_id=>"0")
-  end
-    @orders = @orders.includes(:user).paginate(:page=>params[:page],:per_page=>30)
-		respond_to do |format|
-			format.js
-			format.html
-		end
-	end
+   elsif (current_admin.login_name=="admin")
+   	@orders = @orders_nw
+   else
+   	@orders = @orders_nw.where(:member_id=>"0")
+   end
+   @orders = @orders.includes(:user).paginate(:page=>params[:page],:per_page=>30)
+   respond_to do |format|
+   	format.js
+   	format.html
+   end
+ end
 
 	# def export
 	# 	pp "---------------"
@@ -108,43 +108,43 @@ class Admin::OrdersController < Admin::BaseController
 
 	def batch
 		act = params[:act]
-              order_ids =  params[:order_ids] || []
-              conditions = { :order_id=>order_ids }
+		order_ids =  params[:order_ids] || []
+		conditions = { :order_id=>order_ids }
 
-              if act == "export"
-              	orders = Ecstore::Order.where(conditions)
-	              Ecstore::Order.export(orders)
-	              return render :json=>{:csv=>"/tmp/orders.csv"}
-              end
+		if act == "export"
+			orders = Ecstore::Order.where(conditions)
+			Ecstore::Order.export(orders)
+			return render :json=>{:csv=>"/tmp/orders.csv"}
+		end
 
-              if act == "tag"
-              	tegs = params[:tegs] || {}
+		if act == "tag"
+			tegs = params[:tegs] || {}
 
-	              tegs.values.each  do |teg|
-	                    	if teg[:technicals] == "checked"
-	                    		Ecstore::Tagable.where(:rel_id=>order_ids,:tag_type=>"orders",:tag_id=>teg[:tag_id]).delete_all if teg[:state] == "none"
-	                    	end
+			tegs.values.each  do |teg|
+				if teg[:technicals] == "checked"
+					Ecstore::Tagable.where(:rel_id=>order_ids,:tag_type=>"orders",:tag_id=>teg[:tag_id]).delete_all if teg[:state] == "none"
+				end
 
-	                    	if teg[:technicals] == "uncheck"
-	                    		order_ids.each do |order_id|
-	                    			Ecstore::Tagable.create(:rel_id=>order_id,:tag_id=>teg[:tag_id],:tag_type=>"orders",:app_id=>"b2c")
-	                    		end
-	                    	end
+				if teg[:technicals] == "uncheck"
+					order_ids.each do |order_id|
+						Ecstore::Tagable.create(:rel_id=>order_id,:tag_id=>teg[:tag_id],:tag_type=>"orders",:app_id=>"b2c")
+					end
+				end
 
-	                    	if teg[:technicals] == "partcheck"
-	                    		if teg[:state] == "all"
-	                    			order_ids.each do |order_id|
-				                     tagable = Ecstore::Tagable.where(:rel_id=>order_id,:tag_id=>teg[:tag_id],:tag_type=>"orders").first_or_initialize(:app_id=>"b2c")
-				                     tagable.save
-			                     end
-	                    		end
+				if teg[:technicals] == "partcheck"
+					if teg[:state] == "all"
+						order_ids.each do |order_id|
+							tagable = Ecstore::Tagable.where(:rel_id=>order_id,:tag_id=>teg[:tag_id],:tag_type=>"orders").first_or_initialize(:app_id=>"b2c")
+							tagable.save
+						end
+					end
 
-	                    		if teg[:state] == "none"
-	                    			Ecstore::Tagable.where(:rel_id=>order_ids,:tag_type=>"orders",:tag_id=>teg[:tag_id]).delete_all
-	                    		end
-	                    	end
-	              end
-              end
+					if teg[:state] == "none"
+						Ecstore::Tagable.where(:rel_id=>order_ids,:tag_type=>"orders",:tag_id=>teg[:tag_id]).delete_all
+					end
+				end
+			end
+		end
 
 
 		if act == "get_same_tags"
@@ -153,11 +153,11 @@ class Admin::OrdersController < Admin::BaseController
 
 			hash = Hash.new(0)
 			tag_ids.each do |id|
-			    if hash[id]
-			        hash[id] += 1
-			    else
-			        hash[id] = 1
-			    end
+				if hash[id]
+					hash[id] += 1
+				else
+					hash[id] = 1
+				end
 			end
 			stat = Hash.new
 
@@ -177,7 +177,7 @@ class Admin::OrdersController < Admin::BaseController
 			return render :json=>stat
 		end
 
-              render :nothing=>true
+		render :nothing=>true
 
 	end
 
@@ -386,53 +386,130 @@ class Admin::OrdersController < Admin::BaseController
 
 		if @order.status == 'finish'
 			order_log = Ecstore::OrderLog.new do |order_log|
-	                order_log.rel_id = @order.order_id
-	                order_log.op_id = current_admin.account_id
-	                order_log.op_name = current_admin.login_name
-	                order_log.alttime = Time.zone.now.to_i
-	                order_log.behavior = 'finish'
-	                order_log.result = "SUCCESS"
-	                order_log.log_text = "订单完成 !"
-	             end.save
-	      end
+				order_log.rel_id = @order.order_id
+				order_log.op_id = current_admin.account_id
+				order_log.op_name = current_admin.login_name
+				order_log.alttime = Time.zone.now.to_i
+				order_log.behavior = 'finish'
+				order_log.result = "SUCCESS"
+				order_log.log_text = "订单完成 !"
+			end.save
 
-	      if @order.status == 'dead'
-			order_log = Ecstore::OrderLog.new do |order_log|
-	                order_log.rel_id = @order.order_id
-	                order_log.op_id = current_admin.account_id
-	                order_log.op_name = current_admin.login_name
-	                order_log.alttime = Time.zone.now.to_i
-	                order_log.behavior = 'cancel'
-	                order_log.result = "SUCCESS"
-	                order_log.log_text = "取消订单 !"
-	             end.save
-	      end
+	    #发送红包
+	    order_id = params[:id]
+	    if Ecstore::WeihuoShare.where(:order_id => order_id).present? && Ecstore::WeihuoShare.where(:order_id => order_id).first.status == 0
 
-		respond_to do |format|
-			format.html
-			format.js
-		end
+	    	supplier = Ecstore::Supplier.where(:id => @order.supplier_id).first
+	    	weixin_appid = supplier.weixin_appid
+	    	weixin_appsecret = supplier.weixin_appsecret
+	    	key = supplier.partner_key
+	    	mch_id = supplier.mch_id
+	    	mch_billno = mch_id + Time.zone.now.strftime('%F').split('-').join + rand(10000000000).to_s.rjust(10, '0')
+	    	arr = ('0'..'9').to_a + ('a'..'z').to_a
+	    	nonce_str = ''
+	    	32.times do
+	    		nonce_str += arr[rand(36)].upcase
+	    	end
+	    	data = {}
+	    	
+	    	
+	    	shop_id = @order.shop_id
+	    	data[:re_openid] = shop_id == 49 ? ['oVxC9uA1tLfpb7OafJauUm-RgzQ8', 'oVxC9uDhsiNDxWV4u7KdukRjceQM'][rand(2)] : Ecstore::WeihuoShop.where(:shop_id => shop_id).first.openid
+	    	data[:wishing] = '恭喜发财'
+	    	data[:act_name] = shop_id == 49 ? '贸威官网随机红包' : '尾货良品'
+	    	data[:total_amount] = (Ecstore::WeihuoShare.where(:order_id => order_id).first.amount * 100).to_i
+	    	data[:nonce_str] = nonce_str
+	    	data[:mch_billno] = mch_billno
+	    	data[:mch_id] = mch_id
+	    	data[:wxappid] = weixin_appid
+	    	data[:send_name] = '贸威'
+	    	data[:total_num] = 1
+	    	data[:client_ip] = '182.254.138.119'
+	    	data[:remark] = @order.mark_text
+	    	stringA = data.select{|key, value|value.present?}.sort.map do |arr|
+	    		arr.map(&:to_s).join('=')
+	    	end
+	    	stringA = stringA.join("&")
+	    	@b = string_sing_temp = stringA + "&key=#{key}"
+	    	sign = (Digest::MD5.hexdigest string_sing_temp).upcase
+	    	data[:sign] = sign
+
+	    	params_str = ''
+	    	data.each do |key, value|
+	    		params_str += "<#{key}>" + "<![CDATA[#{value}]]>" + "</#{key}>"
+	    	end
+	    	params_xml = '<xml>' + params_str + '</xml>'
+	    	uri = URI.parse('https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack')
+
+	    	cert = File.read("#{ Rails.root }/lib/maowei_cert/apiclient_cert.pem")
+
+	    	key = File.read("#{ Rails.root }/lib/maowei_cert/apiclient_key.pem")
+
+	    	http = Net::HTTP.new(uri.host, uri.port)
+
+	    	http.use_ssl = true if uri.scheme == 'https'
+
+	    	http.cert = OpenSSL::X509::Certificate.new(cert)
+
+	    	http.key = OpenSSL::PKey::RSA.new(key, '商户编号')
+
+	    	http.ca_file = File.join("#{ Rails.root }/lib/maowei_cert/rootca.pem")
+
+	    	http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+	    	res_data = ''
+
+	    	http.start { http.request_post(uri.path, params_xml) { |res| res_data = res.body } }
+	    	res_data_hash = Hash.from_xml res_data
+	    	share = Ecstore::WeihuoShare.where(:order_id => order_id).first
+
+	    	if res_data_hash["xml"]["return_code"] == 'SUCCESS'
+	    		share.update_attribute(:status, 1)
+	    		share.update_attribute(:return_message, res_data_hash["xml"]["return_code"])
+	    	else
+	    		share.update_attribute(:return_message, res_data_hash)
+	    	end
+	    end
+
+
+	  end
+
+	  if @order.status == 'dead'
+	  	order_log = Ecstore::OrderLog.new do |order_log|
+	  		order_log.rel_id = @order.order_id
+	  		order_log.op_id = current_admin.account_id
+	  		order_log.op_name = current_admin.login_name
+	  		order_log.alttime = Time.zone.now.to_i
+	  		order_log.behavior = 'cancel'
+	  		order_log.result = "SUCCESS"
+	  		order_log.log_text = "取消订单 !"
+	  	end.save
+	  end
+
+	  respond_to do |format|
+	  	format.html
+	  	format.js
+	  end
 	end
 
 	def comment
-        @order = Ecstore::Order.find(params[:id])
-    end
+		@order = Ecstore::Order.find(params[:id])
+	end
 
-    def update_memo
-    	@order = Ecstore::Order.find(params[:id])
-    	@order.memo = params[:ecstore_order][:memo]
-    	@order.save
-    	order_log = Ecstore::OrderLog.new do |order_log|
-	                order_log.rel_id = @order.order_id
-	                order_log.op_id = current_admin.account_id
-	                order_log.op_name = current_admin.login_name
-	                order_log.alttime = Time.zone.now.to_i
-	                order_log.behavior = "memo"
-	                order_log.result = "SUCCESS"
-	                order_log.log_text = "memo info:#{params[:ecstore_order][:memo]}"
-	             end.save
-    	redirect_to admin_orders_url
-    end
+	def update_memo
+		@order = Ecstore::Order.find(params[:id])
+		@order.memo = params[:ecstore_order][:memo]
+		@order.save
+		order_log = Ecstore::OrderLog.new do |order_log|
+			order_log.rel_id = @order.order_id
+			order_log.op_id = current_admin.account_id
+			order_log.op_name = current_admin.login_name
+			order_log.alttime = Time.zone.now.to_i
+			order_log.behavior = "memo"
+			order_log.result = "SUCCESS"
+			order_log.log_text = "memo info:#{params[:ecstore_order][:memo]}"
+		end.save
+		redirect_to admin_orders_url
+	end
 
 
 	# 购物单

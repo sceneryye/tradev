@@ -34,7 +34,7 @@
     </div>
     <div class="clear"></div>
   </div>
-  <% if @order.ship_status == '0' %>
+  <% if @order.ship_status == '0' && @order.status != 'finish' %>
   <div class="button-send">
     <button class="btn btn-success" id="send" data-orderid="<%= @order.order_id %>" >发货</button>
     <button class="btn btn-default btn-lg" id="sent" style="display:none;" disabled="disabled">该订单已完成！</button>

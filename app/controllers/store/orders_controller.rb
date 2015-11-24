@@ -408,10 +408,15 @@ Ecstore::OrderLog.new do |order_log|
 
        #计算快递员分润
        if !@order.shop_id.nil? && @order.shop_id>0 && @order.shop_id!=48
-        share_for_weihuo_shop = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
+        income = (@order.order_items.select{ |order_item| order_item.item_type == 'product' }
           .collect{ |order_item|order_item.product.price-order_item.product.cost}.inject(:+).to_f)
         if @order.weihuo_shop
-          share_for_weihuo_shop *= @order.weihuo_shop.weihuo_organisation.share
+          share_for_weihuo_shop = income * @order.weihuo_shop.weihuo_organisation.share
+          share_for_company = income * Company_share_ratio
+          share_for_platform = income * Platform_share_ratio
+          share_for_network = income * Network_share_ratio
+          @order.update_attributes(:share_for_company => share_for_company, :share_for_network => share_for_network, :share_for_platform => share_for_platform, :share_for_employee => share_for_weihuo_shop)
+          # @order.order_items.update_attributes(:share_for_company => share_for_company, :share_for_network => share_for_network, :share_for_platform => share_for_platform, :share_for_employee => share_for_weihuo_shop)
         end
 
         Ecstore::WeihuoShare.new do |weihuo|
@@ -422,10 +427,10 @@ Ecstore::OrderLog.new do |order_log|
           weihuo.wishing ='恭喜发财'
           weihuo.act_name = '尾货良品'
           weihuo.remark = "订单#{@order.order_id}"
-          # weihuo.share_for_employee = profit * Employee_share_ratio
-          # weihuo.share_for_company = share_for_company
-          # weihuo.share_for_network = share_for_network
-          # weihuo.share_for_platform = share_for_platform
+          weihuo.share_for_employee = share_for_weihuo_shop
+          weihuo.share_for_company = share_for_company
+          weihuo.share_for_network = share_for_network
+          weihuo.share_for_platform = share_for_platform
 
         end.save
       end

@@ -21,6 +21,7 @@
     <% @orders.each_with_index do |order, index| %>
     <% member_id = Ecstore::Order.where(:order_id => order.order_id).first.member_id %>
     <% user = Ecstore::Member.where(:member_id => member_id) %>
+    <% if Ecstore::OrderItem.where(:order_id => order.order_id).present? %>
     <tr class="<%= order.ship_status == '1' ? 'success' : 'active' %>">
 
       <td class="">
@@ -40,6 +41,7 @@
       </td>
       
     </tr>
+    <% end %>
 
     <% end %>
 

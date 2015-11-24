@@ -82,79 +82,10 @@ class VshopController < ApplicationController
 
     if params["xml"].present?
       order_id = Ecstore::PaymentLog.where(:payment_id => params["xml"]["payment_id"]).first.order_id
-      return render :text => 'success' if Ecstore::WeihuoShare.where(:order_id => order_id).first.status == 1
-      supplier = Ecstore::Supplier.where(:id => params["xml"]["supplier_id"]).first
-      weixin_appid = supplier.weixin_appid
-      weixin_appsecret = supplier.weixin_appsecret
-      key = supplier.partner_key
-      mch_id = supplier.mch_id
-      mch_billno = mch_id + Time.zone.now.strftime('%F').split('-').join + rand(10000000000).to_s.rjust(10, '0')
-      arr = ('0'..'9').to_a + ('a'..'z').to_a
-      nonce_str = ''
-      32.times do
-        nonce_str += arr[rand(36)].upcase
-      end
-      data = {}
-      payment_id = params["xml"]["payment_id"]
-      order_id = Ecstore::PaymentLog.where(:payment_id => payment_id).first.order_id
-      order = Ecstore::Order.where(:order_id => order_id).first
-      shop_id = order.shop_id
-      data[:re_openid] = shop_id == 49 ? ['oVxC9uA1tLfpb7OafJauUm-RgzQ8', 'oVxC9uDhsiNDxWV4u7KdukRjceQM'][rand(2)] : Ecstore::WeihuoShop.where(:shop_id => shop_id).first.openid
-      data[:wishing] = '恭喜发财'
-      data[:act_name] = shop_id == 49 ? '贸威官网随机红包' : '尾货良品'
-      data[:total_amount] = (Ecstore::WeihuoShare.where(:order_id => order_id).first.amount * 100).to_i
-      data[:nonce_str] = nonce_str
-      data[:mch_billno] = mch_billno
-      data[:mch_id] = mch_id
-      data[:wxappid] = weixin_appid
-      data[:send_name] = '贸威'
-      data[:total_num] = 1
-      data[:client_ip] = '182.254.138.119'
-      data[:remark] = params["xml"]["out_trade_no"]
-      stringA = data.select{|key, value|value.present?}.sort.map do |arr|
-        arr.map(&:to_s).join('=')
-      end
-      stringA = stringA.join("&")
-      @b = string_sing_temp = stringA + "&key=#{key}"
-      sign = (Digest::MD5.hexdigest string_sing_temp).upcase
-      data[:sign] = sign
       
-      params_str = ''
-      data.each do |key, value|
-       params_str += "<#{key}>" + "<![CDATA[#{value}]]>" + "</#{key}>"
-     end
-     params_xml = '<xml>' + params_str + '</xml>'
-     uri = URI.parse('https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack')
-
-     cert = File.read("#{ Rails.root }/lib/maowei_cert/apiclient_cert.pem")
-
-     key = File.read("#{ Rails.root }/lib/maowei_cert/apiclient_key.pem")
-
-     http = Net::HTTP.new(uri.host, uri.port)
-
-     http.use_ssl = true if uri.scheme == 'https'
-
-     http.cert = OpenSSL::X509::Certificate.new(cert)
-
-     http.key = OpenSSL::PKey::RSA.new(key, '商户编号')
-
-     http.ca_file = File.join("#{ Rails.root }/lib/maowei_cert/rootca.pem")
-
-     http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-     res_data = ''
-
-     http.start { http.request_post(uri.path, params_xml) { |res| res_data = res.body } }
-     res_data_hash = Hash.from_xml res_data
-     share = Ecstore::WeihuoShare.where(:order_id => order_id).first
-
-     if res_data_hash["xml"]["return_code"] == 'SUCCESS'
-      share.update_attribute(:status, 1)
-      share.update_attribute(:return_message, res_data_hash["xml"]["return_code"])
-    else
-      share.update_attribute(:return_message, res_data_hash)
-    end
-
-
+      order = Ecstore::Order.where(:order_id => order_id).first
+      order.update_attribute(:mark_text, params["xml"]["out_trade_no"])
+      return render :text => 'success'
     end
 
 
