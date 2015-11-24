@@ -354,7 +354,7 @@ var store = document.getElementById("store");
   <div class="btn_col">
     <!--   <a class="btn btn_buy_exp" href="javascript:;" id="buyBtnExp" style="display: none" manualclick="xxx" pppptag="7001.1.8">立即购买</a>-->
     <%if @goods.marketable == 'false'|| @goods.store.to_i < 1 %>
-     <h1 style="text-align: center;font-size:22px">商品已售完</h1>
+     <h1 style="text-align: center;font-size:22px">该商品已售罄</h1>
     <% else %>
     <a class="btn btn_cart add_to_cart" href="javascript:;" manualclick="xxx" pppptag="7001.1.10" id="add_to_cart">加入购物车</a>
     <a class="btn btn_buy add_to_cart" href="javascript:;" id="buyBtn2" manualclick="xxx" pppptag="7001.1.8">立即购买</a> <% end %>
@@ -569,59 +569,5 @@ var store = document.getElementById("store");
 </script>
 
 
-<script>
-
-    $(document).ready(function(){
-
-        $(" .quantity").on("change",function(){
-            var quantity = $(this).val();
-            if(!/\d+/.test(quantity)) return false;
-            var url = $(this).data('url');
-            $.ajax(url,{
-                type: "PUT",
-                data:{ quantity:quantity },
-                success:function(res){
-                }
-            });
-        });
-
-        $("#minus").click(function(){
-            var obj = document.getElementById("buyNum");
-            var quone= $(this);
-            var quantitys = quone.val();
-
-            if (obj<=1){
-                alert("亲，不能在减了～") ;return false;
-            }
-            else{
-                var quantity= quantitys-1;
-                quone.val(quantity) ;
-                var url = quone.data('url');
-                $.ajax(url,{
-                    type: "PUT",
-                    data:{ quantity:quantity },
-                    success:function(res){
-                    }
-                });
-            }
-        });
-        $(".addition").click(function(){
-            var qutwo=  $(this).parents().parents().children(".good_data_num_m").children("#quantity");
-            var quantitys = qutwo.val();
-            var quantity = quantitys * 1 + 1;
-            qutwo.val(quantity);
-
-            var url =qutwo.data('url');
-
-            $.ajax(url, {
-                type: "PUT",
-                data: { quantity: quantity },
-                success: function (res) {
-                }
-            });
-
-        });
-    });
-</script>
 
 </body></html>

@@ -781,14 +781,21 @@ window.speedTimePoint&&(speedTimePoint[11]=new Date());//342
             <%@categories.each  do |category|%>
             <div class="wei_shop_list jsfilter99<%=category.cat_id%>" style="background-color:white;margin-bottom:20px;margin-right:2px;">
                 <div class="category-name" style="padding:2px 5px;background-color:red;color:white"><%= category.cat_name %>:</div>
-                <%@goods=Ecstore::Good.where(:cat_id=>category.cat_id,:marketable=>"true").order("p_order ASC , goods_id DESC")%>
+                <%@goods=Ecstore::Good.where(:cat_id=>category.cat_id).order("p_order ASC , goods_id DESC")%>
                 <% @goods.each_with_index do |good, index|%>
                 <div class="item" dpos="1|0" ptag="37790.1.165">
                    <a href="/mobile/<%=good.goods_id%>" class="url">
+                   <div class="goods-pic" style="position: relative;">
+          <% if good.marketable == 'false'|| good.store.to_i < 1 %>
+           <div style="position: absolute;z-index:999;" > 
+    <img style="filter:alpha(opacity=80); 
+-moz-opacity:0.8; 
+opacity:0.8;width:100%" src="/images/homepage/sellout.jpg">
+  </div>    <% end %>
                        <% if index < 3 %>
-                       <div class="sign">NEW</div>
+                      <!-- <div class="sign"  style="Padding:0,0,0,10px;">NEW</div>-->
                        <% end %>
-                       <div class="img">                 <img src="<%=good.medium_pic%>">             </div>
+                       <div class="img"><img src="<%=good.medium_pic%>"></div></div>
                        <div class="info">
                          <div class="name"><%=good.name%></div>
                          <div class="gift"><%=good.price%> &nbsp;

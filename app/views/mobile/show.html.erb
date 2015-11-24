@@ -195,21 +195,26 @@ location.href = auto_login_url;
 
    }
 
-    function add() {
-        var obj = document.getElementById("buyNum");
+     function add() {
+    var obj = document.getElementById("buyNum");
+var store = document.getElementById("store");
 
-        obj.value = parseInt(obj.value) + 1;
+          if(store.value <= obj.value) {
+             alert("亲，库存不够了") ;
+      return;
+    }
+    obj.value = parseInt(obj.value) + 1;
+  }
+
+  function remov() {
+    var obj = document.getElementById("buyNum");
+    if(obj.value <=1) {
+        alert("亲，不能在减了～") ;
+      return;
     }
 
-    function remov() {
-        var obj = document.getElementById("buyNum");
-
-        if(obj.value <=1) {
-            return;
-        }
-
-        obj.value = parseInt(obj.value) - 1;
-    }
+    obj.value = parseInt(obj.value) - 1;
+  }
 
 </script>
 <div class="sku sku_num" id="skuNum">
@@ -218,6 +223,7 @@ location.href = auto_login_url;
         <span class="minus minus_disabled" id="minus" ptag="7001.1.11" onclick="remov()"></span>
         <input class="num" id="buyNum" type="tel" value="1" name="product[quantity]" >
         <span class="plus" id="plus" ptag="7001.1.11" onclick="add()"></span>
+          <p hidden>  <input class="store" id="store" style="" value="<%=@goods.store.to_i%>"></span></p>
     </div>
 </div>
 </div>
@@ -427,8 +433,11 @@ location.href = auto_login_url;
     <!--<a class="btn_fav" href="javascript:;" id="fav" manualclick="xxx" pppptag="7001.1.23"><i>收藏</i></a>-->
     <div class="btn_col">
         <!--   <a class="btn btn_buy_exp" href="javascript:;" id="buyBtnExp" style="display: none" manualclick="xxx" pppptag="7001.1.8">立即购买</a>-->
+         <%if @goods.marketable == 'false'|| @goods.store.to_i < 1 %>
+     <h1 style="text-align: center;font-size:22px">该商品已售罄</h1>
+    <% else %>
         <a class="btn btn_cart add_to_cart" href="javascript:;" manualclick="xxx" pppptag="7001.1.10" id="add_to_cart">加入购物车</a>
-        <a class="btn btn_buy add_to_cart" href="javascript:;" id="buyBtn2" manualclick="xxx" pppptag="7001.1.8">立即购买</a>
+        <a class="btn btn_buy add_to_cart" href="javascript:;" id="buyBtn2" manualclick="xxx" pppptag="7001.1.8">立即购买</a><% end %>
     </div>
 
    <!-- <a class="cart_wrap" href="/cart/mobile?supplier_id=">
