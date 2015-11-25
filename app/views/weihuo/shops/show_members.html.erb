@@ -29,7 +29,7 @@
     <tr class="<%= 'info' if index % 2 == 0 %>">
 
       <td class="headimg">
-      <% userimg = user.weixin_headimgurl.present? ? user.weixin_headimgurl : letter_avatar_for(user.weixin_nickname.username_for_avatar, 200) %>
+      <% userimg = user.weixin_headimgurl.present? ? user.weixin_headimgurl : '/new/default_headimg.jpg' %>
         <div>
           <img src="<%= userimg %>" />
         </div>

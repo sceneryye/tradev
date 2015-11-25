@@ -259,9 +259,9 @@ def goods_profit goods
   (goods.price - goods.cost) * share
 end
 
-def username_for_avatar
-  Pinyin.t(self.username)
-end
+# def username_for_avatar
+  # Pinyin.t(self.username)
+# end
 
 
 end

@@ -1,5 +1,8 @@
-<h3 style="text-align:center;">尾货良品商城</h3>
+<h3>尾货良品商城</h3>
 <div id="qrcode" style="margin: 0 auto%;margin-top:15px;position:relative;width:180px;height:180px;" data-url="<%= "http://www.trade-v.com/weihuo/shops/#{params[:shop_id]}" %>" data-img="<%= @shop.logo %>">
+</div>
+<div class="backup">
+  <h4>请收藏店铺以备后用</h4>
 </div>
 <script type="text/javascript" src="/assets/kael-Qrcode/build/kaelQrcode.min.js"></script>
 <script type="text/javascript">
@@ -23,5 +26,11 @@
   #qrcode {
     display: block;
     margin: 0 auto;
+  }
+  h3, h4 {
+    text-align: center;
+  }
+  .backup {
+    margin-top: 30px;
   }
 </style>
