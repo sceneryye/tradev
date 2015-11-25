@@ -356,7 +356,9 @@
   <div class="btn_col">
     <!--   <a class="btn btn_buy_exp" href="javascript:;" id="buyBtnExp" style="display: none" manualclick="xxx" pppptag="7001.1.8">立即购买</a>-->
     <%if @goods.marketable == 'false'|| @goods.store.to_i < 1 %>
-    <h1 style="text-align: center;font-size:22px">商品已售完</h1>
+
+     <h1 style="text-align: center;font-size:22px">该商品已售罄</h1>
+
     <% else %>
     <a class="btn btn_cart add_to_cart" href="javascript:;" manualclick="xxx" pppptag="7001.1.10" id="add_to_cart">加入购物车</a>
     <a class="btn btn_buy add_to_cart" href="javascript:;" id="buyBtn2" manualclick="xxx" pppptag="7001.1.8">立即购买</a> <% end %>
@@ -571,6 +573,7 @@
 </script>
 
 
+<<<<<<< HEAD
 <script>
 
   $(document).ready(function(){
@@ -625,5 +628,7 @@
     });
   });
 </script>
+=======
+>>>>>>> 2d3c023abbf76d2358ba8186ac5b33a73d837e5f
 
 </body></html>
