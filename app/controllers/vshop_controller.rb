@@ -71,8 +71,12 @@ class VshopController < ApplicationController
 
   def paynotifyurl
 
-    if params["error_message"]
-      return render :text=>"支付不成功。error_message:#{params["error_message"]}"
+    if params[:error_message]
+      @payment = Ecstore::Payment.find(params["payment_id"])
+     order_id = @payment.pay_bill.rel_id
+      return redirect_to "/orders/mobile_show_order?id=#{order_id}&supplier_id=78"
+
+      #return render :text=>"支付不成功。error_message:#{params[:error_message]}"
     end
 
     ModecPay.logger.info "[#{Time.zone.now}][#{request.remote_ip}] #{request.request_method} \"#{request.fullpath}\" params : #{ params.to_s }"

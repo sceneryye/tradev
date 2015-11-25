@@ -43,21 +43,7 @@
 
 </div>
 
-<div class="am-panel am-panel-warning">
-  <div class="am-panel-hd"><%=I18n.t "details_consignee"%></div>
-  <a id="addressLink" href="/member_addrs/<%=@def_addr.id%>/edit?supplier_id=<%=@supplier.id%>&platform=mobile&action_url=orders_new_mobile">
-  <!--<a id="addressLink" href="addr_detail?platform=mobile&supplier_id=<%=@supplier.id%>&id=<%=@def_addr.id%>">-->
-  
-  <div class="am-panel-bd">
-    <span class="text">&nbsp;&nbsp;<%=@def_addr.name%>  <span class="phone-num" style="margin-left: 30px"><%=@def_addr.mobile%></span>
-  </span>
-  <br/>
-  <span class="text2">&nbsp;&nbsp;<%=@def_addr.addr%></span>
-  <span class="icon-arr" ><%=I18n.t "modify"%></span>
-</div>
 
-</a>
-</div>
 <div>
 
   <%=form_for :order,:url=>"#{orders_path}?platform=mobile&shop_id=#{params[:shop_id]}&from=#{params[:from]}",:html=>{ :class=>"am-form",:id=>"order_form" } do |f|%>

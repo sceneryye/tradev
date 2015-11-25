@@ -68,11 +68,11 @@ class Store::PaymentsController < ApplicationController
 		else
 			redirect_to order_url(@order)
 		end
-  end
+  	end
 
-  def debug
-    render :text=>"show"
-  end
+	def debug
+	    render :text=>"show"
+	end
 
 	def show
 		@payment = Ecstore::Payment.find_by_payment_id(params[:id])
