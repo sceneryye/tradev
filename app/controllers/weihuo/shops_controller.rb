@@ -9,85 +9,94 @@ class Weihuo::ShopsController < ApplicationController
 
 
 
-  # 所有店铺展示
-  def index
+
+ def index
+  @shop_ids = []
+  login_name = current_account.login_name.split('_').first
+  names = Ecstore::Account.where("login_name like ?", "%#{login_name}%").each do |user| 
+   shop_id = user.login_name.split('_').last 
+   @shop_ids << shop_id if shop_id.to_i > 0 && shop_id != '49' 
+ end
+end
+
+def user_center
+  user = Ecstore::Account.where('login_name like ?', "#{current_account.login_name}%")
+  account_id = user.map(&:account_id)
+  @orders = Ecstore::Order.where(:member_id => account_id)
+end
+
+def my_orders
+  user = Ecstore::Account.where('login_name like ?', "#{current_account.login_name}%")
+  account_id = user.map(&:account_id)
+  @orders = Ecstore::Order.where(:member_id => account_id)
+end
+
+def manage
+  @members = Ecstore::Account.all.select{|member|member.shop_id == params[:shop_id].to_i}
+  @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0])
+  @goods = Ecstore::Good.where(:supplier_id => 10)
+  @orders = Ecstore::Order.where(:shop_id => params[:shop_id])
+end
+
+def show_members
+  @members = Ecstore::Account.order(:account_id).select{|member|member.shop_id == params[:shop_id].to_i}
+end
+
+def show_bonuses
+  @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0]).paginate(:page => params[:page], :per_page => 20).order('id DESC')
+end
+
+def show_goods
+  @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:page => params[:page], :per_page => 20).order('name ASC')
+end
+
+def show_orders
+
+  @orders = Ecstore::Order.where(:shop_id => params[:shop_id]).paginate(:page => params[:page], :per_page => 20).order('createtime DESC')
+end
+
+def show_qrcode
+end
+
+def order_detail
+  @order = Ecstore::Order.where(:order_id => params[:order_id]).first
+  @user = Ecstore::Member.where(:member_id => @order.member_id).first
+  product_id = Ecstore::OrderItem.where(:order_id => params[:order_id]).first.product_id
+  @product = Ecstore::Product.where(:product_id => product_id).first
+end
+
+def bonus_detail
+  @bonus = Ecstore::WeihuoShare.where(:order_id => params[:order_id]).first
+  @order = Ecstore::Order.where(:order_id => params[:order_id]).first
+  @user = Ecstore::User.find_by_member_id(@order.member_id)
+  if @bonus.return_message.present? && @bonus.return_message.split(":").length > 2
+    @message = @bonus.return_message.split(":")[3].split(" ")[0]
   end
+end
 
-  def user_center
-    user = Ecstore::Account.where('login_name like ?', "#{current_account.login_name}%")
-    account_id = user.map(&:account_id)
-    @orders = Ecstore::Order.where(:member_id => account_id)
-  end
-
-  def my_orders
-    user = Ecstore::Account.where('login_name like ?', "#{current_account.login_name}%")
-    account_id = user.map(&:account_id)
-    @orders = Ecstore::Order.where(:member_id => account_id)
-  end
-
-  def manage
-    @members = Ecstore::Account.all.select{|member|member.shop_id == params[:shop_id].to_i}
-    @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0])
-    @goods = Ecstore::Good.where(:supplier_id => 10)
-    @orders = Ecstore::Order.where(:shop_id => params[:shop_id])
-  end
-
-  def show_members
-    @members = Ecstore::Account.order(:account_id).select{|member|member.shop_id == params[:shop_id].to_i}
-  end
-
-  def show_bonuses
-    @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0]).paginate(:page => params[:page], :per_page => 20).order('id DESC')
-  end
-
-  def show_goods
-    @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:page => params[:page], :per_page => 20).order('name ASC')
-  end
-
-  def show_orders
-
-    @orders = Ecstore::Order.where(:shop_id => params[:shop_id]).paginate(:page => params[:page], :per_page => 20).order('createtime DESC')
-  end
-
-  def show_qrcode
-  end
-
-  def order_detail
-    @order = Ecstore::Order.where(:order_id => params[:order_id]).first
-    @user = Ecstore::Member.where(:member_id => @order.member_id).first
-    product_id = Ecstore::OrderItem.where(:order_id => params[:order_id]).first.product_id
-    @product = Ecstore::Product.where(:product_id => product_id).first
-  end
-
-  def bonus_detail
-    @bonus = Ecstore::WeihuoShare.where(:order_id => params[:order_id]).first
-    @order = Ecstore::Order.where(:order_id => params[:order_id]).first
-    @user = Ecstore::User.find_by_member_id(@order.member_id)
-    if @bonus.return_message.present? && @bonus.return_message.split(":").length > 2
-      @message = @bonus.return_message.split(":")[3].split(" ")[0]
+def modify_ship_status
+  if params[:ship_status] == '1'
+    order = Ecstore::Order.where(:order_id => params[:order_id]).first
+    order.update_attribute(:ship_status, '1')
+    if Ecstore::WeihuoShare.where(:order_id => params[:order_id]).first.status == 1
+      order.update_attribute(:status, 'finish')
     end
   end
+  return render :text => 'success'
+end
 
-  def modify_ship_status
-    if params[:ship_status] == '1'
-      order = Ecstore::Order.where(:order_id => params[:order_id]).first
-      order.update_attribute(:ship_status, '1')
-      if Ecstore::WeihuoShare.where(:order_id => params[:order_id]).first.status == 1
-        order.update_attribute(:status, 'finish')
-      end
-    end
-    return render :text => 'success'
+def show_notice
+end
+
+def show
+  shop_id = params[:shop_id] || params[:id]
+  if params[:from] == 'chooseshop'
+    return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile"
   end
+  if !current_account.present? || current_account.supplier_id != 78
 
-  def show_notice
+    return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile"
   end
-
-  def show
-    shop_id = params[:shop_id] || params[:id]
-    if !current_account.present? || current_account.supplier_id != 78
-
-      return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile"
-    end
     # return render :text => shop_id == '49'
     if current_account.present?
       open_id = current_account.login_name.split('_')[0]
@@ -97,6 +106,7 @@ class Weihuo::ShopsController < ApplicationController
     end
     @shop = Ecstore::WeihuoShop.find(params[:shop_id] || params[:id])
     @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:per_page => 30, :page => params[:page]).order(:name)
+    
   end
 
   # 申请店铺

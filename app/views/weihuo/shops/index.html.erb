@@ -1,0 +1,33 @@
+<div class="container">
+  <h4>请选择您想进入的店铺</h4>
+  <% @shop_ids.each do |shop_id| %>
+  <% shop = Ecstore::WeihuoShop.find_by_shop_id(shop_id) %>
+  <% next if shop.nil? %>
+  <% open_id = shop.openid %>
+  <% account = Ecstore::Account.find_by_login_name(open_id) %>
+  <div class="shops">
+  <a href="/weihuo/shops/<%= shop_id %>?from=chooseshop">
+     <span class="headimg"><img src="<%= account.user.weixin_headimgurl %>" /></span>
+     <span class="name"><%= account.user.weixin_nickname %></span>
+   </a>
+ </div>
+ <% end %>
+</div>
+
+<style type="text/css">
+  h4 {
+    text-align: center;
+  }
+  .shops {
+    margin: 20px auto;
+  }
+  .headimg {
+    padding-left: 10px;
+  }
+  .name {
+    padding-left: 30px;
+  }
+  img {
+    width: 20%;
+  }
+</style>
