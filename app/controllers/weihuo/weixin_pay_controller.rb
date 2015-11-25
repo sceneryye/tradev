@@ -97,6 +97,30 @@ class Weihuo::WeixinPayController < ApplicationController
 
     order_params.merge!(:ip=>request.remote_ip, :supplier_id=>supplier_id)
 
+
+    payments = @order.payments.new do |payment|
+      payment.currency = 'CNY'
+      payment.pay_app_id = 'wxpay'
+      payment.payment_id = Ecstore::Payment.generate_payment_id
+      payment.status = 'succ'
+      payment.pay_ver = '1.0'
+      payment.paycost = 0
+      payment.account = 'TRADE-V | 跨境贸易 一键直达'
+      payment.money = order_params[:final_amount]
+
+      payment.member_id = payment.op_id = order_params[:member_id]
+      payment.pay_account = Ecstore::Account.find_by_account_id(order_params[:member_id]).login_name
+      payment.ip = request.remote_ip
+      payment.t_begin = payment.t_confirm = Time.zone.now.to_i
+      payment.pay_bill = Ecstore::Bill.new do |bill|
+        bill.rel_id  = order_params[:order_id]
+        bill.bill_type = "payments"
+        bill.pay_object  = "order"
+        bill.money = order_params[:final_amount]
+      end
+    end
+    payments.save!
+
     if @order.save
       store = product.store - 1
       goods.update_attribute(:store, store)
@@ -118,7 +142,7 @@ class Weihuo::WeixinPayController < ApplicationController
           auto_send[:amount] = weihuo.amount = share_for_employee
           auto_send[:member_id] = weihuo.member_id = @order.weihuo_shop.user.member_id
           auto_send[:re_openid] = weihuo.open_id = @order.weihuo_shop.user.account.login_name.split('_')[0]
-          auto_send[:wishing] = weihuo.wishing ='恭喜发财'
+          auto_send[:wishing] = weihuo.wishing ='加油加油加油！！！'
           auto_send[:act_name] = weihuo.act_name = '尾货良品'
           auto_send[:remark] = weihuo.remark = params["xml"]["out_trade_no"]
           weihuo.share_for_employee = share_for_employee
@@ -152,7 +176,7 @@ class Weihuo::WeixinPayController < ApplicationController
     mch_id = supplier.mch_id
     mch_billno = mch_id + Time.zone.now.strftime('%F').split('-').join + rand(10000000000).to_s.rjust(10, '0')
     parameter = {
-      :nonce_str => nonce_str, :mch_billno => mch_billno, :mch_id => mch_id, :wxappid => weixin_appid, :send_name =>'贸威',
+      :nonce_str => nonce_str, :mch_billno => mch_billno, :mch_id => mch_id, :wxappid => weixin_appid, :send_name =>'尾货良品老板',
       :re_openid => re_openid, :total_amount => total_amount, :total_num => 1, :wishing => auto_send[:wishing],
       :client_ip => '182.254.138.119', :act_name => auto_send[:act_name], :remark => auto_send[:remark]
     }

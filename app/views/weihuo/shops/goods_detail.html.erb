@@ -74,12 +74,14 @@
       <div class="img-front">
         <img src="<%= @goods.medium_pic %>" alt="click to pay" />
       </div>
-  <%if @goods.marketable == 'false'|| @goods.store.to_i < 1 %> <%else%>
+      <%if @goods.marketable == 'false'|| @goods.store.to_i < 1 %> 
+      <%else%>
       <div class="sponsorData">
         <div class="img-back" id="qrcode" data-url="<%= pay_with_goods @goods.bn %>"></div>
 
       </div>
-    </div><%end%>
+      <%end%>
+    </div>
   </div>
 
 
@@ -114,7 +116,7 @@
       <span class="price_old" id="priceMarket" style="display: none"></span>
       <span class="col_right" id="headEval" ptag="7001.1.26">
         <span class="sale_num">评价：<b id="evalNo1"></b>条</span></span><br/>
-          <span class="store-count">(库存 <span id="product_store"><%=@goods.store.to_i%></span> 件)
+        <span class="store-count">(库存 <span id="product_store"><%=@goods.store.to_i%></span> 件)
       </span>
     </div>
     <div class="price_wrap" id="priceExp" style="display: none"></div>
@@ -199,24 +201,24 @@
 
   function add() {
     var obj = document.getElementById("buyNum");
-var store = document.getElementById("store");
+    var store = document.getElementById("store");
 
-          if(store.value <= obj.value) {
-             alert("亲，库存不够了") ;
-      return;
-    }
-    obj.value = parseInt(obj.value) + 1;
+    if(store.value <= obj.value) {
+     alert("亲，库存不够了") ;
+     return;
+   }
+   obj.value = parseInt(obj.value) + 1;
+ }
+
+ function remov() {
+  var obj = document.getElementById("buyNum");
+  if(obj.value <=1) {
+    alert("亲，不能在减了～") ;
+    return;
   }
 
-  function remov() {
-    var obj = document.getElementById("buyNum");
-    if(obj.value <=1) {
-        alert("亲，不能在减了～") ;
-      return;
-    }
-
-    obj.value = parseInt(obj.value) - 1;
-  }
+  obj.value = parseInt(obj.value) - 1;
+}
 
 </script>
 <div class="sku sku_num" id="skuNum">
@@ -225,7 +227,7 @@ var store = document.getElementById("store");
     <span class="minus minus_disabled" id="minus" ptag="7001.1.11" onclick="remov()"></span>
     <input class="num" id="buyNum" type="tel" value="1" name="product[quantity]" >
     <span class="plus" id="plus" ptag="7001.1.11" onclick="add()"></span>
-   <p hidden>  <input class="store" id="store" style="" value="<%=@goods.store.to_i%>"></span></p>
+    <p hidden>  <input class="store" id="store" style="" value="<%=@goods.store.to_i%>"></span></p>
   </div>
 </div>
 </div>
@@ -354,7 +356,7 @@ var store = document.getElementById("store");
   <div class="btn_col">
     <!--   <a class="btn btn_buy_exp" href="javascript:;" id="buyBtnExp" style="display: none" manualclick="xxx" pppptag="7001.1.8">立即购买</a>-->
     <%if @goods.marketable == 'false'|| @goods.store.to_i < 1 %>
-     <h1 style="text-align: center;font-size:22px">商品已售完</h1>
+    <h1 style="text-align: center;font-size:22px">商品已售完</h1>
     <% else %>
     <a class="btn btn_cart add_to_cart" href="javascript:;" manualclick="xxx" pppptag="7001.1.10" id="add_to_cart">加入购物车</a>
     <a class="btn btn_buy add_to_cart" href="javascript:;" id="buyBtn2" manualclick="xxx" pppptag="7001.1.8">立即购买</a> <% end %>
@@ -571,57 +573,57 @@ var store = document.getElementById("store");
 
 <script>
 
-    $(document).ready(function(){
+  $(document).ready(function(){
 
-        $(" .quantity").on("change",function(){
-            var quantity = $(this).val();
-            if(!/\d+/.test(quantity)) return false;
-            var url = $(this).data('url');
-            $.ajax(url,{
-                type: "PUT",
-                data:{ quantity:quantity },
-                success:function(res){
-                }
-            });
-        });
-
-        $("#minus").click(function(){
-            var obj = document.getElementById("buyNum");
-            var quone= $(this);
-            var quantitys = quone.val();
-
-            if (obj<=1){
-                alert("亲，不能在减了～") ;return false;
-            }
-            else{
-                var quantity= quantitys-1;
-                quone.val(quantity) ;
-                var url = quone.data('url');
-                $.ajax(url,{
-                    type: "PUT",
-                    data:{ quantity:quantity },
-                    success:function(res){
-                    }
-                });
-            }
-        });
-        $(".addition").click(function(){
-            var qutwo=  $(this).parents().parents().children(".good_data_num_m").children("#quantity");
-            var quantitys = qutwo.val();
-            var quantity = quantitys * 1 + 1;
-            qutwo.val(quantity);
-
-            var url =qutwo.data('url');
-
-            $.ajax(url, {
-                type: "PUT",
-                data: { quantity: quantity },
-                success: function (res) {
-                }
-            });
-
-        });
+    $(" .quantity").on("change",function(){
+      var quantity = $(this).val();
+      if(!/\d+/.test(quantity)) return false;
+      var url = $(this).data('url');
+      $.ajax(url,{
+        type: "PUT",
+        data:{ quantity:quantity },
+        success:function(res){
+        }
+      });
     });
+
+    $("#minus").click(function(){
+      var obj = document.getElementById("buyNum");
+      var quone= $(this);
+      var quantitys = quone.val();
+
+      if (obj<=1){
+        alert("亲，不能在减了～") ;return false;
+      }
+      else{
+        var quantity= quantitys-1;
+        quone.val(quantity) ;
+        var url = quone.data('url');
+        $.ajax(url,{
+          type: "PUT",
+          data:{ quantity:quantity },
+          success:function(res){
+          }
+        });
+      }
+    });
+    $(".addition").click(function(){
+      var qutwo=  $(this).parents().parents().children(".good_data_num_m").children("#quantity");
+      var quantitys = qutwo.val();
+      var quantity = quantitys * 1 + 1;
+      qutwo.val(quantity);
+
+      var url =qutwo.data('url');
+
+      $.ajax(url, {
+        type: "PUT",
+        data: { quantity: quantity },
+        success: function (res) {
+        }
+      });
+
+    });
+  });
 </script>
 
 </body></html>

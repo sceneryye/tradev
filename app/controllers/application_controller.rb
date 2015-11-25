@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   include SessionsHelper
   include Breadcrumb
+  #include LetterAvatar::AvatarHelper
   #before_filter :find_user
 
   

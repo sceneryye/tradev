@@ -48,7 +48,7 @@ class Admin::BonusesController < Admin::BaseController
     mch_billno = mch_id + Time.zone.now.strftime('%F').split('-').join + rand(10000000000).to_s.rjust(10, '0')
 
     parameter = {
-      :nonce_str => nonce_str, :mch_billno => mch_billno, :mch_id => mch_id, :wxappid => weixin_appid, :send_name =>'贸威',
+      :nonce_str => nonce_str, :mch_billno => mch_billno, :mch_id => mch_id, :wxappid => weixin_appid, :send_name =>'尾货良品老板',
       :re_openid => re_openid, :total_amount => total_amount, :total_num => 1, :wishing => params[:wishing],
       :client_ip => '182.254.138.119', :act_name => params[:act_name], :remark => params[:remark]
     }

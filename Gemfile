@@ -39,6 +39,10 @@ gem 'jquery-ui-rails'
 
 gem 'rmagick','~> 2.13.1'
 
+# using as default head-image
+gem 'letter_avatar'
+gem 'chinese_pinyin'
+
 gem 'ya2yaml'
 
 gem 'whenever', :require=>false

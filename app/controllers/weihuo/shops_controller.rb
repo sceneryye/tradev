@@ -1,6 +1,7 @@
 #encoding:utf-8
 require 'rest-client'
 
+
 class Weihuo::ShopsController < ApplicationController
 
 
@@ -179,7 +180,7 @@ class Weihuo::ShopsController < ApplicationController
 
   end
 
-  helper_method :pay_with_goods, :total_profit, :goods_profit
+  helper_method :pay_with_goods, :total_profit, :goods_profit, :username_for_avatar
   private
 
   def pay_with_goods bn
@@ -256,6 +257,10 @@ def goods_profit goods
   organisation_id = Ecstore::WeihuoShop.where(:shop_id => params[:shop_id]).first.weihuo_organisation_id
   share = Ecstore::WeihuoOrganisation.find(organisation_id).share
   (goods.price - goods.cost) * share
+end
+
+def username_for_avatar
+  Pinyin.t(self.username)
 end
 
 

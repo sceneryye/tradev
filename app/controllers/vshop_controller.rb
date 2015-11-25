@@ -85,6 +85,8 @@ class VshopController < ApplicationController
       
       order = Ecstore::Order.where(:order_id => order_id).first
       order.update_attribute(:mark_text, params["xml"]["out_trade_no"])
+      order.update_attribute(:pay_status, '1')
+      @payment.update_attribute(:status, 'succ')
       return render :text => 'success'
     end
 

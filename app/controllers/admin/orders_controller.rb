@@ -415,14 +415,14 @@ class Admin::OrdersController < Admin::BaseController
 	    	
 	    	shop_id = @order.shop_id
 	    	data[:re_openid] = shop_id == 49 ? ['oVxC9uA1tLfpb7OafJauUm-RgzQ8', 'oVxC9uDhsiNDxWV4u7KdukRjceQM'][rand(2)] : Ecstore::WeihuoShop.where(:shop_id => shop_id).first.openid
-	    	data[:wishing] = '恭喜发财'
+	    	data[:wishing] = '加油加油加油！！！'
 	    	data[:act_name] = shop_id == 49 ? '贸威官网随机红包' : '尾货良品'
 	    	data[:total_amount] = (Ecstore::WeihuoShare.where(:order_id => order_id).first.amount * 100).to_i
 	    	data[:nonce_str] = nonce_str
 	    	data[:mch_billno] = mch_billno
 	    	data[:mch_id] = mch_id
 	    	data[:wxappid] = weixin_appid
-	    	data[:send_name] = '贸威'
+	    	data[:send_name] = '尾货良品老板'
 	    	data[:total_num] = 1
 	    	data[:client_ip] = '182.254.138.119'
 	    	data[:remark] = @order.mark_text
