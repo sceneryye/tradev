@@ -22,7 +22,7 @@ class Store::CartController < ApplicationController
     if supplier_id.blank?
       supplier_id=78
     end
-
+ @good = Ecstore::Good.includes(:specs,:spec_values,:cat).where(:bn=>params[:id]).first
     @goods_supplier = 0
     @bg_color = ["#cde6f3","#e5fdff"]
     @i = 0
