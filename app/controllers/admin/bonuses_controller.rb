@@ -24,6 +24,17 @@ class Admin::BonusesController < Admin::BaseController
     @pages_number = arr_paginate(users_list_openid).last
   end
 
+  def find_user
+    name = URI.unescape params[:name]
+    if name.present?
+      unionids = []
+      Ecstore::Member.where("weixin_nickname like ?", "%#{name}%").each do |user|
+        unionids << user.weixin_unionid
+      end
+      @unionids = unionids.uniq!
+    end
+  end
+
   def send_bonus
     if params[:order_id].present?
       share = Ecstore::WeihuoShare.where(:order_id => params[:order_id]).first

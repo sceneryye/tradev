@@ -422,6 +422,7 @@ Modengke::Application.routes.draw do
     # constraints :subdomain => subdomain do
     get 'logout'=>'sessions#destroy'
     get 'get_users' => 'bonuses#get_users'
+    get 'find_user' => 'bonuses#find_user'
     post 'send_bonus' => 'bonuses#send_bonus'
     resources :tracks do
       get :pages,:on=>:collection
