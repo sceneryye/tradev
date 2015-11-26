@@ -1,0 +1,75 @@
+<div class="container">
+  <h3>客户详情</h3>
+  <div class="customer-detail">
+    <div class="nickname main">
+      <span class="bonus-amount left">
+        客户昵称：
+      </span>
+      <span class=" right">
+      <%= @member.weixin_nickname %>
+      </span>
+    </div>
+
+    <div class="order-number main">
+      <span class="left">
+        订单总数：
+      </span>
+      <span class="right">
+        <%= @orders.length %>
+      </span>
+    </div>
+
+    <div class="order-total-money main">
+      <span class="left">
+        订单总额：
+      </span>
+      <span class="right">
+        <%= @total_amount %> 元
+      </span>
+    </div>
+
+    <div class="largest-money main">
+      <span class="left">
+        单笔最高消费：
+      </span>
+      <span class="right">
+        <%= @largest_money %> 元
+      </span>
+    </div>
+
+
+    <div class="latest-order main">
+      <span class="left">
+        最近一次消费：
+      </span>
+      <span class="right">
+        <%= @time %>
+      </span>
+    </div>
+  </div>
+</div>
+
+<style type="text/css">
+  .customer-detail {
+    background-color: #d9edf7;
+    margin: 20px auto;
+    position: relative;
+    margin-bottom: 40px;
+  }
+  .left {
+    padding-left: 30px;
+    font-weight: bold;
+  }
+  .right {
+    margin-left: 40px;
+    position: absolute;
+    left: 35%;
+  }
+  .main {
+    padding: 20px 0;
+  }
+  h3 {
+    text-align: center;
+    margin-top: 20px;
+  }
+</style>

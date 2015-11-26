@@ -20,7 +20,7 @@ class Weihuo::ShopsController < ApplicationController
 end
 
 def user_center
-  user = Ecstore::Account.where('login_name like ?', "#{current_account.login_name}%")
+  user = Ecstore::Account.where('login_name like ?', "%#{current_account.login_name}%")
   account_id = user.map(&:account_id)
   @orders = Ecstore::Order.where(:member_id => account_id)
 end
@@ -40,6 +40,14 @@ end
 
 def show_members
   @members = Ecstore::Account.order(:account_id).select{|member|member.shop_id == params[:shop_id].to_i}
+end
+
+def member_detail
+  @member = Ecstore::Member.find_by_member_id(params[:member_id])
+  @orders = Ecstore::Order.where(:member_id => params[:member_id], :shop_id => params[:shop_id], :pay_status => '1')
+  @total_amount = @orders.present? ? @orders.inject(0){|sum, order|sum + order.total_amount} : 0
+  @largest_money = @orders.present? ? @orders.select{|order|order.total_amount.present?}.sort{|a,b|b.total_amount <=> a.total_amount}.first.total_amount : 0
+  @time = @orders.present? ? Time.at(@orders.sort{|a, b|b.createtime <=> a.createtime}.first.createtime).strftime('%F %T') : '暂无'
 end
 
 def show_bonuses
@@ -78,11 +86,85 @@ def modify_ship_status
   if params[:ship_status] == '1'
     order = Ecstore::Order.where(:order_id => params[:order_id]).first
     order.update_attribute(:ship_status, '1')
-    if Ecstore::WeihuoShare.where(:order_id => params[:order_id]).first.status == 1
+    if Ecstore::WeihuoShare.where(:order_id => params[:order_id]).first.payment_method == 'scan_qrcode'
       order.update_attribute(:status, 'finish')
+
+      order_id = params[:order_id]
+      if Ecstore::WeihuoShare.where(:order_id => order_id).present? && Ecstore::WeihuoShare.where(:order_id => order_id).first.status == 0
+
+        supplier = Ecstore::Supplier.find_by_id(78)
+        weixin_appid = supplier.weixin_appid
+        weixin_appsecret = supplier.weixin_appsecret
+        key = supplier.partner_key
+        mch_id = supplier.mch_id
+        mch_billno = mch_id + Time.zone.now.strftime('%F').split('-').join + rand(10000000000).to_s.rjust(10, '0')
+        arr = ('0'..'9').to_a + ('a'..'z').to_a
+        nonce_str = ''
+        32.times do
+          nonce_str += arr[rand(36)].upcase
+        end
+        data = {}
+        
+        
+        shop_id = order.shop_id
+        data[:re_openid] = shop_id == 49 ? ['oVxC9uA1tLfpb7OafJauUm-RgzQ8', 'oVxC9uDhsiNDxWV4u7KdukRjceQM'][rand(2)] : Ecstore::WeihuoShop.where(:shop_id => shop_id).first.openid
+        data[:wishing] = '加油加油加油！！！'
+        data[:act_name] = shop_id == 49 ? '贸威官网随机红包' : '尾货良品'
+        data[:total_amount] = (Ecstore::WeihuoShare.where(:order_id => order_id).first.amount * 100).to_i
+        data[:nonce_str] = nonce_str
+        data[:mch_billno] = mch_billno
+        data[:mch_id] = mch_id
+        data[:wxappid] = weixin_appid
+        data[:send_name] = '尾货良品老板'
+        data[:total_num] = 1
+        data[:client_ip] = '182.254.138.119'
+        data[:remark] = order.mark_text
+        stringA = data.select{|key, value|value.present?}.sort.map do |arr|
+          arr.map(&:to_s).join('=')
+        end
+        stringA = stringA.join("&")
+        string_sing_temp = stringA + "&key=#{key}"
+        sign = (Digest::MD5.hexdigest string_sing_temp).upcase
+        data[:sign] = sign
+
+        params_str = ''
+        data.each do |key, value|
+          params_str += "<#{key}>" + "<![CDATA[#{value}]]>" + "</#{key}>"
+        end
+        params_xml = '<xml>' + params_str + '</xml>'
+        uri = URI.parse('https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack')
+
+        cert = File.read("#{ Rails.root }/lib/maowei_cert/apiclient_cert.pem")
+
+        key = File.read("#{ Rails.root }/lib/maowei_cert/apiclient_key.pem")
+
+        http = Net::HTTP.new(uri.host, uri.port)
+
+        http.use_ssl = true if uri.scheme == 'https'
+
+        http.cert = OpenSSL::X509::Certificate.new(cert)
+
+        http.key = OpenSSL::PKey::RSA.new(key, '商户编号')
+
+        http.ca_file = File.join("#{ Rails.root }/lib/maowei_cert/rootca.pem")
+
+        http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+        res_data = ''
+
+        http.start { http.request_post(uri.path, params_xml) { |res| res_data = res.body } }
+        res_data_hash = Hash.from_xml res_data
+        share = Ecstore::WeihuoShare.where(:order_id => order_id).first
+
+        if res_data_hash["xml"]["return_code"] == 'SUCCESS'
+          share.update_attribute(:status, 1)
+          share.update_attribute(:return_message, res_data_hash["xml"]["return_code"])
+        else
+          share.update_attribute(:return_message, res_data_hash)
+        end
+      end
     end
+    return render :text => 'success'
   end
-  return render :text => 'success'
 end
 
 def show_notice
@@ -101,6 +183,7 @@ def show
     if current_account.present?
       open_id = current_account.login_name.split('_')[0]
       if shop_id == '49' && Ecstore::WeihuoShop.where(:openid => open_id).present?
+        sign_out
         return redirect_to "/weihuo/shops/#{Ecstore::WeihuoShop.where(:openid => open_id).first.shop_id}"
       end
     end

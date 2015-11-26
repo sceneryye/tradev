@@ -1,0 +1,111 @@
+<div class="container">
+  <div class="search">
+    <ul class="find-user">
+      <li>
+        <input name="name" type="text" placeholder="请输微信昵称" class="search-name" />
+      </li>
+      <li>
+        <button class="btn btn-primary sure">确定</button>
+      </li>
+      <li>
+        <button class="btn btn-info back">返回</button>
+      </li>
+    </ul>
+  </div>
+  <div id="demo"></div>
+  
+  <table class="table table-hover table-striped">
+
+    <tr>
+      <!--<th>头像</th>-->
+      <th>昵称</th>
+      <th>付款金额</th>
+      <th>红包祝福语</th>
+      <th>活动名称</th>
+      <th>备注</th>
+      <th>操作</th>
+    </tr>
+    <% if @unionid.blank? %>
+    <div>您查找的用户不存在！</div>
+    <% else %>
+    <% @unionids.each_with_index do |unionid, index| %>
+    <% user = Ecstore::Member.where(:weixin_unionid => unionid).first %>
+    <% next if user.weixin_nickname.blank? %>
+    <tr class="<%= 'info' if index % 2 == 0 %>">
+      <!--<td style="width:10%"><img src="<%#= user_info['headimgurl'] %>" width="80%"></td>-->
+      <td style="width:10%"><%= user.weixin_nickname %></td>
+      <form>
+        <input type="hidden" name="re_openid" value="<%= user.account.login_name %>" />
+        <td style="width:10%">
+          <input type="number" id="total_amount-<%= user.account.login_name %>" name="total_amount" placeholder="0" style="width:60px" />
+        </td>
+        <td style="width:15%"><input type="text" value="恭喜发财"  id="wishing-<%= user.account.login_name %>" name="wishing" placeholder="恭喜发财" style="width:100px"/></td>
+        <td style="width:15%"><input type="text" value="销售红包" id="act_name-<%= user.account.login_name %>" name="act_name" placeholder="销售红包" style="width:100px"/></td>
+        <td style="width:15%"><input type="text" value="销售红包" id="remark-<%= user.account.login_name %>" name="remark" placeholder="销售红包" style="width:100px" /></td>
+        <td style="width:15%"><button type="button" style="width:120px;" class="btn btn-primary btn-submit" data-id="<%= user.account.login_name %>">发送红包</button></td>
+      </form>
+    </tr>
+    <% end %>
+    <% end %>
+  </table>
+</div>
+
+<style type="text/css">
+  tr th, tr td {
+    text-align: center;
+  }
+  .goto_pages {
+    margin-top: 10px;
+    float: right;
+  }
+  .goto {
+    margin: 5px;
+  }
+  ul>li {
+    float: left;
+    list-style: none;
+  }
+</style>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var url = '/admin/send_bonus'
+    $('.btn-submit').on('click', function(){
+      var id = $(this).attr('data-id');
+      var total_amount = $('#total_amount-' + id).val();
+      var wishing = $('#wishing-' + id).val();
+      var act_name = $('#act_name-' + id).val();
+      var remark = $('#remark-' + id).val();
+      $.ajax({
+        url: url,
+        data: {
+          re_openid: id,
+          total_amount: total_amount,
+          wishing: wishing,
+          act_name: act_name,
+          remark: remark
+        },
+        type: 'post',
+        //dataType: 'json',
+        success: function(data) {
+          //alert(data);
+        }
+      });
+
+    })
+    
+
+    // search people
+    $('.sure').on('click', function(){
+      var value = $('.search-name').val();
+      if(value) {
+        location.href =location.pathname + '?name=' + value
+      }
+    });
+
+    $('.back').on('click', function(){
+      location.href = '/admin/get_users?page=1';
+    });
+
+})
+</script>

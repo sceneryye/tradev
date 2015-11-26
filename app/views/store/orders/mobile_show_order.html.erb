@@ -94,9 +94,18 @@
     <span class="span"> &nbsp; &nbsp;<%=I18n.t "all_of_order"%>：</span> <span style="float: right" >  <%= format('%.2f',@order.total_amount)%> &nbsp; &nbsp;     </span>
 
   </div>
+    <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
+  <span class="span"> &nbsp; &nbsp;收货人:</span> 
+ <span style="float: right" > <%=@order.ship_name%>&nbsp; &nbsp;    </span>
+     <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
+  <span class="span"> &nbsp; &nbsp;手机号码 :</span> 
+ <span style="float: right" ><%=@order.ship_mobile%>&nbsp; &nbsp;    </span>
+      <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
+  <span class="span"> &nbsp; &nbsp;收货地址：</span> 
+ <span style="float: right" > <%=@order.ship_addr%>&nbsp; &nbsp;    </span>
     <br/>
 
-
+    <br/>
   <% if @order.order_status_text=="待付款"%>
     <%if  @shop_id.nil? || @shop_id != @user.member_id.to_s  #店主查看顾客订单，不显示付款按钮%> 
           <a class="ahref am-btn  am-btn-danger " href="/orders/mobile_show?id=<%=@order.order_id%>&supplier_id=<%=@order.supplier_id%>&shop_id=<%=@shop_id%>" class="btn btn-inverse"><%= I18n.t "no_pay"%></a>

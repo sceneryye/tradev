@@ -36,7 +36,14 @@
 					<li>
 						<div class="good-pic good-<%=good.goods_id%>">
 							<%=link_to good_path(good.bn), :target=>"_blank" do %>
-							<div class="<%= 'gray' if good.marketable == 'false' %>">
+							<div class="<%= 'gray' if good.marketable == 'false' %>" style="position: relative;">
+							 <% if good.marketable == 'false' %>
+                      <div style="position: absolute;z-index:999;left:10%" > 
+                      <img style="filter:alpha(opacity=50); -moz-opacity:0.5;opacity:0.5;" src="/images/homepage/sellout.jpg">
+                      </div>
+                       <% end %>
+
+
 							<%=image_tag good.list_default_pic,:alt=>good.name,:class=>"default"%>
 							<%#=image_tag good.list_hover_pic,:alt=>good.name,:class=>"hover"%>
 							</div>

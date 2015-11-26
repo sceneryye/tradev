@@ -14,6 +14,7 @@ Modengke::Application.routes.draw do
     get 'shops/share' => 'shops#share'
     get 'shops/manage' => 'shops#manage'
     get 'shops/show_members' => 'shops#show_members'
+    get 'shops/member_detail' => 'shops#member_detail'
     get 'shops/show_bonuses' => 'shops#show_bonuses'
     get 'shops/show_goods' => 'shops#show_goods'
     get 'shops/show_notice' => 'shops#show_notice'
@@ -423,6 +424,7 @@ Modengke::Application.routes.draw do
     # constraints :subdomain => subdomain do
     get 'logout'=>'sessions#destroy'
     get 'get_users' => 'bonuses#get_users'
+    get 'find_user' => 'bonuses#find_user'
     post 'send_bonus' => 'bonuses#send_bonus'
     resources :tracks do
       get :pages,:on=>:collection

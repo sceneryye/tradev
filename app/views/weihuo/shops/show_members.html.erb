@@ -18,7 +18,7 @@
       </th>
       <th>
         <div class="">
-        <h4>红包</h4>
+          <h4>红包</h4>
         </div>
       </th>
     </tr>
@@ -29,7 +29,7 @@
     <tr class="<%= 'info' if index % 2 == 0 %>">
 
       <td class="headimg">
-      <% userimg = user.weixin_headimgurl.present? ? user.weixin_headimgurl : '/new/default_headimg.jpg' %>
+        <% userimg = user.weixin_headimgurl.present? ? user.weixin_headimgurl : '/new/default_headimg.jpg' %>
         <div>
           <img src="<%= userimg %>" />
         </div>
@@ -43,7 +43,11 @@
 
       <td>
         <div class="">
-          <h4><%= total_profit Ecstore::WeihuoShare.all.select {|weihuo| Ecstore::Order.where(:order_id => weihuo.order_id).first.shop_id == params[:shop_id].to_i && Ecstore::Order.where(:order_id => weihuo.order_id).first.member_id == member.account_id} %> 元</h4>
+          <h4>
+            <a href="/weihuo/shops/member_detail?shop_id=<%= params[:shop_id] %>&member_id=<%= member.account_id %>">
+              <%= total_profit Ecstore::WeihuoShare.all.select {|weihuo| Ecstore::Order.where(:order_id => weihuo.order_id).first.shop_id == params[:shop_id].to_i && Ecstore::Order.where(:order_id => weihuo.order_id).first.member_id == member.account_id} %> 元
+            </a>
+          </h4>
         </div>
       </td>
     </tr>

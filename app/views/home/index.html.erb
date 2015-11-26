@@ -72,8 +72,15 @@
         <li class="product">
           <div class="product-container  describe-show">
             <div class="product-left">
-             <div class="product-thumb">
+             <div class="product-thumb" style="position: relative;" >
               <a href="/products/<%= recommend_goods.bn %>" target="_blank">
+               <% if recommend_goods.marketable == 'false' %>
+               <div style="position: absolute;z-index:999;left:10%" > 
+    <img style="filter:alpha(opacity=50); 
+-moz-opacity:0.5; 
+opacity:0.5;" src="/images/homepage/sellout.jpg">
+  </div>
+  <% end %>
                 <img alt="<%= recommend_goods.name %>" src="<%= recommend_goods.medium_pic %>" style="width:150px;height:150px;" />
                 <div class="product-slide-up">
                   <%= raw recommend_goods.desc %>

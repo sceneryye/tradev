@@ -392,6 +392,7 @@ end
 #测试尾货良品用 ----结束
 @line_items.delete_all
 
+
 Ecstore::OrderLog.new do |order_log|
   order_log.rel_id = @order.order_id
   order_log.op_id = @order.member_id

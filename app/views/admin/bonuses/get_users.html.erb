@@ -1,4 +1,14 @@
 <div class="container">
+<div class="search">
+<ul class="find-user">
+  <li>
+    <input name="name" type="text" placeholder="请输微信昵称" class="search-name" />
+  </li>
+  <li>
+    <button class="btn btn-primary sure">确定</button>
+  </li>
+</ul>
+</div>
   <div id="demo"></div>
   <ul class="goto_pages">
     <li class="goto">跳转至第</li>
@@ -95,6 +105,14 @@
     $('#page_value').val(parseInt(num));
     $('#page_value').change(function(){
       $('.select_page').submit();
+    });
+
+    // search people
+    $('.sure').on('click', function(){
+      var value = $('.search-name').val();
+      if(value) {
+        location.href ='/admin/find_user?name=' + value
+      }
     });
     
   })

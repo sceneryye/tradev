@@ -32,21 +32,16 @@
   </div>
   <div class="col-xs-7">
     <div class="shop-logo">
-      <img style="float:right;margin-top:25px;width:50px;height:50px;border-radius:50px" src="<%= @shop.logo %>">
+      <img style="float:right;margin-top:25px;width:50px;height:50px;border-radius:50px" src="<%= @shop.logo.blank? ? '/new/images/default_head.jpg' : @shop.logo %>">
     </div>
 
   </div>
 </div>
 <div class="container" >
 
-
-
   <%= render 'goods_list' %>
 
-
   <% end %>
-
-
 
   <style type="text/css">
 

@@ -74,6 +74,9 @@ class Auth::WeixinController < ApplicationController
 	        if shop_id
 	        	login_name +="_shop_#{shop_id}"
 	        end
+	        # if Ecstore::WeihuoShop.find_by_shop_id(shop_id).openid == token.openid
+	        	# login_name = token.openid
+	        # end
 	    	#  return render :text=>login_name
 			check_user = Ecstore::Account.find_by_login_name(login_name)
 
