@@ -80,11 +80,11 @@ class VshopController < ApplicationController
   end
 
   def paynotifyurl
-    @payment = Ecstore::Payment.find(params["payment_id"])
-    order_id = @payment.pay_bill.rel_id
+
 
     if params[:error_message]
-      
+      @payment = Ecstore::Payment.find(params["payment_id"])
+      order_id = @payment.pay_bill.rel_id
       return redirect_to "/orders/mobile_show_order?id=#{order_id}&supplier_id=78"
 
       #return render :text=>"支付不成功。error_message:#{params[:error_message]}"
@@ -106,6 +106,7 @@ class VshopController < ApplicationController
     end
     @payment.update_attribute(:status, 'succ')
 
+    order_id = @payment.pay_bill.rel_id
     shop_id = Ecstore::Order.where(:order_id => order_id).first.shop_id
     if Ecstore::WeihuoShop.find_by_shop_id(shop_id).present?
       return redirect_to "/weihuo/shops/#{shop_id}" if @payment&&@payment.paid?
