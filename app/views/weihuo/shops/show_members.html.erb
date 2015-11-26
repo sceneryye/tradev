@@ -44,7 +44,7 @@
       <td>
         <div class="">
           <h4>
-            <a href="/weihuo/shops/member_detail?shop_id=<%= params[:shop_id] %>&member_id=<% user.member_id %>">
+            <a href="/weihuo/shops/member_detail?shop_id=<%= params[:shop_id] %>&member_id=<%= member.account_id %>">
               <%= total_profit Ecstore::WeihuoShare.all.select {|weihuo| Ecstore::Order.where(:order_id => weihuo.order_id).first.shop_id == params[:shop_id].to_i && Ecstore::Order.where(:order_id => weihuo.order_id).first.member_id == member.account_id} %> 元
             </a>
           </h4>

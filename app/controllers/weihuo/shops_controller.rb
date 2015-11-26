@@ -44,10 +44,10 @@ end
 
 def member_detail
   @member = Ecstore::Member.find_by_member_id(params[:member_id])
-  @orders = Ecstore::Order.where(:member_id => params[:member_id], shop_id => params[:shop_id], :pay_status => '1')
-  @total_amount = @orders.inject(0){|sum, order|sum + order.total_amount}
-  @largest_money = @orders.sort{|a,b|b.total_amount <=> a.total_amount}.first.total_amount
-  @time = @orders.sort{|a, b|b.createtime <=> a.createtime}.createtime.strftime('%F %T')
+  @orders = Ecstore::Order.where(:member_id => params[:member_id], :shop_id => params[:shop_id], :pay_status => '1')
+  @total_amount = @orders.present? ? @orders.inject(0){|sum, order|sum + order.total_amount} : 0
+  @largest_money = @orders.present? ? @orders.select{|order|order.total_amount.present?}.sort{|a,b|b.total_amount <=> a.total_amount}.first.total_amount : 0
+  @time = @orders.present? ? Time.at(@orders.sort{|a, b|b.createtime <=> a.createtime}.first.createtime).strftime('%F %T') : '暂无'
 end
 
 def show_bonuses
