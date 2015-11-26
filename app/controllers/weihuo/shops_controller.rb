@@ -20,7 +20,7 @@ class Weihuo::ShopsController < ApplicationController
 end
 
 def user_center
-  user = Ecstore::Account.where('login_name like ?', "#{current_account.login_name}%")
+  user = Ecstore::Account.where('login_name like ?', "%#{current_account.login_name}%")
   account_id = user.map(&:account_id)
   @orders = Ecstore::Order.where(:member_id => account_id)
 end

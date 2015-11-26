@@ -4,7 +4,7 @@ class Store::PaymentsController < ApplicationController
 	layout 'order'
 
 	skip_before_filter :verify_authenticity_token,:only=>[:callback,:notify]
-
+	
 	def create
 		rel_id = params[:order_id]
 		@order  = Ecstore::Order.find_by_order_id(rel_id)
@@ -29,7 +29,7 @@ class Store::PaymentsController < ApplicationController
 			payment.pay_ver = '1.0'
 			payment.paycost = 0
 			payment.account = 'TRADE-V | 跨境贸易 一键直达'
-
+			
 			payment.member_id = payment.op_id = @user.member_id
 			payment.pay_account = @user.login_name
 
@@ -60,7 +60,7 @@ class Store::PaymentsController < ApplicationController
 	      	end
 	      	
 	      	redirect_to "/vshop/#{id}/payments?payment_id=#{@payment.payment_id}&supplier_id=#{supplier_id}&shop_id=#{shop_id}&showwxpaytitle=1"
-
+	      	
 	      else
 	      	redirect_to pay_payment_path(@payment.payment_id)
 	      end
@@ -122,7 +122,7 @@ class Store::PaymentsController < ApplicationController
 
 	  	@payment = Ecstore::Payment.find(params.delete(:id))
 	  	return redirect_to detail_order_path(@payment.pay_bill.order) if @payment&&@payment.paid?
-
+	  	
 	  	adapter  = params.delete(:adapter)
 	  	params.delete :controller
 	  	params.delete :action
@@ -198,11 +198,8 @@ class Store::PaymentsController < ApplicationController
 	  	else
 	  		response =  result
 	  	end
-
+	  	
 		#redirect_to detail_order_path(@payment.pay_bill.order)
-		if Ecstore::WeihuoShop.where(:shop_id => @order.shop_id).present?
-			return redirect_to "/weihuo/shops/#{@order.shop_id}"
-		end
 		if @order.supplier_id==98
 			redirect_to  "/orders/wuliu_show_order?id=#{@payment.pay_bill.order.order_id}&supplier_id=#{@order.supplier_id}"
 		else
@@ -314,7 +311,7 @@ class Store::PaymentsController < ApplicationController
 						sign = ModecPay::Bcom::Sign.new.generate_sign(src)
 						pay.fields['notifyMsg'] = "#{src}|#{sign}"
 					end
-
+					
 					if adapter == "icbc"
 					# === Icbc
 					pay.sorter = []
@@ -354,7 +351,7 @@ class Store::PaymentsController < ApplicationController
 							pay.fields['notifyData'] = sign.encodebase64(xml)
 							pay.fields['signMsg'] = sign.generate_sign2(xml)
 						end
-
+						
 					end
 
 					render :inline=>@modec_pay.html_form
