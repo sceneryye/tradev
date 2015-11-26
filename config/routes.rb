@@ -269,6 +269,7 @@ Modengke::Application.routes.draw do
       post "destory"
       get "notice"
       get "clients"
+      get "to_foodie"
     end
     member do
       get :user

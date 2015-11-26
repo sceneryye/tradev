@@ -6,6 +6,16 @@ class VshopController < ApplicationController
   layout "vshop"
 
 
+  def to_foodie
+    if @user
+      openid = @user.account.login_name
+      redirect_to "http://182.254.137.73:5000?openid=#{openid}"
+    else
+      redirect_to '/auto_login?id=78&return_url=/vshop/to_foodie'
+    end
+  end
+
+
     #get /vhsop/id/payments
     def payments
 
