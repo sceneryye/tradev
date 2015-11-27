@@ -15,10 +15,10 @@
 </head>
 <body>
 
-<script>
- <% return_url={:return_url => request.url.sub('http://trade','').force_encoding('UTF-8')}.to_query%>
- function isWeixinBrowser(){
-  var ua = navigator.userAgent.toLowerCase();
+  <script>
+   <% return_url={:return_url => request.url.sub('http://trade','').force_encoding('UTF-8')}.to_query%>
+   function isWeixinBrowser(){
+    var ua = navigator.userAgent.toLowerCase();
       //  alert(ua);
       return (/micromessenger/.test(ua)) ? true : false ;
     }
@@ -65,14 +65,14 @@
         </span>
         <span class="text">代理管理</span>
       </a>
-      <% else %>
+      <% end %>
       <a href="/weihuo/shops/user_center?ship_id=<%= params[:id] || params[:shop_id] %>" data-link="" ptag="37128.9.2" style="display:" class="">
         <span class="line">
-          <i class="tab_8_icon"></i>
+        <i class="tab_10_icon"></i>
         </span>
         <span class="text">个人中心</span>
       </a>
-      <% end %>
+      
 
       <%if @user%>
       <% if params[:id].present? || params[:shop_id].present? %>

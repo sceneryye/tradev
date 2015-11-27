@@ -20,15 +20,27 @@ class Weihuo::ShopsController < ApplicationController
 end
 
 def user_center
-  user = Ecstore::Account.where('login_name like ?', "%#{current_account.login_name}%")
-  account_id = user.map(&:account_id)
-  @orders = Ecstore::Order.where(:member_id => account_id)
+  user = Ecstore::Account.where('login_name like ?', "%#{current_account.login_name.split('_')[0]}%")
+  account_ids = user.map(&:account_id)
+  @order_ids = []
+  account_ids.each do |account_id|
+    Ecstore::Order.where(:member_id => account_id).each do |order|
+      next if Ecstore::Order.find_by_order_id(order.order_id).pay_status != '1'
+      @order_ids << order.order_id
+    end
+  end
 end
 
 def my_orders
-  user = Ecstore::Account.where('login_name like ?', "#{current_account.login_name}%")
-  account_id = user.map(&:account_id)
-  @orders = Ecstore::Order.where(:member_id => account_id)
+  user = Ecstore::Account.where('login_name like ?', "%#{current_account.login_name.split('_')[0]}%")
+  account_ids = user.map(&:account_id)
+  @order_ids = []
+  account_ids.each do |account_id|
+    Ecstore::Order.where(:member_id => account_id).each do |order|
+
+      @order_ids << order.order_id
+    end
+  end
 end
 
 def manage
