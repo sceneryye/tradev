@@ -541,6 +541,7 @@ Ecstore::OrderLog.new do |order_log|
   session[:xiehuo] =nil
   supplier_id= @user.account.supplier_id
 
+
   if supplier_id.nil?
     supplier_id=78
   end
@@ -557,7 +558,7 @@ Ecstore::OrderLog.new do |order_log|
   @cart_total_by_supplier = ActiveRecord::Base.connection.execute(sql)
   @cart_freight = 0
   @favorable_terms = 0
-
+    @good = Ecstore::Good.includes(:specs,:spec_values,:cat).where(:bn=>params[:id]).first
   #免邮条件
   @cart_total_by_supplier.each(:as => :hash) do |row|
     if (row["total"]>=60 && row["supplier_id"]==97) || (row["total"]>=380 && row["supplier_id"]==77) || (row["total"]>=200 && row["supplier_id"]==127)#|| @cart_total==0.01 #测试商品
