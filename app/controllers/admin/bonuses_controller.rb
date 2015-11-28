@@ -28,7 +28,7 @@ class Admin::BonusesController < Admin::BaseController
     name = URI.unescape params[:name]
     if name.present?
       unionids = []
-      Ecstore::Member.where("weixin_nickname like ?", "%#{name}%").each do |user|
+      Ecstore::User.where("weixin_nickname like ?", "%#{name}%").each do |user|
         unionids << user.weixin_unionid
       end
       @unionids = unionids.uniq!

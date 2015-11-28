@@ -24,8 +24,28 @@
       </div>
     </tr>
 
-
     <tr class="">
+      <div class="row">
+        <div class="col-xs-5">
+          <td>
+            <h4>店铺信息</h4>
+          </td>
+        </div>
+        <div class="col-xs-3">
+          <td>
+            <h4><%= @shop_ids.length %></h4>
+          </td>
+        </div>
+        <div class="col-xs-4">
+          <td>
+            <h4><a href="/weihuo/shops/my_visited_shops?shop_id=<%= params[:shop_id] %>">查看详情</a></h4>
+          </td>
+        </div>
+      </div>
+    </tr>
+
+
+    <tr class="info">
       <div class="row">
         <div class="col-xs-5">
           <td>

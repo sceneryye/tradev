@@ -29,6 +29,13 @@ def user_center
       @order_ids << order.order_id
     end
   end
+
+  @shop_ids = []
+  user.each do |account|
+    @shop_ids << account.login_name.split('_')[2]
+  end
+  @shop_ids = @shop_ids.select{|shop_id|Ecstore::WeihuoShop.where(:shop_id => shop_id).present?}
+  
 end
 
 def my_orders
@@ -36,11 +43,20 @@ def my_orders
   account_ids = user.map(&:account_id)
   @order_ids = []
   account_ids.each do |account_id|
-    Ecstore::Order.where(:member_id => account_id).each do |order|
+    Ecstore::Order.where(:member_id => account_id).order('createtime desc').each do |order|
 
       @order_ids << order.order_id
     end
   end
+end
+
+def my_visited_shops
+  openid = current_account.login_name.split('_')[0]
+  @shop_ids = []
+  Ecstore::Account.where("login_name like ?", "%#{openid}%").each do |account|
+    @shop_ids << account.login_name.split('_')[2]
+  end
+  @shop_ids = @shop_ids.select{|shop_id|Ecstore::WeihuoShop.where(:shop_id => shop_id).present?}
 end
 
 def manage
@@ -48,6 +64,7 @@ def manage
   @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0])
   @goods = Ecstore::Good.where(:supplier_id => 10)
   @orders = Ecstore::Order.where(:shop_id => params[:shop_id])
+
 end
 
 def show_members
@@ -209,6 +226,7 @@ def show
     if current_account.blank?
       return redirect_to "/auto_login2?return_url=#{URI.escape 'http://www.trade-v.com/weihuo/shops/new'}&platform=mobile&from=new"
     end
+
     @exiting_shop = Ecstore::WeihuoShop.where(:openid => current_account.login_name.split('_')[0])
     Rails.logger.info current_account.login_name
     Rails.logger.info @exiting_shop.first.shop_id
@@ -227,7 +245,7 @@ def show
     shop_params = {}
     shop_params[:member_id] = params[:member_id]
 
-    openid = Ecstore::Account.where(:account_id => params[:member_id]).first.login_name
+    openid = Ecstore::Account.where(:account_id => params[:member_id]).first.login_name.split("_")[0]
     shop_params[:weihuo_organisation_id] = Ecstore::WeihuoOrganisation.where(:name => params[:organisation_name]).first.id
     shop_params[:employee_name] = params[:employee_name]
     shop_params[:employee_mobile] = params[:employee_mobile]
@@ -243,6 +261,7 @@ def show
       account = Ecstore::Account.where(:account_id => params[:member_id]).first
 
       account.update_column(:shop_id, @shop.shop_id)
+      Ecstore::WeihuoEmployee.update_attributes(:area => params[:province] + params[:city], :address => params[:address], :shop_id => @shop.shop_id)
 
       redirect_to weihuo_shop_path(@shop)
     else

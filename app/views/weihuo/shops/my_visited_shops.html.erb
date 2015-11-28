@@ -1,0 +1,76 @@
+<div class="title">
+  <h3>
+    所有店铺
+  </h3>
+</div>
+<hr />
+
+<% @shop_ids.each do |shop_id| %>
+<% shop = Ecstore::WeihuoShop.find_by_shop_id(shop_id) %>
+<% member = Ecstore::User.find_by_member_id(shop.member_id) %>
+<% employee = Ecstore::WeihuoEmployee.find_by_shop_id(shop_id) %>
+<div class="shop-box">
+  <div class="shop-name">
+    <span class="key">
+      店铺名称：
+    </span>
+    <span class="value">
+      <%= member.weixin_nickname %>
+    </span>
+    <span class="enter-shop btn btn-success">
+      <a href="/weihuo/shops/<%= shop_id %>">进入店铺</a>
+    </span>
+  </div>
+  <div class="contact-name">
+    <span class="key">
+      联系人：
+    </span>
+    <span class="value">
+      <%= employee.name %>
+    </span>
+  </div>
+  <div class="contact-mobile">
+    <span class="key">
+      联系电话：
+    </span>
+    <span class="value">
+      <%= employee.mobile %>
+    </span>
+  </div>
+  <div class="contact-address">
+    <span class="key">
+      联系地址：
+    </span>
+    <span class="value">
+      <%= employee.area.to_s + employee.address.to_s %>
+    </span>
+  </div>
+</div>
+<% end %>
+
+<style type="text/css">
+  body {
+    background-color: #e5e4e2;
+  }
+  
+  .title {
+    text-align: center;
+    margin: 30px;
+  }
+  .shop-box {
+    background-color: white;
+    border-bottom: 1px white solid;
+    border-top: 1px white solid;
+    padding: 10px;
+    margin-bottom: 15px;
+    position: relative;
+  }
+  .value {
+    position: absolute;
+    left: 40%;
+  }
+  .enter-shop {
+    position: absolute;
+    right: 5%;
+  }
+</style>

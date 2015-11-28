@@ -1,74 +1,112 @@
-<div class="container-fluid">
-  <div class="title">
-    <h3>我的订单</h3>
-  </div>
-  
-  <table class="table table-striped table-hover table-responsive">
-    <tr class="">
 
-      <th class="">
-        <div>
-          <h4>红包金额</h4>
-        </div>
-      </th>
-      <th>
-        <div class="">
-          <h4>来源</h4>
-        </div>
-      </th>
-      <th>
-        <div class="">
-          <h4>状态</h4>
-        </div>
-      </th>
-    </tr>
-
-    <% @bonuses.each_with_index do |bonus, index| %>
-    <% member_id = Ecstore::Order.where(:order_id => bonus.order_id).first.member_id %>
-    <% user = Ecstore::User.where(:member_id => member_id).first %>
-
-    <tr class="<%= 'info' if index % 2 == 0 %>">
-
-      <td class="">
-        <div>
-          <%= bonus.amount.to_f %> 元
-        </div>
-      </td>
-
-      <td>
-        <div class="">
-          <h4><%= user.try :weixin_nickname %></h4>
-        </div>
-      </td>
-
-      <td>
-        <div class="">
-          <h4><%= bonus.status == 1 ? '已发送' : '未发送' %></h4>
-        </div>
-      </td>
-    </tr>
-
-    <% end %>
-
-  </table>
-  <%= will_paginate @bonuses %>
+<div class="title">
+  <h3>我的订单</h3>
 </div>
+<% @order_ids.each do |order_id| %>
+<% order = Ecstore::Order.find_by_order_id(order_id) %>
+<div class="order-box">
+
+  <div class="order-status-price">
+    <div class="order-status">
+      <span class="status-key">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <span class="space">态：</span></span>
+      <span class="status-value"><%= order.status_text %></span>
+    </div>
+    <div class="price">
+      <span class="price-key">总&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <span class="space">价：</span></span>
+      <span class="price-value">¥<%= order.total_amount %></span>
+    </div>
+  </div>
+  <div class="createtime">
+    <span class="time-key">订单时间：</span></span>
+    <span class="time-value"><%= Time.at(order.createtime).strftime('%F %T') %></span>
+  </div>
+  <hr />
+
+  <div class="supplier">
+    尾货良品
+  </div>
+  <hr />
+
+  <% order.order_items.each do |order_item| %>
+  <% goods = Ecstore::Good.find_by_goods_id(order_item.goods_id) %>
+  <div class="item-list">
+    <div class="goods-pic">
+      <img src="<%= goods.medium_pic %>" />
+    </div>
+    <div class="goods-info">
+      <div class="goods-name">
+        <%= goods.name[0..18] %>
+      </div>
+      <div class="goods-amount">
+        <%= order_item.nums %> 件
+      </div>
+    </div>
+    <div class="clear">
+    </div>
+  </div>
+  <% end %>
+
+</div>
+<% end %>
+
 
 <style type="text/css">
-  .title {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  .info {
-    background-color: #d9edf7;
+  body {
+    background-color: #e5e4e2;
   }
   
+  .title {
+    text-align: center;
+    margin: 30px;
+  }
+  .order-box {
+    background-color: white;
+    border-bottom: 1px white solid;
+    border-top: 1px white solid;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  .order-status-price {
+    padding: 5px 0;
+  }
+  .order-status .status-value, .price .price-value, .createtime .time-value {
+    padding-left: 20px;
+  }
+  li {
+    float: left;
+  }
+  .space {
 
-th, td {
-  text-align: center;
-}
-.container {
-  margin-bottom: 40px;
-}
-
+  }
+  .status-value {
+    color: #1569c7;
+  }
+  .price-value {
+    color: #dc381f;
+  }
+  .supplier {
+    padding: 0;
+  }
+  .item-list {
+    margin-bottom: 10px;
+  }
+  .goods-pic {
+    display: inline-black;
+  }
+  .goods-pic img {
+    width: 30%;
+    display: inline-black;
+  }
+  .goods-info {
+    float: left;
+    padding-left: 10px;
+  }
+  .goods-name {
+  }
+  .goods-amount {
+    color: #5c5858;
+  }
+  .clear {
+    clear: both;
+  }
 </style>

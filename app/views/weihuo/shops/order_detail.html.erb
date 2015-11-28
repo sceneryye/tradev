@@ -34,6 +34,11 @@
     </div>
     <div class="clear"></div>
   </div>
+  <% if @order.pay_status != '1' %>
+  <div class="button-not-payed">
+    <button class="btn btn-default btn-lg" id="not-payed" disabled="disabled">该订未付款！</button>
+  </div>
+  <% else %>
   <% if @order.ship_status == '0' && @order.status != 'finish' %>
   <div class="button-send">
     <button class="btn btn-success" id="send" data-orderid="<%= @order.order_id %>" >发货</button>
@@ -44,7 +49,7 @@
     <button class="btn btn-default btn-lg" id="sent" disabled="disabled">该订单已完成！</button>
   </div>
   <% end %>
-
+  <% end %>
 </div>
 
 <style type="text/css">
@@ -76,7 +81,7 @@
   .goods-name {
     width: 60%;
   }
-  .button-send, .button-sent {
+  .button-send, .button-sent, .button-not-payed {
     text-align: center;
     margin: 20px auto;
     margin-bottom: 40px;
@@ -114,7 +119,7 @@
                 title: '成功！', 
                 text: '商品发货完成！', 
                 type: 'success',
-                timmer: 4000,
+                timer: 4000,
                 confirmButtonText: '确定',
               });
               $('#send').hide();
@@ -126,6 +131,6 @@
         
       });
     });
-  });
+});
 
 </script>

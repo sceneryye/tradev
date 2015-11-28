@@ -25,11 +25,11 @@
       <th>备注</th>
       <th>操作</th>
     </tr>
-    <% if @unionid.blank? %>
+    <% if @unionids.blank? %>
     <div>您查找的用户不存在！</div>
     <% else %>
     <% @unionids.each_with_index do |unionid, index| %>
-    <% user = Ecstore::Member.where(:weixin_unionid => unionid).first %>
+    <% user = Ecstore::User.where(:weixin_unionid => unionid).first %>
     <% next if user.weixin_nickname.blank? %>
     <tr class="<%= 'info' if index % 2 == 0 %>">
       <!--<td style="width:10%"><img src="<%#= user_info['headimgurl'] %>" width="80%"></td>-->

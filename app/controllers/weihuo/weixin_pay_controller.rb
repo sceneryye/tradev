@@ -67,6 +67,11 @@ class Weihuo::WeixinPayController < ApplicationController
     order_params[:status] = 'active'
     order_params[:payment] = 'wxpay'
     order_params[:ship_status] = '0'
+    employee = Ecstore::WeihuoEmployee.where(:shop_id => params["xml"]["attach"].split('_')[1]).first
+    order_params[:ship_area] = employee.area
+    order_params[:ship_addr] = employee.address
+    order_params[:ship_name] = employee.name
+    order_params[:ship_mobile] = employee.mobile
     order_params[:mark_text] = params["xml"]["out_trade_no"]
     order_params[:shop_id] = params["xml"]["attach"].split('_')[1]
     order_params[:member_id] = Ecstore::Account.where('login_name like ?', "%#{params["xml"]["openid"]}%").first.account_id

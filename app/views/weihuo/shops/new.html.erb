@@ -1,6 +1,6 @@
 <% if @exiting_shop.present? %>
 <div class="return">
-<h4>您已经拥有店铺，点击<a href="/weihuo/shops/<%= @exiting_shop.first.shop_id %>">这里</a>前往您的店铺</h4>
+  <h4>您已经拥有店铺，点击<a href="/weihuo/shops/<%= @exiting_shop.first.shop_id %>">这里</a>前往您的店铺</h4>
 </div>
 <% else %>
 <div class="container">
@@ -39,6 +39,12 @@
         </div>
       </div>
 
+      <div class='col-xs-10 col-xs-offset-1'>
+        <input name="province" placeholder="请输入省份" class="province" />
+        <input name ="city" placeholder="请输入城市" class="city" />
+        <input name ="address" placeholder="请输入详细地址" class="address" />
+      </div>
+
       <div class="col-xs-10 col-xs-offset-1">
         <div class="errmsg"></div>
       </div>
@@ -51,6 +57,7 @@
   </div>
   <% end %>
 
+  <script type="text/javascript" src="/assets/area_seletor.js.erb"></script>
   <script type="text/javascript">
     $(document).ready(function(){
       var url = '/weihuo/shops/new';
@@ -98,8 +105,17 @@
       });
 
       $("input[type='button']").on('click',function(){
-       if($('.organisation-name').val() == '' || $('.employee-name').val() == '' || $("input[name='employee_mobile']").val() == undefined || $("input[name='employee_mobile']").val() == '') {
-        alert('请填写完整信息！');
+       if($('.organisation-name').val() == '' || $('.employee-name').val() == '' || $("input[name='employee_mobile']").val() == undefined || $("input[name='employee_mobile']").val() == '' || $('.province').val() == '' || $('.city').val() == '' || $('.address').val() == '') {
+        swal({
+          title: '信息不完整',
+          text: '请填写完整信息',
+          type: 'warning',
+          showCancelButton: false,
+          closeOnConfirm: true,
+          animation: "slide-from-top",
+          confirmButtonText: '确定',
+          timer: 5000
+        });
       }
       else {
         $('.build-store').submit();
