@@ -5,15 +5,28 @@
 
 <% @order_ids.each do |order_id| %>
 <% order = Ecstore::Order.find_by_order_id(order_id) %>
+<% status = true %>
+<% order.order_items.each do |order_item| %>
+<% status = false if Ecstore::Good.find_by_goods_id(order_item.goods_id).supplier_id != 10 %>
+<% end %>
+<% next unless status %>
 <div class="order-box">
 
   <div class="order-status-price">
     <div class="order-status">
-      <span class="status-key">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <span class="space">态：</span></span>
+      <span class="status-key">订单状态：</span>
       <span class="status-value"><%= order.status_text %></span>
     </div>
+    <div class="pay-status">
+      <span class="status-key">付款状态：</span>
+      <span class="status-value"><%= order.pay_status_text %></span>
+    </div>
+    <div class="ship-status">
+      <span class="status-key">发货状态：</span>
+      <span class="status-value"><%= order.ship_status_text %></span>
+    </div>
     <div class="price">
-      <span class="price-key">总&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <span class="space">价：</span></span>
+      <span class="price-key">订单总价：</span>
       <span class="price-value">¥<%= order.total_amount %></span>
     </div>
   </div>
@@ -40,8 +53,8 @@
     </div>
     <div class="goods-info">
       <div class="goods-name">
-      <%= goods.name %>
-      
+        <%= goods.name %>
+        
       </div>
       <div class="goods-amount">
         <%= order_item.nums %> 件
@@ -75,7 +88,7 @@
   .order-status-price {
     
   }
-  .order-status .status-value, .price .price-value, .createtime .time-value, .order-id .orderid-value {
+  .status-value, .price .price-value, .createtime .time-value, .order-id .orderid-value {
     padding-left: 20px;
   }
   

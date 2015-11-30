@@ -3,8 +3,8 @@
     <h3>客户订单</h3>
   </div>
   
-  <table class="table table-striped table-hover table-responsive">
-    <tr class="">
+  <table class="table table-responsive">
+    <tr class="active">
 
       <th class="">
         <div>
@@ -22,7 +22,12 @@
     <% member_id = Ecstore::Order.where(:order_id => order.order_id).first.member_id %>
     <% user = Ecstore::Member.where(:member_id => member_id) %>
     <% if Ecstore::OrderItem.where(:order_id => order.order_id).present? %>
-    <tr class="<%= order.ship_status == '1' ? 'success' : 'active' %>">
+    <% if order.ship_status == '1' %>
+    <% status = 'success' %>
+    <% elsif order.pay_status == '1' %>
+    <% status = 'info' %>
+    <% end %>
+    <tr class="<%= status %>">
 
       <td class="">
         <div>

@@ -10,11 +10,11 @@
       <span class="nickname">
         <%= @user.weixin_nickname %>
       </span class="nickname">
+      
+      <span class="mobile">
+        <%= @user.mobile || '暂无手机信息' %>
+      </span>
     </div>
-    <span class="mobile">
-      <%= @user.mobile || '暂无手机信息' %>
-    </span>
-    <div class="clear"></div>
     <div class="user-addr">
       <%= (@user.area.to_s + @user.addr.to_s).present? ? (@user.area.to_s + @user.addr.to_s) : '暂无地址信息' %>
     </div>
@@ -26,11 +26,13 @@
     <div class="goods-pic">
       <img src="<%= @product.good.medium_pic %>" />
     </div>
-    <div class="goods-name">
-      <%= @product.name %>
-    </div>
-    <div class="goods-price">
-      ¥<%= @product.price %>
+    <div class="goods-info">
+      <div class="goods-name">
+        <%= @product.name %>
+      </div>
+      <div class="goods-price">
+        ¥<%= @product.price %>
+      </div>
     </div>
     <div class="clear"></div>
   </div>
@@ -69,18 +71,33 @@
   .title {
     text-align: center;
   }
-  .nickname, .mobile, .goods-pic, .goods-name, .goods-price {
+  .goods-pic, .goods-info {
     float: left;
+  }
+  .goods-info {
+    width: 70%;
+    padding-left: 20px;
+  }
+  .goods-name {
+    width:100%;
+    word-break:keep-all;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .goods-price {
+    margin-top: 10px;
   }
   .clear {
     clear: both;
   }
-  .goods-pic img {
+  .goods-pic {
     width: 20%;
   }
-  .goods-name {
-    width: 60%;
+  .goods-pic img {
+    width: 100%;
   }
+
   .button-send, .button-sent, .button-not-payed {
     text-align: center;
     margin: 20px auto;

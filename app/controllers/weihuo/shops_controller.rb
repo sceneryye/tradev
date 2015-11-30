@@ -17,7 +17,12 @@ class Weihuo::ShopsController < ApplicationController
    shop_id = user.login_name.split('_shop_').last 
    @shop_ids << shop_id if shop_id.to_i > 0 && shop_id != '49' 
  end
- Rails.logger.info "shop_ids => #{@shop_ids}"
+ @shop_exist = false
+ @shop_ids.each do |shop_id|
+  
+  @shop_exist = true if Ecstore::WeihuoShop.find_by_shop_id(shop_id).openid == current_account.login_name.split('_shop_').first
+end
+Rails.logger.info "shop_ids => #{@shop_ids}"
 end
 
 def user_center
@@ -26,7 +31,7 @@ def user_center
   @order_ids = []
   account_ids.each do |account_id|
     Ecstore::Order.where(:member_id => account_id).each do |order|
-      next if Ecstore::Order.find_by_order_id(order.order_id).pay_status != '1'
+
       @order_ids << order.order_id
     end
   end
@@ -36,11 +41,12 @@ def user_center
     @shop_ids << account.login_name.split('_shop_')[1]
   end
   @shop_ids = @shop_ids.select{|shop_id|Ecstore::WeihuoShop.where(:shop_id => shop_id).present?}
+  @line_items = Ecstore::Cart.where(:member_id => current_account.account_id).first
   
 end
 
 def my_orders
-  user = Ecstore::Account.where('login_name like ?', "%#{current_account.login_name.split('_shop_')[0]}%")
+  user = Ecstore::Account.where("login_name like ?", "%#{current_account.login_name.split('_shop_')[0]}%")
   account_ids = user.map(&:account_id)
   @order_ids = []
   account_ids.each do |account_id|
@@ -59,6 +65,8 @@ def my_visited_shops
   end
   @shop_ids = @shop_ids.select{|shop_id|Ecstore::WeihuoShop.where(:shop_id => shop_id).present?}
 end
+
+
 
 def manage
   @members = Ecstore::Account.all.select{|member|member.shop_id == params[:shop_id].to_i}
@@ -231,8 +239,7 @@ def show
     end
 
     @exiting_shop = Ecstore::WeihuoShop.where(:openid => current_account.login_name.split('_shop_')[0])
-    Rails.logger.info current_account.login_name
-    Rails.logger.info @exiting_shop.first.shop_id
+    
 
     
     @organisations = Ecstore::WeihuoOrganisation.all

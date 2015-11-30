@@ -118,6 +118,7 @@ zh_cn:
   no_pay : "去付款"
   Currently_empty: " 购物车是空的哦～～"
   continue_shopping: "继续购物"
+  back_to_home: "回到首页"
 
 ###订单提交成功页面
   orders_success_get : "订单已经成功提交"

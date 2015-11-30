@@ -1,3 +1,4 @@
 <%@addr.errors.messages.each do |key,msg|%>
 	$(".new-addr:visible").find(".controls.<%=key%> .help-inline").text('<%=msg.join(",")%>');
+  alert(msg);
 <%end  if @addr.errors.messages.size > 0%>

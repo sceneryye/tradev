@@ -44,6 +44,26 @@
       </div>
     </tr>
 
+    <tr class="">
+      <div class="row">
+        <div class="col-xs-5">
+          <td>
+            <h4>购物车</h4>
+          </td>
+        </div>
+        <div class="col-xs-3">
+          <td>
+            <h4><%= (@line_items.try :quantity).to_i %></h4>
+          </td>
+        </div>
+        <div class="col-xs-4">
+          <td>
+            <h4><a href="/cart/mobile?supplier_id=78&shop_id=<%= params[:shop_id] %>&from=<%= params[:from] %>">查看详情</a></h4>
+          </td>
+        </div>
+      </div>
+    </tr>
+
 
     <tr class="info">
       <div class="row">

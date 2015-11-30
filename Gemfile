@@ -8,6 +8,8 @@ gem "babosa", "~> 0.3.8"
 gem "ckeditor", "~> 3.7.3"
 gem "paperclip", "~> 3.0"
 gem 'will_paginate', '~> 3.0'
+gem 'will_paginate-bootstrap'
+gem 'bootstrap-will_paginate'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

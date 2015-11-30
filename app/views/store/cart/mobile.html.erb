@@ -8,7 +8,7 @@
   <%@homepage ='/mobile'
       @homepage ='/mobile/48/shop' if @user && (@user.email.include? '@139')
       @homepage = "/weihuo/shops/#{params[:shop_id]}" if params[:shop_id].present? %>
-    <a href="<%=@homepage%>" style="float: right"> <%= I18n.t "continue_shopping"%></a>
+    <a href="<%=@homepage%>" style="float: right"> <%= I18n.t "back_to_home"%></a>
   </div>
 </div>
 
@@ -97,7 +97,7 @@
 
       </div>
       <%if @line_items[0]== nil%>
-          <a  style="float: right" class="am-btn am-btn-warning" style="margin-left: 30%" href="/mobile">
+          <a  style="float: right" class="am-btn am-btn-warning" style="margin-left: 30%" href="<%= @homepage %>">
           <!-- /vshop/<%=@supplier.id%> -->
             <i class="am-icon-shopping-cart"></i>
             <%= I18n.t "continue_shopping"%>
