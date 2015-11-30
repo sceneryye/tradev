@@ -1,10 +1,9 @@
 <%if @line_items.size > 0%>
-<div class="section addr">
-	<h5>
-		收货地址
-		<span class="required">*</span>
-	</h5>
-	<div class="checkcon clearfix addr-lists">
+<div class="section addr" style="margin:20px 10px;border-bottom:1px solid rgb(240,240,240)">
+        <h4 style="font-weight:bold;">
+          收货地址
+        </h4>
+        <div class="checkcon clearfix addr-list">
 		<%if @addrs.size>0%>
 		<%@addrs.each_with_index do |addr,index|%>
 		<%if @def_addr == addr%>

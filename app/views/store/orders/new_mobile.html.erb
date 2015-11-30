@@ -161,8 +161,15 @@
         </div>
           <span class="bg-border2"></span>
         </div>
-      </div>
-      <input type="submit" class="am-btn am-btn-warning am-btn-block" value="<%=I18n.t 'confirm_order'%>">
+      </div> <%@line_items.each do |line_item|%>
+      
+      <% if line_item.quantity<1%>  <%else%>
+     <input type="submit" class="am-btn am-btn-warning am-btn-block" value="<%=I18n.t 'confirm_order'%>">
+     <%break;%> 
+      <%end%> 
+
+       <%end%>
+       
       <%end%>
       <%else%>
       <p><%=I18n.t "order_notice_four"%>。
