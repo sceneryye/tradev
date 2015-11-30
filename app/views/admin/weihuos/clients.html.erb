@@ -15,7 +15,7 @@
   <%@clients.each do |client|%>
   <tr>
     <td><%=client.account_id%></td>
-    <td><%=client.login_name.split('_')[0]%></td>
+    <td><%=client.login_name.split('_shop_')[0]%></td>
     <td><%=client.member.name%></td>
     <td><%=client.member.weixin_nickname%></td>
     <td><%=image_tag client.member.weixin_headimgurl,:size=>"50x50"%></td>

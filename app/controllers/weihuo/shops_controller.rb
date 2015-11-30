@@ -12,15 +12,16 @@ class Weihuo::ShopsController < ApplicationController
 
  def index
   @shop_ids = []
-  login_name = current_account.login_name.split('_').first
+  login_name = current_account.login_name.split('_shop_').first
   names = Ecstore::Account.where("login_name like ?", "%#{login_name}%").each do |user| 
-   shop_id = user.login_name.split('_').last 
+   shop_id = user.login_name.split('_shop_').last 
    @shop_ids << shop_id if shop_id.to_i > 0 && shop_id != '49' 
  end
+ Rails.logger.info "shop_ids => #{@shop_ids}"
 end
 
 def user_center
-  user = Ecstore::Account.where('login_name like ?', "%#{current_account.login_name.split('_')[0]}%")
+  user = Ecstore::Account.where('login_name like ?', "%#{current_account.login_name.split('_shop_')[0]}%")
   account_ids = user.map(&:account_id)
   @order_ids = []
   account_ids.each do |account_id|
@@ -32,14 +33,14 @@ def user_center
 
   @shop_ids = []
   user.each do |account|
-    @shop_ids << account.login_name.split('_')[2]
+    @shop_ids << account.login_name.split('_shop_')[1]
   end
   @shop_ids = @shop_ids.select{|shop_id|Ecstore::WeihuoShop.where(:shop_id => shop_id).present?}
   
 end
 
 def my_orders
-  user = Ecstore::Account.where('login_name like ?', "%#{current_account.login_name.split('_')[0]}%")
+  user = Ecstore::Account.where('login_name like ?', "%#{current_account.login_name.split('_shop_')[0]}%")
   account_ids = user.map(&:account_id)
   @order_ids = []
   account_ids.each do |account_id|
@@ -51,17 +52,17 @@ def my_orders
 end
 
 def my_visited_shops
-  openid = current_account.login_name.split('_')[0]
+  openid = current_account.login_name.split('_shop_')[0]
   @shop_ids = []
   Ecstore::Account.where("login_name like ?", "%#{openid}%").each do |account|
-    @shop_ids << account.login_name.split('_')[2]
+    @shop_ids << account.login_name.split('_shop_')[1]
   end
   @shop_ids = @shop_ids.select{|shop_id|Ecstore::WeihuoShop.where(:shop_id => shop_id).present?}
 end
 
 def manage
   @members = Ecstore::Account.all.select{|member|member.shop_id == params[:shop_id].to_i}
-  @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0])
+  @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_shop_')[0])
   @goods = Ecstore::Good.where(:supplier_id => 10)
   @orders = Ecstore::Order.where(:shop_id => params[:shop_id])
 
@@ -80,7 +81,7 @@ def member_detail
 end
 
 def show_bonuses
-  @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_')[0]).paginate(:page => params[:page], :per_page => 20).order('id DESC')
+  @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_shop_')[0]).paginate(:page => params[:page], :per_page => 20).order('id DESC')
 end
 
 def show_goods
@@ -200,6 +201,7 @@ def show_notice
 end
 
 def show
+
   shop_id = params[:shop_id] || params[:id]
   if params[:from] == 'chooseshop'
     return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile"
@@ -208,14 +210,15 @@ def show
 
     return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile"
   end
+  return redirect_to '/weihuo/shops' if params[:enterin] == 'first'
     # return render :text => shop_id == '49'
-    if current_account.present?
-      open_id = current_account.login_name.split('_')[0]
-      if shop_id == '49' && Ecstore::WeihuoShop.where(:openid => open_id).present?
-        sign_out
-        return redirect_to "/weihuo/shops/#{Ecstore::WeihuoShop.where(:openid => open_id).first.shop_id}"
-      end
-    end
+    # if current_account.present?
+      # open_id = current_account.login_name.split('_shop_')[0]
+      # if shop_id == '49' && Ecstore::WeihuoShop.where(:openid => open_id).present?
+        # sign_out
+        # return redirect_to "/weihuo/shops/#{Ecstore::WeihuoShop.where(:openid => open_id).first.shop_id}"
+      # end
+    # end
     @shop = Ecstore::WeihuoShop.find(params[:shop_id] || params[:id])
     @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:per_page => 30, :page => params[:page]).order(:name)
     
@@ -227,7 +230,7 @@ def show
       return redirect_to "/auto_login2?return_url=#{URI.escape 'http://www.trade-v.com/weihuo/shops/new'}&platform=mobile&from=new"
     end
 
-    @exiting_shop = Ecstore::WeihuoShop.where(:openid => current_account.login_name.split('_')[0])
+    @exiting_shop = Ecstore::WeihuoShop.where(:openid => current_account.login_name.split('_shop_')[0])
     Rails.logger.info current_account.login_name
     Rails.logger.info @exiting_shop.first.shop_id
 
@@ -240,12 +243,12 @@ def show
 
   def create
     member_id = params[:member_id]
-    open_id = Ecstore::Account.where(:account_id => member_id).first.login_name.split('_')[0]
+    open_id = Ecstore::Account.where(:account_id => member_id).first.login_name.split('_shop_')[0]
     return render :text => '该店铺已经存在！' if Ecstore::WeihuoShop.where(:openid => open_id).present?
     shop_params = {}
     shop_params[:member_id] = params[:member_id]
 
-    openid = Ecstore::Account.where(:account_id => params[:member_id]).first.login_name.split("_")[0]
+    openid = Ecstore::Account.where(:account_id => params[:member_id]).first.login_name.split("_shop_")[0]
     shop_params[:weihuo_organisation_id] = Ecstore::WeihuoOrganisation.where(:name => params[:organisation_name]).first.id
     shop_params[:employee_name] = params[:employee_name]
     shop_params[:employee_mobile] = params[:employee_mobile]
@@ -280,7 +283,7 @@ def show
 
   def add
     @goods = Ecstore::Good.where(:supplier_id => 10)
-    openid = current_account.login_name.split('_')[0]
+    openid = current_account.login_name.split('_shop_')[0]
     @shop = Ecstore::WeihuoShop.where(:openid => openid).first
   end
 

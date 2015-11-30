@@ -4,14 +4,20 @@
   <% shop = Ecstore::WeihuoShop.find_by_shop_id(shop_id) %>
   <% next if shop.nil? %>
   <% open_id = shop.openid %>
-  <% account = Ecstore::Account.find_by_login_name(open_id) %>
+  <% account = Ecstore::Account.find_by_login_name(open_id) || Ecstore::Account.find_by_login_name(open_id + "_shop_#{shop_id}") %>
   <div class="shops">
-  <a href="/weihuo/shops/<%= shop_id %>?from=chooseshop">
+  <a href="/weihuo/shops/<%= shop_id %>?from=chooseshop&enterin=second">
      <span class="headimg"><img src="<%= account.user.weixin_headimgurl %>" /></span>
      <span class="name"><%= account.user.weixin_nickname %></span>
    </a>
  </div>
  <% end %>
+ <div class="shops">
+  <a href="/weihuo/shops/49?from=chooseshop&enterin=second">
+     <span class="headimg"><img src="/new/images/default_headimg.jpg" /></span>
+     <span class="name">尾货官网</span>
+   </a>
+ </div>
 </div>
 
 <style type="text/css">

@@ -424,7 +424,7 @@ Ecstore::OrderLog.new do |order_log|
           weihuo.order_id = @order.order_id
           weihuo.amount = share_for_weihuo_shop
           weihuo.member_id = @order.weihuo_shop.user.member_id
-          weihuo.open_id = @order.weihuo_shop.user.account.login_name.split('_')[0]
+          weihuo.open_id = @order.weihuo_shop.user.account.login_name.split('_shop_')[0]
           weihuo.wishing ='恭喜发财'
           weihuo.act_name = '尾货良品'
           weihuo.remark = "订单#{@order.order_id}"

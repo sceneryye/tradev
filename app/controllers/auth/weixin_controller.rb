@@ -201,7 +201,7 @@ class Auth::WeixinController < ApplicationController
 	    		if shop_id == '0'
 	    			redirect = '/weihuo/shops/new'
 	    		else
-	    		redirect ="/weihuo/shops/#{shop_id}"
+	    		redirect ="/weihuo/shops/#{shop_id}?enterin=first"
 	    	end
 	    	elsif supplier_id == '78'
 	    		redirect  = "/mobile"

@@ -1,21 +1,22 @@
 <script type="text/javascript">
   <% if params[:id] == '49' %>
-  <% shop_ids = [] %>
-  <% login_name = current_account.login_name.split('_').first %>
+  <% shop_ids = ['49'] %>
+  <% login_name = current_account.login_name.split('_shop_').first %>
   <% names = Ecstore::Account.where("login_name like ?", "%#{login_name}%").each do |user| %>
-  <% shop_id = user.login_name.split('_').last %>
+  <% shop_id = user.login_name.split('_shop_').last %>
   <% shop_ids << shop_id if shop_id.to_i > 0 && shop_id != '49' %>
   <% end %>
-  <% if shop_ids.length == 1 %>
-  location.href = "/weihuo/shops/#{shop_ids.first}"
-  <% elsif shop_ids.length > 1 %>
-  location.href = "/weihuo/shops"
-  <% end %>
-  <% end %>
+  //<% if shop_ids.length == 1 %>
+  //location.href = "/weihuo/shops/#{shop_ids.first}"
+  //<% elsif shop_ids.length > 1 %>
+  //location.href = "/weihuo/shops"
+  //<% end %>
+  //<% end %>
+
 </script>
 
 
-
+<%#= current_account.login_name %>
 
 <% if @shop.status == '0' %>
 <h2>请等待审核通过</h2>
@@ -32,7 +33,7 @@
   </div>
   <div class="col-xs-7">
     <div class="shop-logo">
-      <img style="float:right;margin-top:25px;width:50px;height:50px;border-radius:50px" src="<%= @shop.logo.blank? ? '/new/images/default_head.jpg' : @shop.logo %>">
+      <img style="float:right;margin-top:25px;width:50px;height:50px;border-radius:50px" src="<%= @shop.logo.blank? ? '/new/images/default_headimg.jpg' : @shop.logo %>">
     </div>
 
   </div>

@@ -2,6 +2,7 @@
 <div class="title">
   <h3>我的订单</h3>
 </div>
+
 <% @order_ids.each do |order_id| %>
 <% order = Ecstore::Order.find_by_order_id(order_id) %>
 <div class="order-box">
@@ -20,6 +21,10 @@
     <span class="time-key">订单时间：</span></span>
     <span class="time-value"><%= Time.at(order.createtime).strftime('%F %T') %></span>
   </div>
+  <div class="order-id">
+    <span class="orderid-key">订单号码：</span></span>
+    <span class="orderid-value"><%= order_id %></span>
+  </div>
   <hr />
 
   <div class="supplier">
@@ -35,7 +40,8 @@
     </div>
     <div class="goods-info">
       <div class="goods-name">
-        <%= goods.name[0..18] %>
+      <%= goods.name %>
+      
       </div>
       <div class="goods-amount">
         <%= order_item.nums %> 件
@@ -67,14 +73,12 @@
     margin-bottom: 15px;
   }
   .order-status-price {
-    padding: 5px 0;
+    
   }
-  .order-status .status-value, .price .price-value, .createtime .time-value {
+  .order-status .status-value, .price .price-value, .createtime .time-value, .order-id .orderid-value {
     padding-left: 20px;
   }
-  li {
-    float: left;
-  }
+  
   .space {
 
   }
@@ -91,17 +95,24 @@
     margin-bottom: 10px;
   }
   .goods-pic {
-    display: inline-black;
+    float:left;
+    width: 20%;
   }
   .goods-pic img {
-    width: 30%;
-    display: inline-black;
+    width: 100%;
+    
   }
   .goods-info {
-    float: left;
+    float:left;
     padding-left: 10px;
+    width: 70%;
   }
   .goods-name {
+    width:100%;
+    word-break:keep-all;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
   }
   .goods-amount {
     color: #5c5858;
@@ -109,4 +120,8 @@
   .clear {
     clear: both;
   }
+
+
+
+
 </style>

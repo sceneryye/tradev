@@ -148,7 +148,7 @@ class Weihuo::WeixinPayController < ApplicationController
           auto_send[:order_id] = weihuo.order_id = @order.order_id
           auto_send[:amount] = weihuo.amount = share_for_employee
           auto_send[:member_id] = weihuo.member_id = @order.weihuo_shop.user.member_id
-          auto_send[:re_openid] = weihuo.open_id = @order.weihuo_shop.user.account.login_name.split('_')[0]
+          auto_send[:re_openid] = weihuo.open_id = @order.weihuo_shop.user.account.login_name.split('_shop_')[0]
           auto_send[:wishing] = weihuo.wishing ='加油加油加油！！！'
           auto_send[:act_name] = weihuo.act_name = '尾货良品'
           auto_send[:remark] = weihuo.remark = params["xml"]["out_trade_no"]
