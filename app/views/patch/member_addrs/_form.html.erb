@@ -3,7 +3,10 @@
     <div class="box last">
       <div class="row">
         <div class="col-sm-12">
-          <%=form_for :addr, :url=>@method == :put ? @action_url : member_addrs_path, :remote=>true,:method=>@method||:post,:html=>{ :class=> " form-horizontal" } do |f|%>    
+          <%=form_for :addr, :url=>@method == :put ? @action_url : member_addrs_path, :remote=> params[:from] == 'weihuo' ? false : true,:method=>@method||:post,:html=>{ :class=> " form-horizontal" } do |f|%>    
+          <input type="hidden" name="platform" value="<%= params[:platform] %>">
+          <input type="hidden" name="from" value="<%= params[:from] %>">
+          <input type="hidden" name="return_url" value="<%= params[:return_url] %>">
             <div class="new-addr" id="addr_form">
               <div class="row">
                 <div class="controls" style="width:70%;margin:10px">

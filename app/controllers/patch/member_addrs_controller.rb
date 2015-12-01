@@ -112,6 +112,7 @@ def update
   @addr = Ecstore::MemberAddr.find(params[:id])
   if @addr.update_attributes(params[:addr])
     if params[:platform] == 'mobile'
+      return redirect_to params[:return_url] if params[:return_url].present? && params[:from] == 'weihuo'
       if params[:action_url] == 'orders_new_mobile'
         return redirect_to "/orders/new_mobile?platform=mobile"
       else
@@ -133,6 +134,7 @@ def update
     @addr = Ecstore::MemberAddr.find(params[:id])
     @addr.destroy
     if params[:platform]=="mobile"
+     return redirect_to params[:return_url] if params[:return_url].present?
       @supplier=Ecstore::Supplier.find(params[:supplier_id])
       redirect_to "/member_addrs/mobile?platform=mobile&supplier_id=#{@supplier.id}"
     else

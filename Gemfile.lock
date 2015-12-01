@@ -34,6 +34,8 @@ GEM
       nokogiri (>= 1.4.1)
       rubyzip (~> 1.0.0)
     babosa (0.3.11)
+    bootstrap-will_paginate (0.0.10)
+      will_paginate
     builder (3.0.4)
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
@@ -188,6 +190,8 @@ GEM
     wicked (1.1.0)
       rails (>= 3.0.7)
     will_paginate (3.0.7)
+    will_paginate-bootstrap (1.0.1)
+      will_paginate (>= 3.0.3)
     ya2yaml (0.31)
     yajl-ruby (1.2.1)
 
@@ -197,6 +201,7 @@ PLATFORMS
 DEPENDENCIES
   axlsx
   babosa (~> 0.3.8)
+  bootstrap-will_paginate
   chinese_pinyin
   ckeditor (~> 3.7.3)
   coffee-rails (~> 3.2.1)
@@ -227,6 +232,7 @@ DEPENDENCIES
   whenever
   wicked
   will_paginate (~> 3.0)
+  will_paginate-bootstrap
   ya2yaml
 
 BUNDLED WITH

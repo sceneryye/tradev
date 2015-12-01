@@ -1,0 +1,89 @@
+<div class="text">
+  <h3>地址管理</h3>
+</div>
+
+<div class="addresses">
+  <% @member_address_ids.each_with_index do |addr_id, index| %>
+  <% address = Ecstore::MemberAddr.find_by_addr_id(addr_id) %>
+  <div class="address <%= index == @member_address_ids.length - 1 ? 'last-address' : '' %>">
+    <div class="address_info">
+      <div class="address-area">
+        <%= address.area.split(':')[1].to_s %>
+      </div>
+      <div class="address-addr">
+        <%= address.addr.to_s %>
+      </div>
+      <div class="name-mobile">
+        <span class="name"><%= address.name %></span>
+        <span class="mobile"><%= address.mobile[0..2] + '****' + address.mobile[7..10] %></span>
+      </div>
+    </div>
+    <div class="edit-address">
+      <%= link_to edit_member_addr_path(:id => addr_id, :platform => 'mobile', :from => 'weihuo', :shop_id => params[:shop_id], :return_url => "/weihuo/shops/my_addresses?shop_id=#{params[:shop_id]}") do %>
+      <span class="glyphicon glyphicon-pencil"></span>
+      <% end %>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <% end %>
+  <div class="add-address">
+  <%= link_to new_member_addr_path(:platform => 'mobile', :from => 'weihuo', :shop_id => params[:shop_id], :return_url => "/weihuo/shops/my_addresses?shop_id=#{params[:shop_id]}") do %>
+    <span class="add-address-text">
+      新增收获地址
+    </span>
+    <span class="add-address-icon">
+      <span class="glyphicon glyphicon-plus"></span>
+    </span>
+    <% end %>
+  </div>
+</div>
+
+<style type="text/css">
+  body {
+    background-color: #FFF5EE;
+  }
+  .addresses {
+    background-color: white;
+  }
+  .address {
+    padding: 10px 5px;
+    border-bottom: 1px gray solid;
+    position: relative;
+  }
+  .last-address {
+    padding: 10px 5px;
+    border-bottom: 1px #0C090A solid;
+  }
+  .text {
+    text-align: center
+  }
+  .address_info {
+    width: 70%;
+    float: left;
+    padding-left: 10px;
+  }
+  .edit-address {
+    float:left;
+    position: absolute;
+    right: 10%;
+  }
+  .mobile {
+    padding-left: 10px;
+  }
+  .clear {
+    clear: both;
+  }
+  .add-address {
+    padding: 10px 5px;
+    position: relative;
+    margin-bottom: 50px;
+  }
+  .add-address-text {
+    width: 70%;
+  }
+  .add-address-icon {
+    position: absolute;
+    right: 10%;
+  }
+</style>
+

@@ -19,8 +19,8 @@ class Weihuo::ShopsController < ApplicationController
  end
  @shop_exist = false
  @shop_ids.each do |shop_id|
-  
-  @shop_exist = true if Ecstore::WeihuoShop.find_by_shop_id(shop_id).openid == current_account.login_name.split('_shop_').first
+
+  @shop_exist = true if Ecstore::WeihuoShop.find_by_shop_id(shop_id).try(:openid) == current_account.login_name.split('_shop_').first
 end
 Rails.logger.info "shop_ids => #{@shop_ids}"
 end
@@ -64,6 +64,20 @@ def my_visited_shops
     @shop_ids << account.login_name.split('_shop_')[1]
   end
   @shop_ids = @shop_ids.select{|shop_id|Ecstore::WeihuoShop.where(:shop_id => shop_id).present?}
+end
+
+def my_addresses
+  openid = current_account.login_name.split('_shop_')[0]
+  @member_ids = []
+  @member_address_ids = []
+  Ecstore::Account.where("login_name like ?", "%#{openid}%").each do |account|
+    @member_ids << account.account_id if account.user.present?
+  end
+  @member_ids.each do |member_id|
+    Ecstore::MemberAddr.where(:member_id => member_id).order("addr_id desc").each do |member_addr|
+      @member_address_ids << member_addr.addr_id if member_addr.present? && member_addr.area.present? && member_addr.addr.present? && member_addr.name.present?
+    end
+  end
 end
 
 

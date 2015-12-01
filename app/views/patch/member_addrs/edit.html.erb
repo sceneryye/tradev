@@ -12,7 +12,7 @@
    </div>
 
     <%=render :partial=>"form",:locals=>{ :display=>true }%>
-    <%=link_to "删除",member_addr_path(id:@addr,platform:params[:platform],supplier_id:params[:supplier_id]),:method=>:delete,:class=>"am-btn am-btn-danger am-round ",:confirm=>"确定要删除吗？"%>
+    <%=link_to "删除",member_addr_path(:id => params[:id], :return_url => params[:return_url], :platform => params[:platform], :supplier_id => params[:supplier_id]),:method=>:delete,:class=>"am-btn am-btn-danger am-round ",:confirm=>"确定要删除吗？"%>
    <!--<br> <a href="/member_addrs/<%#=@addr.id%>?platform=mobile&supplier_id=<%#=@supplier.id%>" class="am-btn am-btn-danger am-round " style="float: right;width: 30%" data-confirm="确定要删除吗？" data-method="delete" rel="nofollow"><%#=I18n.t "delete"%></a>-->
 
 <%else%>
