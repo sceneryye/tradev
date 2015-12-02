@@ -232,6 +232,11 @@ def show
 
     return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile"
   end
+  openid= current_account.login_name.split('_shop_')[0]
+  shop = Ecstore::WeihuoShop.where(:openid => openid)
+  if shop.present? && params[:id] != shop.first.shop_id.to_s
+    return redirect_to "/weihuo/shops/#{shop.first.shop_id}"
+  end
   return redirect_to '/weihuo/shops' if params[:enterin] == 'first'
     # return render :text => shop_id == '49'
     # if current_account.present?

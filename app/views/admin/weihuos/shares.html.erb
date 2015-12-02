@@ -25,7 +25,7 @@
         <td class="act-name"><%=share.act_name%></td>
         <td class="remark"><%=share.remark%></td>
         <td class="open-id"><%=share.open_id%></td>
-        <td class="created-at"><%=share.created_at%></td>
+        <td class="created-at"><%=share.created_at.strftime('%F %T')%></td>
         <td class="status">
           <%if share.status==0%>
           <input type='button' class='' value="发送红包" />
@@ -33,7 +33,7 @@
           </div>
           <%else%>
           
-          <%=share.updated_at.strftime('%F %H:%m:%S')%>
+          <%=share.updated_at.strftime('%F %T')%>
           <%end%>
         </td>
       </tr>

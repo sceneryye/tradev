@@ -86,6 +86,11 @@ class VshopController < ApplicationController
     if params[:error_message]
       @payment = Ecstore::Payment.find(params["payment_id"])
       order_id = @payment.pay_bill.rel_id
+      shop_id = Ecstore::Order.find_by_order_id(order_id).shop_id
+      shop = Ecstore::WeihuoShop.find_by_shop_id(shop_id)
+      if shop.present? && shop_id != 48
+        return redirect_to "/orders/mobile_show_order?id=#{order_id}&supplier_id=78&shop_id=#{shop_id}&from=weihuo"
+      end
       return redirect_to "/orders/mobile_show_order?id=#{order_id}&supplier_id=78"
 
       #return render :text=>"支付不成功。error_message:#{params[:error_message]}"

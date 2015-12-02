@@ -19,14 +19,14 @@
        <label class="radio active shipping-address-active shipping-addr" id="addr-<%= addr.id %>">
        &nbsp;&nbsp;&nbsp; <%=radio_button_tag "member_addr", addr.addr_id,:checked=>true%>
       <span class="addr-line"><%=addr.addr_line%></span>
-      <%=link_to "修改",edit_member_addr_path(addr),:remote=>true,:class=>"update-link"%>
+      <%=link_to "修改",edit_member_addr_path(addr, :return_url => @return_url, :platform => params[:from] == 'weihuo' ? 'mobile' : '', :shop_id => params[:shop_id], :from => params[:from]), :remote => params[:from] == 'weihuo' ? false : true, :class=>"update-link"%>
     </label>
 
     <%else%>
   <label class="radio shipping-address shipping-addr" id="addr-<%= addr.id %>">
        &nbsp;&nbsp;&nbsp;  <%=radio_button_tag "member_addr", addr.addr_id,:checked=>true%>
       <span class="addr-line"><%=addr.addr_line%></span>
-      <%=link_to "修改",edit_member_addr_path(addr), :remote=>true, :class=>"update-link"%>
+      <%=link_to "修改",edit_member_addr_path(addr, :return_url => @return_url, :platform => params[:from] == 'weihuo' ? 'mobile' : '', :shop_id => params[:shop_id], :from => params[:from]), :remote => params[:from] == 'weihuo' ? false : true, :class=>"update-link"%>
     </label>
 
           <%end%>
@@ -34,7 +34,7 @@
 
           
     <div class="radio new-shipping-address">
-             &nbsp;&nbsp;&nbsp;   <%=link_to "新增地址＋",new_member_addr_path, :remote=>true, :class=>"new-link"%>
+             &nbsp;&nbsp;&nbsp;   <%=link_to "新增地址＋",new_member_addr_path(:platform => params[:platform], :shop_id => params[:shop_id], :from => params[:from]), :remote=>true, :class=>"new-link"%>
           </div>
           <%end%>
         </div>

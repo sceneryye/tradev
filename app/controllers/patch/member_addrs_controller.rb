@@ -50,7 +50,7 @@ class Patch::MemberAddrsController < ApplicationController
     @addr = Ecstore::MemberAddr.find(params[:id])
     @method = :put
     @action_url = member_addr_path(@addr)
-
+   
 
 
     if params[:platform]=="mobile"
@@ -72,11 +72,13 @@ class Patch::MemberAddrsController < ApplicationController
     @return_url= params[:return_url]
 
     if @addr.save
+      return redirect_to "/orders/new_mobile?supplier_id=78&shop_id=#{params[:shop_id]}&from=weihuo" if params[:from] == 'weihuo' && !params[:return_url].present?
       if @return_url
         @ids=@addr.addr_id
         session[:depar]=@ids
         return redirect_to @return_url
       elsif params[:platform]=='mobile'
+
         return redirect_to "/member_addrs?platform=#{pramas[:platform]}"
       elsif params[:action_url] == 'member_addrs'
         return redirect_to "/member_addrs"
@@ -135,6 +137,7 @@ def update
     @addr.destroy
     if params[:platform]=="mobile"
      return redirect_to params[:return_url] if params[:return_url].present?
+
       @supplier=Ecstore::Supplier.find(params[:supplier_id])
       redirect_to "/member_addrs/mobile?platform=mobile&supplier_id=#{@supplier.id}"
     else

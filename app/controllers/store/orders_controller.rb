@@ -551,6 +551,10 @@ Ecstore::OrderLog.new do |order_log|
     shop_id =' shop is null'
   end
 
+   if params[:from] == 'weihuo'
+      @return_url = "/orders/new_mobile?supplier_id=78&shop_id=#{params[:shop_id]}&from=weihuo"
+    end
+
   sql = "SELECT SUM(price*quantity) AS total,mdk.sdb_b2c_goods.supplier_id,SUM(freight)/count(*) AS freight FROM mdk.sdb_b2c_cart_objects
   INNER JOIN mdk.sdb_b2c_goods ON SUBSTRING_INDEX(SUBSTRING_INDEX(mdk.sdb_b2c_cart_objects.obj_ident,'_',2),'_',-1) = mdk.sdb_b2c_goods.goods_id
   WHERE mdk.sdb_b2c_cart_objects.member_id=#{@user.member_id} and shop_id is null
@@ -558,7 +562,7 @@ Ecstore::OrderLog.new do |order_log|
   @cart_total_by_supplier = ActiveRecord::Base.connection.execute(sql)
   @cart_freight = 0
   @favorable_terms = 0
-    @good = Ecstore::Good.includes(:specs,:spec_values,:cat).where(:bn=>params[:id]).first
+  @good = Ecstore::Good.includes(:specs,:spec_values,:cat).where(:bn=>params[:id]).first
   #免邮条件
   @cart_total_by_supplier.each(:as => :hash) do |row|
     if (row["total"]>=60 && row["supplier_id"]==97) || (row["total"]>=380 && row["supplier_id"]==77) || (row["total"]>=200 && row["supplier_id"]==127)#|| @cart_total==0.01 #测试商品
@@ -569,6 +573,20 @@ Ecstore::OrderLog.new do |order_log|
 
   @cart_total_final = @cart_total+ @cart_freight - @favorable_terms
   @addrs =  @user.member_addrs
+  if params[:from] == 'weihuo'
+    openid = current_account.login_name.split('_shop_')[0]
+    @member_ids = []
+    @member_address_ids = []
+    Ecstore::Account.where("login_name like ?", "%#{openid}%").each do |account|
+      @member_ids << account.account_id if account.user.present?
+    end
+    @member_ids.each do |member_id|
+      Ecstore::MemberAddr.where(:member_id => member_id).order("addr_id desc").each do |member_addr|
+        @member_address_ids << member_addr.addr_id if member_addr.present? && member_addr.area.present? && member_addr.addr.present? && member_addr.name.present?
+      end
+    end
+    @addrs = Ecstore::MemberAddr.where(:addr_id => @member_address_ids)
+  end
   if @addrs.size==0
     redirect_to "/orders/new_mobile_addr?supplier_id=#{supplier_id}&return_url=%2forders%2fnew_mobile%3Fsupplier_id%3d#{supplier_id}"
   else

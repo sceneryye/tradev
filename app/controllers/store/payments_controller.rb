@@ -59,7 +59,7 @@ class Store::PaymentsController < ApplicationController
 	      		id = 78 #贸威微信支付接口
 	      	end
 	      	
-	      	redirect_to "/vshop/#{id}/payments?payment_id=#{@payment.payment_id}&supplier_id=#{supplier_id}&shop_id=#{shop_id}&showwxpaytitle=1"
+	      	redirect_to "/vshop/#{id}/payments?from=#{params[:from]}&payment_id=#{@payment.payment_id}&supplier_id=#{supplier_id}&shop_id=#{shop_id}&showwxpaytitle=1"
 	      	
 	      else
 	      	redirect_to pay_payment_path(@payment.payment_id)
@@ -203,7 +203,7 @@ class Store::PaymentsController < ApplicationController
 		if @order.supplier_id==98
 			redirect_to  "/orders/wuliu_show_order?id=#{@payment.pay_bill.order.order_id}&supplier_id=#{@order.supplier_id}"
 		else
-			redirect_to  "/orders/mobile_show_order?id=#{@payment.pay_bill.order.order_id}&supplier_id=#{@order.supplier_id}"
+			redirect_to  "/orders/mobile_show_order?id=#{@payment.pay_bill.order.order_id}&supplier_id=#{@order.supplier_id}&shop_id=#{params[:shop_id]}&from=#{params[:from]}"
 		end
 	end
 

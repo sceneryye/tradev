@@ -1,121 +1,150 @@
 
-  <style type="text/css">
-    .bottomdivsclearfix{
-          display: none;
-      }
-   .thumb{width: 45px;height: 45px}
+<style type="text/css">
+  .bottomdivsclearfix{
+    display: none;
+  }
+  .thumb{width: 45px;height: 45px}
   .span  {
-          color: #dd514c;
-      }
-      .ahref{
-        width: 100%;
+    color: #dd514c;
+  }
+  .ahref{
+    width: 100%;
 
-      }
-     .order_detail{text-overflow: ellipsis;border: none !important ;padding:3px;white-space: nowrap;font-size: 13px}
-  </style>
+  }
+  .back-home {
+    position: relative;
+    margin-bottom: 20px;
+    height: 20px;
+    margin-top: 10px;
+    padding-bottom: 5px;
+    
+  }
+  .back {
+    position: absolute;
+    right: 0;
+    background-color: #dd514c;
+    padding: 3px 8px;
+    color: white;
+    
+
+  }
+  .back a {
+    color: white;
+  }
+
+  .order_detail{text-overflow: ellipsis;border: none !important ;padding:3px;white-space: nowrap;font-size: 13px}
+</style>
 
 
 <div class="am-panel am-panel-default">
   <div class="am-panel-hd" style="text-align: center" ><%= I18n.t "order_details"%></div>
+  <div class="back-home">
+    <% if params[:from] == 'weihuo' %>
+    <div class="back"><%= link_to "回到首页", "/weihuo/shops/#{params[:id]}" %></div>
+    <% end %>
+  </div>
   <%@order.order_items.each do |order_item|%>
   <div id="demo-view" style="text-align: center; overflow: hidden;" data-backend-compiled="">
     <%if order_item.good ||order_item.product%>
 
     <%=image_tag order_item.good.medium_pic,:class=>"thumb" if order_item.item_type == 'product'%>
     <%=image_tag order_item.product.gift_image_url,:class=>"thumb" if order_item.item_type == 'gift'%>
-         <%end%>
+    <%end%>
     <span class="order_detail" ><%= order_item.name%></span></div>
 
 
-  <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
- <div >
-    <span class="span"> &nbsp; &nbsp;<%= I18n.t "product_price"%>：</span>        <span style="float: right">  <%= format('%.2f',order_item.price)%> &nbsp; &nbsp;    </span>
-  </div>
+    <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
+    <div >
+      <span class="span"> &nbsp; &nbsp;<%= I18n.t "product_price"%>：</span>        <span style="float: right">  <%= format('%.2f',order_item.price)%> &nbsp; &nbsp;    </span>
+    </div>
 
-  <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
-  <div class="">
-    <span class="span"> &nbsp; &nbsp;<%= I18n.t "product_amount"%>：</span>     <span style="float: right">   <%=order_item.nums.to_i%>个 &nbsp; &nbsp;    </span>
-  </div>
-          <% if @delivery%>
-              <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
-              <div class="">
-                <span class="span"> &nbsp; &nbsp;<%= I18n.t "delivery_company"%>：</span>     <span style="float: right">   <%=@delivery.logi_name%> &nbsp; &nbsp;    </span>
-              </div>
-              <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
-              <div class="">
-                <span class="span"> &nbsp; &nbsp;<%= I18n.t "tracking_num"%>：</span>     <span style="float: right">   <%=@delivery.delivery_id%> &nbsp; &nbsp;    </span>
-              </div>
-      <%end%>
-
-
-
- <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
-
-
-  <div class="">
-    <span class="span"> &nbsp; &nbsp;
-      <%if order_item.ref_id.nil? %>
-            <%= I18n.t "order_total_price"%>：
-         <%else%>
-           <%unless order_item.ecstore_goods_promotion_ref.persons-1<order_item.nums%>
-                <%= I18n.t "order_total_price"%>：
-              <%else%>
-           团购价
-         <%end%>
-
-        <%end%>
-    </span>       <span style="float: right">    &yen; <%= format('%.2f',order_item.price * order_item.nums) if order_item.item_type == 'product'%><%= 0 if order_item.item_type == 'gift'%>
-    &nbsp; &nbsp;            </span>
-  </div>
-  <%end%>
-  <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
-
-  <div >
-    <span class="span"> &nbsp; &nbsp;<%=I18n.t "order_num"%>：</span> <span style="float: right">  <%=@order.order_id%> &nbsp; &nbsp;    </span>
-  </div>
-
-  <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
-
-  <div >
-    <span class="span"> &nbsp; &nbsp;<%= I18n.t "order_creat_time"%>：</span> <span style="float: right">  <%=@order.created_at%> &nbsp; &nbsp;     </span>
-  </div>
-  <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
-
-  <div >
-    <span class="span"> &nbsp; &nbsp;<%=I18n.t "order_status"%>：</span> <span style="float: right;color: red" >   <% if @order.order_status_text =="待付款" %>
-            <%=I18n.t "order_status_no"%>
-         <%else%>
-          <%=I18n.t "order_status_yes"%></span>
-              <%end%> &nbsp; &nbsp;     </span>
-
-  </div>
-  <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
-  <div >
-    <span class="span"> &nbsp; &nbsp;<%=I18n.t "all_of_order"%>：</span> <span style="float: right" >  <%= format('%.2f',@order.total_amount)%> &nbsp; &nbsp;     </span>
-
-  </div>
-    <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
-  <span class="span"> &nbsp; &nbsp;收货人:</span> 
- <span style="float: right" > <%=@order.ship_name%>&nbsp; &nbsp;    </span>
-     <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
-  <span class="span"> &nbsp; &nbsp;手机号码 :</span> 
- <span style="float: right" ><%=@order.ship_mobile%>&nbsp; &nbsp;    </span>
-      <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
-  <span class="span"> &nbsp; &nbsp;收货地址：</span> 
- <span style="float: right" > <%=@order.ship_addr%>&nbsp; &nbsp;    </span>
-    <br/>
-
-    <br/>
-  <% if @order.order_status_text=="待付款"%>
-    <%if  @shop_id.nil? || @shop_id != @user.member_id.to_s  #店主查看顾客订单，不显示付款按钮%> 
-          <a class="ahref am-btn  am-btn-danger " href="/orders/mobile_show?id=<%=@order.order_id%>&supplier_id=<%=@order.supplier_id%>&shop_id=<%=@shop_id%>" class="btn btn-inverse"><%= I18n.t "no_pay"%></a>
-    <%else%>
-         <span>待付款</span>
+    <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
+    <div class="">
+      <span class="span"> &nbsp; &nbsp;<%= I18n.t "product_amount"%>：</span>     <span style="float: right">   <%=order_item.nums.to_i%>个 &nbsp; &nbsp;    </span>
+    </div>
+    <% if @delivery%>
+    <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
+    <div class="">
+      <span class="span"> &nbsp; &nbsp;<%= I18n.t "delivery_company"%>：</span>     <span style="float: right">   <%=@delivery.logi_name%> &nbsp; &nbsp;    </span>
+    </div>
+    <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
+    <div class="">
+      <span class="span"> &nbsp; &nbsp;<%= I18n.t "tracking_num"%>：</span>     <span style="float: right">   <%=@delivery.delivery_id%> &nbsp; &nbsp;    </span>
+    </div>
     <%end%>
 
-  <% else%>
-      <span><%= I18n.t "success_pay"%></span>
- <%end%>
-</div>
+
+
+    <hr data-am-widget="divider" style="" class="am-divider am-divider-default am-no-layout">
+
+
+    <div class="">
+      <span class="span"> &nbsp; &nbsp;
+        <%if order_item.ref_id.nil? %>
+        <%= I18n.t "order_total_price"%>：
+        <%else%>
+        <%unless order_item.ecstore_goods_promotion_ref.persons-1<order_item.nums%>
+        <%= I18n.t "order_total_price"%>：
+        <%else%>
+        团购价
+        <%end%>
+
+        <%end%>
+      </span>       <span style="float: right">    &yen; <%= format('%.2f',order_item.price * order_item.nums) if order_item.item_type == 'product'%><%= 0 if order_item.item_type == 'gift'%>
+      &nbsp; &nbsp;            </span>
+    </div>
+    <%end%>
+    <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
+
+    <div >
+      <span class="span"> &nbsp; &nbsp;<%=I18n.t "order_num"%>：</span> <span style="float: right">  <%=@order.order_id%> &nbsp; &nbsp;    </span>
+    </div>
+
+    <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
+
+    <div >
+      <span class="span"> &nbsp; &nbsp;<%= I18n.t "order_creat_time"%>：</span> <span style="float: right">  <%=@order.created_at%> &nbsp; &nbsp;     </span>
+    </div>
+    <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
+
+    <div >
+      <span class="span"> &nbsp; &nbsp;<%=I18n.t "order_status"%>：</span> <span style="float: right;color: red" >   <% if @order.order_status_text =="待付款" %>
+      <%=I18n.t "order_status_no"%>
+      <%else%>
+      <%=I18n.t "order_status_yes"%></span>
+      <%end%> &nbsp; &nbsp;     </span>
+
+    </div>
+    <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
+    <div >
+      <span class="span"> &nbsp; &nbsp;<%=I18n.t "all_of_order"%>：</span> <span style="float: right" >  <%= format('%.2f',@order.total_amount)%> &nbsp; &nbsp;     </span>
+
+    </div>
+    <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
+    <span class="span"> &nbsp; &nbsp;收货人:</span> 
+    <span style="float: right" > <%=@order.ship_name%>&nbsp; &nbsp;    </span>
+    <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
+    <span class="span"> &nbsp; &nbsp;手机号码 :</span> 
+    <span style="float: right" ><%=@order.ship_mobile%>&nbsp; &nbsp;    </span>
+    <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
+    <span class="span"> &nbsp; &nbsp;收货地址：</span> 
+    <span style="float: right" > <%=@order.ship_addr%>&nbsp; &nbsp;    </span>
+    <br/>
+
+    <br/>
+    <% if @order.order_status_text=="待付款"%>
+    <%if  @shop_id.nil? || @shop_id != @user.member_id.to_s  #店主查看顾客订单，不显示付款按钮%> 
+    <a class="ahref am-btn  am-btn-danger " href="/orders/mobile_show?id=<%=@order.order_id%>&supplier_id=<%=@order.supplier_id%>&shop_id=<%=@shop_id%>" class="btn btn-inverse"><%= I18n.t "no_pay"%></a>
+    %>
+    <%else%>
+    <span>待付款</span>
+    
+    <%end%>
+
+    <% else %>
+    <span><%= I18n.t "success_pay"%></span>
+    
+    <%end%>
+  </div>
 
 

@@ -57,7 +57,7 @@
 </style>
 
 <div class="">
-  <%=form_for :payment,:url=>payments_path(:order_id=>@order.order_id,:supplier_id=>@supplier.id, :shop_id => params[:shop_id], :from => params[:from]),:method=>'post',:html=>{ :target=>"_blank" } do |f|%>
+  <%=form_for :payment,:url=>payments_path(:order_id=>@order.order_id,:supplier_id=>@supplier.id, :shop_id => params[:shop_id], :from => params[:from], :platform => params[:platform]),:method=>'post',:html=>{ :target=>"_blank" } do |f|%>
       <%=f.hidden_field :currency, :value=>"CNY" %>
       <br/>
       <div class="status_text">
@@ -112,9 +112,9 @@
                   <%=I18n.t "alipay_mobile"%>
                 <%end%>
             </span>
-          <%if @order.status == 'active' && @order.pay_status == '0'%>
-              <a href="#" class="change " style="margin-left: 30%" id="change_payment"><%= I18n.t "change_pay"%> </a>
-          <%end%>
+          <!--<%#if @order.status == 'active' && @order.pay_status == '0'%>
+              <a href="#" class="change " style="margin-left: 30%" id="change_payment"><%#= I18n.t "change_pay"%> </a>
+          <%#end%>-->
           <hr>
           <div><%=payments[@order.payment][:extra].html_safe%></div>
         </div>

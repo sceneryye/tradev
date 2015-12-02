@@ -7,6 +7,7 @@
 <% order = Ecstore::Order.find_by_order_id(order_id) %>
 <% status = true %>
 <% order.order_items.each do |order_item| %>
+<% next if Ecstore::Good.find_by_goods_id(order_item.goods_id).nil? %>
 <% status = false if Ecstore::Good.find_by_goods_id(order_item.goods_id).supplier_id != 10 %>
 <% end %>
 <% next unless status %>
@@ -47,6 +48,7 @@
 
   <% order.order_items.each do |order_item| %>
   <% goods = Ecstore::Good.find_by_goods_id(order_item.goods_id) %>
+  <% next if goods.nil? %>
   <div class="item-list">
     <div class="goods-pic">
       <img src="<%= goods.medium_pic %>" />
