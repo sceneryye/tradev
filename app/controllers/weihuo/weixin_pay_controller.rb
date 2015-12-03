@@ -196,17 +196,18 @@ def template_information
 end
 end
 
+#  该api接受json格式的参数，方法为post， 需要openid， template_id， 以及模板对应的数据参数，url为可选参数。
 def temp_info_api
   post_url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=#{access_token}"
   params_hash = ActiveSupport::Json.decode params
-  openid = params_hash[:openid]
-  template_id = params_hash[:template_id]
-  url = params_hash[:url]
+  openid = params_hash["openid"]
+  template_id = params_hash["template_id"]
+  url = params_hash["url"]
   post_data_hash = {
     :touser => openid,
     :template_id => template_id,
     :url => url,
-    :data => params_hash[:data]
+    :data => params_hash["data"]
   }
   post_data_json = post_data_hash.to_json
   res_data_json = RestClient.post post_url, post_data_json
@@ -218,6 +219,50 @@ def temp_info_api
   end
 end
 
+def send_group_message_api
+  params_hash = ActiveSupport::JSON.decode params
+  group_post_url = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=#{access_token}"
+  # group_post_url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=#{access_token}"   预览接口
+  if params_hash["data"]["msgtype"] == "mpnews"
+    if params_hash["img_url"].present?
+      img_post_url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=#{access_token}"
+      res_data = `curl -F media="#{params_hash["img_url"]}" "#{img_post_url}"`
+      res_data_hash = ActiveSupport::JSON.decode res_data
+      if res_data_hash["url"]
+        pic_url = res_data_hash["url"]
+        pic_text_post_url = "https://api.weixin.qq.com/cgi-bin/media/uploadnews?access_token=#{access_token}"
+        res_data, res_data_hash = '', ''
+        params_hash["data"]["thumb_media_id"] = pic_url
+        params_json = params_hash.to_json
+        res_data_json = RestClient.post pic_text_post_url, params_json
+        res_data_hash = ActiveSupport::JSON.decode res_data_json
+        media_id = res_data_hash["media_id"]
+        mpnews_hash = {
+          :touser => params_hash["openid"],
+          :mpnews => {:media_id => media_id},
+          :msgtype => "mpnews"
+        }
+        mpnews_json = mpnews_hash.to_json
+        res_data_hash, res_data_json = '', ''
+        res_data_json = RestClient.post group_post_url, mpnews_json
+        res_data_hash = ActiveSupport::JSON.decode res_data_json
+        return render :text => res_data_json
+      end
+    else
+      return render :text => '缺少图片url，发送失败。'
+    end
+  elsif params_hash["data"]["msgtype"] == 'text'
+    text_hash = {
+      :touser => params_hash["openid"],
+      :msgtype => "text",
+      :text => params_hash["content"]
+    }
+    text_json = text_hash.to_json
+    res_data_json = RestClient.post group_post_url, text_json
+    return render :text => res_data_json
+  end
+end
+
 def qrcode
   post_url = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=#{access_token}"
   post_data_hash = {:action_name => 'QR_LIMIT_SCENE', :action_info => {:scene => {:scene_id => 111}}}
@@ -225,7 +270,7 @@ def qrcode
   res_data_hash = ActiveSupport::JSON.decode(RestClient.post post_url, post_data_json)
   encode_url = URI.escape(res_data_hash['ticket'])
   @get_url = "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=#{encode_url}"
-  
+
   render :layout => 'standard'
 end
 
