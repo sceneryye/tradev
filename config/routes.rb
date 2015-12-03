@@ -1,7 +1,7 @@
 #encoding:utf-8
 require 'httpclient'
 Modengke::Application.routes.draw do
-
+post 'temp_info_api' => 'weihuo/weixin_pay#temp_info_api'
   namespace :weihuo do
     get 'pay_with_goods' => 'weixin_pay#pay_with_goods'
     get 'qrcode' => 'weixin_pay#qrcode'

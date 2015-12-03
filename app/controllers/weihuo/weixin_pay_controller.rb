@@ -176,7 +176,7 @@ def template_information
     return render :text => '该商品不存在！' unless product
     url = "http://www.trade-v.com/products/#{bn}"
     post_data_hash = {
-      :touser => 'oVxC9uA1tLfpb7OafJauUm-RgzQ8',
+      :touser => params[:openid],
       :template_id => 'CWfKatdhLf0Z0ip78RTSYyn8URPEOLv0umXnEmlHNGA',
       :url => url,
       :data => {:first => {:value =>'新品上线', :color => "#173177"},
@@ -194,6 +194,28 @@ def template_information
     render :text => "#{res_data_hash['errcode']}"
   end
 end
+end
+
+def temp_info_api
+  post_url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=#{access_token}"
+  params_hash = ActiveSupport::Json.decode params
+  openid = params_hash[:openid]
+  template_id = params_hash[:template_id]
+  url = params_hash[:url]
+  post_data_hash = {
+    :touser => openid,
+    :template_id => template_id,
+    :url => url,
+    :data => params_hash[:data]
+  }
+  post_data_json = post_data_hash.to_json
+  res_data_json = RestClient.post post_url, post_data_json
+  res_data_hash = ActiveSupport::JSON.decode res_data_json
+  if res_data_hash['errmsg'] == 'ok'
+    render :text => "success"
+  else
+    render :text => "#{res_data_json}"
+  end
 end
 
 def qrcode
@@ -241,6 +263,14 @@ def create_sign hash
  stringA = stringA.join("&")
  string_sing_temp = stringA + "&key=#{key}"
  sign = (Digest::MD5.hexdigest string_sing_temp).upcase
+end
+
+def access_token
+  supplier = Ecstore::Supplier.where(:name => '贸威').first
+  weixin_appid = supplier.weixin_appid
+  weixin_appsecret = supplier.weixin_appsecret
+  get_access_token = RestClient.get "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=#{weixin_appid}&secret=#{weixin_appsecret}"
+  access_token = ActiveSupport::JSON.decode(get_access_token)['access_token']
 end
 
 
