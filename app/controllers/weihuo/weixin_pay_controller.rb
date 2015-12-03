@@ -222,7 +222,8 @@ end
 def send_group_message_api
   params_hash = ActiveSupport::JSON.decode params
   group_post_url = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=#{access_token}"
-  # group_post_url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=#{access_token}"   预览接口
+  #预览接口
+  group_post_url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=#{access_token}"
   if params_hash["data"]["msgtype"] == "mpnews"
     if params_hash["img_url"].present?
       img_post_url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=#{access_token}"
@@ -238,7 +239,7 @@ def send_group_message_api
         res_data_hash = ActiveSupport::JSON.decode res_data_json
         media_id = res_data_hash["media_id"]
         mpnews_hash = {
-          :touser => params_hash["openid"],
+          :touser => params_hash["openids"],
           :mpnews => {:media_id => media_id},
           :msgtype => "mpnews"
         }
@@ -253,7 +254,7 @@ def send_group_message_api
     end
   elsif params_hash["data"]["msgtype"] == 'text'
     text_hash = {
-      :touser => params_hash["openid"],
+      :touser => params_hash["openids"],
       :msgtype => "text",
       :text => params_hash["content"]
     }
