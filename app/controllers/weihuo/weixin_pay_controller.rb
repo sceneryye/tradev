@@ -220,7 +220,13 @@ def temp_info_api
 end
 
 def send_group_message_api
-  params_hash = ActiveSupport::JSON.decode params
+  Rails.logger.info params
+  # params_hash = ActiveSupport::JSON.decode params
+  params.delete("controller")
+  params.delete("action")
+  params_hash = params
+  Rails.logger.info params_hash.to_json
+  Rails.logger.info params_hash["openids"]
   group_post_url = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=#{access_token}"
   #预览接口
   group_post_url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=#{access_token}"
@@ -256,7 +262,7 @@ def send_group_message_api
     text_hash = {
       :touser => params_hash["openids"],
       :msgtype => "text",
-      :text => params_hash["content"]
+      :text => {:content => params_hash["content"]}
     }
     text_json = text_hash.to_json
     res_data_json = RestClient.post group_post_url, text_json
