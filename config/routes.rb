@@ -412,13 +412,23 @@ post 'send_group_message_api' => 'weihuo/weixin_pay#send_group_message_api'
   namespace :admin do
 
     resources :weihuos do
+      post "export", :on=>:collection
+      post "import", :on=>:collection
+      put 'batch',:on=>:collection
+      get "black_weihuo"   , :on=>:collection
+      put "black_weihuo_edit" , :on=>:collection
+      get "black_weihuo_new" , :on=>:collection
+      post "black_weihuo_new" , :on=>:collection
+      get 'select_all',:on=>:collection
       collection do 
         get :goods
         get :organisations
         get :employees
         get :shops
         get :clients
-        get :shares        
+        get :shares  
+        get :import
+
       end
     end
 
