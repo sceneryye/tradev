@@ -196,22 +196,26 @@ def template_information
 end
 end
 
-#  该api接受json格式的参数，方法为post， 需要openid， template_id， 以及模板对应的数据参数，url为可选参数。
+#  该api接受json格式的参数，方法为post， 需要openids， template_id， 以及模板对应的数据参数，url为可选参数。
 def temp_info_api
   post_url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=#{access_token}"
-  params_hash = ActiveSupport::Json.decode params
-  openid = params_hash["openid"]
+  params.delete(:controller)
+  params.delete(:action)
+  params_hash = params
+  openids = params_hash["openid"]
   template_id = params_hash["template_id"]
   url = params_hash["url"]
-  post_data_hash = {
-    :touser => openid,
-    :template_id => template_id,
-    :url => url,
-    :data => params_hash["data"]
-  }
-  post_data_json = post_data_hash.to_json
-  res_data_json = RestClient.post post_url, post_data_json
-  res_data_hash = ActiveSupport::JSON.decode res_data_json
+  opendis.each do |openid|
+    post_data_hash = {
+      :touser => openid,
+      :template_id => template_id,
+      :url => url,
+      :data => params_hash["data"]
+    }
+    post_data_json = post_data_hash.to_json
+    res_data_json = RestClient.post post_url, post_data_json
+    res_data_hash = ActiveSupport::JSON.decode res_data_json
+  end
   if res_data_hash['errmsg'] == 'ok'
     render :text => "success"
   else
