@@ -34,7 +34,7 @@ class VshopController < ApplicationController
           pay.return_url = "#"
           pay.notify_url = "#"
           #pay.pay_id = @payment.payment_id
-          pay.pay_amount = params[:money]
+          pay.pay_amount = params[:money].to_i
           pay.pay_time = Time.zone.now
           pay.subject = params[:participant_id]
           # pay.installment = @payment.pay_bill.order.installment if @payment.pay_bill.order
