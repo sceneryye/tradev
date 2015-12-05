@@ -10,7 +10,8 @@ class VshopController < ApplicationController
     if @user
       openid = @user.account.login_name
       avatar = @user.weixin_headimgurl
-      redirect_to "http://182.254.137.73:5000?openid=#{openid}&avatar=#{avatar}"
+      nickname = @user.weixin_nickname
+      redirect_to "http://182.254.137.73:5000?openid=#{openid}&avatar=#{avatar}&nickname=#{nickname}"
     else
       redirect_to '/auto_login?id=78&return_url=/vshop/to_foodie'
     end
