@@ -28,6 +28,7 @@ post 'send_group_message_api' => 'weihuo/weixin_pay#send_group_message_api'
     get 'shops/show_qrcode' => 'shops#show_qrcode'
     get 'shops/bonus_detail' => 'shops#bonus_detail'
     get 'shops/my_visited_shops' => 'shops#my_visited_shops'
+    get 'shops/using_guide' => 'shops#using_guide'
 
     resources :orgnizations
     resources :orders

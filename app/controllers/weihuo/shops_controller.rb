@@ -45,6 +45,9 @@ def user_center
   
 end
 
+def using_guide
+end
+
 def my_orders
   user = Ecstore::Account.where("login_name like ?", "%#{current_account.login_name.split('_shop_')[0]}%")
   account_ids = user.map(&:account_id)
