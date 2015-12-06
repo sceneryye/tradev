@@ -88,7 +88,7 @@ module ModecPay
     end
 
     def html_form_wxpay
-      #make_sign
+      # make_sign
       #make_pay_sign
       pre_pay
 
@@ -104,6 +104,7 @@ module ModecPay
         make_pay_sign
       else
          self.fields['package']=res_data_hash['xml']['return_msg']
+
       end
 
       _filter = self.filter if self.filter.is_a?(Proc)
