@@ -2,6 +2,7 @@
 require 'httpclient'
 Modengke::Application.routes.draw do
 post 'temp_info_api' => 'weihuo/weixin_pay#temp_info_api'
+post 'foodie_notify_url' => 'foodies#foodie_notify_url'
 post 'send_group_message_api' => 'weihuo/weixin_pay#send_group_message_api'
 get 'foodies/foodie_pay' => 'foodies#foodie_pay'
   namespace :weihuo do

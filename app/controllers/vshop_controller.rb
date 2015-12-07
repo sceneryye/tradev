@@ -27,32 +27,6 @@ class VshopController < ApplicationController
       if supplier_id.nil?
         supplier_id=78
       end
-
-      # 吃货帮的支付订单
-      if params[:from] == 'foodiegroup'
-        @supplier_pay  = Ecstore::Supplier.find(78)
-        @modec_pay = ModecPay.new 'wxpay' do |pay|
-          pay.return_url = "http://www.qq.com"
-          pay.notify_url = "http://www.qq.com"
-          pay.pay_id = ''
-          pay.pay_amount = params[:money].to_i
-          pay.pay_time = Time.zone.now
-          pay.subject = params[:participant_id]
-          # pay.installment = @payment.pay_bill.order.installment if @payment.pay_bill.order
-          pay.openid = params[:openid]
-          pay.spbill_create_ip = request.remote_ip
-          pay.supplier_id = 78
-          pay.appid = @supplier_pay.weixin_appid
-          pay.attach = "#{params[:user_id]}_#{params[:event_id]}"
-          pay.mch_id = @supplier_pay.mch_id
-          pay.partner_key = @supplier_pay.partner_key
-          pay.partnerid = @supplier_pay.partnerid
-        end
-        @supplier = Ecstore::Supplier.find(78) 
-        layout = @supplier.layout
-        return render :inline=>@modec_pay.html_form_wxpay, :layout=>layout
-      end
-
     #获取不同供应商支付接口参数
     supplier_pay_id = params[:id] 
     @supplier_pay  = Ecstore::Supplier.find(supplier_pay_id)    
@@ -77,9 +51,6 @@ class VshopController < ApplicationController
         pay.mch_id = @supplier_pay.mch_id
         pay.partner_key = @supplier_pay.partner_key
         pay.partnerid = @supplier_pay.partnerid
-
-        
-
       end
 
 

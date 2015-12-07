@@ -1,4 +1,5 @@
 #encoding:utf-8
+require 'rest-client'
 class FoodiesController < ApplicationController
   def foodie_pay
     supplier = Ecstore::Supplier.find(78)
@@ -13,7 +14,7 @@ class FoodiesController < ApplicationController
     spbill_create_ip = '182.254.138.119'
     trade_type = 'JSAPI'
     total_fee = (params[:money].to_f * 100).to_i
-    notify_url = 'http://182.254.137.73:5000/wechat_notify_url'
+    notify_url = 'http://www.trade-v.com/foodie_notify_url'
     post_data_hash = {:appid => weixin_appid, :mch_id => mch_id, :nonce_str => nonce_str, :body => body, :out_trade_no => out_trade_no, :total_fee => total_fee, :attach => attach, :openid => openid, :spbill_create_ip => spbill_create_ip, :notify_url => notify_url, :trade_type => trade_type}
     sign = create_sign post_data_hash
     post_data_hash[:sign] = sign
@@ -37,7 +38,24 @@ class FoodiesController < ApplicationController
     end
   end
 
-  
+  def foodie_notify_url
+    if params["xml"]["return_code"] == 'SUCCESS' && params["xml"]["result_code"] == 'SUCCESS'
+      event_id, participant_id, user_id = params["xml"]["attach"].split('_')
+      post_data = {
+        :event_id => event_id,
+        :participant_id => participant_id,
+        :user_id => user_id,
+        :result_code => 'success'
+      }
+    else
+      post_data = {
+        :result_code => 'fail'
+      }
+    end
+    url = "http://182.254.137.73:5000/wechat_notify_url"
+    RestClient.post url, post_data
+    return render :text => 'success'
+  end
 
 
   private
@@ -75,6 +93,6 @@ class FoodiesController < ApplicationController
   weixin_appsecret = supplier.weixin_appsecret
   get_access_token = RestClient.get "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=#{weixin_appid}&secret=#{weixin_appsecret}"
   access_token = ActiveSupport::JSON.decode(get_access_token)['access_token']
- end
+end
 
 end
