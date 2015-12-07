@@ -39,21 +39,9 @@ class FoodiesController < ApplicationController
   end
 
   def foodie_notify_url
-    if params["xml"]["return_code"] == 'SUCCESS' && params["xml"]["result_code"] == 'SUCCESS'
-      event_id, participant_id, user_id = params["xml"]["attach"].split('_')
-      post_data = {
-        :event_id => event_id,
-        :participant_id => participant_id,
-        :user_id => user_id,
-        :result_code => 'success'
-      }
-    else
-      post_data = {
-        :result_code => 'fail'
-      }
-    end
+    
     url = "http://182.254.137.73:5000/wechat_notify_url"
-    RestClient.post url, post_data
+    RestClient.post url, params["xml"]
     return render :text => 'success'
   end
 

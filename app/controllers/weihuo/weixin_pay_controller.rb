@@ -196,7 +196,7 @@ def template_information
 end
 end
 
-#  该api接受json格式的参数，方法为post， 需要openids， template_id， 以及模板对应的数据参数，url为可选参数。
+#  该api接受hash格式的参数，方法为post， 需要openids， template_id， 以及模板对应的数据参数，url为可选参数。
 def temp_info_api
   post_url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=#{access_token}"
   params.delete(:controller)
