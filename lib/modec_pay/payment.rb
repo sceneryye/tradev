@@ -104,6 +104,7 @@ module ModecPay
         make_pay_sign
       else
          self.fields['package']=res_data_hash['xml']['return_msg']
+         
 
       end
 
