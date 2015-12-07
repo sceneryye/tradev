@@ -1,6 +1,7 @@
+#encoding:utf-8
 class FoodiesController < ApplicationController
   def foodie_pay
-    supplier = Ecstore::Supplier.where(:name => '贸威').first
+    supplier = Ecstore::Supplier.find(78)
     weixin_appid = supplier.weixin_appid
     weixin_appsecret = supplier.weixin_appsecret
     mch_id = supplier.mch_id
