@@ -202,10 +202,11 @@ def temp_info_api
   params.delete(:controller)
   params.delete(:action)
   params_hash = params
-  openids = params_hash["openid"]
+  openids = params_hash["openid"][0].length == 1 ? [params_hash["openid"]] : params_hash["openid"]
   template_id = params_hash["template_id"]
   url = params_hash["url"]
-  opendis.each do |openid|
+  res_data_hash = {}
+  openids.each do |openid|
     post_data_hash = {
       :touser => openid,
       :template_id => template_id,
