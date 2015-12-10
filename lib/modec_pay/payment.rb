@@ -93,6 +93,9 @@ module ModecPay
       pre_pay
 
       xml = self.fields['pre_pay_xml']
+      File.open('log.txt', 'w') do |f|
+        f.write xml
+      end
 
       RestClient.get(self.action)
       res_data = RestClient.post self.action , xml , {:content_type => :xml}
@@ -104,9 +107,8 @@ module ModecPay
         make_pay_sign
       else
          self.fields['package']=res_data_hash['xml']['return_msg']
-         
-
       end
+      
 
       _filter = self.filter if self.filter.is_a?(Proc)
       _filter = proc { true }  unless _filter
