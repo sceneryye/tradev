@@ -8,16 +8,17 @@
 <h2>您的代理商资格申请失败，请与管理员联系</h2>
 <% else %>
 
-<div class="row title" style="height:100px;background: url(/images/homepage/weihuoground.jpg) repeat-x">
+<div class="row title" style="height:80px;background-color: #BF1E2E">
   <div class="col-xs-5">
 
-    <div class="shop-name">
-      <div style="font-weight:bold;font-size:25px;margin-top:35px;"><span style="font-family:" Microsoft Yahei In-Bold Font";">尾货良品</span></div> 
+    <div class="shop-name" style="width: 40%;position:relative">
+    
+      <img src="/new/images/weihuo_logo.png" style="height:40px;position:absolute;left: 5%;top:20px;">
     </div>
   </div>
   <div class="col-xs-7">
-    <div class="shop-logo">
-      <img style="float:right;margin-top:25px;width:50px;height:50px;border-radius:50px" src="<%= @shop.logo.blank? ? '/new/images/default_headimg.jpg' : @shop.logo %>">
+    <div class="shop-id" style="color: white;font-size:18px;margin-left: 50%; margin-top: 31px;">
+      No.<%= @employee.id %>
     </div>
 
   </div>
@@ -32,8 +33,8 @@
 
     .title {
       margin: 0 auto;
-      margin-top:0px;
-      color: #000000;
+  
+      
     }
     .shop-logo img {
       width: 100%;

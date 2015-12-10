@@ -47,7 +47,7 @@ module ModecPay
       self.fields['trade_type'] = 'JSAPI' #JSAPI, NATIVE, APP
       self.fields['openid'] = '' #用户的openid, trade_type为JSAPP时，必传，否
       self.fields['nonce_str'] =  Digest::MD5.hexdigest(rand(1000).to_s) #随机串,不长于32位
-      self.fields['products_id'] = '' #trade_type为NATIVE时，需要，此id为二维码中包含的商品ID
+      self.fields['product_id'] = '' #trade_type为NATIVE时，需要，此id为二维码中包含的商品ID
 
     end
 
@@ -179,14 +179,22 @@ module ModecPay
     def make_sign
       
       return '' if self.fields.blank?
-      _sorted = Hash.send :[],  self.fields.select{ |key,val|  val.present? }.sort_by{ |key,val|  key }
+      self.fields.delete(:shop_id)
+      _sorted = Hash.send :[],  self.fields.select{ |key,val|  val.present? && key != 'partner_key' && key != 'from' && key != 'shop_id' }.sort_by{ |key,val|  key }
       unsign = _sorted.collect{ |key,val| "#{key}=#{val}" }.join("&") + "&key=#{self.fields['partner_key']}"
+      
+      Rails.logger.info unsign
+      File.open('log.txt', 'r+') do |f|
+        f.syswrite unsign
+      end
+
       self.fields['sign']  = Digest::MD5.hexdigest(unsign).upcase
+      self.fields.delete(:partner_key)
     end
 
     def pre_pay
         make_sign
-        self.fields['pre_pay_xml'] =  self.fields.to_xml(:root=>"xml",:skip_instruct=>true,:indent=>0,:dasherize => false)
+        self.fields['pre_pay_xml'] =  self.fields.select{|key,val|key != 'partner_key'}.to_xml(:root=>"xml",:skip_instruct=>true,:indent=>0,:dasherize => false)
         self.fields['time_stamp'] = Time.zone.now.to_i
         self.fields['sign_type'] ='MD5' #微信签名方式:1.sha1;2.md5
     end

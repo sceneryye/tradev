@@ -1,5 +1,6 @@
 #encoding:utf-8
 require  'modec_pay'
+
 class VshopController < ApplicationController
   skip_before_filter :set_locale
 
@@ -37,7 +38,7 @@ class VshopController < ApplicationController
       order_id = @payment.pay_bill.rel_id
       @modec_pay = ModecPay.new adapter do |pay|
         pay.return_url = "#{site}/payments/#{@payment.payment_id}/#{adapter}/callback"
-        pay.notify_url = "#{site}/vshop/#{supplier_pay_id}/paynotifyurl?payment_id=#{@payment.payment_id}&supplier_id=#{supplier_id}&shop_id=#{shop_id}"
+        pay.notify_url = "#{site}/vshop/#{supplier_pay_id}/paynotifyurl?payment_id=#{@payment.payment_id}"
         pay.pay_id = @payment.payment_id
         pay.pay_amount = @payment.cur_money.to_f
         pay.pay_time = Time.zone.now
@@ -47,7 +48,7 @@ class VshopController < ApplicationController
         pay.spbill_create_ip = request.remote_ip
         pay.supplier_id = supplier_pay_id
         pay.appid = @supplier_pay.weixin_appid
-        pay.attach = "shop_id=#{params[:shop_id]}&payment_id=#{@payment.payment_id}&from=#{params[:from]}"
+        pay.attach = "shopid_#{params[:shop_id]}_paymentid_#{@payment.payment_id}_from_#{params[:from]}"
         pay.mch_id = @supplier_pay.mch_id
         pay.partner_key = @supplier_pay.partner_key
         pay.partnerid = @supplier_pay.partnerid
@@ -465,5 +466,7 @@ end
 
     render :layout=>"#{@supplier.layout}"
   end
+
+
 
 end

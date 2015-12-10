@@ -40,7 +40,7 @@
   <div class="am-panel-hd" style="text-align: center" ><%= I18n.t "order_details"%></div>
   <div class="back-home">
     <% if params[:from] == 'weihuo' %>
-    <div class="back"><%= link_to "回到首页", "/weihuo/shops/#{params[:id]}" %></div>
+    <div class="back"><%= link_to "回到首页", "/weihuo/shops/#{params[:shop_id]}" %></div>
     <% end %>
   </div>
   <%@order.order_items.each do |order_item|%>
@@ -135,7 +135,7 @@
     <% if @order.order_status_text=="待付款"%>
     <%if  @shop_id.nil? || @shop_id != @user.member_id.to_s  #店主查看顾客订单，不显示付款按钮%> 
     <a class="ahref am-btn  am-btn-danger " href="/orders/mobile_show?id=<%=@order.order_id%>&supplier_id=<%=@order.supplier_id%>&shop_id=<%=@shop_id%>" class="btn btn-inverse"><%= I18n.t "no_pay"%></a>
-    %>
+    
     <%else%>
     <span>待付款</span>
     

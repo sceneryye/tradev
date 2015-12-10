@@ -8,7 +8,8 @@ module ModecPay
 		attr_accessor :mer_id, :private_key
 		attr_accessor :action, :method, :charset
 		attr_accessor :fields
-		attr_accessor :filter
+    attr_accessor :filter
+		attr_accessor :unsign
 		
 		attr_accessor :return_url, :notify_url
 		
@@ -106,7 +107,7 @@ module ModecPay
         self.fields['package'] ="prepay_id=#{res_data_hash['xml']['prepay_id']}"
         make_pay_sign
       else
-         self.fields['package']=res_data_hash['xml']['return_msg']
+         self.fields['package'] = res_data_hash['xml'].to_query
       end
       
 
