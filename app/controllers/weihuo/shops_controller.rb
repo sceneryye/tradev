@@ -5,7 +5,7 @@ require 'rest-client'
 class Weihuo::ShopsController < ApplicationController
 
   
-  layout :choose_layout
+  layout 'weihuo'
 
 
 
@@ -293,7 +293,7 @@ def show
       account = Ecstore::Account.where(:account_id => params[:member_id]).first
 
       account.update_column(:shop_id, @shop.shop_id)
-      Ecstore::WeihuoEmployee.update_attributes(:area => params[:province] + params[:city], :address => params[:address], :shop_id => @shop.shop_id)
+      Ecstore::WeihuoEmployee.where(:name => params[:employee_name]).first.update_attributes(:area => params[:province] + params[:city], :address => params[:address], :shop_id => @shop.shop_id)
 
       redirect_to weihuo_shop_path(@shop)
     else
