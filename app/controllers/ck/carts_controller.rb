@@ -1,8 +1,8 @@
 #encoding:utf-8
 
-class Weihuo::CartsController < ApplicationController
+class Ck::CartsController < ApplicationController
 
-  layout "weihuo"
+  layout "ck"
 
   def index
 

@@ -2,10 +2,10 @@
 require 'rest-client'
 
 
-class Weihuo::ShopsController < ApplicationController
+class Ck::ShopsController < ApplicationController
 
 
- layout "weihuo1"
+ layout "ck"
 
 
 

@@ -26,6 +26,8 @@ class SessionsController < ApplicationController
     redirect_to  @oauth_url
   end
 
+  
+
   def auto_login2
     
     shop_id = 0

@@ -227,8 +227,7 @@ end
 
 def show
   shop_id = params[:shop_id] || params[:id]
-  name = Ecstore::WeihuoShop.find(shop_id).employee_name
-  @employee = Ecstore::WeihuoEmployee.find_by_name(name)
+  
   if params[:from] == 'chooseshop'
     return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile"
   end

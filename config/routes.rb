@@ -2,6 +2,10 @@
 require 'httpclient'
 Modengke::Application.routes.draw do
 
+post 'temp_info_api' => 'weihuo/weixin_pay#temp_info_api'
+post 'foodie_notify_url' => 'foodies#foodie_notify_url'
+post 'send_group_message_api' => 'weihuo/weixin_pay#send_group_message_api'
+get 'foodies/foodie_pay' => 'foodies#foodie_pay'
   namespace :weihuo do
     get 'pay_with_goods' => 'weixin_pay#pay_with_goods'
     get 'qrcode' => 'weixin_pay#qrcode'
@@ -19,66 +23,15 @@ Modengke::Application.routes.draw do
     get 'shops/show_goods' => 'shops#show_goods'
     get 'shops/show_notice' => 'shops#show_notice'
     get 'shops/user_center' => 'shops#user_center'
-    get 'shops/my_orders' => 'shops#my_orders'
-    get 'shops/my_addresses' => 'shops#my_addresses'
-    get 'shops/show_orders' => 'shops#show_orders'
-    get 'shops/order_detail' => 'shops#order_detail'
-    post 'shops/modify_ship_status' => 'shops#modify_ship_status'
-    get 'shops/show_qrcode' => 'shops#show_qrcode'
-    get 'shops/bonus_detail' => 'shops#bonus_detail'
-    get 'shops/my_visited_shops' => 'shops#my_visited_shops'
-
-    resources :orgnizations
-    resources :orders
-
-    resources :shops do
-      collection do
-        get :gallery
-        get :admin
-        get :admin_visitors
-        get :admin_orders
-        get :user_center
-        get :categories
-        get :orderlist
-        get :brand
-        get :mobile_search
-
-      end
-
-      member do
-        get :shop
-        get :category_goods
-      end
-    end
-  end
-
-
-  namespace :ck do
-    get 'pay_with_goods' => 'ck_pay#pay_with_goods'
-    get 'qrcode' => 'ck_pay#qrcode'
-    get 'test_qrcode' => 'ck_pay#test_qrcode'
-    post 'notify_page' => 'ck_pay#notify_page'
-    post 'template_information' => 'ck_pay#template_information'
-    get 'shops/add' => 'shops#add'
-    post 'shops/goods_added' => 'shops#goods_added'
-    get 'goods_detail/:id' => 'shops#goods_detail'
-    get 'shops/share' => 'shops#share'
-    get 'shops/manage' => 'shops#manage'
-    get 'shops/show_members' => 'shops#show_members'
-    get 'shops/member_detail' => 'shops#member_detail'
-    get 'shops/show_bonuses' => 'shops#show_bonuses'
-    get 'shops/show_goods' => 'shops#show_goods'
-    get 'shops/show_notice' => 'shops#show_notice'
-    get 'shops/user_center' => 'shops#user_center'
-    get 'shops/my_orders' => 'shops#my_orders'
-    get 'shops/my_addresses' => 'shops#my_addresses'
-    get 'shops/show_orders' => 'shops#show_orders'
-    get 'shops/order_detail' => 'shops#order_detail'
-    post 'shops/modify_ship_status' => 'shops#modify_ship_status'
-    get 'shops/show_qrcode' => 'shops#show_qrcode'
-    get 'shops/bonus_detail' => 'shops#bonus_detail'
-    get 'shops/my_visited_shops' => 'shops#my_visited_shops'
     get 'shops/using_guide' => 'shops#using_guide'
+    get 'shops/my_orders' => 'shops#my_orders'
+    get 'shops/my_addresses' => 'shops#my_addresses'
+    get 'shops/show_orders' => 'shops#show_orders'
+    get 'shops/order_detail' => 'shops#order_detail'
+    post 'shops/modify_ship_status' => 'shops#modify_ship_status'
+    get 'shops/show_qrcode' => 'shops#show_qrcode'
+    get 'shops/bonus_detail' => 'shops#bonus_detail'
+    get 'shops/my_visited_shops' => 'shops#my_visited_shops'
 
     resources :orgnizations
     resources :orders
@@ -103,6 +56,9 @@ Modengke::Application.routes.draw do
       end
     end
   end
+
+
+  
 
 
   resources :mobile do

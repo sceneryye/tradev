@@ -33,16 +33,16 @@
     <%end%>
     if(is_weixin_browser){
 
-      shop_login_url= '/shop_login?id='+ <%= params[:id] %>+ '&<%=return_url%>&platform=mobile';
+      ck_login_url= '/ck_login?id='+ <%= params[:id] %>+ '&<%=return_url%>&platform=mobile';
     }
 
     <%if @user && @user.account.supplier_id%>
    //   if ('<%=@user.account.supplier_id %>'!=supplier_id){
      if ('78'!=supplier_id){
-      location.href = shop_login_url;
+      location.href = ck_login_url;
     }
     <%elsif @no_need_login.nil?%>
-    location.href = shop_login_url;
+    location.href = ck_login_url;
     <%end%>
 
 

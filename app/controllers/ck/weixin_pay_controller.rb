@@ -4,7 +4,7 @@ require 'rest-client'
 require 'uri'
 
 
-class Weihuo::WeixinPayController < ApplicationController
+class Ck::WeixinPayController < ApplicationController
 
   Employee_share_ratio = 1
   Network_share_ratio = 0.2
@@ -194,85 +194,6 @@ def template_information
     render :text => "#{res_data_hash['errcode']}"
   end
 end
-end
-
-#  该api接受hash格式的参数，方法为post， 需要openids， template_id， 以及模板对应的数据参数，url为可选参数。
-def temp_info_api
-  post_url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=#{access_token}"
-  params.delete(:controller)
-  params.delete(:action)
-  params_hash = params
-  openids = params_hash["openid"][0].length == 1 ? [params_hash["openid"]] : params_hash["openid"]
-  template_id = params_hash["template_id"]
-  url = params_hash["url"]
-  res_data_hash = {}
-  openids.each do |openid|
-    post_data_hash = {
-      :touser => openid,
-      :template_id => template_id,
-      :url => url,
-      :data => params_hash["data"]
-    }
-    post_data_json = post_data_hash.to_json
-    res_data_json = RestClient.post post_url, post_data_json
-    res_data_hash = ActiveSupport::JSON.decode res_data_json
-  end
-  if res_data_hash['errmsg'] == 'ok'
-    render :text => "success"
-  else
-    render :text => "#{res_data_json}"
-  end
-end
-
-def send_group_message_api
-  Rails.logger.info params
-  # params_hash = ActiveSupport::JSON.decode params
-  params.delete("controller")
-  params.delete("action")
-  params_hash = params
-  Rails.logger.info params_hash.to_json
-  Rails.logger.info params_hash["openids"]
-  group_post_url = "https://api.weixin.qq.com/cgi-bin/message/mass/send?access_token=#{access_token}"
-  #预览接口
-  group_post_url = "https://api.weixin.qq.com/cgi-bin/message/mass/preview?access_token=#{access_token}"
-  if params_hash["data"]["msgtype"] == "mpnews"
-    if params_hash["img_url"].present?
-      img_post_url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=#{access_token}"
-      res_data = `curl -F media="#{params_hash["img_url"]}" "#{img_post_url}"`
-      res_data_hash = ActiveSupport::JSON.decode res_data
-      if res_data_hash["url"]
-        pic_url = res_data_hash["url"]
-        pic_text_post_url = "https://api.weixin.qq.com/cgi-bin/media/uploadnews?access_token=#{access_token}"
-        res_data, res_data_hash = '', ''
-        params_hash["data"]["thumb_media_id"] = pic_url
-        params_json = params_hash.to_json
-        res_data_json = RestClient.post pic_text_post_url, params_json
-        res_data_hash = ActiveSupport::JSON.decode res_data_json
-        media_id = res_data_hash["media_id"]
-        mpnews_hash = {
-          :touser => params_hash["openids"],
-          :mpnews => {:media_id => media_id},
-          :msgtype => "mpnews"
-        }
-        mpnews_json = mpnews_hash.to_json
-        res_data_hash, res_data_json = '', ''
-        res_data_json = RestClient.post group_post_url, mpnews_json
-        res_data_hash = ActiveSupport::JSON.decode res_data_json
-        return render :text => res_data_json
-      end
-    else
-      return render :text => '缺少图片url，发送失败。'
-    end
-  elsif params_hash["data"]["msgtype"] == 'text'
-    text_hash = {
-      :touser => params_hash["openids"],
-      :msgtype => "text",
-      :text => {:content => params_hash["content"]}
-    }
-    text_json = text_hash.to_json
-    res_data_json = RestClient.post group_post_url, text_json
-    return render :text => res_data_json
-  end
 end
 
 def qrcode
