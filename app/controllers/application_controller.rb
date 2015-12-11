@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
   include SessionsHelper
   include Breadcrumb
- 
+
   #before_filter :find_user
 
   
@@ -45,6 +45,12 @@ end
 
 
 private 
+
+def choose_layout
+  shop_id = params[:shop_id] || params[:id]
+  layout = Ecstore::WeihuoShop.where(:shop_id => shop_id).first.layout
+  layout
+end
 
 def adjust_format_for_mobile
   request.format = :mobile if params[:agent] == "mobile"
@@ -105,13 +111,13 @@ def find_cart!
         end
         @cart_total = @cart_total1 + @cart_total2
 
-      @pmtable = @line_items.select { |line_item| line_item.good.is_suit? }.size == 0
+        @pmtable = @line_items.select { |line_item| line_item.good.is_suit? }.size == 0
 
-    end
+      end
 
 
 
-    def find_user
+      def find_user
       # if Rails.env == "development"
       #   return  @user = Ecstore::User.find_by_member_id(217)
       # end
@@ -128,8 +134,8 @@ def find_cart!
     else
           # return (render :js=>"window.location.href='#{site_path}'") if request.xhr?
       	   # redirect_to (site_path)
-         end
-       end
+        end
+      end
 
 
 

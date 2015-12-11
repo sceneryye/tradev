@@ -5,7 +5,7 @@ require 'rest-client'
 class Weihuo::ShopsController < ApplicationController
 
 
- layout "weihuo1"
+ layout "#{choose_layout}"
 
 
 
