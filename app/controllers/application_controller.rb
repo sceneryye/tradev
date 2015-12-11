@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
   before_filter :find_user,:find_session_id,:find_cart!
   before_filter :find_path_seo
   before_filter :set_locale
+  
   # before_filter do
     # if current_account && (current_account.try(:login_name) == 'ysj' || current_account.try(:login_name) == 'du003')
        # Rack::MiniProfiler.authorize_request
@@ -46,11 +47,7 @@ end
 
 private 
 
-def choose_layout
-  shop_id = params[:shop_id] || params[:id]
-  layout = Ecstore::WeihuoShop.where(:shop_id => shop_id).first.layout
-  layout
-end
+
 
 def adjust_format_for_mobile
   request.format = :mobile if params[:agent] == "mobile"

@@ -4,25 +4,25 @@ require 'rest-client'
 
 class Weihuo::ShopsController < ApplicationController
 
-
- layout "#{choose_layout}"
-
-
+  
+  layout :choose_layout
 
 
- def index
-  @shop_ids = []
-  login_name = current_account.login_name.split('_shop_').first
-  names = Ecstore::Account.where("login_name like ?", "%#{login_name}%").each do |user| 
-   shop_id = user.login_name.split('_shop_').last 
-   @shop_ids << shop_id if shop_id.to_i > 0 && shop_id != '49' 
- end
- @shop_exist = false
- @shop_ids.each do |shop_id|
 
-  @shop_exist = true if Ecstore::WeihuoShop.find_by_shop_id(shop_id).try(:openid) == current_account.login_name.split('_shop_').first
-end
-Rails.logger.info "shop_ids => #{@shop_ids}"
+
+  def index
+    @shop_ids = []
+    login_name = current_account.login_name.split('_shop_').first
+    names = Ecstore::Account.where("login_name like ?", "%#{login_name}%").each do |user| 
+     shop_id = user.login_name.split('_shop_').last 
+     @shop_ids << shop_id if shop_id.to_i > 0 && shop_id != '49' 
+   end
+   @shop_exist = false
+   @shop_ids.each do |shop_id|
+
+    @shop_exist = true if Ecstore::WeihuoShop.find_by_shop_id(shop_id).try(:openid) == current_account.login_name.split('_shop_').first
+  end
+  Rails.logger.info "shop_ids => #{@shop_ids}"
 end
 
 def user_center
@@ -414,6 +414,12 @@ def goods_profit goods
   share = Ecstore::WeihuoOrganisation.find(organisation_id).share
   (goods.price - goods.cost) * share
 end
+
+def choose_layout
+  shop_id = params[:shop_id] || params[:id]
+  Ecstore::WeihuoShop.where(:shop_id => shop_id).first.layout
+end
+
 
 # def username_for_avatar
   # Pinyin.t(self.username)
