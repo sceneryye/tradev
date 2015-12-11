@@ -1,7 +1,40 @@
   <h1>尾货良品- 员工管理</h1>
+
+
+<div class="btn-group">
+  <%=form_for :employees,:url=>import_admin_weihuos_path,:html => {:multipart => true} ,:method=>:post do |f|%>
+      <%= file_field :employees, :file, :id=>'csvfile',:accept => "application/msexcel",:class=>"batch" %>
+      <%= f.submit 'EXCEL批量导入商品', :class => "btn btn-primary" %>
+  <%end%>
+</div>
+<div>
+  <!--<p>
+    <div id="batch_inputs" class="hide"></div>
+    <div id="batch_actions">
+            <%=link_to "添加",'/admin/employees/new',:class=>"btn btn-primary"%>
+        <%=link_to "删除","#",:class=>"btn batch",:data=>{:act=>:destroy},:confirm=>"确定删除吗?"%>
+      <%#=link_to "导出","#",:class=>"btn batch",:data=>{:act=>:export}%>
+
+  </p>-->
+  <%=form_for :member,:url=>export_admin_weihuos_path,:method=>:post do |f|%>
+      <%= f.hidden_field :select_all,:class=>"sel_operation", :value => 0 %>
+      <input type="hidden" name="all_employees_id" value="<%=@employees_id%>" />
+  <!--<div id="selection">已选择了<b id="count">0</b>条记录!-->
+    &nbsp;
+    <%=link_to "选择全部","#",:id=>"select_all"%>
+    &nbsp;
+    <%=link_to "取消选择","#",:id=>"cancel_all"%>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+      <%if current_admin.has_right_of("employees","export") %>
+        <%= f.submit '导出商品', :class => "btn btn-primary" %>
+   
+          <%end%>
+  </div>
+
 <table class="table table-bordered table-striped table-hover">
   <thead>
   <tr>
+  <th><input type="checkbox" id="select_page_all"></th>
     <th>id</th>
     <th>姓名</th>
     <th>手机</th>
@@ -14,17 +47,23 @@
   <tbody>
   <%@employees.each do |employee|%>
   <tr>
+  <td><%=check_box_tag "batch[employees_id][]", employee.id, false, :id=>"employee_#{employee.id}",:class=>"good"%></td>
     <td><%=employee.id%></td>
     <td><%=employee.name%></td>
     <td><%=employee.mobile%></td>    
     <td><%=employee.weihuo_organisation.name if employee.weihuo_organisation_id%></td>
     <td><%=employee.member_id%></td>
     <td><%=employee.shop_id%></td>    
-    <td><%=employee.created_at%></td>
+    <td> <%=employee.created_at%></td>
   </tr>
   <%end if @employees%>
   </tbody>
-</table>
-<div class="paginations">
-  <%=will_paginate @employees,:container=>false if @employees%>
+</table>  <%end%>
+
+<div class="pagination">
+   <%=will_paginate @employees,:container=>false if @employees%>
 </div>
+</div>
+
+
+

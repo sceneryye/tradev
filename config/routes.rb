@@ -1,10 +1,7 @@
 #encoding:utf-8
 require 'httpclient'
 Modengke::Application.routes.draw do
-post 'temp_info_api' => 'weihuo/weixin_pay#temp_info_api'
-post 'foodie_notify_url' => 'foodies#foodie_notify_url'
-post 'send_group_message_api' => 'weihuo/weixin_pay#send_group_message_api'
-get 'foodies/foodie_pay' => 'foodies#foodie_pay'
+
   namespace :weihuo do
     get 'pay_with_goods' => 'weixin_pay#pay_with_goods'
     get 'qrcode' => 'weixin_pay#qrcode'
@@ -30,7 +27,6 @@ get 'foodies/foodie_pay' => 'foodies#foodie_pay'
     get 'shops/show_qrcode' => 'shops#show_qrcode'
     get 'shops/bonus_detail' => 'shops#bonus_detail'
     get 'shops/my_visited_shops' => 'shops#my_visited_shops'
-    get 'shops/using_guide' => 'shops#using_guide'
 
     resources :orgnizations
     resources :orders
@@ -417,12 +413,14 @@ get 'foodies/foodie_pay' => 'foodies#foodie_pay'
     resources :weihuos do
       post "export", :on=>:collection
       post "import", :on=>:collection
+      post "downorder", :on=>:collection
       put 'batch',:on=>:collection
       get "black_weihuo"   , :on=>:collection
       put "black_weihuo_edit" , :on=>:collection
       get "black_weihuo_new" , :on=>:collection
       post "black_weihuo_new" , :on=>:collection
       get 'select_all',:on=>:collection
+      get 'search', :on=>:collection
       collection do 
         get :goods
         get :organisations
@@ -431,6 +429,7 @@ get 'foodies/foodie_pay' => 'foodies#foodie_pay'
         get :clients
         get :shares  
         get :import
+        get :downorder
 
       end
     end
