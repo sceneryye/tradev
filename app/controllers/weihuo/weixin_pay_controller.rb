@@ -129,7 +129,9 @@ class Weihuo::WeixinPayController < ApplicationController
     payments.save!
 
     if @order.save
-      store = product.store - 1
+      if product.store.present? && product.store > 0
+        store = product.store - 1
+      end
       goods.update_attribute(:store, store)
       product.update_attribute(:store, store)
       Ecstore::OrderLog.new do |order_log|
