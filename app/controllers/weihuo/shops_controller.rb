@@ -227,7 +227,10 @@ end
 
 def show
   shop_id = params[:shop_id] || params[:id]
-  
+  bns = ["a0100017", "a0100018", "a0100019"]
+  @pics = bns.map do |bn|
+    Ecstore::Good.where(:bn => bn).first.medium_pic
+  end  
   if params[:from] == 'chooseshop'
     return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile"
   end
