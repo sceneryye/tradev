@@ -39,6 +39,12 @@
     <span class="orderid-key">订单号码：</span></span>
     <span class="orderid-value"><%= order_id %></span>
   </div>
+  <% if order.ship_status != '0' %>
+  <span class="orderid-key">运单号码：</span></span>
+  <% order.deliveries.each do |d| %>
+  <span class="time-value"><%= d.try :delivery_id %></span>
+  <% end %>
+  <% end %>
   <hr />
 
   <div class="supplier">
@@ -88,7 +94,7 @@
     margin-bottom: 15px;
   }
   .order-status-price {
-    
+
   }
   .status-value, .price .price-value, .createtime .time-value, .order-id .orderid-value {
     padding-left: 20px;
