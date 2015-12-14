@@ -7,21 +7,19 @@
 <% elsif @shop.status == '-1' %>
 <h2>您的代理商资格申请失败，请与管理员联系</h2>
 <% else %>
-
-<div class="row title" style="height:80px;background-color: #BF1E2E">
+<% provide(:title, "#{@shop.layout == 'weihuo' ? '尾货良品' : '社区创客'}#{params[:id]}号店") %>
+<div class="row title" style="height:60px;background-color: #BF1E2E">
   <div class="col-xs-5">
 
     <div class="shop-name" style="width: 40%;position:relative">
-
-      <img src="/new/images/weihuo_logo.png" style="height:40px;position:absolute;left: 5%;top:20px;">
+      <% if @shop.layout == 'weihuo' %>
+      <img src="/new/images/weihuo_logo.png" style="height:25px;position:absolute;left: 5%;top:15px;">
+      <% elsif @shop.layout == 'chuangke' %>
+      <div class="logo">社区创客</div>
+      <% end %>
     </div>
   </div>
-  <div class="col-xs-7">
-    <div class="shop-id" style="color: white;font-size:24px;margin-left: 45%; margin-top: 31px;">
-      <%= params[:id] %>号店
-    </div>
-
-  </div>
+  
 </div>
 <%= render 'carousel' %>
 <div class="container" >
@@ -35,10 +33,16 @@
     .title {
       margin: 0 auto;
     }
-
+    .logo {
+      color: white;
+      font-size: 2.4em;
+      font-weight: 1000;
+      padding-top: 5  px;
+    }
     .item img {
       display: inline-block;
       margin: 0 auto;
+      width: 45%;
     }
     .shop-logo img {
       width: 100%;

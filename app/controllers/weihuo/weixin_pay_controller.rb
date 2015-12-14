@@ -55,7 +55,7 @@ class Weihuo::WeixinPayController < ApplicationController
  end
 
  def notify_page
-   return render :text => 'SUCCESS' if Ecstore::WeihuoShare.where(:remark => params["xml"]["out_trade_no"]).present?
+  return render :text => 'SUCCESS' if Ecstore::WeihuoShare.where(:remark => params["xml"]["out_trade_no"]).present? || Ecstore::Order.where(:mark_text => params["xml"]["out_trade_no"]).present?
    if params["xml"]["result_code"] == 'SUCCESS'
     order_params = {}
     order_params[:order_id] = params["xml"]["out_trade_no"][0..19]

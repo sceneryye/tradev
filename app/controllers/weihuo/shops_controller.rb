@@ -4,7 +4,7 @@ require 'rest-client'
 
 class Weihuo::ShopsController < ApplicationController
 
-  
+
   layout 'weihuo'
 
 
@@ -15,7 +15,7 @@ class Weihuo::ShopsController < ApplicationController
     login_name = current_account.login_name.split('_shop_').first
     names = Ecstore::Account.where("login_name like ?", "%#{login_name}%").each do |user| 
      shop_id = user.login_name.split('_shop_').last 
-     @shop_ids << shop_id if shop_id.to_i > 0 && shop_id != '49' 
+     @shop_ids << shop_id if shop_id.to_i > 0 && shop_id != '49' && Ecstore::WeihuoShop.find_by_shop_id(shop_id).layout == params[:layout]
    end
    @shop_exist = false
    @shop_ids.each do |shop_id|
@@ -232,18 +232,18 @@ def show
     Ecstore::Good.where(:bn => bn).first.medium_pic
   end  
   if params[:from] == 'chooseshop'
-    return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile"
+    return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile&layout=#{params[:layout]}"
   end
   if !current_account.present? || current_account.supplier_id != 78
 
-    return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile"
+    return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile&layout=#{params[:layout]}"
   end
   openid= current_account.login_name.split('_shop_')[0]
-  shop = Ecstore::WeihuoShop.where(:openid => openid)
+  shop = Ecstore::WeihuoShop.where(:openid => openid, :layout => params[:layout])
   if shop.present? && params[:id] != shop.first.shop_id.to_s
-    return redirect_to "/weihuo/shops/#{shop.first.shop_id}"
+    return redirect_to "/weihuo/shops/#{shop.first.shop_id}?layout=#{params[:layout]}"
   end
-  return redirect_to '/weihuo/shops' if params[:enterin] == 'first'
+  return redirect_to "/weihuo/shops?layout=#{params[:layout]}" if params[:enterin] == 'first'
     # return render :text => shop_id == '49'
     # if current_account.present?
       # open_id = current_account.login_name.split('_shop_')[0]
@@ -253,8 +253,11 @@ def show
       # end
     # end
     @shop = Ecstore::WeihuoShop.find(params[:shop_id] || params[:id])
-    @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:per_page => 30, :page => params[:page]).order(:name)
-    
+    if @shop.layout == 'weihuo'
+      @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:per_page => 30, :page => params[:page]).order(:name)
+    elsif @shop.layout == 'chuangke'
+      @goods = Ecstore::Good.where(:supplier_id => 11).paginate(:per_page => 30, :page => params[:page]).order(:name)
+    end
   end
 
   # 申请店铺
