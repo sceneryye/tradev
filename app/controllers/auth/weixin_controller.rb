@@ -190,7 +190,7 @@ class Auth::WeixinController < ApplicationController
 		end
 #return render :text=>"return_url:#{return_url.empty?}"
 			if params[:followers_import].present?
-				redirect_to '/weihuo/shops/new'
+				redirect_to "/weihuo/shops/new?layout=#{params[:layout]}"
 			end
 
 	    redirect = return_url
@@ -198,10 +198,11 @@ class Auth::WeixinController < ApplicationController
 	    if redirect.blank?
 
 	    	if shop_id
+	    		layout = Ecstore::WeihuoShop.find_by_shop_id(shop_id).try :layout
 	    		if shop_id == '0'
-	    			redirect = '/weihuo/shops/new'
+	    			redirect = '/weihuo/shops/new?layout=#{layout}'
 	    		else
-	    		redirect ="/weihuo/shops/#{shop_id}?enterin=first"
+	    		redirect ="/weihuo/shops/#{shop_id}?enterin=first&layout=#{layout}"
 	    	end
 	    	elsif supplier_id == '78'
 	    		redirect  = "/mobile"

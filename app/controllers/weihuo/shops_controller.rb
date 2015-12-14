@@ -15,7 +15,7 @@ class Weihuo::ShopsController < ApplicationController
     login_name = current_account.login_name.split('_shop_').first
     names = Ecstore::Account.where("login_name like ?", "%#{login_name}%").each do |user| 
      shop_id = user.login_name.split('_shop_').last 
-     @shop_ids << shop_id if shop_id.to_i > 0 && shop_id != '49' && Ecstore::WeihuoShop.find_by_shop_id(shop_id).layout == params[:layout]
+     @shop_ids << shop_id if shop_id.to_i > 0 && shop_id != '49' && shop_id != '50' && Ecstore::WeihuoShop.find_by_shop_id(shop_id).try(:layout) == params[:layout]
    end
    @shop_exist = false
    @shop_ids.each do |shop_id|

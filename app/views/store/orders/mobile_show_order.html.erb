@@ -131,7 +131,11 @@
     <span style="float: right" > <%=@order.ship_addr%>&nbsp; &nbsp;    </span>
     <hr data-am-widget="divider"  class="am-divider am-divider-default am-no-layout">
     <span class="span"> &nbsp; &nbsp;运单号码：</span> 
-    <span style="float: right" > <%=@order.try(:deliveries).try(:delivery_id)%>&nbsp; &nbsp;    </span>
+    <% if @order.deliveries.present? %>
+    <% @order.deliveries.each do |delivery| %>
+    <span style="float: right" > <%= delivery.elivery_id %>&nbsp; &nbsp;    </span>
+    <% end %>
+    <% end %>
     <br/>
 
     <br/>
