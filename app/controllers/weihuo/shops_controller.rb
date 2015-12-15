@@ -248,12 +248,16 @@ def show
     return redirect_to "/shop_login?id=78&shop_id=#{shop_id}"
   end
   openid, shopid= current_account.login_name.split('_shop_')
+  #有的用户名是这样的：openid_shops_#{shop_id}_#{numbers},为防止这种用户名，shopid做如下处理
+  shopid = shopid.split('_')[0]
+  Rails.logger.info "########shopid = #{shopid}"
+  
   shop = Ecstore::WeihuoShop.where(:openid => openid, :layout => params[:layout])
   if shop.present? && params[:id] != shop.first.shop_id.to_s
     if shop_id == '49' || shop_id == '50'
       return redirect_to "/shop_login?id=78&shop_id=#{shop.first.shop_id}"
-    elsif shopid != shop_id
-      return redirect_to "/weihuo/shops/shopid"
+    elsif shopid == shop_id
+      return redirect_to "/weihuo/shops/#{shopid}"
     end
   end
   # if shop.present? && params[:id] != shop.first.shop_id.to_s && 
