@@ -44,7 +44,7 @@
       </div>
     </tr>
 
-    <tr class="">
+    <tr class="info">
       <div class="row">
         <div class="col-xs-5">
           <td>
@@ -64,7 +64,7 @@
       </div>
     </tr>
 
-    <tr class="info">
+    <tr class="">
       <div class="row">
         <div class="col-xs-5">
           <td>
@@ -98,7 +98,7 @@
         </div>
         <div class="col-xs-4">
           <td>
-            <h4><%= link_to "查看详情", weihuo_shops_using_guide_path %></h4>
+            <h4><%= link_to "查看详情", weihuo_shops_using_guide_path(:shop_id => params[:shop_id]) %></h4>
           </td>
         </div>
       </div>
@@ -114,7 +114,7 @@
   
     <div class="qrcode">
       
-      <div id="qrcode" style="margin: 0 auto%;margin-top:15px;width:180px;height:180px;" data-url="http://www.trade-v.com/weihuo/shops/new">
+      <div id="qrcode" style="margin: 0 auto%;margin-top:15px;width:180px;height:180px;" data-url="http://www.trade-v.com/weihuo/shops/new?layout=<%= @layout %>">
       </div>
     </div>
   

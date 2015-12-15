@@ -7,15 +7,17 @@
 <% elsif @shop.status == '-1' %>
 <h2>您的代理商资格申请失败，请与管理员联系</h2>
 <% else %>
-<% provide(:title, "#{@shop.layout == 'weihuo' ? '尾货良品' : '社区创客'}#{params[:id]}号店") %>
+<% provide(:title, @title) %>
 <div class="row title" style="height:60px;background-color: #BF1E2E">
-  <div class="col-xs-5">
+  <div class="col-xs-12">
 
-    <div class="shop-name" style="width: 40%;position:relative">
+    <div class="shop-name" style="position:relative">
       <% if @shop.layout == 'weihuo' %>
       <img src="/new/images/weihuo_logo.png" style="height:25px;position:absolute;left: 5%;top:15px;">
       <% elsif @shop.layout == 'chuangke' %>
-      <div class="logo">社区创客</div>
+      <span class="logo">社区创客</span>
+      <span class="number"><%= params[:id] %>号店</span>
+      <div class="chuangke-img"><img src="<%= @shop.logo %>" style="height:40px;position:absolute;right: 1%;top:5px;"></div>
       <% end %>
     </div>
   </div>
@@ -33,11 +35,22 @@
     .title {
       margin: 0 auto;
     }
-    .logo {
+    .shop-name .logo {
+      position: absolute;
       color: white;
-      font-size: 2.4em;
+      font-size: 1.8em;
       font-weight: 1000;
-      padding-top: 5  px;
+      top: 8px;
+      left: 1%;
+      margin-left: 0;
+    }
+    .shop-name .number {
+      position: absolute;
+      color: white;
+      font-size: 1.4em;
+      font-weight: 1000;
+      top: 12px;
+      left: 20%;
     }
     .item img {
       display: inline-block;

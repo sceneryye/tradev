@@ -10,6 +10,19 @@
       <input type="hidden" name="member_id" value="<%= current_account.account_id %>" />
       <div class="row">
 
+        <div class="row">
+          <div class="col-xs-10 col-xs-offset-1">
+            <select name="city_name" class="city-name" data-name=''>
+              <option value=''>请选择您的城市</option>
+              <%= @cities.each do |city| %>
+              <option value="<%= city.name %>"><%= city.name %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
         <div class="col-xs-10 col-xs-offset-1">
           <select name="organisation_name" class="organisation-name" data-name=''>
             <option value=''>请选择您的网点</option>
@@ -19,110 +32,129 @@
           </select>
         </div>
       </div>
+    </form>
 
-      <div class="row">
-        <div class="col-xs-10 col-xs-offset-1">
-          <select name="employee_name" class="employee-name">
-            <option value=''>请选择您的姓名</option>
-            <% if @employees.present? %>
-            <%= @employees.each do |employee| %>
-            <option value=<%= employee.name %>><%= employee.name %></option>
-            <% end %>
-          </select>
-          <% end %>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-xs-10 col-xs-offset-1">
-          <input name = "employee_mobile" type="text" data-mobile="<%= Ecstore::WeihuoEmployee.where(:name => params[:employee_name]).first.mobile if params[:employee_name].present? %>" placeholder="请输入您的手机号">
-        </div>
-      </div>
-
-      <div class='col-xs-10 col-xs-offset-1'>
-        <input name="province" placeholder="请输入省份" class="province" />
-        <input name ="city" placeholder="请输入城市" class="city" />
-        <input name ="address" placeholder="请输入详细地址" class="address" />
-      </div>
-
+    <div class="row">
       <div class="col-xs-10 col-xs-offset-1">
-        <div class="errmsg"></div>
+        <select name="employee_name" class="employee-name">
+          <option value=''>请选择您的姓名</option>
+          <% if @employees.present? %>
+          <%= @employees.each do |employee| %>
+          <option value=<%= employee.name %>><%= employee.name %></option>
+          <% end %>
+        </select>
+        <% end %>
       </div>
-      <div class="row">
-        <div class="col-xs-10 col-xs-offset-1">
-          <input type="button" class="btn btn-success pull-right" value="提交申请">
-        </div>
-      </form>
     </div>
+
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <input name = "employee_mobile" type="text" data-mobile="<%= Ecstore::WeihuoEmployee.where(:name => params[:employee_name]).first.mobile if params[:employee_name].present? %>" placeholder="请输入您的手机号">
+      </div>
+    </div>
+
+    <div class='col-xs-10 col-xs-offset-1'>
+      <input name="province" placeholder="请输入省份" class="province" />
+      <input name ="city" placeholder="请输入城市" class="city" />
+      <input name ="address" placeholder="请输入详细地址" class="address" />
+    </div>
+
+    <div class="col-xs-10 col-xs-offset-1">
+      <div class="errmsg"></div>
+    </div>
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <input type="button" class="btn btn-success pull-right" value="提交申请">
+      </div>
+    </form>
   </div>
-  <% end %>
+</div>
+<% end %>
 
-  <script type="text/javascript" src="/assets/area_seletor.js.erb"></script>
-  <script type="text/javascript">
-    $(document).ready(function(){
-      var url = '/weihuo/shops/new';
-      var param = location.search.replace('?', '');
-      $('.organisation-name').on('change', function(){
-        var organisation_name = $(this).val();
-        if(!location.search) {
-          location.href += '?organisation_name=' + encodeURI(organisation_name);
-        }
-        else {
-          location.href = '?organisation_name=' + encodeURI(organisation_name);
-        }
-      });
-      if(param == "") {
-        var params = [];
-
+<script type="text/javascript" src="/assets/area_seletor.js.erb"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    var url = '/weihuo/shops/new';
+    var param = location.search.replace('?', '');
+    $('.city-name').on('change', function(){
+      var city_name = $(this).val();
+      if(location.search) {
+        location.href = location.pathname + location.search.split('&')[0] + '&city_name=' + encodeURI(city_name);
       }
       else {
-        var params = param.split('&');
-        var name = decodeURI(params[0].split('=')[1])
-        $('.organisation-name').val(name);
+        location.href += '?city_name=' + encodeURI(city_name);
       }
+    });
+    if(param == "") {
+      var params = [];
+    }
+    else {
+      var params = param.split('&');
+      var name = decodeURI(params[1].split('=')[1])
+      $('.city-name').val(name);
+    }
 
-      $('.employee-name').on('change', function(){
-        var employee_name = $(this).val();
-        if(params.length == 1) {
-          location.href += '&employee_name=' + encodeURI(employee_name);
-        }
-        else {
-          location.href = location.pathname + location.search.split('&')[0] + '&employee_name=' + encodeURI(employee_name);
-        }
-      });
-      if(params.length == 2) {
-        $('.employee-name').val(decodeURI(params[1].split('=')[1]));
-      }
-
-
-      $("input[name='employee_mobile']").on('change', function(){
-        var employee_mobile = $(this).attr('data-mobile');
-        var mobile = $(this).val();
-        if(mobile != employee_mobile) {
-          $('.errmsg').text('您输入的姓名与手机号码不一致，请重新填写。');
-          $(this).val('');
-        }
-      });
-
-      $("input[type='button']").on('click',function(){
-       if($('.organisation-name').val() == '' || $('.employee-name').val() == '' || $("input[name='employee_mobile']").val() == undefined || $("input[name='employee_mobile']").val() == '' || $('.province').val() == '' || $('.city').val() == '' || $('.address').val() == '') {
-        swal({
-          title: '信息不完整',
-          text: '请填写完整信息',
-          type: 'warning',
-          showCancelButton: false,
-          closeOnConfirm: true,
-          animation: "slide-from-top",
-          confirmButtonText: '确定',
-          timer: 5000
-        });
+    $('.organisation-name').on('change', function(){
+      var organisation_name = $(this).val();
+      if(location.search) {
+        location.href = location.pathname + location.search.split('&')[0] + '&' + location.search.split('&')[1] + '&organisation_name=' + encodeURI(organisation_name);
       }
       else {
-        $('.build-store').submit();
+        location.href += '?organisation_name=' + encodeURI(organisation_name);
+      }
+    });
+    if(param == "") {
+      var params = [];
+    }
+    else {
+      var params = param.split('&');
+      var name = decodeURI(params[2].split('=')[1])
+      $('.organisation-name').val(name);
+    }
+
+    $('.employee-name').on('change', function(){
+      var employee_name = $(this).val();
+       // if(params.length == 1) {
+         // location.href += '&employee_name=' + encodeURI(employee_name);
+       // }
+        //else {
+          //location.href = loc.pathname + location.search.split('&')[0] + '&employee_name=' + encodeURI(employee_name);
+       // }
+       location.href = location.pathname + location.search.split('&')[0] + '&' + location.search.split('&')[1] + '&' + location.search.split('&')[2] + '&employee_name=' + encodeURI(employee_name);
+     });
+    
+    $('.employee-name').val(decodeURI(params[3].split('=')[1]));
+    
+
+
+    $("input[name='employee_mobile']").on('change', function(){
+      var employee_mobile = $(this).attr('data-mobile');
+      var mobile = $(this).val();
+      if(mobile != employee_mobile) {
+        $('.errmsg').text('您输入的姓名与手机号码不一致，请重新填写。');
+        $(this).val('');
       }
     });
 
-    })
+    $("input[type='button']").on('click',function(){
+     if($('.organisation-name').val() == '' || $('.employee-name').val() == '' || $("input[name='employee_mobile']").val() == undefined || $("input[name='employee_mobile']").val() == '' || $('.province').val() == '' || $('.city').val() == '' || $('.address').val() == '') {
+      swal({
+        title: '信息不完整',
+        text: '请填写完整信息',
+        type: 'warning',
+        showCancelButton: false,
+        closeOnConfirm: true,
+        animation: "slide-from-top",
+        confirmButtonText: '确定',
+        timer: 5000
+      });
+    }
+    else {
+      $('.build-store').submit();
+    }
+  });
+
+  })
 </script>
 
 <style type="text/css">

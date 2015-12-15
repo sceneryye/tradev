@@ -6,14 +6,14 @@
   <% open_id = shop.openid %>
   <% account = Ecstore::Account.find_by_login_name(open_id) || Ecstore::Account.find_by_login_name(open_id + "_shop_#{shop_id}") %>
   <div class="shops">
-    <a href="/weihuo/shops/<%= shop_id %>?from=chooseshop&enterin=second">
+    <a href="/weihuo/shops/<%= shop_id %>?from=chooseshop&enterin=second&layout=<%= params[:layout] %>">
      <span class="headimg"><img src="<%= account.user.weixin_headimgurl %>" /></span>
      <span class="name"><%= account.user.weixin_nickname %></span>
    </a>
  </div>
  <% end %>
  <div class="shops">
-  <a href="/weihuo/shops/49?from=chooseshop&enterin=second">
+  <a href="<%= @public_url %>">
    <span class="headimg"><img src="/new/images/default_headimg.jpg" /></span>
    <span class="name">不了，先随便逛逛吧～</span>
  </a>
@@ -21,7 +21,7 @@
 <% unless @shop_exist %>
   <div class="qrcode">
     <h3 style="text-align:center;">扫描二维码加盟代理</h3>
-    <div id="qrcode" style="margin: 0 auto%;margin-top:15px;width:180px;height:180px;" data-url="http://www.trade-v.com/weihuo/shops/new">
+    <div id="qrcode" style="margin: 0 auto%;margin-top:15px;width:180px;height:180px;" data-url="http://www.trade-v.com/weihuo/shops/new?layout=<%= params[:layout] %>">
     </div>
   </div>
   <% end %>

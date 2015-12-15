@@ -3,6 +3,7 @@ require 'hashie'
 require 'pp'
 class Auth::WeixinController < ApplicationController
 	skip_before_filter :authorize_user!
+	skip_before_filter :find_cart!
 
 	def index
 		auth_ext = Ecstore::AuthExt.find_by_id(cookies.signed[:_auth_ext].to_i) if cookies.signed[:_auth_ext]
@@ -32,6 +33,10 @@ class Auth::WeixinController < ApplicationController
 			shop_id = id_type[1]
 		else
 			supplier_id = id
+		end
+
+		if id_type[2]
+			new_layout = id_type[2]
 		end
 
 	    if params[:supplier_id]
@@ -200,9 +205,9 @@ class Auth::WeixinController < ApplicationController
 	    	if shop_id
 	    		layout = Ecstore::WeihuoShop.find_by_shop_id(shop_id).try :layout
 	    		if shop_id == '0'
-	    			redirect = '/weihuo/shops/new?layout=#{layout}'
+	    			redirect = "/weihuo/shops/new?layout=#{new_layout}"
 	    		else
-	    		redirect ="/weihuo/shops/#{shop_id}?enterin=first&layout=#{layout}"
+	    		redirect ="/weihuo/shops/#{shop_id}?layout=#{layout}"
 	    	end
 	    	elsif supplier_id == '78'
 	    		redirect  = "/mobile"

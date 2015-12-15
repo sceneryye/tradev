@@ -6,6 +6,7 @@ class Weihuo::ShopsController < ApplicationController
 
 
   layout 'weihuo'
+  before_filter :shop_layout
 
 
 
@@ -13,7 +14,7 @@ class Weihuo::ShopsController < ApplicationController
   def index
     @shop_ids = []
     login_name = current_account.login_name.split('_shop_').first
-    names = Ecstore::Account.where("login_name like ?", "%#{login_name}%").each do |user| 
+    names = Ecstore::Account.where("login_name like ? and layout = ?", "%#{login_name}%", "#{params[:layout]}").each do |user| 
      shop_id = user.login_name.split('_shop_').last 
      @shop_ids << shop_id if shop_id.to_i > 0 && shop_id != '49' && shop_id != '50' && Ecstore::WeihuoShop.find_by_shop_id(shop_id).try(:layout) == params[:layout]
    end
@@ -22,16 +23,22 @@ class Weihuo::ShopsController < ApplicationController
 
     @shop_exist = true if Ecstore::WeihuoShop.find_by_shop_id(shop_id).try(:openid) == current_account.login_name.split('_shop_').first
   end
+  if params[:layout] == 'weihuo'
+    @public_url = "/weihuo/shops/49?from=chooseshop&enterin=second&layout=#{params[:layout]}"
+  elsif params[:layout] == 'chuangke'
+    @public_url = "/weihuo/shops/50?from=chooseshop&enterin=second&layout=#{params[:layout]}"
+  end
   Rails.logger.info "shop_ids => #{@shop_ids}"
 end
 
 def user_center
+  @layout = Ecstore::WeihuoShop.find_by_shop_id(params[:shop_id]).layout
   user = Ecstore::Account.where('login_name like ?', "%#{current_account.login_name.split('_shop_')[0]}%")
   account_ids = user.map(&:account_id)
   @order_ids = []
   account_ids.each do |account_id|
     Ecstore::Order.where(:member_id => account_id).each do |order|
-
+      next if Ecstore::WeihuoShop.find_by_shop_id(order.shop_id).try(:layout) != @layout
       @order_ids << order.order_id
     end
   end
@@ -40,7 +47,7 @@ def user_center
   user.each do |account|
     @shop_ids << account.login_name.split('_shop_')[1]
   end
-  @shop_ids = @shop_ids.select{|shop_id|Ecstore::WeihuoShop.where(:shop_id => shop_id).present?}
+  @shop_ids = @shop_ids.select{|shop_id|Ecstore::WeihuoShop.where(:shop_id => shop_id, :layout => @layout).present?}
   @line_items = Ecstore::Cart.where(:member_id => current_account.account_id).first
   
 end
@@ -49,12 +56,13 @@ def using_guide
 end
 
 def my_orders
+  layout = Ecstore::WeihuoShop.find_by_shop_id(params[:shop_id]).layout
   user = Ecstore::Account.where("login_name like ?", "%#{current_account.login_name.split('_shop_')[0]}%")
   account_ids = user.map(&:account_id)
   @order_ids = []
   account_ids.each do |account_id|
     Ecstore::Order.where(:member_id => account_id).order('createtime desc').each do |order|
-
+      next if Ecstore::WeihuoShop.find_by_shop_id(order.shop_id).try(:layout) != layout
       @order_ids << order.order_id
     end
   end
@@ -66,7 +74,7 @@ def my_visited_shops
   Ecstore::Account.where("login_name like ?", "%#{openid}%").each do |account|
     @shop_ids << account.login_name.split('_shop_')[1]
   end
-  @shop_ids = @shop_ids.select{|shop_id|Ecstore::WeihuoShop.where(:shop_id => shop_id).present?}
+  @shop_ids = @shop_ids.select{|shop_id|Ecstore::WeihuoShop.where(:shop_id => shop_id, :layout => shop_layout).present?}
 end
 
 def my_addresses
@@ -90,6 +98,7 @@ def manage
   @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_shop_')[0])
   @goods = Ecstore::Good.where(:supplier_id => 10)
   @orders = Ecstore::Order.where(:shop_id => params[:shop_id])
+  @layout = Ecstore::WeihuoShop.find_by_shop_id(params[:shop_id]).layout
 
 end
 
@@ -232,17 +241,31 @@ def show
     Ecstore::Good.where(:bn => bn).first.medium_pic
   end  
   if params[:from] == 'chooseshop'
-    return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile&layout=#{params[:layout]}"
+    return redirect_to "/shop_login?id=78&shop_id=#{shop_id}"
   end
   if !current_account.present? || current_account.supplier_id != 78
 
-    return redirect_to "/shop_login?id=78&shop_id=#{shop_id}&return_url=/weihuo/shops/#{shop_id}&platform=mobile&layout=#{params[:layout]}"
+    return redirect_to "/shop_login?id=78&shop_id=#{shop_id}"
   end
-  openid= current_account.login_name.split('_shop_')[0]
+  openid, shopid= current_account.login_name.split('_shop_')
   shop = Ecstore::WeihuoShop.where(:openid => openid, :layout => params[:layout])
   if shop.present? && params[:id] != shop.first.shop_id.to_s
-    return redirect_to "/weihuo/shops/#{shop.first.shop_id}?layout=#{params[:layout]}"
+    if shop_id == '49' || shop_id == '50'
+      return redirect_to "/shop_login?id=78&shop_id=#{shop.first.shop_id}"
+    elsif shopid != shop_id
+      return redirect_to "/weihuo/shops/shopid"
+    end
   end
+  # if shop.present? && params[:id] != shop.first.shop_id.to_s && 
+    # if params[:id] == '49'
+      # return redirect_to "/weihuo/shops/#{shop.first.shop_id}?layout=#{params[:layout]}"
+    # else
+      # Rails.logger.info "CurrentUser = #{current_account.login_name}"
+      # sign_out
+      # Rails.logger.info "CurrentUser = #{current_account.login_name}"
+      # return redirect_to "/shop_login?id=78&shop_id=#{shop_id}"
+    # end
+  # end
   return redirect_to "/weihuo/shops?layout=#{params[:layout]}" if params[:enterin] == 'first'
     # return render :text => shop_id == '49'
     # if current_account.present?
@@ -255,22 +278,31 @@ def show
     @shop = Ecstore::WeihuoShop.find(params[:shop_id] || params[:id])
     if @shop.layout == 'weihuo'
       @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:per_page => 30, :page => params[:page]).order(:name)
+      @title = '尾货良品' + params[:id] + '号店'
     elsif @shop.layout == 'chuangke'
       @goods = Ecstore::Good.where(:supplier_id => 11).paginate(:per_page => 30, :page => params[:page]).order(:name)
+      @title = 'Community Maker'
     end
   end
 
   # 申请店铺
   def new
     if current_account.blank?
-      return redirect_to "/auto_login2?return_url=#{URI.escape 'http://www.trade-v.com/weihuo/shops/new'}&platform=mobile&from=new"
+      return redirect_to "/auto_login2?layout=#{params[:layout]}&return_url=#{URI.escape 'http://www.trade-v.com/weihuo/shops/new'}&platform=mobile&from=new"
     end
 
-    @exiting_shop = Ecstore::WeihuoShop.where(:openid => current_account.login_name.split('_shop_')[0])
+    @exiting_shop = Ecstore::WeihuoShop.where(:openid => current_account.login_name.split('_shop_')[0], :layout => params[:layout])
     
 
-    
-    @organisations = Ecstore::WeihuoOrganisation.all
+    if params[:layout] == 'weihuo'
+      @cities = Ecstore::WeihuoOrganisation.where(:parent_id => 5)
+    elsif params[:layout] == 'chuangke'
+      @cities = Ecstore::WeihuoOrganisation.where(:parent_id => 4)
+    else
+      @cities = Ecstore::WeihuoOrganisation.where("parent_id = 4 or parent_id = 5")
+    end
+    city = Ecstore::WeihuoOrganisation.where(:name => params[:city_name]).try(:first)
+    @organisations = Ecstore::WeihuoOrganisation.where(:parent_id => city.try(:id))
     organisation = Ecstore::WeihuoOrganisation.where(:name => params[:organisation_name])
     @employees = Ecstore::WeihuoEmployee.where(:weihuo_organisation_id => organisation.first.id) if organisation.present?
     @shop = Ecstore::WeihuoShop.new
@@ -287,6 +319,7 @@ def show
     shop_params[:weihuo_organisation_id] = Ecstore::WeihuoOrganisation.where(:name => params[:organisation_name]).first.id
     shop_params[:employee_name] = params[:employee_name]
     shop_params[:employee_mobile] = params[:employee_mobile]
+    shop_params[:layout] = params[:layout]
 
     shop_params[:status] = '1'
     get_url = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=#{access_token}&openid=#{open_id}&lang=zh_CN"
@@ -339,7 +372,13 @@ def show
   def share
     @url = "http://www.trade-v.com/weihuo/shops/#{params[:shop_id]}"
     @shop = Ecstore::WeihuoShop.where(:shop_id => params[:shop_id]).first
-
+    if @shop.layout == 'weihuo'
+      @title = '尾货良品商城'
+      @collect = '请收藏店铺以备后用'
+    elsif @shop.layout == 'chuangke'
+      @title = '社区创客'
+      @collect = '请收藏创客以备后用'
+    end
   end
 
   helper_method :pay_with_goods, :total_profit, :goods_profit, :username_for_avatar
@@ -426,7 +465,10 @@ def choose_layout
   Ecstore::WeihuoShop.where(:shop_id => shop_id).first.layout
 end
 
-
+def shop_layout
+  shop_id = params[:shop_id] || params[:id]
+  layout = Ecstore::WeihuoShop.find_by_shop_id(shop_id).layout
+end
 # def username_for_avatar
   # Pinyin.t(self.username)
 # end
