@@ -118,6 +118,46 @@ end
         # send_data(content, :type => "text/excel;charset=utf-8; header=present",:filename => "goods_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xls")
     
 end
+ def downgood
+
+        goods = Ecstore::Good.all
+   
+        package = Axlsx::Package.new
+        workbook = package.workbook
+        workbook.styles do |s|
+          head_cell = s.add_style  :b=>true, :sz => 10, :alignment => { :horizontal => :center,
+                                                                        :vertical => :center}
+          goods_cell = s.add_style :b=>true,:bg_color=>"FFFACD", :sz => 10, :alignment => {:vertical => :center}
+          product_cell =  s.add_style  :sz => 9
+
+          workbook.add_worksheet(:name => "Product") do |sheet|
+
+          sheet.add_row ["商品编号","商品名称","品牌","商品名称","进货价","会员价","市场价","库存","上架", "规格","商品描述",],
+                        :style=>head_cell
+
+            row_count=0
+
+            goods.each do |good|
+
+              goodsBn=good.bn.to_s
+              goodsName=good.name
+              goodsBrand=good.brand&&good.brand.brand_name
+              goodsCost=good.cost
+              goodPrice=good.price
+              goodMktprice=good.mktprice
+              goodStore=good.store.to_i
+              goodsMt =good.marketable=="true" ? "是" : "否"
+         
+              sheet.add_row [goodsBn,goodsName,goodsBrand,goodsCost,goodPrice,goodsBrand,goodMktprice,goodStore,goodsMt,goodsMt],:style=>goods_cell,:height=> 40
+
+              row_count +=1
+              end
+
+              sheet.column_widths nil, nil,nil,nil,nil,10
+            end
+          end
+         
+      end
       #orders list
       def downorder
 

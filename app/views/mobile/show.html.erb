@@ -189,6 +189,8 @@ location.href = auto_login_url;
        <%end%>
    </div>
    <script language="javascript">
+
+
    function change_price(obj){
     //$('.price-sale #priceSale').text($(obj).attr-data('price'));
     //$('.price-market #priceMarket').text($(obj).attr-data('market_price'));
@@ -221,7 +223,7 @@ var store = document.getElementById("store");
     <h3>数量</h3>
     <div class="num_wrap">
         <span class="minus minus_disabled" id="minus" ptag="7001.1.11" onclick="remov()"></span>
-        <input class="num" id="buyNum" type="tel" value="1" name="product[quantity]" >
+        <input class="num" id="buyNum" type="tel" value="1" name="product[quantity]"   onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
         <span class="plus" id="plus" ptag="7001.1.11" onclick="add()"></span>
           <p hidden>  <input class="store" id="store" style="" value="<%=@goods.store.to_i%>"></span></p>
     </div>
