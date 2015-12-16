@@ -248,14 +248,17 @@ def show
   if params[:from] == 'chooseshop'
     return redirect_to "/shop_login?id=78&shop_id=#{shop_id}"
   end
-  if !current_account.present? || current_account.supplier_id != 78
-
+  if !current_account.present? || current_account.supplier_id != 78 || current_account.login_name.split('_shop_')[1].split('_')[0] != shop_id
     return redirect_to "/shop_login?id=78&shop_id=#{shop_id}"
   end
   openid, shopid= current_account.login_name.split('_shop_')
   #有的用户名是这样的：openid_shops_#{shop_id}_#{numbers},为防止这种用户名，shopid做如下处理
   shopid = shopid.split('_')[0] if shopid.present?
   Rails.logger.info "########shopid = #{shopid}"
+  Rails.logger.info "########current_account = #{current_account.login_name}"
+  Rails.logger.info current_account.try(:login_name).try(:split, '_shop_').try(:first)
+  Rails.logger.info Ecstore::WeihuoShop.where(:shop_id => (params[:id] || params[:shop_id])).first.openid
+  Rails.logger.info (current_account.try(:login_name).try(:split, '_shop_').try(:first) == Ecstore::WeihuoShop.where(:shop_id => (params[:id] || params[:shop_id])).first.openid).to_s
   
   shop = Ecstore::WeihuoShop.where(:openid => openid, :layout => params[:layout])
   if shop.present? && params[:id] != shop.first.shop_id.to_s
@@ -263,6 +266,7 @@ def show
       return redirect_to "/shop_login?id=78&shop_id=#{shop.first.shop_id}"
     elsif shopid == shop_id
       return redirect_to "/weihuo/shops/#{shopid}"
+
     end
   end
   # if shop.present? && params[:id] != shop.first.shop_id.to_s && 
@@ -341,7 +345,7 @@ def show
       account = Ecstore::Account.where(:account_id => params[:member_id]).first
 
       account.update_column(:shop_id, @shop.shop_id)
-      Ecstore::WeihuoEmployee.where(:name => params[:employee_name]).first.update_attributes(:area => params[:province] + params[:city], :address => params[:address], :shop_id => @shop.shop_id)
+      Ecstore::WeihuoEmployee.where(:name => params[:employee_name]).first.update_attributes(:area => params[:province].to_s + params[:city].to_s, :address => params[:address], :shop_id => @shop.shop_id)
 
       redirect_to weihuo_shop_path(@shop)
     else

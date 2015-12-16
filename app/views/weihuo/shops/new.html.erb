@@ -32,7 +32,7 @@
           </select>
         </div>
       </div>
-    </form>
+    
 
     <div class="row">
       <div class="col-xs-10 col-xs-offset-1">
@@ -54,9 +54,9 @@
     </div>
 
     <div class='col-xs-10 col-xs-offset-1'>
-      <input name="province" placeholder="请输入省份" class="province" />
-      <input name ="city" placeholder="请输入城市" class="city" />
-      <input name ="address" placeholder="请输入详细地址" class="address" />
+      <input name="province" placeholder="请输入省份" class="province" type="text" />
+      <input name="city" placeholder="请输入城市" class="city" type="text" />
+      <input name="address" placeholder="请输入详细地址" class="address" type="text" />
     </div>
 
     <div class="col-xs-10 col-xs-offset-1">
@@ -137,7 +137,7 @@
     });
 
     $("input[type='button']").on('click',function(){
-     if($('.organisation-name').val() == '' || $('.employee-name').val() == '' || $("input[name='employee_mobile']").val() == undefined || $("input[name='employee_mobile']").val() == '' || $('.province').val() == '' || $('.city').val() == '' || $('.address').val() == '') {
+     if($('.organisation-name').val() == '' || $('.employee-name').val() == '' || $("input[name='employee_mobile']").val() == undefined || $("input[name='employee_mobile']").val() == '' || $('.province').val() == '' || $('.city').val() == '' || $('.address').val() == '' || $('.province').val() == undefined || $('.city').val() == undefined) {
       swal({
         title: '信息不完整',
         text: '请填写完整信息',

@@ -66,7 +66,7 @@
         </a>
       </div>
     </div>
-    <% if current_account.try(:login_name).try(:split, '_').try(:first) == Ecstore::WeihuoShop.where(:shop_id => (params[:id] || params[:shop_id])).first.openid %>
+    <% if current_account.try(:login_name).try(:split, '_shop_').try(:first) == Ecstore::WeihuoShop.where(:shop_id => (params[:id] || params[:shop_id])).first.openid %>
     <div class="manage block">
       <div class="center">
         <a href="/weihuo/shops/manage?shop_id=<%= params[:id] || params[:shop_id] %>" data-link="/weihuo/shops/manage" ptag="37128.9.2" style="display:" class="">
