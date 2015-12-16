@@ -1,5 +1,5 @@
 <h3><%= @title %></h3>
-<div id="qrcode" style="margin: 0 auto%;margin-top:15px;position:relative;width:180px;height:180px;" data-url="<%= "http://www.trade-v.com/weihuo/shops/#{params[:shop_id]}?layout=#{@shop.try :layout}" %>" data-img="<%= @shop.logo %>">
+<div id="qrcode" style="margin: 0 auto%;margin-top:15px;position:relative;width:180px;height:180px;" data-url="<%= "http://www.trade-v.com/weihuo/shops/#{params[:shop_id]}?layout=#{@shop.try :layout}" %>" data-img="<%= @shop.logo || @shoplogo %>">
 </div>
 <div class="backup">
   <h4>

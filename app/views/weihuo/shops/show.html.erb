@@ -17,7 +17,7 @@
       <% elsif @shop.layout == 'chuangke' %>
       <span class="logo">社区创客</span>
       <span class="number"><%= params[:id] %>号店</span>
-      <div class="chuangke-img"><img src="<%= @shop.logo %>" style="height:40px;position:absolute;right: 1%;top:5px;"></div>
+      <div class="chuangke-img"><img src="<%= @shop.logo || '/new/images/ck.png' %>" style="height:55px;position:absolute;right: 1%;top:2px;"></div>
       <% end %>
     </div>
   </div>
@@ -38,19 +38,19 @@
     .shop-name .logo {
       position: absolute;
       color: white;
-      font-size: 1.8em;
+      font-size: 1.6em;
       font-weight: 1000;
-      top: 8px;
+      top: 10px;
       left: 1%;
       margin-left: 0;
     }
     .shop-name .number {
       position: absolute;
       color: white;
-      font-size: 1.4em;
+      font-size: 1.3em;
       font-weight: 1000;
-      top: 12px;
-      left: 20%;
+      top: 14px;
+      left: 42%;
     }
     .item img {
       display: inline-block;

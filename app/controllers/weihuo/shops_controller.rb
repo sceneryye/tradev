@@ -101,7 +101,7 @@ end
 def manage
   @members = Ecstore::Account.all.select{|member|member.shop_id == params[:shop_id].to_i}
   @bonuses = Ecstore::WeihuoShare.where(:open_id => current_account.login_name.split('_shop_')[0])
-  @goods = Ecstore::Good.where(:supplier_id => 10)
+  @goods = Ecstore::Good.where(:supplier_id => (shop_layout == 'weihuo' ? 10 : 11))
   @orders = Ecstore::Order.where(:shop_id => params[:shop_id])
   @layout = Ecstore::WeihuoShop.find_by_shop_id(params[:shop_id]).layout
 
@@ -124,7 +124,7 @@ def show_bonuses
 end
 
 def show_goods
-  @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:page => params[:page], :per_page => 20).order('name ASC')
+  @goods = Ecstore::Good.where(:supplier_id => (shop_layout == 'weihuo' ? 10 : 11)).paginate(:page => params[:page], :per_page => 20).order('name ASC')
 end
 
 def show_orders
@@ -254,7 +254,7 @@ def show
   end
   openid, shopid= current_account.login_name.split('_shop_')
   #有的用户名是这样的：openid_shops_#{shop_id}_#{numbers},为防止这种用户名，shopid做如下处理
-  shopid = shopid.split('_')[0]
+  shopid = shopid.split('_')[0] if shopid.present?
   Rails.logger.info "########shopid = #{shopid}"
   
   shop = Ecstore::WeihuoShop.where(:openid => openid, :layout => params[:layout])
@@ -384,9 +384,11 @@ def show
     if @shop.layout == 'weihuo'
       @title = '尾货良品商城'
       @collect = '请收藏店铺以备后用'
+      @shoplogo = '/new/images/default_headimg.jpg'
     elsif @shop.layout == 'chuangke'
       @title = '社区创客'
       @collect = '请收藏创客以备后用'
+      @shoplogo = '/new/images/ck.png'
     end
   end
 
@@ -476,7 +478,7 @@ end
 
 def shop_layout
   shop_id = params[:shop_id] || params[:id]
-  layout = Ecstore::WeihuoShop.find_by_shop_id(shop_id).layout
+  layout = Ecstore::WeihuoShop.find_by_shop_id(shop_id).try(:layout)
 end
 # def username_for_avatar
   # Pinyin.t(self.username)
