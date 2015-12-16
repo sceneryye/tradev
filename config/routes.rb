@@ -429,6 +429,7 @@ get 'foodies/foodie_pay' => 'foodies#foodie_pay'
       post "black_weihuo_new" , :on=>:collection
       get 'select_all',:on=>:collection
       get 'search', :on=>:collection
+       get 'downgood', :on=>:collection
       collection do 
         get :goods
         get :organisations
@@ -438,7 +439,7 @@ get 'foodies/foodie_pay' => 'foodies#foodie_pay'
         get :shares  
         get :import
         get :downorder
-
+        get :downgood
       end
     end
 
