@@ -49,6 +49,11 @@ def user_center
   end
   @shop_ids = @shop_ids.select{|shop_id|Ecstore::WeihuoShop.where(:shop_id => shop_id, :layout => @layout).present?}
   @line_items = Ecstore::Cart.where(:member_id => current_account.account_id).first
+  if shop_layout == 'weihuo'
+    @user_guide = '使用指南'
+  elsif shop_layout == 'chuangke'
+    @user_guide = '创客模式'
+  end
   
 end
 
@@ -385,7 +390,7 @@ def show
     end
   end
 
-  helper_method :pay_with_goods, :total_profit, :goods_profit, :username_for_avatar
+  helper_method :pay_with_goods, :total_profit, :goods_profit, :username_for_avatar, :shop_layout
   private
 
   def pay_with_goods bn
