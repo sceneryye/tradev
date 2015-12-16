@@ -8,6 +8,7 @@
     <h3 class="center">申请尾货良品店铺</h3>
     <form action="/weihuo/shops" class="build-store" method="post">
       <input type="hidden" name="member_id" value="<%= current_account.account_id %>" />
+      <input type="hidden" name="layout" value="<%= params[:layout] %>" />
       <div class="row">
 
         <div class="row">
@@ -40,7 +41,7 @@
           <option value=''>请选择您的姓名</option>
           <% if @employees.present? %>
           <%= @employees.each do |employee| %>
-          <option value=<%= employee.name %>><%= employee.name %></option>
+          <option value="<%= employee.name %>"><%= employee.name %></option>
           <% end %>
         </select>
         <% end %>

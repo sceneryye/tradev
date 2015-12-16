@@ -301,7 +301,7 @@ def show
   # 申请店铺
   def new
     if current_account.blank?
-      return redirect_to "/auto_login2?layout=#{params[:layout]}&return_url=#{URI.escape 'http://www.trade-v.com/weihuo/shops/new'}&platform=mobile&from=new"
+      return redirect_to "/auto_login2?layout=#{params[:layout]}"
     end
 
     @exiting_shop = Ecstore::WeihuoShop.where(:openid => current_account.login_name.split('_shop_')[0], :layout => params[:layout])
