@@ -5,7 +5,7 @@
       <%= f.hidden_field :select_all,:class=>"sel_operation", :value => 0 %>
 
         &nbsp;&nbsp;&nbsp;&nbsp;
-      <%if current_admin.has_right_of("orders","downorder") %>
+      <%if current_admin.has_right_of("goods","downgood") %>
         <%= f.submit '导出商品', :class => "btn btn-primary"%>
        <%end%>
                     <%end%>

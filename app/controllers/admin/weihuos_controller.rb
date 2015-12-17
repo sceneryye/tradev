@@ -120,7 +120,7 @@ end
 end
  def downgood
 
-        goods = Ecstore::Good.all
+        goods = Ecstore::Good.where(:supplier_id=>10)
    
         package = Axlsx::Package.new
         workbook = package.workbook
@@ -153,8 +153,8 @@ end
               row_count +=1
               end
 
-              sheet.column_widths nil, nil,nil,nil,nil,10
             end
+             send_data package.to_stream.read,:filename=>"orders_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
           end
          
       end
@@ -178,7 +178,7 @@ end
 
             row_count=0
 
-            orders.each do |order|
+            orders.each do |order| 
               orderid=order.order_id.to_s + " "
               memberid=order.member_id
               shipname=order.ship_name
@@ -192,7 +192,7 @@ end
               row_count +=1
             end
            end
-          send_data package.to_stream.read,:filename=>"orders_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
+          send_data package.to_stream.read,:filename=>"weihuogoods_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
           end
       end
       def index
