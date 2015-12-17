@@ -13,7 +13,7 @@
 opacity:0.8;" src="/images/homepage/sellout.jpg">
   </div>    <% end %>
 
-          <div style="position: absolute;"><img src="/images/homepage/weihuoimg.png" /></div>
+         
             <img src="<%= goods.medium_pic %>" /> 
           </div> 
         </div>
@@ -21,10 +21,10 @@ opacity:0.8;" src="/images/homepage/sellout.jpg">
         <%= goods.name %>
       </div>
       <div class="goods-price">
-          <div> <span class="product-price-old">市场价：￥<%=goods.mktprice%></span></div>
+          <div> <span class="product-price-old">市场价：￥<%=goods.mktprice.to_i%></span></div>
        <div>
         <span class="price"> 创客价：
-          ￥<%= goods.price %>
+          ￥<%= goods.price.to_i %>
         </span></div>       
 
       </hr>
