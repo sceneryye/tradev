@@ -42,7 +42,9 @@ module ActiveApi
 		        res = Faraday.new(config.access_token_uri,:ssl=>config.ssl, :params => params).get
 		        #return  res.body
 		        body = Hashie::Mash.new JSON.parse(res.body)
-		        body.merge! :expires_at=>(body.expires_in + request_time)
+		        if body.expires_in
+			        body.merge! :expires_at=>(body.expires_in + request_time)
+			    end
 		        body
 		  	end
 

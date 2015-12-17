@@ -57,6 +57,7 @@ class Auth::WeixinController < ApplicationController
 		# return render :text=>params[:code]
 		#token = Weixin.request_token(params[:code])
 	    token = Weixin.request_token_multi(params[:code],appid,secret)
+
 	    user_info = Weixin.get_userinfo_multi(token.openid,token.access_token)
 	  	# return  render :text=>user_info.nickname
 
@@ -67,7 +68,7 @@ class Auth::WeixinController < ApplicationController
 		   #            :refresh_token=>token.refresh_token,
 						:expires_at=>token.expires_at,
 						:expires_in=>token.expires_in)
-
+ 
 		if auth_ext.new_record? || auth_ext.account.nil? || auth_ext.account.user.nil?
 			client = Weixin.new(:access_token=>token.access_token,:expires_at=>token.expires_at)
 			auth_user = client.get('users/show.json',:uid=>token.uid)
@@ -76,6 +77,9 @@ class Auth::WeixinController < ApplicationController
 
 			#login_name = auth_user.screen_name
 	        login_name = token.openid
+	        if login_name.nil?
+	         return render :text=>'The autologin is failed.'
+	        end
 	        if shop_id
 	        	login_name +="_shop_#{shop_id}"
 	        end
