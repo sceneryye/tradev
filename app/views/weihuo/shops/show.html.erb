@@ -25,9 +25,11 @@
 </div>
 <%= render 'carousel' %>
 <div class="container" >
-
-  <%= render 'partials/goods_list' %>
-
+  <% if @shop.layout == 'weihuo' %>
+  <%= render 'partials/goods_list_weihuo' %>
+  <% elsif @shop.layout == 'chuangke' %>
+  <%= render 'partials/goods_chuangke' %>
+  <% end %>
   <% end %>
 
   <style type="text/css">
