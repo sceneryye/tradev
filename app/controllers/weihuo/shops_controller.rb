@@ -324,7 +324,7 @@ def show
   def create
     member_id = params[:member_id]
     open_id = Ecstore::Account.where(:account_id => member_id).first.login_name.split('_shop_')[0]
-    return render :text => '该店铺已经存在！' if Ecstore::WeihuoShop.where(:openid => open_id).present?
+    return render :text => '该店铺已经存在！' if Ecstore::WeihuoShop.where(:openid => open_id, :layout => params[:layout]).present?
     shop_params = {}
     shop_params[:member_id] = params[:member_id]
 

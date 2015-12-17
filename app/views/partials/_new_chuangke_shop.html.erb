@@ -1,0 +1,67 @@
+<div class="container">
+  <div class="col-xs-12">
+    <h3 class="center">申请加入社区创客</h3>
+    <form action="/weihuo/shops" class="build-store" method="post">
+      <input type="hidden" name="member_id" value="<%= current_account.account_id %>" />
+      <input type="hidden" name="layout" value="<%= params[:layout] %>" />
+      <div class="row">
+
+        <div class="row">
+          <div class="col-xs-10 col-xs-offset-1">
+            <select name="city_name" class="city-name" data-name=''>
+              <option value=''>请选择您的区域</option>
+              <%= @cities.each do |city| %>
+              <option value="<%= city.name %>"><%= city.name %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+          <select name="organisation_name" class="organisation-name" data-name=''>
+            <option value=''>请选择您的街道</option>
+            <%= @organisations.each do |o| %>
+            <option value="<%= o.name %>"><%= o.name %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+    
+
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <select name="employee_name" class="employee-name">
+          <option value=''>请选择您的姓名</option>
+          <% if @employees.present? %>
+          <%= @employees.each do |employee| %>
+          <option value="<%= employee.name %>"><%= employee.name %></option>
+          <% end %>
+        </select>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <input name = "employee_mobile" type="text" data-mobile="<%= Ecstore::WeihuoEmployee.where(:name => params[:employee_name]).first.mobile if params[:employee_name].present? %>" placeholder="请输入您的手机号">
+      </div>
+    </div>
+
+    <div class='col-xs-10 col-xs-offset-1'>
+      <input name="province" placeholder="请输入省份" class="province" type="text" />
+      <input name="city" placeholder="请输入城市" class="city" type="text" />
+      <input name="address" placeholder="请输入详细地址" class="address" type="text" />
+    </div>
+
+    <div class="col-xs-10 col-xs-offset-1">
+      <div class="errmsg"></div>
+    </div>
+    <div class="row">
+      <div class="col-xs-10 col-xs-offset-1">
+        <input type="button" class="btn btn-success pull-right" value="提交申请">
+      </div>
+    </form>
+  </div>
+</div>
