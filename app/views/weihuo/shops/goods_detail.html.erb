@@ -105,11 +105,18 @@
 
       <div class="book_desc" id="actTitleDesc" style="display:none"></div>
     </div>
+    <% if shop_layout == 'weihuo' %>
+    <% goods_price == '尾货价' %>
+    <% goods_mktprice == '正品价' %>
+    <% elsif shop_layout == 'chuangke' %>
+    <% goods_price == '尾货价' %>
+    <% goods_mktprice == '正品价' %>
+    <% end %>
 
     <div class="price_wrap" id="priceBlock">
-      <span class="tit" id="priceTitle">尾货价：</span>
+      <span class="tit" id="priceTitle"><%= goods_price %>：</span>
       <span class="price price-sale" id="priceSale"><%=@goods.price%></span>
-      <span class="tit" id="priceTitle">正品价：</span>
+      <span class="tit" id="priceTitle"><%= goods_mktprice %>：</span>
       <span class="price price-market"  id="priceMarket" style="text-decoration:line-through"><%=@goods.mktprice%></span>
       <span class="group" id="priceGroupStyle" style="display: none"></span>
       <span class="tip_red" id="priceDis" style="display: none"></span>
@@ -319,8 +326,9 @@
     <!-- 商品介绍 -->
     <div class="detail_item1 p_desc1" id="detail11" style="position:static;width:100%">
 
-      
+      <% if shop_layout == 'weihuo' %>
       <p style="color:#006000;font-weight:bold">特别申明：此尾货良品，系物流仓库积压处理品的环保再利用，保障正品无假货，即使略有瑕疵，不影响功能使用。一旦购买，概不退货。请知悉。</p>
+      <% end %>
       
       <!--<%#=raw @goods.intro%>-->
       <%=raw @goods.intro.gsub(/width/,'widthh').gsub(/height/,'heightt/') if @goods.intro%>
@@ -357,7 +365,7 @@
     <!--   <a class="btn btn_buy_exp" href="javascript:;" id="buyBtnExp" style="display: none" manualclick="xxx" pppptag="7001.1.8">立即购买</a>-->
     <%if @goods.marketable == 'false'|| @goods.store.to_i < 1 %>
 
-     <h1 style="text-align: center;font-size:22px">该商品已售罄</h1>
+    <h1 style="text-align: center;font-size:22px">该商品已售罄</h1>
 
     <% else %>
     <a class="btn btn_cart add_to_cart" href="javascript:;"  style="background-color:#BF1E2E;" manualclick="xxx" pppptag="7001.1.10" id="add_to_cart">加入购物车</a>
