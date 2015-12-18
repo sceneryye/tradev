@@ -50,7 +50,7 @@
   </script>
 
   <%= yield %>
-  <% name = current_account.try(:login_name).try(:split, '_').try(:first) == Ecstore::WeihuoShop.where(:shop_id => (params[:id] || params[:shop_id])).first.try(:openid) ? "fix-bottom-4" : "fix-bottom-3" %>
+  <% name = current_account.try(:login_name).try(:split, '_shop_').try(:first) == Ecstore::WeihuoShop.where(:shop_id => (params[:id] || params[:shop_id])).first.try(:openid) ? "fix-bottom-4" : "fix-bottom-3" %>
   
   <div class="<%= name %> navbar navbar-default navbar-fixed-bottom">
 
