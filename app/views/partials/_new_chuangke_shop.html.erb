@@ -8,7 +8,7 @@
 
         <div class="row">
           <div class="col-xs-10 col-xs-offset-1">
-            <select name="city_name" class="city-name" data-name=''>
+            <select name="city_name" class="city-name form-control" data-name=''>
               <option value=''>请选择您的区域</option>
               <%= @cities.each do |city| %>
               <option value="<%= city.name %>"><%= city.name %></option>
@@ -20,7 +20,7 @@
 
       <div class="row">
         <div class="col-xs-10 col-xs-offset-1">
-          <select name="organisation_name" class="organisation-name" data-name=''>
+          <select name="organisation_name" class="organisation-name form-control" data-name=''>
             <option value=''>请选择您的街道</option>
             <%= @organisations.each do |o| %>
             <option value="<%= o.name %>"><%= o.name %></option>
@@ -32,7 +32,7 @@
 
     <div class="row">
       <div class="col-xs-10 col-xs-offset-1">
-        <select name="employee_name" class="employee-name">
+        <select name="employee_name" class="employee-name form-control">
           <option value=''>请选择您的姓名</option>
           <% if @employees.present? %>
           <%= @employees.each do |employee| %>
@@ -45,14 +45,14 @@
 
     <div class="row">
       <div class="col-xs-10 col-xs-offset-1">
-        <input name = "employee_mobile" type="text" data-mobile="<%= Ecstore::WeihuoEmployee.where(:name => params[:employee_name]).first.mobile if params[:employee_name].present? %>" placeholder="请输入您的手机号">
+        <input class="form-control" name = "employee_mobile" type="text" data-mobile="<%= Ecstore::WeihuoEmployee.where(:name => params[:employee_name]).first.mobile if params[:employee_name].present? %>" placeholder="请输入您的手机号">
       </div>
     </div>
 
     <div class='col-xs-10 col-xs-offset-1'>
-      <input name="province" placeholder="请输入省份" class="province" type="text" />
-      <input name="city" placeholder="请输入城市" class="city" type="text" />
-      <input name="address" placeholder="请输入详细地址" class="address" type="text" />
+      <input name="province" placeholder="请输入省份" class="province form-control" type="text" />
+      <input name="city" placeholder="请输入城市" class="city" type="text form-control" />
+      <input name="address" placeholder="请输入详细地址" class="address form-control" type="text" />
     </div>
 
     <div class="col-xs-10 col-xs-offset-1">
