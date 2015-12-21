@@ -11,12 +11,12 @@ end
 
 module Modengke
   class Application < Rails::Application
-        config.to_prepare do
+    config.to_prepare do
       # Load application's model / class decorators
       Dir.glob(File.join(File.dirname(__FILE__), "../app/**/*_decorator*.rb")) do |c|
         Rails.configuration.cache_classes ? require(c) : load(c)
-      end
     end
+end
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -25,6 +25,8 @@ module Modengke
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
     config.autoload_paths += %W(#{config.root}/app/models/ckeditor #{config.root}/lib/utils.rb)
+
+    
 
 
     # Only load the plugins named here, in the order given (default is alphabetical).
@@ -68,5 +70,5 @@ module Modengke
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-  end
+end
 end

@@ -35,6 +35,12 @@ class Auth::WeixinController < ApplicationController
 			supplier_id = id
 		end
 
+		if params[:id].split('groupbuy')[1]
+			platform = 'groupbuy'
+			supplier_id = 78
+			groupbuy_url = params[:groupbuy_url]
+		end
+
 		if id_type[2]
 			new_layout = id_type[2]
 		end
@@ -92,6 +98,7 @@ class Auth::WeixinController < ApplicationController
 			login_name = "#{login_name}_#{rand(9999)}" if check_user && session[:from] != 'new'
 
 			now = Time.zone.now
+			Rails.logger.info "######################-------{login_name}"
 
 			@account = Ecstore::Account.new  do |ac|
 				#account
@@ -131,6 +138,7 @@ class Auth::WeixinController < ApplicationController
 		  		end
 	  		end
 		else
+			Rails.logger.info "###########################################{auth_ext.account_id}"
 			@user = Ecstore::User.where(:member_id=>auth_ext.account_id).first
 				@user.weixin_nickname = user_info.nickname
 	  			@user.sex = user_info.sex
@@ -200,6 +208,10 @@ class Auth::WeixinController < ApplicationController
 #return render :text=>"return_url:#{return_url.empty?}"
 			if params[:followers_import].present?
 				redirect_to "/weihuo/shops/new?layout=#{params[:layout]}"
+			end
+
+			if platform == 'groupbuy'
+				return redirect_to ('/foodies/foodie_group_share?groupbuy_url=' + groupbuy_url)
 			end
 
 	    redirect = return_url

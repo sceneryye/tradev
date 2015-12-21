@@ -1,6 +1,8 @@
 #encoding:utf-8
 require 'rest-client'
+require 'digest/sha1'
 class FoodiesController < ApplicationController
+
   def foodie_pay
     supplier = Ecstore::Supplier.find(78)
     weixin_appid = supplier.weixin_appid
@@ -39,10 +41,27 @@ class FoodiesController < ApplicationController
   end
 
   def foodie_notify_url
-    
     url = "http://182.254.137.73:5000/wechat_notify_url"
     RestClient.post url, params["xml"]
     return render :text => 'success'
+  end
+
+  def foodie_group_share
+    supplier = Ecstore::Supplier.where(:id => 78).first
+    @timestamp = Time.now.to_i
+    @appId = supplier.weixin_appid
+    @noncestr = random_str 16
+    @jsapilist = ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone']
+    @jsapi_ticket = get_jsapi_ticket
+    post_params = {
+      :noncestr => @noncestr,
+      :jsapi_ticket => @jsapi_ticket,
+      :timestamp => @timestamp,
+      :url => request.url.gsub("trade", "vshop.trade-v.com")
+    }
+    @sign = create_sign post_params
+    @a = [post_params, request.url.gsub("trade", "vshop.trade-v.com")]
+    render :layout => false
   end
 
 
@@ -60,27 +79,50 @@ class FoodiesController < ApplicationController
     arr = ('0'..'9').to_a + ('a'..'z').to_a
     nonce_str = ''
     str_length.times do
-      nonce_str += arr[rand(36)].upcase
+      nonce_str += arr[rand(36)]
     end
     nonce_str
   end
 
   def create_sign hash
     key = Ecstore::Supplier.where(:name => '贸威').first.partner_key
-    stringA = hash.select{|key, value|value.present?}.sort.map do |arr|
-     arr.map(&:to_s).join('=')
-   end
-   stringA = stringA.join("&")
-   string_sing_temp = stringA + "&key=#{key}"
-   sign = (Digest::MD5.hexdigest string_sing_temp).upcase
- end
+    stringA = hash.select { |key, value| value.present? }.sort.map do |arr|
+      arr.map(&:to_s).join('=')
+    end
+    stringA = stringA.join("&")
+    sign = (Digest::SHA1.hexdigest stringA)
+  end
 
- def access_token
-  supplier = Ecstore::Supplier.where(:name => '贸威').first
-  weixin_appid = supplier.weixin_appid
-  weixin_appsecret = supplier.weixin_appsecret
-  get_access_token = RestClient.get "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=#{weixin_appid}&secret=#{weixin_appsecret}"
-  access_token = ActiveSupport::JSON.decode(get_access_token)['access_token']
-end
+  
+
+  def get_jsapi_ticket
+    if current_account.present?
+      supplier = Ecstore::Supplier.where(:id => 78).first
+      return supplier.jsapi_ticket if supplier.expires_at.to_i > Time.now.to_i && supplier.jsapi_ticket.present?
+      access_token = get_jsapi_access_token
+      get_url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket'
+      res_data_json = RestClient.get get_url, {:params => {:access_token => access_token, :type => 'jsapi'}}
+      res_data_hash = ActiveSupport::JSON.decode res_data_json
+      if res_data_hash['errmsg'] == 'ok'
+        jsapi_ticket = res_data_hash['ticket']
+        supplier.update_attributes(:jsapi_ticket => jsapi_ticket)
+      end
+      jsapi_ticket
+    end
+  end
+
+  def get_jsapi_access_token
+    supplier = Ecstore::Supplier.where(:id => 78).first
+    return supplier.access_token if supplier.expires_at.to_i > Time.now.to_i
+    get_url = 'https://api.weixin.qq.com/cgi-bin/token'
+    res_data_json = RestClient.get get_url, {:params => {:appid => supplier.weixin_appid, :grant_type => 'client_credential', :secret => supplier.weixin_appsecret}}
+    res_data_hash = ActiveSupport::JSON.decode res_data_json
+    access_token = res_data_hash["access_token"]
+    expires_at = Time.now.to_i + res_data_hash['expires_in'].to_i
+    supplier.update_attributes(:access_token => access_token, :expires_at => expires_at)
+    access_token
+  end
+
+
 
 end

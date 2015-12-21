@@ -97,7 +97,12 @@ def auto_login
     redirect_uri = "http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2f#{supplier_id}%2fcallback"
     if params[:from].present?
       redirect_uri = "http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2f#{supplier_id}%2fcallback2"
-      redirect_to "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri + '?from=new'}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+      return redirect_to "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri + '?from=new'}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+    end
+
+    if params[:platform] == 'groupbuy'
+      redirect_uri = "http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2fgroupbuy#{supplier_id}groupbuy#{params[:groupbuy_url]}%2fcallback"
+      return redirect_to "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri + '?platform=groupbuy'}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
     end
 
    # @oauth2_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
