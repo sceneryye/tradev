@@ -41,6 +41,12 @@ class Auth::WeixinController < ApplicationController
 			groupbuy_url = params[:groupbuy_url]
 		end
 
+		if params[:id].split('gotofoodie')[1]
+			platform = 'gotofoodie'
+			supplier_id = 78
+			groupbuy_url = params[:groupbuy_url]
+		end
+
 		if id_type[2]
 			new_layout = id_type[2]
 		end
@@ -211,7 +217,13 @@ class Auth::WeixinController < ApplicationController
 			end
 
 			if platform == 'groupbuy'
-				return redirect_to ('/foodies/foodie_group_share?groupbuy_url=' + groupbuy_url)
+				params_data = params[:groupdata].gsub('_', '&')
+				# return redirect_to "/foodies/foodie_group_share?groupid=#{params[:groupid]}&groupname=#{params[:groupname]}&imgurl=#{params[:imgurl]}&name=#{params[:name]}&desc=#{params[:desc]}"
+				return redirect_to "/foodies/foodie_group_share?#{params_data}"
+			end
+
+			if platform == 'gotofoodie'
+				return redirect_to ('/foodies/go_to_foodie_from_share?groupbuy_url=' + groupbuy_url + '&openid=' + current_account.login_name)
 			end
 
 	    redirect = return_url

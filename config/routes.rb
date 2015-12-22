@@ -7,6 +7,7 @@ post 'foodie_notify_url' => 'foodies#foodie_notify_url'
 post 'send_group_message_api' => 'weihuo/weixin_pay#send_group_message_api'
 get 'foodies/foodie_pay' => 'foodies#foodie_pay'
 get 'foodies/foodie_group_share' => 'foodies#foodie_group_share'
+get 'foodies/go_to_foodie_from_share' => 'foodies#go_to_foodie_from_share'
   namespace :weihuo do
     get 'pay_with_goods' => 'weixin_pay#pay_with_goods'
     get 'qrcode' => 'weixin_pay#qrcode'

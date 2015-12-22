@@ -47,6 +47,10 @@ class FoodiesController < ApplicationController
   end
 
   def foodie_group_share
+    
+    @title = "#{params["name"]}推荐您加入吃货帮#{params["groupname"]}"
+    @img_url = params["imgurl"]
+    @desc = params["desc"]
     supplier = Ecstore::Supplier.where(:id => 78).first
     @timestamp = Time.now.to_i
     @appId = supplier.weixin_appid
@@ -61,6 +65,12 @@ class FoodiesController < ApplicationController
     }
     @sign = create_sign post_params
     @a = [post_params, request.url.gsub("trade", "vshop.trade-v.com")]
+    render :layout => false
+  end
+
+  def go_to_foodie_from_share
+    @nickname = Ecstore::Account.where(:login_name => params[:openid]).first.user.weixin_nickname
+    @headimgurl = Ecstore::Account.where(:login_name => params[:openid]).first.user.weixin_headimgurl
     render :layout => false
   end
 

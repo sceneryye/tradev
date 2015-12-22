@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="x5-page-mode" content="default"/>
+<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="/assets/sweetalert.css">
+<link href="http://cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/assets/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+<body>
+
+
+  <script>
+   <% return_url={:return_url => request.url.sub('http://trade','').force_encoding('UTF-8')}.to_query%>
+   function isWeixinBrowser(){
+    var ua = navigator.userAgent.toLowerCase();
+      //  alert(ua);
+      return (/micromessenger/.test(ua)) ? true : false ;
+    }
+
+    var is_weixin_browser = true; isWeixinBrowser();
+
+    var auto_login_url= 'foodies/go_to_foodie_from_share';
+    var supplier_id='78';
+    <%if @supplier%>
+    supplier_id='<%=@supplier.id%>';
+    <%end%>
+    if(is_weixin_browser){
+      var groupbuy_url = "<%= params[:groupbuy_url] %>";
+      auto_login_url= '/auto_login?id='+supplier_id+'&<%=return_url%>&platform=gotofoodie&groupbuy_url=' + groupbuy_url;
+    }
+
+    <%if @user && @user.account.supplier_id%>
+   //   if ('<%=@user.account.supplier_id %>'!=supplier_id){
+     if ('78'!=supplier_id){
+      location.href = auto_login_url;
+    }
+    <%elsif @no_need_login.nil?%>
+    location.href = auto_login_url;
+    <%end%>
+  </script>
+
+
+
+<script type="text/javascript">
+<% if params[:groupbuy_url].present? %>
+  var groupbuy_url = "http://182.254.137.73:5000/register";
+  var openid = "<%= params[:openid] %>";
+  var nickname = "<%= @nickname %>";
+  var avatar = "<%= @headimgurl %>";
+  location.href = (groupbuy_url + '?openid=' + openid + '&nickname=' + nickname + '&avatar=' + avatar + '&from=share_form_foodie');
+  <% end %>
+
+
+</script>
+
+
+
+
+
+</body>
+</html>

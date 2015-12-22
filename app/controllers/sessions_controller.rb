@@ -101,8 +101,13 @@ def auto_login
     end
 
     if params[:platform] == 'groupbuy'
-      redirect_uri = "http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2fgroupbuy#{supplier_id}groupbuy#{params[:groupbuy_url]}%2fcallback"
-      return redirect_to "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri + '?platform=groupbuy'}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+      redirect_uri = "http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2fgroupbuy#{supplier_id}%2fcallback"
+      return redirect_to "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri + "?groupdata=#{params[:groupid]}_groupname=#{params[:groupname]}_imgurl=#{params[:imgurl]}_name=#{params[:name]}_desc=#{params[:desc]}"}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+    end
+
+    if params[:platform] == 'gotofoodie'
+      redirect_uri = "http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2fgotofoodie#{supplier_id}%2fcallback"
+      return redirect_to "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri + "?groupbuy_url=#{params[:groupbuy_url]}"}&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
     end
 
    # @oauth2_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=#{@supplier.weixin_appid}&redirect_uri=#{redirect_uri}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect"
