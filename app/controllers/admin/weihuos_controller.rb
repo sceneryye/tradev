@@ -154,7 +154,7 @@ end
               end
 
             end
-             send_data package.to_stream.read,:filename=>"orders_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
+             send_data package.to_stream.read,:filename=>"downgood_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
           end
          
       end
