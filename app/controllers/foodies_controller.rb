@@ -48,7 +48,7 @@ class FoodiesController < ApplicationController
 
   def foodie_group_share
     
-    @title = "#{params["name"]}推荐您加入吃货帮#{params["groupname"]}"
+    @title = "#{params["name"]}推荐您加入#{params["groupname"]}"
     @img_url = params["imgurl"]
     @desc = params["desc"]
     @groupid = params[:groupid]
