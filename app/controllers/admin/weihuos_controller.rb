@@ -147,8 +147,9 @@ end
               goodMktprice=good.mktprice
               goodStore=good.store.to_i
               goodsMt =good.marketable=="true" ? "是" : "否"
-         
-              sheet.add_row [goodsBn,goodsName,goodsBrand,goodsCost,goodPrice,goodsBrand,goodMktprice,goodStore,goodsMt,goodsMt],:style=>goods_cell,:height=> 40
+              goodsspecinfo=good.spec_info
+               goodsdesc=good.desc
+              sheet.add_row [goodsBn,goodsName,goodsBrand,goodsCost,goodPrice,goodMktprice,goodStore,goodsMt,goodsspecinfo,goodsdesc],:style=>goods_cell,:height=> 40
 
               row_count +=1
               end
