@@ -31,8 +31,8 @@
     supplier_id='<%=@supplier.id%>';
     <%end%>
     if(is_weixin_browser){
-      var groupbuy_url = "<%= params[:groupbuy_url] %>";
-      auto_login_url= '/auto_login?id='+supplier_id+'&<%=return_url%>&platform=gotofoodie&groupbuy_url=' + groupbuy_url;
+      var groupid = "<%= params[:groupid] %>";
+      auto_login_url= '/auto_login?id='+supplier_id+'&platform=gotofoodie&groupid=' + groupid;
     }
 
     <%if @user && @user.account.supplier_id%>
@@ -48,9 +48,9 @@
 
 
 <script type="text/javascript">
-<% if params[:groupbuy_url].present? %>
+<% if params[:openid].present? %>
   var groupbuy_url = "http://182.254.137.73:5000/register";
-  var openid = "<%= params[:openid] %>";
+  var openid = "<%= params[:openid].split('_shop_')[0] %>";
   var nickname = "<%= @nickname %>";
   var avatar = "<%= @headimgurl %>";
   location.href = (groupbuy_url + '?openid=' + openid + '&nickname=' + nickname + '&avatar=' + avatar + '&from=share_form_foodie');

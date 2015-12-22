@@ -223,7 +223,8 @@ class Auth::WeixinController < ApplicationController
 			end
 
 			if platform == 'gotofoodie'
-				return redirect_to ('/foodies/go_to_foodie_from_share?groupbuy_url=' + groupbuy_url + '&openid=' + current_account.login_name)
+				groupid = params[:groupid]
+				return redirect_to ('/foodies/go_to_foodie_from_share?groupid=' + groupid + '&openid=' + current_account.login_name)
 			end
 
 	    redirect = return_url

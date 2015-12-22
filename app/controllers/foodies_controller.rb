@@ -51,6 +51,7 @@ class FoodiesController < ApplicationController
     @title = "#{params["name"]}推荐您加入吃货帮#{params["groupname"]}"
     @img_url = params["imgurl"]
     @desc = params["desc"]
+    @groupid = params[:groupid]
     supplier = Ecstore::Supplier.where(:id => 78).first
     @timestamp = Time.now.to_i
     @appId = supplier.weixin_appid
@@ -69,8 +70,10 @@ class FoodiesController < ApplicationController
   end
 
   def go_to_foodie_from_share
+    if params[:openid].present?
     @nickname = Ecstore::Account.where(:login_name => params[:openid]).first.user.weixin_nickname
     @headimgurl = Ecstore::Account.where(:login_name => params[:openid]).first.user.weixin_headimgurl
+  end
     render :layout => false
   end
 

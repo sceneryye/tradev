@@ -47,14 +47,14 @@
 
   <div class="title">
     <h4>请点击右上角的分享按钮分享给您的朋友或者朋友圈</h3>
-  </div>
-  
+    </div>
 
-<script type="text/javascript">
 
-  
+    <script type="text/javascript">
 
-  wx.config({
+
+
+      wx.config({
     debug: false,  //开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
     appId: "<%= @appId %>", // 必填，公众号的唯一标识
     timestamp: "<%= @timestamp %>", // 必填，生成签名的时间戳
@@ -64,11 +64,11 @@
   });
 
 
-  wx.ready(function(){
-
-    wx.onMenuShareTimeline({
+      wx.ready(function(){
+        var url = ('http://www.trade-v.com/foodies/go_to_foodie_from_share?groupid=' + <%= @groupid %>);
+        wx.onMenuShareTimeline({
     title: "<%= @title %>", // 分享标题
-    link: "http://182.254.137.73:5000/register?from=share_from_foodiegroup", // 分享链接
+    link: url, // 分享链接
     imgUrl: "<%= @img_url %>", // 分享图标
     success: function () {
         // 用户确认分享后执行的回调函数
@@ -77,8 +77,8 @@
         // 用户取消分享后执行的回调函数
       }
     });
-    var url = ('http://www.trade-v.com/foodies/go_to_foodie_from_share?groupbuy_url=' + groupbuy_url);
-    wx.onMenuShareAppMessage({
+
+        wx.onMenuShareAppMessage({
       title: "<%= @title %>", // 分享标题
       desc: "<%= @desc %>", // 分享描述
       link: url, // 分享链接
@@ -94,26 +94,26 @@
 
       });
 
-  });
+      });
 
-</script>
+    </script>
 
-<style type="text/css">
-  .title {
-    text-align: center;
-  }
-  .container {
-    margin-top: 50px;
-  }
-  button {
-    margin: 0 auto;
-    display: inline-block;
-    color: black;
-  }
+    <style type="text/css">
+      .title {
+        text-align: center;
+      }
+      .container {
+        margin-top: 50px;
+      }
+      button {
+        margin: 0 auto;
+        display: inline-block;
+        color: black;
+      }
 
-</style>
+    </style>
 
 
 
-</body>
-</html>
+  </body>
+  </html>
