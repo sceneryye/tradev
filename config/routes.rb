@@ -423,6 +423,7 @@ get 'foodies/foodie_group_share' => 'foodies#foodie_group_share'
       post "export", :on=>:collection
       post "import", :on=>:collection
       post "downorder", :on=>:collection
+      get 'downgood', :on=>:collection
       put 'batch',:on=>:collection
       get "black_weihuo"   , :on=>:collection
       put "black_weihuo_edit" , :on=>:collection
@@ -430,7 +431,7 @@ get 'foodies/foodie_group_share' => 'foodies#foodie_group_share'
       post "black_weihuo_new" , :on=>:collection
       get 'select_all',:on=>:collection
       get 'search', :on=>:collection
-       get 'downgood', :on=>:collection
+      
       collection do 
         get :goods
         get :organisations
