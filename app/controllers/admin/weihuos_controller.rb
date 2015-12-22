@@ -132,7 +132,7 @@ end
 
           workbook.add_worksheet(:name => "Product") do |sheet|
 
-          sheet.add_row ["商品编号","商品名称","品牌","商品名称","进货价","会员价","市场价","库存","上架", "规格","商品描述",],
+          sheet.add_row ["商品编号","商品名称","品牌","进货价","会员价","市场价","库存","上架", "规格","商品描述",],
                         :style=>head_cell
 
             row_count=0
