@@ -53,7 +53,8 @@
   var openid = "<%= params[:openid].split('_shop_')[0] %>";
   var nickname = "<%= @nickname %>";
   var avatar = "<%= @headimgurl %>";
-  location.href = (groupbuy_url + '?openid=' + openid + '&nickname=' + nickname + '&avatar=' + avatar + '&from=share_from_foodie');
+  var groupid = "<%= @groupid %>";
+  location.href = (groupbuy_url + '?openid=' + openid + '&nickname=' + nickname + '&avatar=' + avatar + '&from=share_from_foodie&groupid=' + groupid);
   <% end %>
 
 

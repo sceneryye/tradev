@@ -73,6 +73,7 @@ class FoodiesController < ApplicationController
     if params[:openid].present?
       @nickname = Ecstore::Account.where(:login_name => params[:openid]).first.user.weixin_nickname
       @headimgurl = Ecstore::Account.where(:login_name => params[:openid]).first.user.weixin_headimgurl
+      @groupid = params[:groupid]
     end
     render :layout => false
   end
