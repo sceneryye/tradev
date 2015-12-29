@@ -26,7 +26,7 @@ class FoodiesController < ApplicationController
     res_data_hash = Hash.from_xml(RestClient.post post_url, post_data_xml)
     # return render :text => res_data_hash
     if res_data_hash["xml"]["return_code"] == 'SUCCESS'
-      @url = "http://182.254.137.73:5000/groupbuys/#{params[:event_id]}"
+      @url = "http://182.254.137.73:5000/#{params[:controller]}/#{params[:event_id]}"
       prepay_id = res_data_hash["xml"]["prepay_id"]
       @timestamp = Time.now.to_i
       @nonce_str = random_str 32
