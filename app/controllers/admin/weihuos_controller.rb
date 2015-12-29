@@ -174,7 +174,7 @@ end
 
           workbook.add_worksheet(:name => "ordersinfo") do |sheet|
 
-          sheet.add_row [" 订单号","会员","收货人","下单时间","订单状态","付款状态","发货状态","订单金额","店铺id"],:style=>head_cell
+          sheet.add_row [" 订单号","会员","收货人","下单时间","订单状态","付款状态","发货状态","订单金额","店铺id","收货地址","运单号"],:style=>head_cell
                      
 
             row_count=0
@@ -189,11 +189,13 @@ end
               shipstatustext=order.ship_status_text
               finalamount=order.final_amount
               shopid=order.shop_id
-              sheet.add_row [orderid,memberid,shipname,createdat,statustext,paystatustext,shipstatustext,finalamount,shopid]
+             shipaddrs=order.ship_addr
+          
+              sheet.add_row [orderid,memberid,shipname,createdat,statustext,paystatustext,shipstatustext,finalamount,shopid,shipaddrs]
               row_count +=1
             end
            end
-          send_data package.to_stream.read,:filename=>"weihuogoods_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
+          send_data package.to_stream.read,:filename=>"weihuoorder_#{Time.zone.now.strftime('%Y%m%d%H%M%S')}.xlsx"
           end
       end
       def index

@@ -290,10 +290,10 @@ def show
     # end
     @shop = Ecstore::WeihuoShop.find(params[:shop_id] || params[:id])
     if @shop.layout == 'weihuo'
-      @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:per_page => 30, :page => params[:page]).order(:name)
+      @goods = Ecstore::Good.where(:supplier_id => 10).paginate(:per_page => 30, :page => params[:page]).order(:p_order)
       @title = '尾货良品' + params[:id] + '号店'
     elsif @shop.layout == 'chuangke'
-      @goods = Ecstore::Good.where(:supplier_id => 11).paginate(:per_page => 30, :page => params[:page]).order(:name)
+      @goods = Ecstore::Good.where(:supplier_id => 11).paginate(:per_page => 30, :page => params[:page]).order(:p_order)
       @title = 'Community Maker'
     end
   end
