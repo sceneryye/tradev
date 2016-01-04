@@ -45,6 +45,7 @@ class Admin::TagsController < Admin::BaseController
 
 	def destroy
 		@tag = Ecstore::Teg.find_by_tag_id(params[:id])
+		@tag.tag_ext.destroy
 		@tag.destroy
 
 		redirect_to admin_tags_url
