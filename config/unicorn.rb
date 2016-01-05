@@ -1,7 +1,7 @@
 worker_processes 2
 preload_app true
 timeout 180
-listen 5000
+listen 4000
 
 require 'pathname'
 

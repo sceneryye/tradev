@@ -16,7 +16,7 @@ class FoodiesController < ApplicationController
     spbill_create_ip = '182.254.138.119'
     trade_type = 'JSAPI'
     total_fee = (params[:money].to_f * 100).to_i
-    notify_url = 'http://www.trade-v.com/foodie_notify_url'
+    notify_url = 'http://vshop.trade-v.com/foodie_notify_url'
     post_data_hash = {:appid => weixin_appid, :mch_id => mch_id, :nonce_str => nonce_str, :body => body, :out_trade_no => out_trade_no, :total_fee => total_fee, :attach => attach, :openid => openid, :spbill_create_ip => spbill_create_ip, :notify_url => notify_url, :trade_type => trade_type}
     sign = create_sign post_data_hash
     post_data_hash[:sign] = sign
@@ -26,7 +26,7 @@ class FoodiesController < ApplicationController
     res_data_hash = Hash.from_xml(RestClient.post post_url, post_data_xml)
     # return render :text => res_data_hash
     if res_data_hash["xml"]["return_code"] == 'SUCCESS'
-      @url = "http://182.254.137.73:5000/#{params[:type_name]}/#{params[:event_id]}"
+      @url = "http://vshop.trade-v.com/foodiegroup/#{params[:type_name]}/#{params[:event_id]}"
       prepay_id = res_data_hash["xml"]["prepay_id"]
       @timestamp = Time.now.to_i
       @nonce_str = random_str 32
@@ -41,7 +41,7 @@ class FoodiesController < ApplicationController
   end
 
   def foodie_notify_url
-    url = "http://182.254.137.73:5000/wechat_notify_url"
+    url = "http://vshop.trade-v.com/foodiegroup/wechat_notify_url"
     RestClient.post url, params["xml"]
     return render :text => 'success'
   end
