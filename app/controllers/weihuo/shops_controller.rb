@@ -241,7 +241,13 @@ end
 
 def show
   shop_id = params[:shop_id] || params[:id]
+  bns=["a0100017"]
+  if params[:layout] == 'weihuo'
   bns = ["a0100017", "a0100018", "a0100019"]
+end  
+if params[:layout] == 'chuangke'
+  bns = ["a0100017", "a0100016", "a0100019"]
+end
   @pics = bns.map do |bn|
     Ecstore::Good.where(:bn => bn).first.small_pic
   end  
