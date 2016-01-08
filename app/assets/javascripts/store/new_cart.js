@@ -3,7 +3,7 @@ $(document).ready(function(){
   var pWin = window.parent;
   var pDoc = window.parent.document;
   
-  $("#cart .quantity").live("change",function(){
+  $("#cart .quantity").on("change",function(){
     var quantity = $(this).val();
     if(!/\d+/.test(quantity)) return false;
     var url = $(this).data('url');

@@ -280,7 +280,7 @@
     });
 
 
-      $("#specs_container .spec-value").live("click",function(e){
+      $("#specs_container .spec-value").on("click",function(e){
             $("#cart_msg").empty();
             $(this).closest('.spec-item').find(":hidden").val($(this).data("value"));
             $(this).closest('.spec-values').find(".spec-value").removeClass("selected");

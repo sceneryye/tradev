@@ -1,6 +1,6 @@
 
 $(document).ready(function(){
-  $(".position_selector").live("change", function() {
+  $(".position_selector").on("change", function() {
     var sel = $(this);
     $.ajax({
       type: 'post',

@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('div#output').hide();
     //bind send message here
     $('#send-message').click(sendMessage);
-    $('div#output button').live('click', function (e) {
+    $('div#output button').on('click', function (e) {
         e.stopPropagation();
         e.stopImmediatePropagation();
         $('div#output').hide();

@@ -4,11 +4,11 @@
 //= require jquery-ui-sliderAccess
 
 $(document).ready(function(){
-	// $(".update").live("click",function(){
+	// $(".update").on("click",function(){
 	// 	$(this).closest("form").find(".toggle").hide();
 	// 	$(this).closest("form").find(".toggle.hide").show().css({display:'inline-block'});
 	// });
-	// $(".cancel").live("click",function(){
+	// $(".cancel").on("click",function(){
 	// 	$(this).closest("form").find(".toggle").show();
 	// 	$(this).closest("form").find(".toggle.hide").hide();
 	// });
@@ -35,7 +35,7 @@ $(document).ready(function(){
 		}
 	});
 	
-	$("#show_all").live("click",function(){
+	$("#show_all").on("click",function(){
 		$("#import_log_list ul li").show();
 		$(this).remove();
 	});
@@ -48,7 +48,7 @@ $(document).ready(function(){
 		 }
 	});
 
-	$("#use_card").live("click",function(){
+	$("#use_card").on("click",function(){
 		// var sms_code = $.trim($("#member_card_sms_code").val());
 		// if(sms_code==''){
 		// 	$("#member_card_sms_code").next(".help").text("请输入手机验证码").addClass("error");
@@ -77,7 +77,7 @@ $(document).ready(function(){
 	});
 
 
-	$(".sms-validate").live("change",function(){
+	$(".sms-validate").on("change",function(){
 		var checked = $(this).attr("checked");
 		if(checked == 'checked'){
 			$(this).closest(".control-group").next(".control-group").show();
@@ -85,7 +85,7 @@ $(document).ready(function(){
 			$(this).closest(".control-group").next(".control-group").hide();
 		}
 	});
-	$(".validate-mobile").live("click",function(){
+	$(".validate-mobile").on("click",function(){
 		var mobileInput = $("#member_card_buyer_tel");
 		var mobile = $.trim(mobileInput.val());
 
@@ -112,7 +112,7 @@ $(document).ready(function(){
 
 	});
 
-	$(".pay-now,.pay-later").live("change",function(){
+	$(".pay-now,.pay-later").on("change",function(){
 		var checked = $(this).attr("checked");
 		if(checked=='checked'&&$(this).hasClass("pay-now")){
 			$(this).closest(".control-group").nextAll(".rel-pay").show();
@@ -121,7 +121,7 @@ $(document).ready(function(){
 		}
 	});
 
-	$(".validate-by-hand,.validate-by-sms").live("change",function(){
+	$(".validate-by-hand,.validate-by-sms").on("change",function(){
 		var checked = $(this).attr("checked");
 		if(checked=='checked'&&$(this).hasClass("validate-by-sms")){
 			$(this).closest(".control-group").next(".rel-sms").show();
@@ -130,12 +130,12 @@ $(document).ready(function(){
 		}
 	});
 
-	// $("#buy_card").live("click",function(){
+	// $("#buy_card").on("click",function(){
 	// 	var buyer_tel = $("#member_card_buyer_tel").val();
 	// });
 
 
-	$(".send_sms_code").live("click",function(e){
+	$(".send_sms_code").on("click",function(e){
 		var input = $("#member_card_buyer_tel");
 		if(input.length==0){
 			input = $("#member_card_user_tel");
@@ -170,7 +170,7 @@ $(document).ready(function(){
 		});
 	});
 
-	$("#select_all").live("click", function () {
+	$("#select_all").on("click", function () {
 		$(".operate_ids").attr("checked",!!$(this).attr("checked"));
 		$(".sel_nums").html($("input.operate_ids:checked").length);
 		$(".sel_banner").show();

@@ -76,9 +76,9 @@
 				var email = inputVal + opts.emailProviders[e]
 				_sugHolder.append('<p style="overflow: hidden; white-space: nowrap;margin:0px;padding:2px 10px;text-overflow: ellipsis;" >'+email+'</p>');
 			}
-			_sugHolder.find("p").live("mouseenter",_mouseEnterEvent)
-							.live("mouseleave",_mouseEnterEvent)
-							.live("click",_itemClickEvent);
+			_sugHolder.find("p").on("mouseenter",_mouseEnterEvent)
+							.on("mouseleave",_mouseEnterEvent)
+							.on("click",_itemClickEvent);
 		};
 
 		var _keyDownEvent = function(e){
@@ -141,11 +141,11 @@
 			
 		} 
 
-		$(this).live("input",_inputEvent);
+		$(this).on("input",_inputEvent);
 		$(this).bind("propertychange",_inputEvent); //ie7,ie8,firefox
 
-		$(this).live("keydown",_keyDownEvent);
-		$(this).live("blur",function(){
+		$(this).on("keydown",_keyDownEvent);
+		$(this).on("blur",function(){
 			// if(_sugHolder.find("p.active").length>0){
 			// 	var _activeVal = _sugHolder.find("p.active").text();
 			// 	$(self).val(_activeVal);

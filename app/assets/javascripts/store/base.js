@@ -92,7 +92,7 @@ $(document).ready(function(){
     }
   });
 
-  $(".spec_bar a.color").live("click",function(){
+  $(".spec_bar a.color").on("click",function(){
 
     $(this).parent().find("a.color").removeClass("selected");
     $(this).addClass("selected");
@@ -126,7 +126,7 @@ $(document).ready(function(){
     return false;
   });
 
-  $(".spec_bar a.size").live("click",function(){
+  $(".spec_bar a.size").on("click",function(){
     
     $(this).parent().find("a.size").removeClass("selected");
     $(this).addClass("selected");
@@ -144,23 +144,23 @@ $(document).ready(function(){
   });
 
 
-  $(".spec_bar .number_select").live("click",function(){
+  $(".spec_bar .number_select").on("click",function(){
     $(this).parent().find("ul.number_dropdown").show();
     return false;
   });
 
-  $(".spec_bar ul.number_dropdown").live("mouseleave",function(){
+  $(".spec_bar ul.number_dropdown").on("mouseleave",function(){
     $(this).hide();
   });
 
-  $(".spec_bar ul.number_dropdown li").live("click",function(){
+  $(".spec_bar ul.number_dropdown li").on("click",function(){
     // $(this).parent().find("a.number_select").text($(this).text());
     $(this).parents(".number_container").find("a.number_select").text($(this).text());
     $(this).parents(".number_container").find("input.hidden_number").val($(this).text());
     $(this).parent().hide();
   });
 
-  $(".see_more").live("click",function(){
+  $(".see_more").on("click",function(){
     // $(".drawer").animate()
     // cSubpage = $('.drawer');
     // cSubpage.animate({ left: '0%'}, 400, function() { });
@@ -193,7 +193,7 @@ $(document).ready(function(){
     }
   });
 
-  $('.add_to_cart').live("click",function(){
+  $('.add_to_cart').on("click",function(){
     var spec_type_size =  $("#specs_container").attr("spec-type-size")*1;
     if($("#specs_container input:hidden[value!='']").length != spec_type_size){
       alert("请选择您要购买的商品信息!");
@@ -372,7 +372,7 @@ function loadProductInfo(productId) {
       });
 
 
-      $(productId + " .spec .popover select").live("change",function(){
+      $(productId + " .spec .popover select").on("change",function(){
           var correspondVal = $(this).data("corresponding");
           var val = $(this).val();
           var target = productId + " .semi_custom_form select[data-corresponding='"+correspondVal+"']";

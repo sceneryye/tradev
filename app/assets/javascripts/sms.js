@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	$("#send_sms_code").live("click",function(){
+	$("#send_sms_code").on("click",function(){
 		if($(this).hasClass("disabled")){
 			return;
 		}

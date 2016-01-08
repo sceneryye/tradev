@@ -50,7 +50,7 @@ $(document).ready(function(){
 		}
 	});
 
-	$(".cancel_all").live("click", function () {
+	$(".cancel_all").on("click", function () {
 		$(".operate_ids").attr("checked",false);
 		$(".operate_all_id").attr("checked",false);
 		$(".sel_nums").html(0);
@@ -59,7 +59,7 @@ $(document).ready(function(){
 		$("#send_all").val(0)
 		return false;
 	});
-	$(".sel_all").live("click", function () {
+	$(".sel_all").on("click", function () {
 		$(".operate_ids").attr("checked",true);
 		$(".sel_nums").html($(".total_member").html());
 		$(".sel_banner").show();

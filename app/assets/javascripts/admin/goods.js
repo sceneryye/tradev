@@ -102,7 +102,7 @@ $(document).ready(function(){
 		
 	});
 
-	$(".remove-spec-item").live("click",function(){
+	$(".remove-spec-item").on("click",function(){
 		var url = $(this).data("url"),self = this;
 		var form = $(self).closest("form")
 		if( url == undefined ){
@@ -120,7 +120,7 @@ $(document).ready(function(){
 
 
 
-	$(".item-selector").live("change",function(){
+	$(".item-selector").on("change",function(){
 		var old = $(this).find("option[selected='selected']").val() || '';
 		var cur =  $(this).val();
 		var _self =  this;

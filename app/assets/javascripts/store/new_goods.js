@@ -16,7 +16,7 @@ $(document).ready(function(){
   //   if(e.keyCode == 13) $("#search_btn").click();
   // });
 
-  $(".custom-save").live("click",function(){
+  $(".custom-save").on("click",function(){
 
     var data = { custom_values:[] },spec_item_id,value;
 

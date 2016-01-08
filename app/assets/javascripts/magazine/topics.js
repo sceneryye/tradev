@@ -48,7 +48,7 @@ $(function(){
 
   // Hover Timeout
   var timeout;
-  $('.element').live('mouseenter', function(){
+  $('.element').on('mouseenter', function(){
     var $element = $(this);
     if (timeout) {
       timeout = clearTimeout(timeout);
@@ -59,7 +59,7 @@ $(function(){
         $("#shadow").css("z-index", "20").fadeTo(400, 0.6);
       }, 300);
     }
-  }).live('mouseleave', function(){
+  }).on('mouseleave', function(){
     var $element = $(this);
     if (timeout) {
       timeout = clearTimeout(timeout);

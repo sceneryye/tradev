@@ -46,7 +46,7 @@ $(".dialog").bind("click",function(){
 
   
   
-  $(".position_selector").live("change", function() {
+  $(".position_selector").on("change", function() {
     var sel = $(this);
     $.ajax({
       type: 'post',
@@ -66,13 +66,13 @@ $(".dialog").bind("click",function(){
     });
   });
 
-  $(".delete-page").live("click",function(){
+  $(".delete-page").on("click",function(){
       $(this).prev("textarea").remove();
       $(this).remove();
       return false;
   });
 
-  $("#add_page").live("click",function(){
+  $("#add_page").on("click",function(){
       $(this).parent("div").before('<span>'
                          +'<textarea class="span6 page-area" name="imodec_topic[pages][]" rows="5"></textarea>'
                          +'<a href="#" class="delete-page">X</a>'
