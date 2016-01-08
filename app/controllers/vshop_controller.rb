@@ -12,7 +12,7 @@ class VshopController < ApplicationController
       openid = @user.account.login_name
       avatar = @user.weixin_headimgurl
       nickname = @user.weixin_nickname
-      redirect_to "http://www.trade-v.com/foodiegroup?openid=#{openid}&avatar=#{avatar}&nickname=#{nickname}"
+      redirect_to "http://vshop.trade-v.com/foodiegroup?openid=#{openid}&avatar=#{avatar}&nickname=#{nickname}"
     else
       redirect_to '/auto_login?id=78&return_url=/vshop/to_foodie'
     end
