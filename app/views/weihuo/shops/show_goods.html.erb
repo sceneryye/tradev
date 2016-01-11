@@ -6,7 +6,8 @@
       商品详情
     </h3>
   </div>
-  <%= render 'partials/goods_list' %>
+  <% layout = Ecstore::WeihuoShop.where(:shop_id => params[:shop_id]).first.layout %>
+  <%= render "partials/goods_list_#{layout}" %>
 </div>
 
 
