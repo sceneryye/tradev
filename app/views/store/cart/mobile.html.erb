@@ -119,6 +119,9 @@
 var text = document.getElementById("numsum");
 text.onkeyup = function(){
 this.value=this.value.replace(/\D/g,'');
+if(text.value<1){
+  text.value = 1;
+}
 if(text.value>100){
   text.value = 100;
 }
