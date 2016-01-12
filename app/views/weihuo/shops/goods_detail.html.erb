@@ -329,9 +329,10 @@
       <% if shop_layout == 'weihuo' %>
       <p style="color:#006000;font-weight:bold">特别申明：此尾货良品，系物流仓库积压处理品的环保再利用，保障正品无假货，即使略有瑕疵，不影响功能使用。一旦购买，概不退货。请知悉。</p>
       <% end %>
-      
+       <div id="commDesc1" class="detail_pc1 col-xs-12" style="width:100%" >
       <!--<%#=raw @goods.intro%>-->
       <%=raw @goods.intro.gsub(/width/,'widthh').gsub(/height/,'heightt/') if @goods.intro%>
+      </div>
     </div>
     <div id="pcItemLink" style="display: none" ptag="7001.1.17">
       <a class="btn btn_full" href="javascript:;">查看电脑版商品详情</a>
