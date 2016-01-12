@@ -117,6 +117,9 @@
 <%= javascript_include_tag "jquery", "jquery_ujs" %>
 <script type="text/javascript">
 var text = document.getElementById("numsum");
+if(text.value<1){
+  text.value = 1;
+}
 text.onkeyup = function(){
 this.value=this.value.replace(/\D/g,'');
 if(text.value<1){
