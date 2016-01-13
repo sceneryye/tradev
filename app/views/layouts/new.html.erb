@@ -45,7 +45,7 @@
 
 <%=render "shared/iframe_cart" if signed_in?%>
 <%=render "shared/iframe_login" unless signed_in?%>
-<%= javascript_include_tag "google-analytics" if Rails.env == "production"%>
+<%#= javascript_include_tag "google-analytics" if Rails.env == "production"%>
   
 
     <script>
