@@ -119,11 +119,13 @@
 var text = document.getElementById("numsum");
  $("#numsum").on("change",function(){
              if(text.value == '' || text.value == undefined || isNaN(text.value) == true || text.value < 1) {
-  alert("亲，商品数大于0哦") ;
-    text.value = 1;
-    return false;
-           
-               }
+          alert("亲，商品数大于0哦") ;
+            text.value = 1;
+             return false;
+           }
+               else if(text.value>100){
+  text.value = 100;
+}
 text.onkeyup = function(){
   if(text.value==0){
   text.value = 1;
