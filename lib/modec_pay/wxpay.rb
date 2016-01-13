@@ -184,9 +184,7 @@ module ModecPay
       unsign = _sorted.collect{ |key,val| "#{key}=#{val}" }.join("&") + "&key=#{self.fields['partner_key']}"
       
       Rails.logger.info unsign
-      File.open('log.txt', 'r+') do |f|
-        f.syswrite unsign
-      end
+      
 
       self.fields['sign']  = Digest::MD5.hexdigest(unsign).upcase
       self.fields.delete(:partner_key)
