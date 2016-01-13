@@ -8,7 +8,7 @@ class Patch::ValidationsController < ApplicationController
 
 	before_filter do
 		clear_breadcrumbs
-		add_breadcrumb("我的摩登客",:member_path)
+		add_breadcrumb("我的贸威",:member_path)
 	end
 
 	def show
