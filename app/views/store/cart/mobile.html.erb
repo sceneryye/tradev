@@ -117,10 +117,17 @@
 <%= javascript_include_tag "jquery", "jquery_ujs" %>
 <script type="text/javascript">
 var text = document.getElementById("numsum");
-if(text.value<1){
+ $("#numsum").on("change",function(){
+             if(text.value == '' || text.value == undefined || isNaN(text.value) == true || text.value < 1) {
+  alert("亲，商品数大于0哦") ;
+    text.value = 1;
+    return false;
+           
+               }
+text.onkeyup = function(){
+  if(text.value==0){
   text.value = 1;
 }
-text.onkeyup = function(){
 this.value=this.value.replace(/\D/g,'');
 if(text.value<1){
   text.value = 1;
@@ -129,6 +136,8 @@ if(text.value>100){
   text.value = 100;
 }
 }
+        });
+
     $(document).ready(function(){
 
         $(" .quantity").on("change",function(){
