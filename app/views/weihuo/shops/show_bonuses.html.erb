@@ -23,7 +23,7 @@
       </th>
     </tr>
 
-    <% @bonuses.select{|b| Ecstore::Order.where(:order_id => bonus.order_id).present?}.each_with_index do |bonus, index| %>
+    <% @bonuses.select{|b| Ecstore::Order.where(:order_id => b.order_id).present?}.each_with_index do |bonus, index| %>
     <% member_id = Ecstore::Order.where(:order_id => bonus.order_id).try(:first).try(:member_id) %>
     <% user = Ecstore::User.where(:member_id => member_id).try(:first) %>
     <% order = Ecstore::Order.where(:order_id => bonus.order_id).try(:first) %>
