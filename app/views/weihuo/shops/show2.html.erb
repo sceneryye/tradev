@@ -12,7 +12,7 @@
          <h3 class="get-title">欢迎来到尾货良品<br>
          <a href="/weihuo/shops/new"class="am-btn am-btn-sm get-btn">请创建您的店铺</a></h3>
          <%elsif @shop.status=='0'%>
-           <h3 class="get-title">您已成功创建了店铺，店铺正在审核阶段请耐心等待！</h3>
+           <h3 class="get-title">感谢你提交开店申请，您已成为尾货良品创业大家庭的一员！我们相信便捷而强大的在线系统加上你的智慧和努力，必将一起开创美好的未来！！</h3>
          <%elsif @shop.status=='1'%>
             <input type="hidden" id="shopid" value="<%=@shop.shop_id%>">
             <a href="/weihuo/shops/myshop?shop_id=<%=@shop.shop_id%>" class="am-btn am-btn-sm get-btn">我的店铺</a>
