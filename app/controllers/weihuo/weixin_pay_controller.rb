@@ -6,7 +6,7 @@ require 'uri'
 
 class Weihuo::WeixinPayController < ApplicationController
 
-  Employee_share_ratio = 1
+  Employee_share_ratio = 0.5
   Network_share_ratio = 0.2
   Company_share_ratio = 0.3
   Platform_share_ratio = 0.3
