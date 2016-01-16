@@ -14,8 +14,9 @@
          <%elsif @shop.status=='0'%>
            <h3 class="get-title">感谢你提交开店申请，您已成为尾货良品创业大家庭的一员！我们相信便捷而强大的在线系统加上你的智慧和努力，必将一起开创美好的未来！！</h3>
          <%elsif @shop.status=='1'%>
-            <input type="hidden" id="shopid" value="<%=@shop.shop_id%>">
-            <a href="/weihuo/shops/myshop?shop_id=<%=@shop.shop_id%>" class="am-btn am-btn-sm get-btn">我的店铺</a>
+             <!--  <input type="hidden" id="shopid" value="<%=@shop.shop_id%>">-->
+                <h3 class="get-title">感谢你提交开店申请，您已成为尾货良品创业大家庭的一员！我们相信便捷而强大的在线系统加上你的智慧和努力，必将一起开创美好的未来！！</h3><br/>
+           <div style="font-size:16px">点击进入店铺： <a href="/weihuo/shops/myshop?shop_id=<%=@shop.shop_id%>" class="am-btn am-btn-sm get-btn">我的店铺</a></div>
              <button class="am-btn am-btn-sm  am-btn-danger look" data-am-modal="{target: '#my-popup'}">二维码查看</button>
 
              <div class="am-popup" id="my-popup">
@@ -27,7 +28,7 @@
                  <div class="am-popup-bd"style="text-align: center">
                    <div id="qrcodeCanvas" style="display: block" ></div>
                    <div id="qrcodeimg"></div>
-                   <div >欢迎关注</div>
+                   <!--  <div >欢迎关注</div>-->
 
                  </div>
                </div>
@@ -35,13 +36,13 @@
              <div class="am-modal am-modal-confirm" tabindex="1" id="my-confirm" style="color: #000000">
                <div class="am-modal-dialog">
                  <div class="am-modal-hd"><%=@shop_title%></div>
-                 <div class="am-modal-bd" id="url">
+                <!-- <div class="am-modal-bd" id="url">
                     前往店铺查看
                  </div>
                  <div class="am-modal-footer">
                    <span class="am-modal-btn" data-am-modal-cancel>取消</span>
                    <span class="am-modal-btn" data-am-modal-confirm>确定</span>
-                 </div>
+                 </div>-->
                </div>
              </div>
        <%end%>
