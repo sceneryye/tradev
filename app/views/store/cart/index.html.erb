@@ -44,7 +44,7 @@
                 </div>
               </div>
             </td>
-            <td>
+            <td class="price">
               <% if cookies[:MLV] == "10" %>
                   ￥<%= format('%.2f',line_item.product.bulk)%>
               <%else%>
@@ -58,7 +58,7 @@
               <%#if line_item.product.semi_custom?%>
                 <%#=text_field_tag :quantity,line_item.quantity.to_i,:class=>"textcenter quantity",:readonly=>true,:title=>"半定制不可直接修改数量"%>
               <%#else%>
-                <%=number_field_tag :quantity,line_item.quantity.to_i,:class=>"textcenter quantity",:size=>3,:min=>1,:'data-url'=>cart_path(line_item.obj_ident)%>
+                <%=number_field_tag :quantity,line_item.quantity.to_i,:class=>"textcenter quantity bn-#{line_item.product.good.bn}",:size=>3,:min=>1,:'data-url'=>cart_path(line_item.obj_ident)%>
               <%#end%>
             </td>
             <td class="line-total">

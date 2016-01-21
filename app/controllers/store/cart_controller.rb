@@ -56,7 +56,7 @@ class Store::CartController < ApplicationController
 
   @line_item  = @line_items.where(:obj_ident=>params[:id],:shop_id=>@shop_id).first
 
-
+@price = cookies[:MLV] == "10" ? Ecstore::Good.find(params[:product][:goods_id]).bulk : Ecstore::Good.find(params[:product][:goods_id]).price
   if params[:attr]=="mall"
    @mall="mall"
    goods_id=params[:goods_id]
@@ -68,9 +68,11 @@ class Store::CartController < ApplicationController
   specs = params[:product].delete(:specs)
   customs = params[:product].delete(:customs)
   quantity = params[:product].delete(:quantity).to_i
+  @quantity = quantity
   goods_id = params[:product][:goods_id]
   ref_id=  params[:product][:ref_id]
   supplier_id= params[:supplier_id]
+
       #return render :text=> "specs:#{specs[0].length},customs:#{customs},quantity:#{quantity},goods_id:#{goods_id}"
       # product_id = specs.collect do |spec_value_id|
       # 	Ecstore::GoodSpec.where(params[:product].merge(:spec_value_id=>spec_value_id)).pluck(:product_id)

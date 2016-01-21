@@ -15,4 +15,23 @@ $(_pDoc).find("#iframe_cart").animate({ marginTop: '-260px' },'normal');
 
 $("#cart_link .cart-number").text('(<%=@cart_total_quantity%>)');
 $("#menu_cart .number").text('(<%=@cart_total_quantity%>)');
+//$(_pDoc).find('#quantity').val('<%=@cart_total_quantity%>');
+setTimeout(function(){
+  var obj = $('#iframe_cart').contents().find('.bn-<%= @good.bn %>');
+  var quantity = parseInt(obj.val());
+  quantity += parseInt('<%= @quantity %>');
+  var price = parseFloat('<%= @price %>');
+  var thisTotal = parseFloat((price * quantity));
+  obj.parent().parent().find('.line-total').text('¥' + thisTotal);
+  var lineTotal = $('#iframe_cart').contents().find('.line-total');
+  var total = 0;
+  var totalPrice = $('#iframe_cart').contents().find('.total');
+  //alert(totalPrice.text().replace('￥', ''));
+  total = parseFloat(totalPrice.text().replace('￥', '')) + parseInt('<%= @quantity %>') * price;
+  //alert(total);
+  obj.val(quantity);
+  totalPrice.text('¥' + total);
+}, 1000)
+
               <%end%>
+
