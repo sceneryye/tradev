@@ -7,10 +7,10 @@
         <div class="goods" >
           <div class="goods-pic" style="position: relative;">
           <% if goods.marketable == 'false'|| goods.store.to_i < 1 %>
-           <div style="position: absolute;z-index:0;" > 
+           <div style="position: absolute;z-index:0;width:100%" > 
     <img style="filter:alpha(opacity=80); 
 -moz-opacity:0.8; 
-opacity:0.8;" src="/images/homepage/sellout.jpg">
+opacity:0.8;width:100%" src="/images/homepage/sellout.jpg">
   </div>    <% end %>
 
           <div style="position: absolute;"><img src="/images/homepage/weihuoimg.png" /></div>
