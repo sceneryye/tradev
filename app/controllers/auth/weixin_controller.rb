@@ -251,7 +251,11 @@ Rails.logger.info '###############################'
 Rails.logger.info return_url.split('/')[3]
 Rails.logger.info return_url
 if return_url.split('/')[3] == 'foodiegroup'
-	redirect = return_url + '?openid=' + current_account.login_name.split('_shop_')[0]
+	if return_url.split('?').length == 1
+	redirect = return_url + '?openid=' + current_account.login_name.split('_shop_')[0] + '&avatar=' + current_account.user.weixin_headimgurl + '&nickname=' + current_account.user.weixin_nickname
+	else 
+	redirect = return_url + '&openid=' + current_account.login_name.split('_shop_')[0] + '&avatar=' + current_account.user.weixin_headimgurl + '&nickname=' + current_account.user.weixin_nickname
+	end
 end
 
 	     redirect_to redirect
