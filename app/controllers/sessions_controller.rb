@@ -119,17 +119,15 @@ class SessionsController < ApplicationController
     
     redirect_uri = "http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2f#{supplier_id}%2fcallback"
 
-    # return render :text=>"from:#{params[:from]},platform:#{params[:platform]}"
+   # return render :text=>"scope:#{ params[:scope]},from:#{params[:from]},platform:#{params[:platform]},rand:#{params[:rand]}"
     if params[:from].present?
       redirect_uri = redirect_uri + '2?from=new'
-    end
-
-    if params[:platform] == 'groupbuy'
+    elsif params[:platform] == 'groupbuy'
       redirect_uri = redirect_uri + "?groupdata=groupid=#{params[:groupid]}_groupname=#{params[:groupname]}_imgurl=#{params[:imgurl]}_name=#{params[:name]}_desc=#{params[:desc]}"
-    end
-
-    if params[:platform] == 'gotofoodie'
+    elsif params[:platform] == 'gotofoodie'
       redirect_uri = redirect_uri + "?groupid=#{params[:groupid]}"
+    else
+      redirect_uri = redirect_uri +"?rand=#{params[:rand]}"
     end
 
     scope = 'snsapi_userinfo' #snsapi_base

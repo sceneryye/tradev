@@ -79,7 +79,7 @@ class Auth::WeixinController < ApplicationController
 	    	session[:retry] = 2
 	    end
 	    if token.errcode
-	    	return redirect_to "/auto_login?id=78&scope=#{session[:retry]}"
+	    	return redirect_to "/auto_login?rand=#{rand(100)}&scope=#{session[:retry]}"
 	    	# return render :text =>"token:#{ token.to_json}code:#{params[:code]},openid:#{token.openid}" 
 	    end
 
