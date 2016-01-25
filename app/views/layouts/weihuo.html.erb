@@ -28,9 +28,6 @@
 
     var auto_login_url= '/mlogin';
     var supplier_id='78';
-    <%if @supplier%>
-    supplier_id='<%=@supplier.id%>';
-    <%end%>
     if(is_weixin_browser){
 
       //shop_login_url= '/shop_login?id='+ <%= params[:id] %>+ URI.encode('&<%= return_url %>&platform=mobile');
