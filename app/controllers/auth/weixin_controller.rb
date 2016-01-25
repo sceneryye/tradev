@@ -96,13 +96,13 @@ class Auth::WeixinController < ApplicationController
 		if check_user
 			Rails.logger.info "###########################################{check_user.account_id}"
 			# @user = Ecstore::User.where(:member_id=>auth_ext.account_id).first
-			# 	@user.weixin_nickname = user_info.nickname
-	  # 			@user.sex = user_info.sex
-	  # 			@user.weixin_area = user_info.country+'/'+user_info.province+'/'+user_info.city
-	  # 			@user.weixin_headimgurl = user_info.headimgurl
-	  # 			@user.weixin_privilege = user_info.privilege
-	  # 			@user.weixin_unionid = user_info.unionid
-  	# 		@user.save!(:validate=>false)
+			# @user.weixin_nickname = user_info.nickname
+			# @user.sex = user_info.sex
+			# @user.weixin_area = user_info.country+'/'+user_info.province+'/'+user_info.city
+			# @user.weixin_headimgurl = user_info.headimgurl
+			# @user.weixin_privilege = user_info.privilege
+			# @user.weixin_unionid = user_info.unionid
+			# @user.save!(:validate=>false)
 			sign_in(check_user,'1')
 			#发消息
 			#send_message
@@ -128,20 +128,20 @@ class Auth::WeixinController < ApplicationController
 						
 		end
 		#return render :text=>"return_url:#{return_url.empty?}"
-			if params[:followers_import].present?
-				redirect_to "/weihuo/shops/new?layout=#{params[:layout]}"
-			end
+		if params[:followers_import].present?
+			redirect_to "/weihuo/shops/new?layout=#{params[:layout]}"
+		end
 
-			if platform == 'groupbuy'
-				params_data = params[:groupdata].gsub('_', '&')
-				# return redirect_to "/foodies/foodie_group_share?groupid=#{params[:groupid]}&groupname=#{params[:groupname]}&imgurl=#{params[:imgurl]}&name=#{params[:name]}&desc=#{params[:desc]}"
-				return redirect_to "/foodies/foodie_group_share?#{params_data}"
-			end
+		if platform == 'groupbuy'
+			params_data = params[:groupdata].gsub('_', '&')
+			# return redirect_to "/foodies/foodie_group_share?groupid=#{params[:groupid]}&groupname=#{params[:groupname]}&imgurl=#{params[:imgurl]}&name=#{params[:name]}&desc=#{params[:desc]}"
+			return redirect_to "/foodies/foodie_group_share?#{params_data}"
+		end
 
-			if platform == 'gotofoodie'
-				groupid = params[:groupid]
-				return redirect_to ('/foodies/go_to_foodie_from_share?groupid=' + groupid + '&openid=' + current_account.login_name)
-			end
+		if platform == 'gotofoodie'
+			groupid = params[:groupid]
+			return redirect_to ('/foodies/go_to_foodie_from_share?groupid=' + groupid + '&openid=' + current_account.login_name)
+		end
 
 	    redirect = return_url
 
@@ -157,19 +157,20 @@ class Auth::WeixinController < ApplicationController
 	    	elsif supplier_id == '78'
 	    		redirect  = "/mobile"
 	    		
-        else
-          redirect = "/vshop/#{supplier_id}"
-        end
+	        else
+	          redirect = "/vshop/#{supplier_id}"
+	        end
 	    end
 		# go back to /foodiegroup
 		Rails.logger.info '###############################'
-		Rails.logger.info return_url.split('/')[3]
 		Rails.logger.info return_url
-		if return_url.split('/')[3] == 'foodiegroup'
-			if return_url.split('?').length == 1
-			redirect = return_url + '?openid=' + current_account.login_name.split('_shop_')[0] + '&avatar=' + current_account.user.weixin_headimgurl + '&nickname=' + current_account.user.weixin_nickname
-			else 
-			redirect = return_url + '&openid=' + current_account.login_name.split('_shop_')[0] + '&avatar=' + current_account.user.weixin_headimgurl + '&nickname=' + current_account.user.weixin_nickname
+		if return_url
+			if return_url.include? 'foodiegroup'
+				if return_url.split('?').length == 1
+				redirect = return_url + '?openid=' + current_account.login_name.split('_shop_')[0] + '&avatar=' + current_account.user.weixin_headimgurl + '&nickname=' + current_account.user.weixin_nickname
+				else 
+				redirect = return_url + '&openid=' + current_account.login_name.split('_shop_')[0] + '&avatar=' + current_account.user.weixin_headimgurl + '&nickname=' + current_account.user.weixin_nickname
+				end
 			end
 		end
 
