@@ -237,16 +237,22 @@ class Auth::WeixinController < ApplicationController
 	    		if shop_id == '0'
 	    			redirect = "/weihuo/shops/new?layout=#{new_layout}"
 	    		else
-	    		redirect ="/weihuo/shops/#{shop_id}?layout=#{layout}"
-	    	end
+	    			redirect ="/weihuo/shops/#{shop_id}?layout=#{layout}"
+	    		end
 	    	elsif supplier_id == '78'
 	    		redirect  = "/mobile"
 	    		
-         else
-          		redirect = "/vshop/#{supplier_id}"
-         end
+        else
+          redirect = "/vshop/#{supplier_id}"
+        end
 	    end
-
+# go back to /foodiegroup
+Rails.logger.info '###############################'
+Rails.logger.info return_url.split('/')[3]
+Rails.logger.info return_url
+if return_url.split('/')[3] == 'foodiegroup'
+	redirect = return_url + '?openid=' + current_account.login_name.split('_shop_')[0]
+end
 
 	     redirect_to redirect
 	end
