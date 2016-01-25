@@ -8,10 +8,10 @@ class FoodiesController < ApplicationController
     weixin_appid = supplier.weixin_appid
     weixin_appsecret = supplier.weixin_appsecret
     mch_id = supplier.mch_id
-    attach = "#{params[:event_id]}_#{params[:participant_id]}_#{params[:user_id]}"
+    attach = "#{params[:parent_id]}_#{params[:participant_id]}_#{params[:user_id]}"
     nonce_str = random_str 32
     out_trade_no = Time.new.to_i.to_s + rand(10 ** 10).to_s.rjust(10, '0')
-    body = params[:event_name]
+    body = URI.decode params[:parent_name]
     openid = params[:openid]
     spbill_create_ip = '182.254.138.119'
     trade_type = 'JSAPI'
@@ -26,7 +26,7 @@ class FoodiesController < ApplicationController
     res_data_hash = Hash.from_xml(RestClient.post post_url, post_data_xml)
     # return render :text => res_data_hash
     if res_data_hash["xml"]["return_code"] == 'SUCCESS'
-      @url = "http://vshop.trade-v.com/foodiegroup/#{params[:type_name]}/#{params[:event_id]}"
+      @url = "http://vshop.trade-v.com/foodiegroup/#{params[:type_name]}/#{params[:parent_id]}"
       prepay_id = res_data_hash["xml"]["prepay_id"]
       @timestamp = Time.now.to_i
       @nonce_str = random_str 32
