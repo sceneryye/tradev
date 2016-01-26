@@ -42,7 +42,7 @@ class FoodiesController < ApplicationController
 
   def foodie_notify_url
     url = "http://vshop.trade-v.com/foodiegroup/wechat_notify_url"
-    RestClient.post url, params["xml"]
+    RestClient.get url, {:params => params["xml"]}
     return render :text => 'success'
   end
 
