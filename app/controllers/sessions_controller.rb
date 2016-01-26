@@ -120,12 +120,14 @@ class SessionsController < ApplicationController
     redirect_uri = "http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2f#{supplier_id}%2fcallback"
 
    # return render :text=>"scope:#{ params[:scope]},from:#{params[:from]},platform:#{params[:platform]},rand:#{params[:rand]}"
+   # authenticate from foodiegroup, such as share and auto_login
+   redirect_uri_new = "http%3a%2f%2fvshop.trade-v.com%2fauth%2fweixin%2f#{params[:platform]}_78%2fcallback"
     if params[:from].present?
       redirect_uri = redirect_uri + '2?from=new'
     elsif params[:platform] == 'groupbuy'
-      redirect_uri = redirect_uri + "?groupdata=groupid=#{params[:groupid]}_groupname=#{params[:groupname]}_imgurl=#{params[:imgurl]}_name=#{params[:name]}_desc=#{params[:desc]}"
+      redirect_uri = redirect_uri_new + "?groupdata=groupid=#{params[:groupid]}_groupname=#{params[:groupname]}_imgurl=#{params[:imgurl]}_name=#{params[:name]}_desc=#{params[:desc]}"
     elsif params[:platform] == 'gotofoodie'
-      redirect_uri = redirect_uri + "?groupid=#{params[:groupid]}"
+      redirect_uri = redirect_uri_new + "?groupid=#{params[:groupid]}"
     else
       redirect_uri = redirect_uri +"?rand=#{params[:rand]}"
     end
