@@ -42,7 +42,7 @@
         <td style="width:15%"><input type="text" value="恭喜发财"  id="wishing-<%= user.account.login_name %>" name="wishing" placeholder="恭喜发财" style="width:100px"/></td>
         <td style="width:15%"><input type="text" value="销售红包" id="act_name-<%= user.account.login_name %>" name="act_name" placeholder="销售红包" style="width:100px"/></td>
         <td style="width:15%"><input type="text" value="销售红包" id="remark-<%= user.account.login_name %>" name="remark" placeholder="销售红包" style="width:100px" /></td>
-        <td style="width:15%"><button type="button" style="width:120px;" class="btn btn-primary btn-submit" data-id="<%= user.account.login_name.split('_shop_')[0] %>">发送红包</button></td>
+        <td style="width:15%"><button type="button" style="width:120px;" class="btn btn-primary btn-submit" data-id="<%= user.account.login_name %>">发送红包</button></td>
       </form>
     </tr>
     <% end %>
@@ -72,6 +72,7 @@
     var url = '/admin/send_bonus'
     $('.btn-submit').on('click', function(){
       var id = $(this).attr('data-id');
+      var openid = $(this).attr('data-id').split('_shop_')[0];
       console.log(id);
       var total_amount = $('#total_amount-' + id).val();
       var wishing = $('#wishing-' + id).val();
@@ -80,7 +81,7 @@
       $.ajax({
         url: url,
         data: {
-          re_openid: id,
+          re_openid: openid,
           total_amount: total_amount,
           wishing: wishing,
           act_name: act_name,
