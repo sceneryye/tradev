@@ -353,7 +353,7 @@ end
       account.update_column(:shop_id, @shop.shop_id)
       Ecstore::WeihuoEmployee.where(:name => params[:employee_name]).first.update_attributes(:area => params[:province].to_s + params[:city].to_s, :address => params[:address], :shop_id => @shop.shop_id)
 
-      # redirect_to weihuo_shop_path(@shop)
+      redirect_to weihuo_shop_path(@shop)
     else
       render 'new'
     end
