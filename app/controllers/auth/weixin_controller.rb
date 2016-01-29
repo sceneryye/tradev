@@ -71,20 +71,20 @@ class Auth::WeixinController < ApplicationController
 		#token = Weixin.request_token(params[:code])
 		# session[:weixin_code] = params[:code]
 		# return render :text=>"session:#{session[:weixin_code]},code:#{params[:code]}"
-		
+
 	    token = Weixin.request_token_multi(params[:code],appid,secret)
-	    if session[:retry].blank? 
+	    if session[:retry].blank?
 	    	session[:retry] = 1
 	    else
 	    	session[:retry] = 2
 	    end
 	    if token.errcode
 	    	return redirect_to "/auto_login?rand=#{rand(100)}&scope=#{session[:retry]}"
-	    	# return render :text =>"token:#{ token.to_json}code:#{params[:code]},openid:#{token.openid}" 
+	    	# return render :text =>"token:#{ token.to_json}code:#{params[:code]},openid:#{token.openid}"
 	    end
 
 	    login_name = token.openid
- 		if login_name.nil?	        	
+ 		if login_name.nil?
 	        return render :text=>'The autologin is failed.'
 	    end
 
@@ -106,7 +106,7 @@ class Auth::WeixinController < ApplicationController
 			sign_in(check_user,'1')
 			#发消息
 			#send_message
-			
+
 		else
 			auth_ext = Ecstore::AuthExt.where(:provider=>"weixin",
 						# :shop_id =>shop_id,
@@ -115,17 +115,17 @@ class Auth::WeixinController < ApplicationController
 		                :refresh_token=>token.refresh_token,
 						:expires_at=>token.expires_at,
 						:expires_in=>token.expires_in) #7200
-						#:unionid=>token.unionid 	
+						#:unionid=>token.unionid
 			if auth_ext.new_record? || auth_ext.account.nil? || auth_ext.account.user.nil?
-				user_info = Weixin.get_userinfo_multi(token.openid,token.access_token)	  	
+				user_info = Weixin.get_userinfo_multi(token.openid,token.access_token)
 				client = Weixin.new(:access_token=>token.access_token,:expires_at=>token.expires_at)
 				auth_user = client.get('users/show.json',:uid=>token.uid)
 
-				logger.info auth_user.inspect	    
+				logger.info auth_user.inspect
 			end
 
-			regiser_user login_name , auth_ext, supplier_id,shop_id,user_info
-						
+			register_user login_name , auth_ext, supplier_id,shop_id,user_info
+
 		end
 		#return render :text=>"return_url:#{return_url.empty?}"
 		if params[:followers_import].present?
@@ -156,7 +156,7 @@ class Auth::WeixinController < ApplicationController
 	    		end
 	    	elsif supplier_id == '78'
 	    		redirect  = "/mobile"
-	    		
+
 	        else
 	          redirect = "/vshop/#{supplier_id}"
 	        end
@@ -168,7 +168,7 @@ class Auth::WeixinController < ApplicationController
 			if return_url.include? 'foodiegroup'
 				if return_url.split('?').length == 1
 				redirect = return_url + '?openid=' + current_account.login_name.split('_shop_')[0] + '&avatar=' + current_account.user.weixin_headimgurl + '&nickname=' + current_account.user.weixin_nickname
-				else 
+				else
 				redirect = return_url + '&openid=' + current_account.login_name.split('_shop_')[0] + '&avatar=' + current_account.user.weixin_headimgurl + '&nickname=' + current_account.user.weixin_nickname
 				end
 			end
@@ -179,12 +179,12 @@ class Auth::WeixinController < ApplicationController
 
 	def callback2
 		return redirect_to(site_path) if params[:error].present?
-	    
+
 	    if supplier_id.nil?
 	    	supplier_id = 78
 	    end
 
-	    
+
 	    @supplier =Ecstore::Supplier.find(supplier_id)
 	    appid = @supplier.weixin_appid
 	    secret = @supplier.weixin_appsecret
@@ -376,5 +376,5 @@ class Auth::WeixinController < ApplicationController
 			# 	end
 
 			# end
-	end 
+	end
 end
