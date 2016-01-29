@@ -167,14 +167,15 @@ class Auth::WeixinController < ApplicationController
 		if return_url
 			if return_url.include? 'foodiegroup'
 				if return_url.split('?').length == 1
-				redirect = return_url + '?openid=' + current_account.login_name.split('_shop_')[0] + '&avatar=' + current_account.user.weixin_headimgurl + '&nickname=' + current_account.user.weixin_nickname
+					connect_char='?'
 				else
-				redirect = return_url + '&openid=' + current_account.login_name.split('_shop_')[0] + '&avatar=' + current_account.user.weixin_headimgurl + '&nickname=' + current_account.user.weixin_nickname
+					connect_char='&'
 				end
+				redirect = "#{return_url}#{connect_char}openid=#{current_account.login_name.split('_shop_')[0]}&avatar=#{current_account.user.weixin_headimgurl}&nickname=#{current_account.user.weixin_nickname}"
 			end
 		end
 
-	     redirect_to redirect
+	    redirect_to redirect
 	end
 
 	def callback2
