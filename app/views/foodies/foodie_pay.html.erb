@@ -52,19 +52,19 @@
                //alert(res.err_code+res.err_desc);
                function(res){
                 var error_message="";
-                if(res.err_msg != "get_brand_wcpay_request:ok") { 
-                  error_message = "?error_message="+res.err_desc;                  
-                } 
-                
+                if(res.err_msg != "get_brand_wcpay_request:ok") {
+                  error_message = "&error_message="+res.err_desc;
+                }
+
                 window.location ="<%= @url %>"+error_message;
               }
-              ); 
+              );
 }
 if (typeof WeixinJSBridge == "undefined"){
  if( document.addEventListener ){
    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
  }else if (document.attachEvent){
-   document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+   document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
  }
 }else{
