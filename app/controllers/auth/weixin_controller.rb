@@ -93,8 +93,10 @@ class Auth::WeixinController < ApplicationController
         end
 
      	check_user = Ecstore::Account.find_by_login_name(login_name)
-		if check_user
+		if check_user && check_user.user
 			Rails.logger.info "###########################################{check_user.account_id}"
+			Rails.logger.info "###########################################{check_user.user.member_id}"
+			Rails.logger.info "###########################################{check_user.user.weixin_nickname}"
 			# @user = Ecstore::User.where(:member_id=>auth_ext.account_id).first
 			# @user.weixin_nickname = user_info.nickname
 			# @user.sex = user_info.sex
@@ -108,6 +110,7 @@ class Auth::WeixinController < ApplicationController
 			#send_message
 
 		else
+			check_user.destroy
 			auth_ext = Ecstore::AuthExt.where(:provider=>"weixin",
 						# :shop_id =>shop_id,
 						:uid=>token.openid).first_or_initialize(
