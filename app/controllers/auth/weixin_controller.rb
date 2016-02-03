@@ -110,7 +110,8 @@ class Auth::WeixinController < ApplicationController
 			#send_message
 
 		else
-			check_user.destroy
+			check_user.try(:destroy)
+			Rails.logger.info "################################uid=#{token.openid}"
 			auth_ext = Ecstore::AuthExt.where(:provider=>"weixin",
 						# :shop_id =>shop_id,
 						:uid=>token.openid).first_or_initialize(
@@ -123,11 +124,16 @@ class Auth::WeixinController < ApplicationController
 				user_info = Weixin.get_userinfo_multi(token.openid,token.access_token)
 				client = Weixin.new(:access_token=>token.access_token,:expires_at=>token.expires_at)
 				auth_user = client.get('users/show.json',:uid=>token.uid)
+				Rails.logger.info "################################user_info={user_info}}"
 
 				logger.info auth_user.inspect
+				register_user login_name , auth_ext, supplier_id,shop_id,user_info
+			else
+				account = auth_ext.account
+				sign_in(account, '1')
 			end
 
-			register_user login_name , auth_ext, supplier_id,shop_id,user_info
+			
 
 		end
 		#return render :text=>"return_url:#{return_url.empty?}"
@@ -188,7 +194,7 @@ class Auth::WeixinController < ApplicationController
 
 	def register_user (login_name, auth_ext,supplier_id,shop_id,user_info)
 		now = Time.zone.now
-			Rails.logger.info "######################-------{login_name}"
+			Rails.logger.info "######################-------#{login_name}"
 
 			@account = Ecstore::Account.new  do |ac|
 				#account
