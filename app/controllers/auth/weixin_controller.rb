@@ -133,6 +133,8 @@ class Auth::WeixinController < ApplicationController
 			else
 				account = auth_ext.account
 				Rails.logger.info "------------------------------#{account.login_name}"
+				Rails.logger.info "------------------------------#{account.id}"
+				Rails.logger.info "------------------------------#{auth_ext.id}"
 				sign_in(account, '1')
 			end
 
