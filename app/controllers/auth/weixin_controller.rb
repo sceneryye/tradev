@@ -91,7 +91,7 @@ class Auth::WeixinController < ApplicationController
 	    if shop_id
         	login_name +="_shop_#{shop_id}"
         end
-
+       Rails.logger.info "------------------------------------------#{login_name}"
      	check_user = Ecstore::Account.find_by_login_name(login_name)
      	Rails.logger.info "------------------------------------------#{check_user.try(:account_id)}"
 			Rails.logger.info "------------------------------------------#{check_user.try(:user).try(:member_id)}"
