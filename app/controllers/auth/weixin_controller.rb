@@ -93,6 +93,8 @@ class Auth::WeixinController < ApplicationController
         end
 
      	check_user = Ecstore::Account.find_by_login_name(login_name)
+     	Rails.logger.info "------------------------------------------#{check_user.try(:account_id)}"
+			Rails.logger.info "------------------------------------------#{check_user.try(:user).try(:member_id)}"
 		if check_user && check_user.user
 			Rails.logger.info "###########################################{check_user.account_id}"
 			Rails.logger.info "###########################################{check_user.user.member_id}"
@@ -116,7 +118,7 @@ class Auth::WeixinController < ApplicationController
 						# :shop_id =>shop_id,
 						:uid=>token.openid).first_or_initialize(
 						:access_token=>token.access_token,
-		                :refresh_token=>token.refresh_token,
+		        :refresh_token=>token.refresh_token,
 						:expires_at=>token.expires_at,
 						:expires_in=>token.expires_in) #7200
 						#:unionid=>token.unionid
@@ -124,12 +126,13 @@ class Auth::WeixinController < ApplicationController
 				user_info = Weixin.get_userinfo_multi(token.openid,token.access_token)
 				client = Weixin.new(:access_token=>token.access_token,:expires_at=>token.expires_at)
 				auth_user = client.get('users/show.json',:uid=>token.uid)
-				Rails.logger.info "################################user_info={user_info}}"
+				Rails.logger.info "################################user_info=#{user_info}}"
 
 				logger.info auth_user.inspect
 				register_user login_name , auth_ext, supplier_id,shop_id,user_info
 			else
 				account = auth_ext.account
+				Rails.logger.info "------------------------------#{account.login_name}"
 				sign_in(account, '1')
 			end
 
