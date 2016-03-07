@@ -122,7 +122,7 @@ class Auth::WeixinController < ApplicationController
 						:expires_at=>token.expires_at,
 						:expires_in=>token.expires_in) #7200
 						#:unionid=>token.unionid
-			if auth_ext.new_record? || auth_ext.account.nil? || auth_ext.account.user.nil?
+			if auth_ext.new_record? || auth_ext.account.nil? || auth_ext.account.user.nil? || auth_ext.account.try(:login_name) != login_name
 				user_info = Weixin.get_userinfo_multi(token.openid,token.access_token)
 				client = Weixin.new(:access_token=>token.access_token,:expires_at=>token.expires_at)
 				auth_user = client.get('users/show.json',:uid=>token.uid)
