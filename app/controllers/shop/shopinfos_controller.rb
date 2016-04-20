@@ -90,7 +90,7 @@ class Shop:: ShopinfosController < ApplicationController
     if params[:shop_id]
       shop_id = params[:shop_id]
     else
-      redirect_to "/shop/shopinfos"
+      return redirect_to "/shop/shopinfos"
     end
 
     @shop = Ecstore::Shop.where(:shop_id=>shop_id,:status=>1).first
