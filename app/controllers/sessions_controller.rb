@@ -204,7 +204,7 @@ class SessionsController < ApplicationController
 
     if @shop_id.present?
       @return_url = "/mobile/#{@shop_id}/shop"
-      params[:session][:username] = "#{params[:session][:mobile]}_shop_#{@shop_id}
+      params[:session][:username] = "#{params[:session][:mobile]}_shop_#{@shop_id}"
     end
 
     @platform = params[:platform]

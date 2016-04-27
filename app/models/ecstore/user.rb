@@ -202,7 +202,7 @@ class Ecstore::User < Ecstore::Base
 
   validates_presence_of :mobile,:message=>"请输入您的手机号码"
 
-  validate :check_email_duplicated,:check_mobile_duplicated
+ # validate :check_email_duplicated,:check_mobile_duplicated
 
   def check_mobile_duplicated
     if self.mobile.present? and u = Ecstore::User.find_by_mobile(self.mobile) and  u != self

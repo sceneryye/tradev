@@ -22,23 +22,20 @@ class UsersController < ApplicationController
     mobile = params[:user][:mobile]
 
     if shop_id.present?
-      params[:user][:shop_id]= shop_id
-      params[:user][:login_name] = "#{mobile}_shop_#{shop_id}"
-      params[:user][:email] = "#{mobile}@139.com"
+      params[:user].merge!(:shop_id=>shop_id,:login_name=> "#{mobile}_shop_#{shop_id}",:email => "#{mobile}@139.com")
     end
 
   	now  = Time.zone.now
 	  @account = Ecstore::Account.new(params[:user]) do |ac|
-  		ac.account_type ="member"
-      ac.user.name = params[:user][:real_name]
+  		ac.account_type ="member"      
+      ac.supplier_id = supplier_id
   		ac.createtime = now.to_i
   		ac.user.member_lv_id = 1
   		ac.user.cur = "CNY"
   		ac.user.reg_ip = request.remote_ip
   		ac.user.regtime = now.to_i
-      ac.supplier_id = supplier_id
   	end
-     @account.save!
+    @account.save!
 
 	  # if @account.save
    #    sign_in(@account)
