@@ -37,14 +37,14 @@ class UsersController < ApplicationController
   	end
     @account.save!
 
-	  # if @account.save
-   #    sign_in(@account)
+	  if @account.save
+      sign_in(@account)
      
-   #    @return_url=params[:return_url]
-   #    render "create"
-   #  else
-   #    render "error"
-   #  end
+      @return_url=params[:return_url]
+      render "create"
+    else
+      render "error"
+    end
   end
 
   def search
