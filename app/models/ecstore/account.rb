@@ -3,7 +3,6 @@ require 'digest/md5'
 require 'pp'
 class Ecstore::Account < Ecstore::Base
 	self.table_name = "sdb_pam_account"
-
 	has_one :order_dining, :foreign_key => "account_id"	
 
 	belongs_to :manager,:foreign_key=>"account_id"
@@ -188,7 +187,7 @@ class Ecstore::Account < Ecstore::Base
     nil
   end
 
-	def self.user_authenticate(name,mobile)
+	def self.user_authenticate(name,password)
 		#username
 		#account = self.where(:login_name=>name,:account_type=>"member").first
     #允许后台管理员登录前台
@@ -212,7 +211,15 @@ class Ecstore::Account < Ecstore::Base
 			end
 		end
 
-		
+		if account
+
+			if account.login_password[0] == "s"
+				encrypt = "s" + Digest::MD5.hexdigest("#{Digest::MD5.hexdigest(password)}#{account.login_name}#{account.createtime}")[0..30]
+				return account if encrypt == account.login_password
+			else
+				return account if Digest::MD5.hexdigest(password) == account.login_password
+			end
+		end
 		nil
 	end
 

@@ -207,8 +207,7 @@ class SessionsController < ApplicationController
     elsif @platform == 'vshop'
       @account = Ecstore::Account.admin_authenticate(params[:session][:username],params[:session][:password])
     else
-     # Account.Create(login_name:params[:session][:username],mobile:params[:session][:mobile])
-      @account = Ecstore::Account.user_authenticate(params[:session][:username],params[:session][:mobile])
+      @account = Ecstore::Account.user_authenticate(params[:session][:username],params[:session][:password])
     end
 
     if @account
@@ -218,7 +217,7 @@ class SessionsController < ApplicationController
                  #                                       :member_ident=>Digest::MD5.hexdigest(@account.account_id.to_s))
     render "create"
     else
-     #   render "error"
+      render "error"
           #  render js: '$("#login_msg").text("帐号或密码错误!").addClass("error").fadeOut(300).fadeIn(300);'
     end
   end
