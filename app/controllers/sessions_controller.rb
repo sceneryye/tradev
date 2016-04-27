@@ -223,6 +223,9 @@ class SessionsController < ApplicationController
                  #update cart
                  # @line_items.update_all(:member_id=>@account.account_id,
                  #                                       :member_ident=>Digest::MD5.hexdigest(@account.account_id.to_s))
+      if @shop_id.present? && @account.user.user_coupons.blank?
+         @return_url = '/coupons'
+      end
       render "create"
     else
       render "error"
