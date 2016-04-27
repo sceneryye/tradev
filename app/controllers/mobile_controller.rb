@@ -187,17 +187,21 @@ class MobileController < ApplicationController
   end
 
   def shop
+    @shop_id = 48
   	if @user
-     @shop_goods = Ecstore::ShopsGood.where(:shop_id=>48)
+     @shop_goods = Ecstore::ShopsGood.where(:shop_id => @shop_id)
      @galleries = Ecstore::TagExt.order("id desc").limit(6)
    else
     sid = params[:sid]
 
     if sid.blank?
-     return redirect_to "/mobile/?error=from139,No Sid"
-   end
+      return redirect_to "/mlogin?shop_id=#{@shop_id}"
+      #redirect_to "/mobile/?error=from139,No Sid"
+    else
+      redirect_to "/auth/email139?sid=#{sid}"
+    end
 
-   redirect_to "/auth/email139?sid=#{sid}"
+    
 
   	  #  redirect_uri="http%3a%2f%2fvshop.trade-v.com%2fauth%2femail139%2f#{sid}%2fcallback"
   	  #  @oauth2_url = "http://121.15.167.240:19090/SSOInterface/GetUserByKey"

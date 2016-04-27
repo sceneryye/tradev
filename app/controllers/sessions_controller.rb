@@ -183,6 +183,9 @@ class SessionsController < ApplicationController
 
   def create
 
+    @shop_id = params[:shop_id]
+
+
     if params[:supplier_id]
       @supplier_id= params[:supplier_id]
     else
@@ -190,13 +193,18 @@ class SessionsController < ApplicationController
     end
 
     if @supplier_id.nil?
-      @supplier_id = 78
+      @supplier_id = '78'
     end
 
     if @supplier_id =="78"
       @return_url=params[:return_url].to_s+"&id=78"
     else
       @return_url=params[:return_url]
+    end
+
+    if @shop_id.present?
+      @return_url = "/mobile/#{@shop_id}/shop"
+      params[:session][:username] = "#{params[:session][:mobile]}_shop_#{@shop_id}
     end
 
     @platform = params[:platform]
@@ -215,7 +223,7 @@ class SessionsController < ApplicationController
                  #update cart
                  # @line_items.update_all(:member_id=>@account.account_id,
                  #                                       :member_ident=>Digest::MD5.hexdigest(@account.account_id.to_s))
-    render "create"
+      render "create"
     else
       render "error"
           #  render js: '$("#login_msg").text("帐号或密码错误!").addClass("error").fadeOut(300).fadeIn(300);'

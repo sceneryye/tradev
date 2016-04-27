@@ -17,8 +17,8 @@ class Ecstore::Account < Ecstore::Base
   	has_many :mlms, :foreign_key=>"superior_id"
 
 
-	attr_accessible :auth_ext_id, :login_name, :login_password,:account_type, :shop_id, :login_password_confirmation, :email, :mobile, :follow_imodec,:license,:current_password
-	attr_accessor :license,:current_password
+	attr_accessible :auth_ext_id, :login_name, :login_password,:account_type, :shop_id, :login_password_confirmation, :email, :mobile, :follow_imodec,:license,:current_password,:real_name
+	attr_accessor :license,:current_password,:real_name
 
 
 	validates :login_name, :presence=>{:presence=>true,:message=>"请填写用户名"}
@@ -42,7 +42,7 @@ class Ecstore::Account < Ecstore::Base
 
  	validates :license, :presence=>{:presence=>true,:message=>"您还没有阅读注册协议"}, :if=>Proc.new{ |c| c.new_record? }
 
-	validate :check_login_name_duplicated,:check_email_duplicated,:check_mobile_duplicated
+	validate :check_login_name_duplicated#,:check_email_duplicated,:check_mobile_duplicated
 
 	def check_login_name_duplicated
 		return if self.login_name.blank? || self.errors[:login_name].present?
@@ -54,7 +54,7 @@ class Ecstore::Account < Ecstore::Base
 	end
 
 	def check_mobile_duplicated
-	    if self.mobile.present? and u = Ecstore::User.find_by_mobile(self.mobile) and  new_record?
+	    if self.mobile.present? and u = Ecstore::User.find_by_mobile(self.mobile) and  new_record? 
 	      errors.add(:mobile, "手机号码已经被使用！")
 	    end
 	end
@@ -250,6 +250,11 @@ class Ecstore::Account < Ecstore::Base
 	def mobile=(val)
 		self.user = Ecstore::User.new unless self.user
 		self.user.mobile = val
+	end
+
+	def real_name=(val)
+		self.user = Ecstore::User.new unless self.user
+		self.user.name = val
 	end
 
 	def mobile

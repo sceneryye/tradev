@@ -18,9 +18,19 @@ class UsersController < ApplicationController
       supplier_id = params[:supplier_id]
     end
 
+    shop_id = params[:shop_id]
+    mobile = params[:user][:mobile]
+
+    if shop_id.present?
+      params[:user][:shop_id]= shop_id
+      params[:user][:login_name] = "#{mobile}_shop_#{shop_id}"
+      params[:user][:email] = "#{mobile}@139.com"
+    end
+
   	now  = Time.zone.now
 	  @account = Ecstore::Account.new(params[:user]) do |ac|
   		ac.account_type ="member"
+      ac.user.name = params[:user][:real_name]
   		ac.createtime = now.to_i
   		ac.user.member_lv_id = 1
   		ac.user.cur = "CNY"
@@ -28,17 +38,16 @@ class UsersController < ApplicationController
   		ac.user.regtime = now.to_i
       ac.supplier_id = supplier_id
   	end
+     @account.save!
 
-	  if @account.save
-      sign_in(@account)
-      if @return_url=='/mlogin'
-        @return_url ='tuan'
-      end
-      @return_url=params[:return_url]
-      render "create"
-    else
-      render "error"
-    end
+	  # if @account.save
+   #    sign_in(@account)
+     
+   #    @return_url=params[:return_url]
+   #    render "create"
+   #  else
+   #    render "error"
+   #  end
   end
 
   def search
