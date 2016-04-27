@@ -325,7 +325,7 @@ get 'foodies/go_to_foodie_from_share' => 'foodies#go_to_foodie_from_share'
   get 'mlogin'=>"sessions#new_mobile"
   get 'mregister'=>"sessions#register_mobile"
   post 'login'=>"sessions#create"
-  post 'mlogin'=>"mobile#shop"
+  post 'mlogin'=>"sessions#create"
   get 'logout'=>"sessions#destroy"
   get 'topmenu'=>"home#topmenu"
 
