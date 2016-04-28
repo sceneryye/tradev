@@ -12,11 +12,7 @@
     <%=hidden_field_tag :return_url,params[:return_url]%>
     <%=hidden_field_tag :platform,'mobile'%>
     <br/>
-    <div class="connerdiv">
-
-
-
-     
+    <div class="connerdiv">     
       <div class="am-input-group">
         <span class="am-input-group-label">手机号:</span>
 
@@ -59,6 +55,3 @@
       <a href="/users/forgot_password?id=<%=params[:id]%>&platform=mobile" class="fr forgetkey" target="new">忘记密码?</a>
     </div>
 <%end%>
-
-<%= javascript_include_tag "login" %>
-

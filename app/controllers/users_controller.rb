@@ -35,8 +35,6 @@ class UsersController < ApplicationController
   		ac.user.reg_ip = request.remote_ip
   		ac.user.regtime = now.to_i
   	end
-    @account.save!
-
 	  if @account.save
       sign_in(@account)
      
