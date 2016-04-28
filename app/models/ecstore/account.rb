@@ -18,7 +18,7 @@ class Ecstore::Account < Ecstore::Base
 
 
 	attr_accessible :auth_ext_id, :login_name, :login_password,:account_type, :shop_id, :login_password_confirmation, :email, :mobile, :follow_imodec,:license,:current_password,:real_name
-	attr_accessor :license,:current_password,:real_name
+	attr_accessor :license,:current_password,:real_name, :login_password_confirmation
 
 	validates :mobile,:presence=>{:presence=>true,:message=>"请填写手机"}
 	validates :mobile,:format=>{:with=>/^\d{11}$/,:message=>"手机号码必须是11位数字"},
