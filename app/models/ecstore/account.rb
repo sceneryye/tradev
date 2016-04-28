@@ -20,11 +20,9 @@ class Ecstore::Account < Ecstore::Base
 	attr_accessible :auth_ext_id, :login_name, :login_password,:account_type, :shop_id, :login_password_confirmation, :email, :mobile, :follow_imodec,:license,:current_password,:real_name
 	attr_accessor :license,:current_password,:real_name
 
-
-	validates :login_name, :presence=>{:presence=>true,:message=>"请填写用户名"}
-
-	validates :login_name, :length=>{:in=>3..20,:message=>"用户名应为3到20个字符"},
-						     :if=>Proc.new { |c| c.login_name.present? }
+	validates :mobile,:presence=>{:presence=>true,:message=>"请填写手机"}
+	validates :mobile,:format=>{:with=>/^\d{11}$/,:message=>"手机号码必须是11位数字"},
+					    :if=>Proc.new{ |c| c.mobile.present? }
 
 	validates :login_password,  :presence=>{:presence=>true,:message=>"请填写密码"}
 	validates :login_password,  :length=>{:minimum=>6,:message=>"密码不能少于6位"},
@@ -32,13 +30,16 @@ class Ecstore::Account < Ecstore::Base
 
 	validates :login_password, :confirmation=>{:confirmation=>true,:message=>"两次密码不一致"}
 	validates :login_password_confirmation,:presence=>{:presence=>true,:message=>"请填写确认密码"}
+
+
+	validates :login_name, :presence=>{:presence=>true,:message=>"请填写用户名"}
+	validates :login_name, :length=>{:in=>3..20,:message=>"用户名应为3到20个字符"},
+						     :if=>Proc.new { |c| c.login_name.present? }
+	
 	validates :email,:presence=>{:presence=>true,:message=>"请填写邮箱"}
 	validates :email,:format=>{:with=>/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,:message=>"邮箱格式不正确"},
 					    :if=>Proc.new{ |c| c.email.present? }
-
-	validates :mobile,:presence=>{:presence=>true,:message=>"请填写手机"}
-	validates :mobile,:format=>{:with=>/^\d{11}$/,:message=>"手机号码必须是11位数字"},
-					    :if=>Proc.new{ |c| c.mobile.present? }
+	
 
  	validates :license, :presence=>{:presence=>true,:message=>"您还没有阅读注册协议"}, :if=>Proc.new{ |c| c.new_record? }
 
@@ -108,7 +109,7 @@ class Ecstore::Account < Ecstore::Base
 			end
 		end
 		nil
-  end
+    end
 
   # def self.vshop_authenticate(name,password)
   #   account = self.where(:login_name=>name,:account_type=>"member").first
