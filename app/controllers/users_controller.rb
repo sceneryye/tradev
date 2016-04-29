@@ -5,6 +5,9 @@ class UsersController < ApplicationController
   
   layout "simple"
 
+  def new_mobile
+  end
+
   def new
   	@account = Ecstore::Account.new
   end
