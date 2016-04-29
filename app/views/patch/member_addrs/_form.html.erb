@@ -42,7 +42,7 @@
                         <div class="row">                               
                             <div class="col-sm-12">
                                 <div class="form-group name">
-                                    <%=f.text_field :name,:placeholder=>"收货人姓名",:class=>"form-control",:required=>"required"%>
+                                    <%=f.text_field :name,:placeholder=>"收货人姓名",:value=>@user.name,:class=>"form-control",:required=>"required"%>
                                     <span class="help-inline error"></span>
                                 </div>
                             </div>
@@ -50,7 +50,7 @@
                         <div class="row">
                              <div class="col-sm-12">
                                 <div class="form-group mobile">
-                                    <%=f.text_field :mobile, :placeholder=>"手机",:class=>"form-control",:required=>"required"%>
+                                    <%=f.text_field :mobile, :placeholder=>"手机",:value=>@user.mobile,:class=>"form-control",:required=>"required"%>
                                     <span class="help-inline error"></span>
                                 </div>
                             </div>

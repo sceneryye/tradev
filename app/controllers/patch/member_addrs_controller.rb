@@ -36,10 +36,11 @@ class Patch::MemberAddrsController < ApplicationController
     end
 
   end
+
   def mobile
     @supplier = Ecstore::Supplier.find(params[:supplier_id])
     @addrs = @user.member_addrs.paginate(:per_page=>10,:page=>params[:page])
-    @newurl = "new_memberaddr_add?supplier_id=#{@supplier.id}"
+    @newurl = "new_memberaddr_add?supplier_id=#{@supplier.id}&platform=mobile"
 
     render :layout => @supplier.layout
 
@@ -72,14 +73,19 @@ class Patch::MemberAddrsController < ApplicationController
     @return_url= params[:return_url]
 
     if @addr.save
-      return redirect_to "/orders/new_mobile?supplier_id=78&shop_id=#{params[:shop_id]}&from=weihuo" if params[:from] == 'weihuo' && !params[:return_url].present?
-      if @return_url
+
+      if params[:from] == 'weihuo' && !params[:return_url].present?
+        return redirect_to "/orders/new_mobile?supplier_id=78&shop_id=#{params[:shop_id]}&from=weihuo" 
+      end
+
+      if @return_url.present?
         @ids=@addr.addr_id
         session[:depar]=@ids
         return redirect_to @return_url
-      elsif params[:platform]=='mobile'
 
-        return redirect_to "/member_addrs?platform=#{pramas[:platform]}"
+      elsif params[:platform]=='mobile'
+        return redirect_to "/member_addrs?platform=#{params[:platform]}"
+
       elsif params[:action_url] == 'member_addrs'
         return redirect_to "/member_addrs"
       else
