@@ -12,7 +12,7 @@ class CouponsController < ApplicationController
 
 	def get
 		coupon_id = params[:id]
-	    @coupon = Ecstore::NewCoupon.where("id=#{coupon_id} and enable=true and end_at>now()")
+	    @coupon = Ecstore::NewCoupon.where("id=#{coupon_id} and enable=true and end_at>?", Time.current)
 	    if @coupon
 	    	Ecstore::UserCoupon.new do |user_coupon|
 	    		user_coupon.member_id = @user.member_id
