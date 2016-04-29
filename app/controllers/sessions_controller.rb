@@ -166,21 +166,6 @@ class SessionsController < ApplicationController
   end
 
 
-  def register_mobile
-    @no_need_login = 1
-    supplier_id = params[:id]
-    if params[:supplier_id]
-      supplier_id  = params[:supplier_id]
-    end
-    if supplier_id.empty?
-      supplier_id =78
-    end
-    @supplier = Ecstore::Supplier.find(supplier_id)
-    
-    render :layout => @supplier.layout
-    # return redirect_to(after_user_sign_in_path) if signed_in?
-  end
-
   def create
 
     @shop_id = params[:shop_id]

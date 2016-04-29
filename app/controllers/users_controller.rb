@@ -6,6 +6,17 @@ class UsersController < ApplicationController
   layout "simple"
 
   def new_mobile
+    @no_need_login = 1
+    supplier_id = params[:id]
+    if params[:supplier_id]
+      supplier_id  = params[:supplier_id]
+    end
+    if supplier_id.empty?
+      supplier_id =78
+    end
+    @supplier = Ecstore::Supplier.find(supplier_id)
+    
+    render :layout => @supplier.layout
   end
 
   def new
