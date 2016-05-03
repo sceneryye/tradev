@@ -97,32 +97,20 @@ class Ecstore::Order < Ecstore::Base
         freight127_1 = 8*items_nums_supplier
     end
 
-    #诺狮
-    freight97 = 0
-    items_amount_supplier = self.order_items.select{ |order_item| order_item.good.supplier_id == 97}.collect{ |order_item|  order_item.amount }.inject(:+)
-    if items_amount_supplier
-      if items_amount_supplier <60
-        freight97 = 10
-      end
+    freight = 0
+    items_nums = self.order_items.select{ |order_item| order_item.good.supplier_id !=77 &&  order_item.good.supplier_id != 127 && order_item.good.freight>0 }.collect{ |order_item|  order_item.nums }.inject(:+)
+    if items_nums
+        freight = 20
     end
+   
 =begin
 #天山蟹客
           items_amount_supplier = self.order_items.select{ |order_item| order_item.good.supplier_id == 87}.size
           if items_amount_supplier >0
             freight += 0
           end
-#万家物流
-         items_amount_supplier = self.order_items.select{ |order_item| order_item.good.supplier_id == 98}.size
-         if items_amount_supplier >0
-           freight += 0
-         end
-#金芭浪
-         items_amount_supplier = self.order_items.select{ |order_item| order_item.good.supplier_id == 99}.size
-         if items_amount_supplier >0
-           freight += 0
-         end
 =end
-    self.cost_freight =  freight77 + freight97 + freight127 + freight127_1
+    self.cost_freight =  freight77 + freight127 + freight127_1 + freight
     # items_amount = self.order_items.select{ |order_item| order_item.item_type == 'product' }.collect{ |order_item|  order_item.amount }.inject(:+).to_f
 
     if  items_amount&&pmts_amount
