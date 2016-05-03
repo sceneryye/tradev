@@ -20,12 +20,13 @@ $ ->
     $("#pmt_amount").text(-pmt_amount).attr("data-amount",pmt_amount)
 
     order_amount =  parseFloat($("#order_amount").data("amount")) || 0
+    cart_freight =  parseFloat($("#cart_freight").data("amount")) || 0
 
     coupon_amount =  parseFloat($("#coupon_amount").data("amount")) || 0
     part_amount = 0.0
     part_amount =  parseFloat $("#advance").data("amount") if $("#advance").attr("checked") == "checked"
 
-    pay_amount = order_amount - coupon_amount - pmt_amount
+    pay_amount = order_amount + cart_freight - coupon_amount - pmt_amount
     $("#final_amount").text(pay_amount)
 
     bcom_discount = 1.0
