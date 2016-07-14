@@ -31,7 +31,7 @@ class Ecstore::MemberAddr < Ecstore::Base
       		if province.blank? || city.blank?
       		    self.errors.add(:area, "请选择送货地区")
       		else
-      			if Ecstore::Region.find_by_region_id(city).subregions.size > 0
+      			if Ecstore::Region.find_by_region_id(city).subregions.count > 0
       				self.errors.add(:area, "请选择送货地区") if district.blank?
       			end
       		end

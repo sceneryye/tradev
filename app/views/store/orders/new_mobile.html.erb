@@ -6,14 +6,14 @@
 
 </style>
 
-<%if @line_items.size > 0%>
+<%if @line_items.count > 0%>
 
  <div class="section addr" style="margin:20px 10px;border-bottom:1px solid rgb(240,240,240)">
         <h4 style="font-weight:bold;">
           收货人信息
         </h4>
         <div class="checkcon clearfix addr-list">
-          <%if @addrs.size>0%>
+          <%if @addrs.count>0%>
           <%@addrs.each_with_index do |addr,index|%>
           <%if @def_addr == addr%>
        <label class="radio active shipping-address-active shipping-addr" id="addr-<%= addr.id %>">
@@ -32,18 +32,18 @@
           <%end%>
           <%end%>
 
-          
+
     <div class="radio new-shipping-address">
              &nbsp;&nbsp;&nbsp;   <%=link_to "新增地址＋",new_member_addr_path(:platform => params[:platform], :shop_id => params[:shop_id], :from => params[:from]), :remote=>true, :class=>"new-link"%>
           </div>
           <%end%>
         </div>
       </div>
- <%=render :partial=>"patch/member_addrs/form",:locals=>{ :display=>( @addrs.size == 0 ), :@addr=>Ecstore::MemberAddr.new }%>
+ <%=render :partial=>"patch/member_addrs/form",:locals=>{ :display=>( @addrs.count == 0 ), :@addr=>Ecstore::MemberAddr.new }%>
 
 
 
- 
+
 
 </div>
 
@@ -115,7 +115,7 @@
         </div>
       </div>
 
-     
+
 <%if @user.email.include? '@139' %>
 <div>
 <%if @pmtable%>
@@ -157,19 +157,19 @@
           <p>&nbsp;优惠：<span class="fr">-¥<%=@favorable_terms%>&nbsp;</span></p>
            <p>优惠券：<span class="fr" data-amount="0" id="coupon_amount">-￥0</span>
           <p>&nbsp;<%= I18n.t "overall"%>：<span class="fr" style="color: red" id="pay_amount">¥<%=@cart_total_final%>&nbsp;</span></p>
-         
+
         </div>
           <span class="bg-border2"></span>
         </div>
       </div> <%@line_items.each do |line_item|%>
-      
+
       <% if line_item.quantity<1%>  <%else%>
      <input type="submit" class="am-btn am-btn-warning am-btn-block" style="background-color:#BF1E2E;" value="<%=I18n.t 'confirm_order'%>">
-     <%break;%> 
-      <%end%> 
+     <%break;%>
+      <%end%>
 
        <%end%>
-       
+
       <%end%>
       <%else%>
       <p><%=I18n.t "order_notice_four"%>。

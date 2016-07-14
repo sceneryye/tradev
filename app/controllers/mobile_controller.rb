@@ -70,7 +70,7 @@ class MobileController < ApplicationController
   end
 
   def user_center
-    
+
     if !current_account.present? || current_account.supplier_id != 78
       redirect_to '/auto_login?id=78&return_url=/mobile/user_center&platform=mobile'
     end
@@ -172,14 +172,14 @@ class MobileController < ApplicationController
     @cat = @goods.cat
 
     @recommend_goods = []
-    if @cat.goods.size >= 4
+    if @cat.goods.count >= 4
       @recommend_goods =  @cat.goods.where("goods_id <> ?", @goods.goods_id).order("goods_id desc").limit(4)
     else
       @recommend_goods += @cat.goods.where("goods_id <> ?", @goods.goods_id).limit(4).to_a
-      @recommend_goods += @cat.parent_cat.all_goods.select{|good| good.goods_id != @goods.goods_id }[0,4-@recommend_goods.size] if @cat.parent_cat && @recommend_goods.size < 4
+      @recommend_goods += @cat.parent_cat.all_goods.select{|good| good.goods_id != @goods.goods_id }[0,4-@recommend_goods.count] if @cat.parent_cat && @recommend_goods.count < 4
       @recommend_goods.compact!
-      if @cat.parent_cat.parent_cat && @recommend_goods.size < 4
-        count = @recommend_goods.size
+      if @cat.parent_cat.parent_cat && @recommend_goods.count < 4
+        count = @recommend_goods.count
         @recommend_goods += @cat.parent_cat.parent_cat.all_goods.select{|good| good.goods_id != @goods.goods_id }[0,4-count]
       end
     end
@@ -201,7 +201,7 @@ class MobileController < ApplicationController
       redirect_to "/auth/email139?sid=#{sid}"
     end
 
-    
+
 
   	  #  redirect_uri="http%3a%2f%2fvshop.trade-v.com%2fauth%2femail139%2f#{sid}%2fcallback"
   	  #  @oauth2_url = "http://121.15.167.240:19090/SSOInterface/GetUserByKey"

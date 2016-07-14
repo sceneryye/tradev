@@ -174,16 +174,16 @@ class Store::OrdersController < ApplicationController
       return redirect_to '/'
     end
 
-    
+
 
 
 
     platform = params[:platform]
 
-    
-    shop_id = params[:order][:shop_id] 
+
+    shop_id = params[:order][:shop_id]
     if params[:from] == 'weihuo'
-      shop_id = params[:shop_id] 
+      shop_id = params[:shop_id]
       params[:order].delete(:shop_id)
       params[:order].merge!(:shop_id => shop_id)
     end
@@ -285,7 +285,7 @@ class Store::OrdersController < ApplicationController
       share_for_network = profit * Network_share_ratio
       share_for_company = profit * Company_share_ratio
       share_for_platform = profit * Platform_share_ratio
-      
+
 
       order_item.amount = order_item.price * order_item.nums
 
@@ -603,7 +603,8 @@ Ecstore::OrderLog.new do |order_log|
     end
     @addrs = Ecstore::MemberAddr.where(:addr_id => @member_address_ids)
   end
-  if @addrs.size==0
+
+  if @addrs.count==0
     redirect_to "/orders/new_mobile_addr?supplier_id=#{supplier_id}&return_url=%2forders%2fnew_mobile%3Fsupplier_id%3d#{supplier_id}"
   else
     @def_addr = @addrs.where(:def_addr=>1).first || @addrs.first
@@ -752,7 +753,7 @@ end
       Ecstore::NewCoupon.check_and_find_by_code(code)
     end.compact #.sort { |x,y| y.priority <=> x.priority }
 
-    if @coupons.size > 0 && @coupons.include?(now_coupon)
+    if @coupons.count > 0 && @coupons.include?(now_coupon)
       render :js=>"alert('同一种的优惠券只能使用一次')"
       return
     end
